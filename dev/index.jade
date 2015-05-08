@@ -1,0 +1,12 @@
+doctype html
+html(lang="en")
+  head
+    title= CircuitSim
+    meta(charset='UTF-8')
+  body
+    #circuitsim
+
+    script(src='http://localhost:8080/webpack-dev-server.js')
+
+    for file in js
+      script(src='#{file}')
