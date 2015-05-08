@@ -37,6 +37,18 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['babel?whitelist[]=flow','flowcheck','babel?blacklist[]=flow'] // hack from flowcheck/issues#18
+      },
+      {
+        test: /\.scss$/,
+        loader: ['style','css', 'sass']
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url?limit=25000'
+      },
+      {
+        test: /\.woff$/, // should maybe be .svg instead?
+        loader: 'url?limit=100000'
       }
     ],
     noParse: [pathToReact]
