@@ -9,7 +9,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
-  "license": "MIT",
   "dependencies": {
     "react": "^0.13.2"
   },
