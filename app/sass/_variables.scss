@@ -1,0 +1,57 @@
+
+// Colours
+$gray-darkest:            #222;
+$gray-darker:             #444;
+$gray-dark:               #666;
+$gray:                    #787878;
+$gray-light:              #999;
+$gray-lighter:            #bbb;
+$gray-lightest:           #ddd;
+
+$brand-color:             #8800ff;
+
+$blue:                    #477dca;
+
+$base-body-bg:            $gray-lightest;
+$base-font-color:         $gray-darker;
+$base-font-highlight:     black;
+
+$inverse-body-bg:         invert($base-body-bg);
+$inverse-font-color:      invert($base-font-color);
+$inverse-font-highlight:  invert($base-font-highlight);
+
+$header-bg:               lighten($inverse-body-bg, 10%);
+$header-font-color:       lighten($inverse-font-color, 10%);
+$header-font-highlight:   $inverse-font-highlight;
+
+$link-color:              $blue;
+$link-color-highlight:    darken($link-color, 15%);
+
+// Grid
+$tablet-width: em(768);
+$desktop-width: em(992);
+
+$tablet-up: new-breakpoint(min-width $tablet-width 12);
+$desktop-up: new-breakpoint(min-width $desktop-width 12);
+$desktop-down: new-breakpoint(max-width $desktop-width 12);
+
+// Font
+$base-font-family: 'Open Sans', sans-serif;
+$heading-font-family: 'Lato', sans-serif;
+$mono-font-family: 'Inconsolata';
+
+// Font Sizes
+$base-font-size: 1em;
+$title-font-size: modular-scale(4);
+
+// Line height
+$base-line-height: 1.5;
+$heading-line-height: 1.2;
+
+// Other Sizes
+$base-border-radius: 3px;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$base-z-index: 0;
+
+$base-padding: modular-scale(2, 1rem);

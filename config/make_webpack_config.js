@@ -56,6 +56,10 @@ module.exports = function(options) {
           loaders: ['style','css']
         },
         {
+          test: /\.scss$/,
+          loaders: ['style','css', 'sass?includePaths[]=' + require('node-bourbon').includePaths]
+        },
+        {
           test: /\.(js|jsx)$/,
           exclude: [node_modules],
           loaders: jsLoader
@@ -64,10 +68,6 @@ module.exports = function(options) {
           // Expose React - react-router requires this
           test: require.resolve("react"),
           loader: "expose?React"
-        },
-        {
-          test: /\.scss$/,
-          loader: ['style','css', 'sass']
         },
         {
           test: /\.(png|jpg)$/,

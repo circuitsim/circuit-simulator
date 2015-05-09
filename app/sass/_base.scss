@@ -1,0 +1,107 @@
+
+/*
+  Base
+ */
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: $base-body-bg;
+  color: $base-font-color;
+
+  font: {
+    family: $base-font-family;
+    weight: 300;
+    size: $base-font-size;
+  }
+  @include font-feature-settings('kern', 'liga', 'pnum');
+  -webkit-font-smoothing: antialiased;
+  line-height: $base-line-height;
+}
+
+a {
+  text-decoration: none;
+  @include hover-transitions(
+    (
+      color: (
+        normal: $link-color,
+        hover : $link-color-highlight
+      )
+    )
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font: {
+    family: $heading-font-family;
+  }
+
+  line-height: $heading-line-height;
+  margin: modular-scale(1) 0 $small-spacing;
+}
+
+h1 {
+  font: {
+    weight: 700;
+    size: modular-scale(3);
+  }
+}
+
+h2 {
+  font: {
+    weight: 700;
+    size: modular-scale(2);
+  }
+  color: lighten($base-font-color, 5%);
+}
+
+h3 {
+  font: {
+    weight: 400;
+    size: modular-scale(1);
+  }
+  color: lighten($base-font-color, 10%);
+}
+
+h4 {
+  font: {
+    weight: 400;
+    size: modular-scale(1);
+    style: italic;
+  }
+  color: lighten($base-font-color, 20%);
+}
+
+h3 small {
+  font-family: $base-font-family;
+  color: $gray-dark;
+}
+
+ul {
+  li {
+    list-style-type: none;
+  }
+}
+
+ol,
+ul {
+  padding-left: 2em;
+}
+
+p {
+  margin: 0 0 $small-spacing;
+}
+
+code {
+  font-family: $mono-font-family;
+  font-weight: 400;
+}
+
+pre code {
+  border-radius: $base-border-radius;
+}

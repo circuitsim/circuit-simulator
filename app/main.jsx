@@ -5,6 +5,8 @@
 import React from 'react';
 import CircuitDiagram from './CircuitDiagram.jsx';
 
+import styles from './styles.scss';
+
 var rootInstance;
 
 main();

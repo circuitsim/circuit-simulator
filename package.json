@@ -11,6 +11,7 @@
   },
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
   "dependencies": {
+    "node-bourbon": "^4.2.2",
     "react": "^0.13.2",
     "react-art": "^0.13.0"
   },
