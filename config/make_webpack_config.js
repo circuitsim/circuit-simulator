@@ -5,12 +5,15 @@ var path = require('path'),
     CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin"),
 
     node_modules = path.resolve(baseDir, 'node_modules'),
-    pathToReact = path.resolve(node_modules, 'react/dist/react.min.js'),
 
     pathToMain = path.resolve(baseDir, 'app/main.jsx'),
 
     jade = require('jade'),
-    indexHtml = jade.compileFile(path.resolve(baseDir, 'app/index.jade'));
+    indexHtml = jade.compileFile(path.resolve(baseDir, 'app/index.jade'))
+
+    deps = [
+      'react/dist/react.min.js'
+    ];
 
 module.exports = function(options) {
   var entry = options.devServer
@@ -23,9 +26,7 @@ module.exports = function(options) {
       vendor: ['react']
     },
     resolve: {
-      alias: {
-        'react': pathToReact
-      }
+      alias: {}
     },
     devtool: options.devtool,
     debug: options.debug,
@@ -69,9 +70,15 @@ module.exports = function(options) {
           loader: 'url?limit=100000'
         }
       ],
-      noParse: [pathToReact]
+      noParse: []
     }
   };
+
+  deps.forEach(function (dep) {
+    var depPath = path.resolve(node_modules, dep);
+    config.resolve.alias[dep.split(path.sep)[0]] = depPath;
+    config.module.noParse.push(depPath);
+  });
 
   return config;
 };
