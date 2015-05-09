@@ -58,7 +58,7 @@ module.exports = function(options) {
           loaders: ['style','css']
         },
         {
-          test: /\.jsx?$/,
+          test: /\.(js|jsx)$/,
           exclude: [node_modules],
           loaders: jsLoader
         },
