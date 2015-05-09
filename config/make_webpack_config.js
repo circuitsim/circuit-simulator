@@ -2,6 +2,7 @@ var path = require('path'),
     baseDir = path.resolve(__dirname, '..'),
 
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin"),
 
     node_modules = path.resolve(baseDir, 'node_modules'),
     pathToReact = path.resolve(node_modules, 'react/dist/react.min.js'),
@@ -17,7 +18,10 @@ module.exports = function(options) {
     : pathToMain;
 
   var config = {
-    entry: entry,
+    entry: {
+      app: entry,
+      vendor: ['react']
+    },
     resolve: {
       alias: {
         'react': pathToReact
@@ -36,7 +40,8 @@ module.exports = function(options) {
           var files = templateParams.htmlWebpackPlugin.files; // js, css, chunks
           return indexHtml(files);
         }
-      })
+      }),
+      new CommonsChunkPlugin('vendor', 'common.js')
     ],
     module: {
       loaders: [
