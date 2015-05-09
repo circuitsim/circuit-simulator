@@ -90,5 +90,13 @@ module.exports = function(options) {
     config.module.noParse.push(depPath);
   });
 
+  if (options.minify) {
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        }
+    }));
+  }
+
   return config;
 };
