@@ -3,14 +3,14 @@
 'use strict';
 
 import React from 'react';
-import Hello from './Hello.jsx';
+import CircuitDiagram from './CircuitDiagram.jsx';
 
 var rootInstance;
 
 main();
 
 function main() {
-  rootInstance = React.render(<Hello />, document.getElementById('circuitsim'));
+  rootInstance = React.render(<CircuitDiagram />, document.getElementById('circuitsim'));
 }
 
 if (module.hot) {

@@ -31,9 +31,7 @@ module.exports = function(options) {
       vendor: ['react']
     },
     resolve: {
-      alias: {
-        'react/lib': path.resolve(node_modules, 'react/lib')
-      }
+      alias: {}
     },
     devtool: options.devtool,
     debug: options.debug,
@@ -64,7 +62,7 @@ module.exports = function(options) {
         },
         {
           // Expose React - react-router requires this
-          test: path.resolve(node_modules, deps[0]),
+          test: require.resolve("react"),
           loader: "expose?React"
         },
         {
@@ -84,11 +82,15 @@ module.exports = function(options) {
     }
   };
 
-  deps.forEach(function (dep) {
-    var depPath = path.resolve(node_modules, dep);
-    config.resolve.alias[dep.split(path.sep)[0]] = depPath;
-    config.module.noParse.push(depPath);
-  });
+  if (options.noParseDeps) {
+    console.log('ignoring deps');
+    deps.forEach(function (dep) {
+      var depPath = path.resolve(node_modules, dep);
+      config.resolve.alias[dep.split(path.sep)[0]] = depPath;
+      config.module.noParse.push(depPath);
+    });
+    config.resolve.alias['react/lib'] = path.resolve(node_modules, 'react/lib');
+  }
 
   if (options.minify) {
     config.plugins.push(new webpack.optimize.UglifyJsPlugin({
