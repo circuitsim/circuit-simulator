@@ -58,6 +58,11 @@ module.exports = function(options) {
             : ['babel']
         },
         {
+          // Expose React - react-router requires this
+          test: path.resolve(node_modules, deps[0]),
+          loader: "expose?React"
+        },
+        {
           test: /\.scss$/,
           loader: ['style','css', 'sass']
         },
