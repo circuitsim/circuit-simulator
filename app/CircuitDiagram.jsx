@@ -72,8 +72,8 @@ export default class CircuitDiagram extends React.Component {
 
   render() {
     return <Surface
-        width={700}
-        height={700}
+        width={this.props.width}
+        height={this.props.height}
         style={{cursor: 'pointer'}}>
         {this.renderGraphic(this.state.degrees)}
         <Circle
@@ -81,6 +81,8 @@ export default class CircuitDiagram extends React.Component {
           stroke="green"
           strokeWidth={3}
           fill="blue"
+          x={this.props.width/2}
+          y={this.props.height/2}
         />
       </Surface>;
   }

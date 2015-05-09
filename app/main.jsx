@@ -3,7 +3,7 @@
 'use strict';
 
 import React from 'react';
-import CircuitDiagram from './CircuitDiagram.jsx';
+import FullWindowDiagram from './FullWindowDiagram.jsx';
 
 import styles from './styles.scss';
 
@@ -12,7 +12,7 @@ var rootInstance;
 main();
 
 function main() {
-  rootInstance = React.render(<CircuitDiagram />, document.getElementById('circuitsim'));
+  rootInstance = React.render(<FullWindowDiagram />, document.getElementById('circuitsim'));
 }
 
 if (module.hot) {
