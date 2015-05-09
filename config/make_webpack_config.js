@@ -20,13 +20,20 @@ module.exports = function(options) {
     ? ['webpack/hot/dev-server', pathToMain]
     : pathToMain;
 
+  var jsLoader = options.flowcheck
+    ? ['babel?whitelist[]=flow','flowcheck','babel?blacklist[]=flow'] // hack from flowcheck/issues#18
+    : ['babel'];
+  if (options.hot) jsLoader.unshift('react-hot');
+
   var config = {
     entry: {
       app: entry,
       vendor: ['react']
     },
     resolve: {
-      alias: {}
+      alias: {
+        'react/lib': path.resolve(node_modules, 'react/lib')
+      }
     },
     devtool: options.devtool,
     debug: options.debug,
@@ -53,9 +60,7 @@ module.exports = function(options) {
         {
           test: /\.jsx?$/,
           exclude: [node_modules],
-          loaders: options.flowcheck
-            ? ['babel?whitelist[]=flow','flowcheck','babel?blacklist[]=flow'] // hack from flowcheck/issues#18
-            : ['babel']
+          loaders: jsLoader
         },
         {
           // Expose React - react-router requires this
