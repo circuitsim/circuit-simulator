@@ -4,16 +4,18 @@
 
 import CircuitDiagram from './CircuitDiagram.jsx';
 
+var getDimensions = () => ({width: window.innerWidth, height: window.innerHeight});
+
 export default class FullWindowDiagram extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {width: window.innerWidth, height: window.innerHeight};
+    this.state = getDimensions();
 
     this.handleResize = this.handleResize.bind(this);
   }
 
   handleResize(event) {
-    this.setState({width: window.innerWidth, height: window.innerHeight});
+    this.setState(getDimensions());
   }
 
   componentDidMount() {
