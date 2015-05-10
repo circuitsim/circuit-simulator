@@ -12,7 +12,6 @@ var Surface = ReactArt.Surface;
 export default class CircuitDiagram extends React.Component {
 
   /**
-   * [constructor description]
    * @param {object} props
    * @param {number} props.width - Width of the diagram
    * @param {number} props.height - Height of the diagram
