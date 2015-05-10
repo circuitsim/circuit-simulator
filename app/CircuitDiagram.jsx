@@ -19,6 +19,12 @@ export default class CircuitDiagram extends React.Component {
    */
   constructor(props) {
     super(props);
+    this.state = {radius: 10};
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({radius: this.state.radius +=5});
   }
 
   render() {
@@ -28,7 +34,8 @@ export default class CircuitDiagram extends React.Component {
         height={this.props.height}
         style={{cursor: 'pointer'}}>
         <Circle
-          radius={10}
+          onClick={this.onClick}
+          radius={this.state.radius}
           stroke="green"
           strokeWidth={3}
           fill="blue"
