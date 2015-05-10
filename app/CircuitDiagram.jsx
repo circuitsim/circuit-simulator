@@ -38,5 +38,9 @@ export default class CircuitDiagram extends React.Component {
       </Surface>
     );
   }
-
 }
+
+CircuitDiagram.defaultProps = {
+  width: 700,
+  height: 700
+};
