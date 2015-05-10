@@ -25,7 +25,9 @@ export default class FullWindowDiagram extends React.Component {
   }
 
   render() {
-    return <CircuitDiagram width={this.state.width} height={this.state.height} />;
+    return (
+      <CircuitDiagram width={this.state.width} height={this.state.height} />
+    );
   }
 
 }
