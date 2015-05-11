@@ -14,7 +14,7 @@ export default class CircuitDiagram extends React.Component {
   }
 
   render() {
-    var elements = this.props.elements.map(function(element) {
+    const elements = this.props.elements.map(function(element) {
           return React.createElement(element.component, {key: element.id, ...element.props});
         });
     return (
