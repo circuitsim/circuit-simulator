@@ -7,13 +7,14 @@
     "build": "webpack",
     "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js",
     "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified sadface\" && exit 1"
   },
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
   "dependencies": {
     "node-bourbon": "^4.2.2",
     "react": "^0.13.2",
-    "react-art": "^0.13.0"
+    "react-art": "^0.13.0",
+    "reflux": "^0.2.7"
   },
   "devDependencies": {
     "babel-core": "^5.2.16",

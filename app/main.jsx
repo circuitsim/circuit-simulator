@@ -3,29 +3,19 @@
 'use strict';
 
 import React from 'react';
-import FullWindowDiagram from './js/FullWindowDiagram.jsx';
+import FullWindowDiagram from './js/components/FullWindowDiagram.jsx';
 
-import SimpleElement from './js/SimpleElement.jsx';
+import circuitStore from './js/stores/CircuitStore.jsx'
 
 import styles from './styles.scss';
 
 var rootInstance;
 
-const elements = [
-  {
-    id: 1,
-    component: SimpleElement,
-    props: {
-      x: 200,
-      y: 200
-    }
-  }
-];
-
 main();
 
 function main() {
-  rootInstance = React.render(<FullWindowDiagram elements={elements}/>, document.getElementById('circuitsim'));
+
+  rootInstance = React.render(<FullWindowDiagram circuitStore={circuitStore} />, document.getElementById('circuitsim'));
 }
 
 if (module.hot) {
