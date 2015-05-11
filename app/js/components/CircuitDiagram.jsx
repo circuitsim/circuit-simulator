@@ -6,9 +6,16 @@ import React from 'react';
 import ReactArt from 'react-art';
 import Reflux from 'reflux';
 
+import CircuitActions from '../actions/CircuitActions.jsx';
+
 import CircuitCanvas from './CircuitCanvas.jsx';
+import SimpleElement from './SimpleElement.jsx';
+
+import Utils from '../utils/utils.js';
 
 var Surface = ReactArt.Surface;
+
+var id = 2;
 
 module.exports = React.createClass({
 
@@ -30,9 +37,23 @@ module.exports = React.createClass({
       this.listenTo(this.props.circuitStore, this._onCircuitChange, this._onCircuitChange);
   },
 
+  _onClick(event) {
+    const coords = Utils.relMouseCoords(event, this.refs.canvas);
+    CircuitActions.addElement(
+      {
+        id: id++,
+        component: SimpleElement,
+        props: {
+          x: coords.x,
+          y: coords.y
+        }
+      }
+    );
+  },
+
   render() {
     return (
-      <CircuitCanvas elements={this.state.elements} {...this.props} />
+      <CircuitCanvas ref='canvas' elements={this.state.elements} clickHandler={this._onClick} {...this.props} />
     );
   }
 });

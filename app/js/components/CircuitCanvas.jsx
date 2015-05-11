@@ -18,11 +18,16 @@ export default class CircuitCanvas extends React.Component {
           return React.createElement(element.component, {key: element.id, ...element.props});
         });
     return (
-      <Surface
-        width={this.props.width}
-        height={this.props.height}>
-        {elements}
-      </Surface>
+      <div
+        style={{padding: 0, margin: 0, border: 0}}
+        onClick={this.props.clickHandler}>
+        <Surface
+          width={this.props.width}
+          height={this.props.height}
+          >
+          {elements}
+        </Surface>
+      </div>
     );
   }
 }
