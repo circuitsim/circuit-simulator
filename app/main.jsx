@@ -3,15 +3,15 @@
 'use strict';
 
 import React from 'react';
-import FullWindowDiagram from './FullWindowDiagram.jsx';
+import FullWindowDiagram from './js/FullWindowDiagram.jsx';
 
-import SimpleElement from './SimpleElement.jsx';
+import SimpleElement from './js/SimpleElement.jsx';
 
 import styles from './styles.scss';
 
 var rootInstance;
 
-var elements = [
+const elements = [
   {
     id: 1,
     component: SimpleElement,

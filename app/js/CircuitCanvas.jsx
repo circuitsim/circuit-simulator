@@ -7,7 +7,7 @@ import ReactArt from 'react-art';
 
 var Surface = ReactArt.Surface;
 
-export default class CircuitDiagram extends React.Component {
+export default class CircuitCanvas extends React.Component {
 
   constructor(props) {
     super(props);
@@ -27,13 +27,13 @@ export default class CircuitDiagram extends React.Component {
   }
 }
 
-CircuitDiagram.defaultProps = {
+CircuitCanvas.defaultProps = {
   width: 700,
   height: 700,
   elements: []
 };
 
-CircuitDiagram.propTypes = {
+CircuitCanvas.propTypes = {
   width: React.PropTypes.number,
   height: React.PropTypes.number,
   elements: React.PropTypes.arrayOf(
