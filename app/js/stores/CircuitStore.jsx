@@ -8,9 +8,11 @@ import SimpleElement from '../components/SimpleElement.jsx';
 
 import circuitActions from '../actions/CircuitActions.jsx';
 
+import uuid from 'node-uuid';
+
 const initialElements = [
     {
-      id: 1,
+      id: uuid.v4(),
       component: SimpleElement,
       props: {
         x: 200,

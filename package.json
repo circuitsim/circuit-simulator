@@ -12,6 +12,7 @@
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
   "dependencies": {
     "node-bourbon": "^4.2.2",
+    "node-uuid": "^1.4.3",
     "react": "^0.13.2",
     "react-art": "^0.13.0",
     "reflux": "^0.2.7"

@@ -12,10 +12,9 @@ import CircuitCanvas from './CircuitCanvas.jsx';
 import SimpleElement from './SimpleElement.jsx';
 
 import Utils from '../utils/utils.js';
+import uuid from 'node-uuid';
 
 var Surface = ReactArt.Surface;
-
-var id = 2;
 
 module.exports = React.createClass({
 
@@ -41,7 +40,7 @@ module.exports = React.createClass({
     const coords = Utils.relMouseCoords(event, this.refs.canvas);
     CircuitActions.addElement(
       {
-        id: id++,
+        id: uuid.v4(),
         component: SimpleElement,
         props: {
           x: coords.x,
