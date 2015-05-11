@@ -9,12 +9,6 @@ var Surface = ReactArt.Surface;
 
 export default class CircuitDiagram extends React.Component {
 
-  /**
-   * @param {object} props
-   * @param {number} props.width - Width of the diagram
-   * @param {number} props.height - Height of the diagram
-   * @param {object[]} props.elements - Circuit elements
-   */
   constructor(props) {
     super(props);
   }
@@ -35,5 +29,23 @@ export default class CircuitDiagram extends React.Component {
 
 CircuitDiagram.defaultProps = {
   width: 700,
-  height: 700
+  height: 700,
+  elements: []
 };
+
+CircuitDiagram.propTypes = {
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  elements: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      id: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.number
+          ]).isRequired,
+      component: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.func // ReactClass is a function (could do better checking here)
+          ]).isRequired,
+      props: React.PropTypes.object
+    }))
+}
