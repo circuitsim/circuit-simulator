@@ -21,8 +21,8 @@ module.exports = function(options) {
     : pathToMain;
 
   var jsLoader = options.flowcheck
-    ? ['babel?whitelist[]=flow','flowcheck','babel?blacklist[]=flow'] // hack from flowcheck/issues#18
-    : ['babel'];
+    ? ['babel?whitelist[]=flow','flowcheck','babel?optional[]=es7.objectRestSpread&blacklist[]=flow'] // hack from flowcheck/issues#18
+    : ['babel?optional[]=es7.objectRestSpread'];
   if (options.hot) jsLoader.unshift('react-hot');
 
   var config = {
