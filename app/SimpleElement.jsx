@@ -16,7 +16,7 @@ export default class SimpleElement extends React.Component {
     return (
       <Circle
         onClick={this.onClick}
-        radius='10'
+        radius={10}
         fill='blue'
         x={this.props.x}
         y={this.props.y}
