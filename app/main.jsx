@@ -13,6 +13,7 @@ var rootInstance;
 
 var elements = [
   {
+    id: 1,
     component: SimpleElement,
     props: {
       x: 200,
