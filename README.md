@@ -5,6 +5,7 @@ A view layer for drawing interactive circuit diagrams.
 
 ## TODO
 
+- [ ] Tests! Investigate [Jest](https://facebook.github.io/jest/)
 - [ ] Vagrant provisioning for dev environment
 - [ ] Make React components to draw simple circuit elements
 - [ ] Build and distribute a library so other projects can import Circuit Diagram
