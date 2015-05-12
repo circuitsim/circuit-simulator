@@ -6,7 +6,7 @@ import Reflux from 'reflux';
 
 import SimpleElement from '../components/SimpleElement.jsx';
 
-import circuitActions from '../actions/CircuitActions.jsx';
+import circuitActions from '../actions/CircuitActions.js';
 
 import uuid from 'node-uuid';
 

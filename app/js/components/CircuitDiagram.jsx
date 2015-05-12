@@ -6,7 +6,7 @@ import React from 'react';
 import ReactArt from 'react-art';
 import Reflux from 'reflux';
 
-import CircuitActions from '../actions/CircuitActions.jsx';
+import CircuitActions from '../actions/CircuitActions.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
 import SimpleElement from './SimpleElement.jsx';
@@ -27,9 +27,7 @@ module.exports = React.createClass({
   },
 
   _onCircuitChange(elements) {
-    this.setState({
-      elements
-    });
+    this.setState({ elements });
   },
 
   componentDidMount() {

@@ -5,7 +5,7 @@
 import React from 'react';
 import FullWindowDiagram from './js/components/FullWindowDiagram.jsx';
 
-import circuitStore from './js/stores/CircuitStore.jsx'
+import circuitStore from './js/stores/CircuitStore.js'
 
 import styles from './styles.scss';
 
