@@ -1,5 +1,5 @@
 {
-  "name": "circuitsim",
+  "name": "circuit-diagram",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,11 @@
     "test": "echo \"Error: no test specified sadface\" && exit 1"
   },
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
+  "keywords": [
+    "electronics",
+    "circuit",
+    "diagram"
+  ],
   "dependencies": {
     "node-bourbon": "^4.2.2",
     "node-uuid": "^1.4.3",
