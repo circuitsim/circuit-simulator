@@ -22,10 +22,11 @@ module.exports = function(options) {
     ? ['webpack/hot/dev-server', pathToMain]
     : pathToMain;
 
+  var babel = 'babel?optional=es7.objectRestSpread&optional=runtime';
   var jsLoader = options.flowcheck
-    ? ['babel?whitelist[]=flow', 'flowcheck', 'babel?optional[]=es7.objectRestSpread&blacklist[]=flow'] // hack from flowcheck/issues#18
-    : ['babel?optional[]=es7.objectRestSpread'];
-  if (options.hot) jsLoader.unshift('react-hot');
+    ? ['babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow'] // hack from flowcheck/issues#18
+    : [babel];
+  if (options.hot) { jsLoader.unshift('react-hot'); }
 
   var config = {
     entry: {

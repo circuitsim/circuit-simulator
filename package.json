@@ -20,6 +20,7 @@
   "devDependencies": {
     "babel-core": "^5.2.16",
     "babel-loader": "^5.0.0",
+    "babel-runtime": "^5.2.17",
     "css-loader": "^0.12.0",
     "eslint": "^0.21.0",
     "eslint-loader": "^0.11.2",
