@@ -15,7 +15,8 @@ export default class CircuitCanvas extends React.Component {
 
   render() {
     const elements = this.props.elements.map(function(element) {
-          return React.createElement(element.component, {key: element.id, ...element.props});
+          const props = Object.assign({key: element.id}, element.props);
+          return React.createElement(element.component, props);
         });
     return (
       <div
@@ -53,4 +54,4 @@ CircuitCanvas.propTypes = {
           ]).isRequired,
       props: React.PropTypes.object
     }))
-}
+};

@@ -5,18 +5,11 @@
 import React from 'react';
 import FullWindowDiagram from './js/components/FullWindowDiagram.jsx';
 
-import circuitStore from './js/stores/CircuitStore.js'
+import circuitStore from './js/stores/CircuitStore.js';
 
-import styles from './styles.scss';
+import './styles.scss';
 
-var rootInstance;
-
-main();
-
-function main() {
-
-  rootInstance = React.render(<FullWindowDiagram circuitStore={circuitStore} />, document.getElementById('circuitsim'));
-}
+var rootInstance = React.render(<FullWindowDiagram circuitStore={circuitStore} />, document.getElementById('circuitsim'));
 
 if (module.hot) {
   require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({

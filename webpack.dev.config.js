@@ -3,5 +3,6 @@ module.exports = require('./config/make_webpack_config')({
   hot: true,
   outputDir: 'build',
   devtool: 'eval',
-  debug: true
+  debug: true,
+  quiet: false
 });

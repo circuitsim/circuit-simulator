@@ -16,8 +16,9 @@ module.exports = {
     do {
       totalOffsetX += node.offsetLeft - node.scrollLeft;
       totalOffsetY += node.offsetTop - node.scrollTop;
+      node = node.offsetParent;
     }
-    while (node = node.offsetParent);
+    while (node);
 
     x = event.pageX - totalOffsetX;
     y = event.pageY - totalOffsetY;

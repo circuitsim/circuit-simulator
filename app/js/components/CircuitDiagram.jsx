@@ -3,7 +3,6 @@
 'use strict';
 
 import React from 'react';
-import ReactArt from 'react-art';
 import Reflux from 'reflux';
 
 import CircuitActions from '../actions/CircuitActions.js';
@@ -13,8 +12,6 @@ import SimpleElement from './SimpleElement.jsx';
 
 import Utils from '../utils/utils.js';
 import uuid from 'node-uuid';
-
-var Surface = ReactArt.Surface;
 
 module.exports = React.createClass({
 
@@ -26,15 +23,15 @@ module.exports = React.createClass({
     };
   },
 
-  _onCircuitChange(elements) {
+  onCircuitChange(elements) {
     this.setState({ elements });
   },
 
   componentDidMount() {
-      this.listenTo(this.props.circuitStore, this._onCircuitChange, this._onCircuitChange);
+    this.listenTo(this.props.circuitStore, this.onCircuitChange, this.onCircuitChange);
   },
 
-  _onClick(event) {
+  onClick(event) {
     const coords = Utils.relMouseCoords(event, this.refs.canvas);
     CircuitActions.addElement(
       {
@@ -50,7 +47,7 @@ module.exports = React.createClass({
 
   render() {
     return (
-      <CircuitCanvas ref='canvas' elements={this.state.elements} clickHandler={this._onClick} {...this.props} />
+      <CircuitCanvas ref='canvas' elements={this.state.elements} clickHandler={this.onClick} {...this.props} />
     );
   }
 });

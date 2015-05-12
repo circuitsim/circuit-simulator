@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import Circle from 'react-art/lib/Circle.art'
+import Circle from 'react-art/lib/Circle.art';
 
 export default class SimpleElement extends React.Component {
 
@@ -21,7 +21,7 @@ export default class SimpleElement extends React.Component {
         x={this.props.x}
         y={this.props.y}
       />
-    )
+    );
   }
 
 }

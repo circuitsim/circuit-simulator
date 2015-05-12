@@ -1,15 +1,17 @@
-var path = require('path'),
+var webpack = require('webpack'),
+
+    path = require('path'),
     baseDir = path.resolve(__dirname, '..'),
 
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin"),
+    CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
 
     node_modules = path.resolve(baseDir, 'node_modules'),
 
     pathToMain = path.resolve(baseDir, 'app/main.jsx'),
 
     jade = require('jade'),
-    indexHtml = jade.compileFile(path.resolve(baseDir, 'app/index.jade'))
+    indexHtml = jade.compileFile(path.resolve(baseDir, 'app/index.jade')),
 
     deps = [
       'react/dist/react.min.js'
@@ -21,7 +23,7 @@ module.exports = function(options) {
     : pathToMain;
 
   var jsLoader = options.flowcheck
-    ? ['babel?whitelist[]=flow','flowcheck','babel?optional[]=es7.objectRestSpread&blacklist[]=flow'] // hack from flowcheck/issues#18
+    ? ['babel?whitelist[]=flow', 'flowcheck', 'babel?optional[]=es7.objectRestSpread&blacklist[]=flow'] // hack from flowcheck/issues#18
     : ['babel?optional[]=es7.objectRestSpread'];
   if (options.hot) jsLoader.unshift('react-hot');
 
@@ -37,12 +39,12 @@ module.exports = function(options) {
     debug: options.debug,
     output: {
       path: path.resolve(baseDir, options.outputDir),
-      filename: 'bundle.js',
+      filename: 'bundle.js'
     },
     plugins: [
       new HtmlWebpackPlugin({
         title: 'CircuitSim',
-        templateContent: function(templateParams, webpackCompiler) {
+        templateContent: function(templateParams) {
           var files = templateParams.htmlWebpackPlugin.files; // js, css, chunks
           return indexHtml(files);
         }
@@ -53,21 +55,26 @@ module.exports = function(options) {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style','css']
+          loaders: ['style', 'css']
         },
         {
           test: /\.scss$/,
-          loaders: ['style','css', 'sass?includePaths[]=' + require('node-bourbon').includePaths]
+          loaders: ['style', 'css', 'sass?includePaths[]=' + require('node-bourbon').includePaths]
         },
         {
           test: /\.(js|jsx)$/,
           exclude: [node_modules],
           loaders: jsLoader
         },
+        { // will be run before loaders above
+          test: /\.(js|jsx)$/,
+          exclude: [node_modules],
+          loader: 'eslint-loader'
+        },
         {
           // Expose React - react-router requires this
-          test: require.resolve("react"),
-          loader: "expose?React"
+          test: require.resolve('react'),
+          loader: 'expose?React'
         },
         {
           test: /\.(png|jpg)$/,
@@ -78,12 +85,16 @@ module.exports = function(options) {
           loader: 'url?limit=100000'
         }
       ],
-      noParse: []
+      noParse: [],
+      eslint: {
+        'emitWarning': !options.quiet,
+        'emitError': !options.quiet,
+        'quiet': options.quiet
+      }
     }
   };
 
   if (options.noParseDeps) {
-    console.log('ignoring deps');
     deps.forEach(function (dep) {
       var depPath = path.resolve(node_modules, dep);
       config.resolve.alias[dep.split(path.sep)[0]] = depPath;
