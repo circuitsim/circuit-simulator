@@ -25,6 +25,7 @@ export default class CircuitCanvas extends React.Component {
         <Surface
           width={this.props.width}
           height={this.props.height}
+          style={{display: 'block'}}
           >
           {elements}
         </Surface>
