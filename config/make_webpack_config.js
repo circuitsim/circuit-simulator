@@ -1,16 +1,13 @@
 var webpack = require('webpack'),
-
     path = require('path'),
-    baseDir = path.resolve(__dirname, '..'),
-
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
+    jade = require('jade');
 
-    node_modules = path.resolve(baseDir, 'node_modules'),
-
+var baseDir = path.resolve(__dirname, '..'),
+    nodeModulesDir = path.resolve(baseDir, 'node_modules'),
     pathToMain = path.resolve(baseDir, 'app/main.jsx'),
 
-    jade = require('jade'),
     indexHtml = jade.compileFile(path.resolve(baseDir, 'app/index.jade')),
 
     deps = [
@@ -64,12 +61,12 @@ module.exports = function(options) {
         },
         {
           test: /\.(js|jsx)$/,
-          exclude: [node_modules],
+          exclude: [nodeModulesDir],
           loaders: jsLoader
         },
         { // will be run before loaders above
           test: /\.(js|jsx)$/,
-          exclude: [node_modules],
+          exclude: [nodeModulesDir],
           loader: 'eslint-loader'
         },
         {
@@ -97,11 +94,11 @@ module.exports = function(options) {
 
   if (options.noParseDeps) {
     deps.forEach(function (dep) {
-      var depPath = path.resolve(node_modules, dep);
+      var depPath = path.resolve(nodeModulesDir, dep);
       config.resolve.alias[dep.split(path.sep)[0]] = depPath;
       config.module.noParse.push(depPath);
     });
-    config.resolve.alias['react/lib'] = path.resolve(node_modules, 'react/lib');
+    config.resolve.alias['react/lib'] = path.resolve(nodeModulesDir, 'react/lib');
   }
 
   if (options.minify) {
