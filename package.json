@@ -2,12 +2,19 @@
   "name": "circuit-diagram",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "echo \"Error: no build specified sadface\" && exit 1",
-    "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js",
-    "test": "echo \"Error: no test specified sadface\" && exit 1",
-    "prepublish": "npm run build"
+    "dev-start": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js",
+
+    "build": "rimraf dist && babel src --out-dir dist --optional es7.objectRestSpread --optional runtime",
+
+    "typecheck": "flow check --all",
+    "lint": "eslint src/",
+    "tests": "echo \"Error: no tests specified sadface\" && exit 1",
+
+    "test": "npm run lint && npm run typecheck && npm run tests",
+
+    "prepublish": "npm test && npm run build"
   },
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
   "keywords": [
@@ -23,7 +30,9 @@
     "reflux": "^0.2.7"
   },
   "devDependencies": {
+    "babel": "^5.3.1",
     "babel-core": "^5.2.16",
+    "babel-eslint": "^3.1.1",
     "babel-loader": "^5.0.0",
     "css-loader": "^0.12.0",
     "eslint": "^0.21.0",

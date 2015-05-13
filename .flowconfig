@@ -1,7 +1,10 @@
 [ignore]
+.*/build
+.*/dev
+.*/node_modules
+.*/dist
 
 [include]
-.*/src
 
 [libs]
 
