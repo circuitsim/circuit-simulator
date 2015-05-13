@@ -3,13 +3,12 @@
 'use strict';
 
 import React from 'react';
-import FullWindowDiagram from './js/components/FullWindowDiagram.jsx';
 
-import circuitStore from './js/stores/CircuitStore.js';
+import {CircuitStore, FullWindowDiagram} from '../src/main.js';
 
 import './styles.scss';
 
-var rootInstance = React.render(<FullWindowDiagram circuitStore={circuitStore} />, document.getElementById('circuitsim'));
+var rootInstance = React.render(<FullWindowDiagram circuitStore={CircuitStore} />, document.getElementById('circuitsim'));
 
 if (module.hot) {
   require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
