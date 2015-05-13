@@ -3,7 +3,7 @@ var path = require('path'),
     CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
     jade = require('jade');
 
-var baseDir = path.resolve(__dirname, '..'),
+var baseDir = path.resolve(__dirname),
     nodeModulesDir = path.resolve(baseDir, 'node_modules'),
 
     pathToMain = path.resolve(baseDir, 'dev/main.jsx'),
