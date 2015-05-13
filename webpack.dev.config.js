@@ -44,7 +44,7 @@ var config = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass?includePaths[]=' + require('node-bourbon').includePaths]
+        loaders: ['style', 'css', 'sass']
       },
       {
         test: /\.(js|jsx)$/,
