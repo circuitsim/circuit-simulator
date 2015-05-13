@@ -28,7 +28,8 @@
     "lint": "eslint src/",
     "tests": "echo \"Error: no tests specified sadface\" && exit 1",
     "test": "npm run lint && npm run typecheck && npm run tests",
-    "prepublish": "npm test && npm run build"
+    "prepublish": "npm test && npm run build && npm shrinkwrap",
+    "postpublish": "rm npm-shrinkwrap.json"
   },
   "dependencies": {
     "babel-runtime": "^5.2.17",
