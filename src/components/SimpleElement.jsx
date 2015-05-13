@@ -13,7 +13,7 @@ export default class SimpleElement extends React.Component {
       <Circle
         onClick={this.onClick}
         radius={10}
-        fill='blue'
+        fill='#8800ff'
         x={this.props.x}
         y={this.props.y}
       />

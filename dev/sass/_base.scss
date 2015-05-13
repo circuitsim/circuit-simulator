@@ -6,8 +6,8 @@ body {
   margin: 0;
   padding: 0;
 
-  $bg-col = #333;
+  $bg-col: #333;
 
-  background-color:$bg-col;
+  background-color: $bg-col;
   color: invert($bg-col);
 }
