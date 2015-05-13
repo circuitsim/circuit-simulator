@@ -14,7 +14,7 @@ A view layer for drawing interactive circuit diagrams.
 ## Dependencies
 
 - Node.js/io.js
-- Flow (in future when it supports ES6 modules - see facebook/flow#62)
+- [Flow](http://flowtype.org/)
 - For node-gyp:
   + Python 2.7, `make`, and a C/C++ compile e.g. GCC
 
