@@ -22,7 +22,7 @@
   "homepage": "http://github.com/circuitsim/circuit-diagram",
   "license": "EPL-1.0",
   "scripts": {
-    "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js",
+    "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js --display-error-details",
     "build": "rimraf dist && babel src --out-dir dist --optional es7.objectRestSpread --optional runtime",
     "typecheck": "flow check --all",
     "lint": "eslint src/",
