@@ -1,7 +1,3 @@
-/* @flow */
-
-'use strict';
-
 import React from 'react';
 import ReactArt from 'react-art';
 

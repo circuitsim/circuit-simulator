@@ -1,7 +1,3 @@
-/* @flow */
-
-'use strict';
-
 import React from 'react';
 
 import Circle from 'react-art/lib/Circle.art';

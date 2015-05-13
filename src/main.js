@@ -1,7 +1,3 @@
-/* @flow */
-
-'use strict';
-
 module.exports = {
   CircuitDiagram: require('./components/CircuitDiagram.jsx'),
 

@@ -1,7 +1,3 @@
-/* @flow */
-
-'use strict';
-
 import Reflux from 'reflux';
 
 import SimpleElement from '../components/SimpleElement.jsx';
