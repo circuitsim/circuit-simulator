@@ -2,6 +2,8 @@ import React from 'react';
 
 import Circle from 'react-art/lib/Circle.art';
 
+import Colors from '../styles/Colors.js';
+
 export default class SimpleElement extends React.Component {
 
   constructor(props) {
@@ -11,9 +13,8 @@ export default class SimpleElement extends React.Component {
   render() {
     return (
       <Circle
-        onClick={this.onClick}
         radius={10}
-        fill='#8800ff'
+        fill={Colors.base}
         x={this.props.x}
         y={this.props.y}
       />

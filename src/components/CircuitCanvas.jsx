@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactArt from 'react-art';
 
+import Colors from '../styles/Colors.js';
+
 var Surface = ReactArt.Surface;
 
 export default class CircuitCanvas extends React.Component {
@@ -21,7 +23,7 @@ export default class CircuitCanvas extends React.Component {
         <Surface
           width={this.props.width}
           height={this.props.height}
-          style={{display: 'block'}}
+          style={{display: 'block', backgroundColor: Colors.background}}
           >
           {elements}
         </Surface>
