@@ -1,8 +1,26 @@
 {
   "name": "circuit-diagram",
   "version": "0.0.1",
-  "description": "",
+  "description": "A view layer for drawing interactive circuit diagrams",
   "main": "dist/main.js",
+  "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
+  "keywords": [
+    "electronics",
+    "circuit",
+    "diagram"
+  ],
+  "directories": {
+    "lib": "src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/circuitsim/circuit-diagram"
+  },
+  "bugs": {
+    "url": "http://github.com/circuitsim/circuit-diagram/issues"
+  },
+  "homepage": "http://github.com/circuitsim/circuit-diagram",
+  "license": "EPL-1.0",
   "scripts": {
     "dev-start": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js",
 
@@ -16,12 +34,6 @@
 
     "prepublish": "npm test && npm run build"
   },
-  "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
-  "keywords": [
-    "electronics",
-    "circuit",
-    "diagram"
-  ],
   "dependencies": {
     "babel-runtime": "^5.2.17",
     "node-uuid": "^1.4.3",
