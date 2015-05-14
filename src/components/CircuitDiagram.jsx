@@ -4,9 +4,9 @@ import Reflux from 'reflux';
 import CircuitActions from '../actions/CircuitActions.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
-import SimpleElement from './SimpleElement.jsx';
+import Wire from './elements/Wire.jsx';
 
-import Utils from '../utils/utils.js';
+import Utils from './utils/DrawingUtils.js';
 import uuid from 'node-uuid';
 
 module.exports = React.createClass({
@@ -32,10 +32,16 @@ module.exports = React.createClass({
     CircuitActions.addElement(
       {
         id: uuid.v4(),
-        component: SimpleElement,
+        component: Wire,
         props: {
-          x: coords.x,
-          y: coords.y
+          from: {
+            x: coords.x,
+            y: coords.y
+          },
+          to: {
+            x: coords.x + 50,
+            y: coords.y + 50
+          }
         }
       }
     );
