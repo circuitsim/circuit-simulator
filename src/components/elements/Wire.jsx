@@ -3,11 +3,12 @@ import Reflux from 'reflux';
 
 import Colors from '../../styles/Colors.js';
 
-import {Shape} from 'react-art';
+import {Shape, Group} from 'react-art';
 
 import {drawRectBetweenTwoPoints, PropTypes} from '../utils/DrawingUtils.js';
 
 const WIDTH = 2;
+const BOX_WIDTH = 10;
 
 module.exports = React.createClass({
 
@@ -32,14 +33,20 @@ module.exports = React.createClass({
 
   render() {
     const wirePath = drawRectBetweenTwoPoints(this.props.from, this.props.to, WIDTH);
-
+    const boundingBoxPath = drawRectBetweenTwoPoints(this.props.from, this.props.to, BOX_WIDTH);
     return (
-      <Shape
-        onMouseOver={this.highlight}
-        onMouseOut={this.unHighlight}
-        fill={this.state.color}
-        d={wirePath}
-      />
+      <Group>
+        <Shape
+          fill={this.state.color}
+          d={wirePath}
+        />
+        <Shape // bounding box goes on top, bottom of the list
+          onMouseOver={this.highlight}
+          onMouseOut={this.unHighlight}
+          fill={Colors.transparent}
+          d={boundingBoxPath}
+        />
+      </Group>
     );
   }
 });
