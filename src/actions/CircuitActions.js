@@ -1,7 +1,5 @@
 import Reflux from 'reflux';
 
-var Actions = Reflux.createActions([
-    'addElement'
-  ]);
-
-module.exports = Actions;
+export default Reflux.createActions([
+  'addElement'
+]);

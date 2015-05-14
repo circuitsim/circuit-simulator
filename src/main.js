@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   CircuitDiagram: require('./components/CircuitDiagram.jsx'),
 
   FullWindowDiagram: require('./components/FullWindowDiagram.jsx'),

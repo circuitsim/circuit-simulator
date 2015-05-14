@@ -1,7 +1,7 @@
 import React from 'react';
 import {Path} from 'react-art';
 
-module.exports = {
+export default {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
   relMouseCoords(event, node) {
     node = React.findDOMNode(node) || node;

@@ -19,7 +19,7 @@ const initialElements = [
 
 var elements = initialElements;
 
-const circuitStore = Reflux.createStore({
+export default Reflux.createStore({
 
   listenables: circuitActions,
 
@@ -33,5 +33,3 @@ const circuitStore = Reflux.createStore({
   }
 
 });
-
-module.exports = circuitStore;

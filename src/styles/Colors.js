@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   background: '#333',
   base: '#ccc',
   theme: '#8800ff',

@@ -9,7 +9,7 @@ import Wire from './elements/Wire.jsx';
 import Utils from './utils/DrawingUtils.js';
 import uuid from 'node-uuid';
 
-module.exports = React.createClass({
+export default React.createClass({
 
   mixins: [Reflux.ListenerMixin],
 

@@ -10,7 +10,7 @@ import {drawRectBetweenTwoPoints, PropTypes} from '../utils/DrawingUtils.js';
 const WIDTH = 2;
 const BOX_WIDTH = 10;
 
-module.exports = React.createClass({
+export default React.createClass({
 
   propTypes: {
     from: PropTypes.Coordinate.isRequired,
