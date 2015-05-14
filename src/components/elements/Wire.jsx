@@ -5,7 +5,7 @@ import Colors from '../../styles/Colors.js';
 
 import {Shape, Group} from 'react-art';
 
-import {drawRectBetweenTwoPoints, PropTypes} from '../utils/DrawingUtils.js';
+import {drawRectBetweenTwoPoints, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
 
 const WIDTH = 2;
 const BOX_WIDTH = 10;
@@ -41,8 +41,8 @@ export default React.createClass({
           d={wirePath}
         />
         <Shape // bounding box goes on top, bottom of the list
-          onMouseOver={this.highlight}
-          onMouseOut={this.unHighlight}
+          onMouseOver={makeArtListener(this.highlight)}
+          onMouseOut={makeArtListener(this.unHighlight)}
           fill={Colors.transparent}
           d={boundingBoxPath}
         />
