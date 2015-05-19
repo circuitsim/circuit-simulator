@@ -10,7 +10,8 @@ var baseDir = path.resolve(__dirname),
     indexHtml = jade.compileFile(path.resolve(baseDir, 'dev/index.jade')),
 
     babel = 'babel?optional=es7.objectRestSpread&optional=runtime',
-    jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
+    // jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
+    jsLoader = ['react-hot', babel]; // until https://github.com/facebook/flow/issues/349 is fixed
 
 var config = {
   entry: {
