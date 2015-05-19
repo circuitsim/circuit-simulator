@@ -7,8 +7,8 @@ import {Shape, Group} from 'react-art';
 
 import {drawRectBetweenTwoPoints, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
 
-const WIDTH = 2;
-const BOX_WIDTH = 10;
+const WIDTH: number = 2;
+const BOX_WIDTH: number = 10;
 
 export default React.createClass({
 

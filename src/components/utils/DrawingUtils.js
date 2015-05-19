@@ -1,6 +1,8 @@
 import React from 'react';
 import {Path} from 'react-art';
 
+type Coordinate = {x: number; y: number};
+
 export default {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
   relMouseCoords(event, node) {
@@ -29,7 +31,7 @@ export default {
     };
   },
 
-  drawRectBetweenTwoPoints(p1, p2, width) {
+  drawRectBetweenTwoPoints(p1: Coordinate, p2: Coordinate, width: number) {
     const v = { // vector
       x: p2.x - p1.x,
       y: p2.y - p1.y
