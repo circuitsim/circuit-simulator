@@ -1,7 +1,9 @@
 import React from 'react';
 import {Path} from 'react-art';
 
-type Coordinate = {x: number; y: number};
+import Vector from 'immutable-vector2d';
+
+export type Coordinate = {x: number; y: number}; // where to put this?
 
 export default {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
@@ -32,26 +34,25 @@ export default {
   },
 
   drawRectBetweenTwoPoints(p1: Coordinate, p2: Coordinate, width: number) {
-    const v = { // vector
-      x: p2.x - p1.x,
-      y: p2.y - p1.y
-    };
+    const v1 = Vector.fromObject(p1);
+    const v2 = Vector.fromObject(p2);
+    const v = v2.subtract(v1);
     const p = { // perpendicular
       x: v.y,
       y: -v.x
     };
-    const l = Math.sqrt((v.x * v.x) + (v.y * v.y)); // length
-    const r = (width / l) / 2;
+    const l: number = v.length();
+    const r: number = (width / l) / 2;
     const np = { // normalised perpendicular
       x: p.x * r,
       y: p.y * r
     };
 
     const cs = [ // corners
-      {x: p1.x + np.x, y: p1.y + np.y},
-      {x: p1.x - np.x, y: p1.y - np.y},
-      {x: p2.x - np.x, y: p2.y - np.y},
-      {x: p2.x + np.x, y: p2.y + np.y} // just here for completeness...
+      {x: v1.x + np.x, y: v1.y + np.y},
+      {x: v1.x - np.x, y: v1.y - np.y},
+      {x: v2.x - np.x, y: v2.y - np.y},
+      {x: v2.x + np.x, y: v2.y + np.y}
     ];
 
     return new Path()
