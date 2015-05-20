@@ -5,8 +5,6 @@ import Colors from '../../styles/Colors.js';
 
 import {Group, Shape} from 'react-art';
 
-import Wire from './Wire.jsx';
-
 import Constants from '../utils/Constants.js';
 import {drawRectBetweenTwoPoints, PropTypes, makeArtListener, midPoint, diff} from '../utils/DrawingUtils.js';
 
@@ -30,34 +28,45 @@ export default React.createClass({
   },
 
   unHighlight() {
-    this.setState({color: Colors.baser});
+    this.setState({color: Colors.base});
   },
 
   render() {
-    const p1 = this.props.from,
-          p2 = this.props.to,
-          n = diff(p1, p2).normalize().multiply(Constants.RESISTOR.LENGTH / 2),
-          mid = midPoint(p1, p2),
-          r1 = mid.add(n),
-          r2 = mid.subtract(n);
+    const wireEnd1 = this.props.from,
+          wireEnd2 = this.props.to,
 
-    const rectPath = drawRectBetweenTwoPoints(r1, r2, Constants.RESISTOR.WIDTH);
+          n = diff(wireEnd1, wireEnd2).normalize().multiply(Constants.RESISTOR.LENGTH / 2),
+          mid = midPoint(wireEnd1, wireEnd2),
+          compEnd1 = mid.add(n),
+          compEnd2 = mid.subtract(n),
+
+          wirePath1 = drawRectBetweenTwoPoints(wireEnd1, compEnd1, Constants.LINE_WIDTH),
+          wirePath2 = drawRectBetweenTwoPoints(wireEnd2, compEnd2, Constants.LINE_WIDTH),
+          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, Constants.RESISTOR.WIDTH),
+          boundingBoxPath = drawRectBetweenTwoPoints(wireEnd1, wireEnd2, BOUNDING_BOX_WIDTH);
 
     return (
-      <Group
-        onClick={makeArtListener(this.highlight)}
-        onMouseOver={() => console.log('group hovered')}
-      >
-        <Shape
+      <Group>
+        <Shape // rectangle
           fill={Colors.transparent}
           stroke={this.state.color}
           strokeWidth={Constants.LINE_WIDTH}
           d={rectPath}
         />
-
-        <Wire from={p1} to={r1} />
-        <Wire from={p2} to={r2} />
-        <Shape />
+        <Shape
+          fill={this.state.color}
+          d={wirePath1}
+        />
+        <Shape
+          fill={this.state.color}
+          d={wirePath2}
+        />
+        <Shape // bounding box goes on top, bottom of the list
+          onMouseOver={makeArtListener(this.highlight)}
+          onMouseOut={makeArtListener(this.unHighlight)}
+          fill={Colors.transparent}
+          d={boundingBoxPath}
+        />
       </Group>
     );
   }
