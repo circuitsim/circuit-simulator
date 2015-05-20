@@ -2,6 +2,7 @@ import React from 'react';
 import {Path} from 'react-art';
 
 import Vector from 'immutable-vector2d';
+import {LINE_WIDTH} from './Constants.js';
 
 const utils = {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
@@ -65,6 +66,10 @@ const utils = {
         .lineTo(cs[2].x, cs[2].y)
         .lineTo(cs[3].x, cs[3].y)
         .close();
+  },
+
+  drawLine(p1: Vector, p2: Vector) {
+    return utils.drawRectBetweenTwoPoints(p1, p2, LINE_WIDTH);
   },
 
   PropTypes: {

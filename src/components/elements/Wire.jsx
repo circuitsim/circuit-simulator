@@ -5,10 +5,10 @@ import Colors from '../../styles/Colors.js';
 
 import {Shape, Group} from 'react-art';
 
-import {drawRectBetweenTwoPoints, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
-import Constants from '../utils/Constants.js';
+import {drawRectBetweenTwoPoints, drawLine, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING} from '../utils/Constants.js';
 
-const BOUNDING_BOX_WIDTH = Constants.LINE_WIDTH + Constants.BOUNDING_BOX_PADDING * 2;
+const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
 
 export default React.createClass({
 
@@ -32,7 +32,7 @@ export default React.createClass({
   },
 
   render() {
-    const wirePath = drawRectBetweenTwoPoints(this.props.from, this.props.to, Constants.LINE_WIDTH);
+    const wirePath = drawLine(this.props.from, this.props.to);
     const boundingBoxPath = drawRectBetweenTwoPoints(this.props.from, this.props.to, BOUNDING_BOX_WIDTH);
     return (
       <Group>

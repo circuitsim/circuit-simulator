@@ -5,10 +5,10 @@ import Colors from '../../styles/Colors.js';
 
 import {Group, Shape} from 'react-art';
 
-import Constants from '../utils/Constants.js';
-import {drawRectBetweenTwoPoints, PropTypes, makeArtListener, midPoint, diff} from '../utils/DrawingUtils.js';
+import {drawRectBetweenTwoPoints, drawLine, PropTypes, makeArtListener, midPoint, diff} from '../utils/DrawingUtils.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR} from '../utils/Constants.js';
 
-const BOUNDING_BOX_WIDTH = Constants.RESISTOR.WIDTH + Constants.BOUNDING_BOX_PADDING * 2;
+const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 
 export default React.createClass({
 
@@ -35,14 +35,14 @@ export default React.createClass({
     const wireEnd1 = this.props.from,
           wireEnd2 = this.props.to,
 
-          n = diff(wireEnd1, wireEnd2).normalize().multiply(Constants.RESISTOR.LENGTH / 2),
+          n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
           mid = midPoint(wireEnd1, wireEnd2),
           compEnd1 = mid.add(n),
           compEnd2 = mid.subtract(n),
 
-          wirePath1 = drawRectBetweenTwoPoints(wireEnd1, compEnd1, Constants.LINE_WIDTH),
-          wirePath2 = drawRectBetweenTwoPoints(wireEnd2, compEnd2, Constants.LINE_WIDTH),
-          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, Constants.RESISTOR.WIDTH),
+          wirePath1 = drawLine(wireEnd1, compEnd1, LINE_WIDTH),
+          wirePath2 = drawLine(wireEnd2, compEnd2, LINE_WIDTH),
+          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH),
           boundingBoxPath = drawRectBetweenTwoPoints(wireEnd1, wireEnd2, BOUNDING_BOX_WIDTH);
 
     return (
@@ -50,7 +50,7 @@ export default React.createClass({
         <Shape // rectangle
           fill={Colors.transparent}
           stroke={this.state.color}
-          strokeWidth={Constants.LINE_WIDTH}
+          strokeWidth={LINE_WIDTH}
           d={rectPath}
         />
         <Shape
