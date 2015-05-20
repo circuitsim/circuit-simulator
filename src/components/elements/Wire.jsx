@@ -6,15 +6,15 @@ import Colors from '../../styles/Colors.js';
 import {Shape, Group} from 'react-art';
 
 import {drawRectBetweenTwoPoints, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
+import Constants from '../utils/Constants.js';
 
-export const WIDTH: number = 2;
-export const BOX_WIDTH: number = 10;
+const BOUNDING_BOX_WIDTH = Constants.LINE_WIDTH + Constants.BOUNDING_BOX_PADDING * 2;
 
 export default React.createClass({
 
   propTypes: {
-    from: PropTypes.Coordinate.isRequired,
-    to: PropTypes.Coordinate.isRequired
+    from: PropTypes.Vector.isRequired,
+    to: PropTypes.Vector.isRequired
   },
 
   mixins: [Reflux.ListenerMixin],
@@ -32,8 +32,8 @@ export default React.createClass({
   },
 
   render() {
-    const wirePath = drawRectBetweenTwoPoints(this.props.from, this.props.to, WIDTH);
-    const boundingBoxPath = drawRectBetweenTwoPoints(this.props.from, this.props.to, BOX_WIDTH);
+    const wirePath = drawRectBetweenTwoPoints(this.props.from, this.props.to, Constants.LINE_WIDTH);
+    const boundingBoxPath = drawRectBetweenTwoPoints(this.props.from, this.props.to, BOUNDING_BOX_WIDTH);
     return (
       <Group>
         <Shape

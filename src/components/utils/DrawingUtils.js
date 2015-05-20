@@ -3,9 +3,7 @@ import {Path} from 'react-art';
 
 import Vector from 'immutable-vector2d';
 
-export type Coordinate = {x: number; y: number}; // where to put this?
-
-export default {
+const utils = {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
   relMouseCoords(event, node) {
     node = React.findDOMNode(node) || node;
@@ -33,10 +31,16 @@ export default {
     };
   },
 
-  drawRectBetweenTwoPoints(p1: Coordinate, p2: Coordinate, width: number) {
-    const v1 = Vector.fromObject(p1);
-    const v2 = Vector.fromObject(p2);
-    const v = v2.subtract(v1);
+  midPoint(p1: Vector, p2: Vector): Vector {
+    return p1.mix(p2);
+  },
+
+  diff(p1: Vector, p2: Vector): Vector {
+    return p1.subtract(p2);
+  },
+
+  drawRectBetweenTwoPoints(p1: Vector, p2: Vector, width: number) {
+    const v = utils.diff(p1, p2);
     const p = { // perpendicular
       x: v.y,
       y: -v.x
@@ -49,10 +53,10 @@ export default {
     };
 
     const cs = [ // corners
-      {x: v1.x + np.x, y: v1.y + np.y},
-      {x: v1.x - np.x, y: v1.y - np.y},
-      {x: v2.x - np.x, y: v2.y - np.y},
-      {x: v2.x + np.x, y: v2.y + np.y}
+      {x: p1.x + np.x, y: p1.y + np.y},
+      {x: p1.x - np.x, y: p1.y - np.y},
+      {x: p2.x - np.x, y: p2.y - np.y},
+      {x: p2.x + np.x, y: p2.y + np.y}
     ];
 
     return new Path()
@@ -64,9 +68,8 @@ export default {
   },
 
   PropTypes: {
-    Coordinate: React.PropTypes.shape({
-        x: React.PropTypes.number,
-        y: React.PropTypes.number
-      })
+    Vector: React.PropTypes.instanceOf(Vector)
   }
 };
+
+export default utils;

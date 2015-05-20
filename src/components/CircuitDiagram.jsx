@@ -4,10 +4,11 @@ import Reflux from 'reflux';
 import CircuitActions from '../actions/CircuitActions.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
-import Wire from './elements/Wire.jsx';
+import Resistor from './elements/Resistor.jsx';
 
 import Utils from './utils/DrawingUtils.js';
 import uuid from 'node-uuid';
+import Vector from 'immutable-vector2d';
 
 export default React.createClass({
 
@@ -32,16 +33,16 @@ export default React.createClass({
     CircuitActions.addElement(
       {
         id: uuid.v4(),
-        component: Wire,
+        component: Resistor,
         props: {
-          from: {
+          from: Vector.fromObject({
             x: coords.x,
             y: coords.y
-          },
-          to: {
+          }),
+          to: Vector.fromObject({
             x: coords.x + 50,
             y: coords.y + 50
-          }
+          })
         }
       }
     );
