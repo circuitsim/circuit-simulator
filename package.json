@@ -27,7 +27,7 @@
     "typecheck": "flow check --all",
     "lint": "eslint src/",
     "jest": "echo \"Error: no tests specified sadface\" && exit 1",
-    "test": "npm run lint && npm run typecheck && npm run jest",
+    "test": "npm run lint && npm run jest",
     "prepublish": "npm test && npm run build && npm shrinkwrap",
     "postpublish": "rm npm-shrinkwrap.json"
   },
