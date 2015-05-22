@@ -13,6 +13,7 @@ export default class CircuitCanvas extends React.Component {
 
   render() {
     const elements = this.props.elements.map(function(element) {
+          // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
           const props = Object.assign({key: element.id}, element.props);
           return React.createElement(element.component, props);
         });
