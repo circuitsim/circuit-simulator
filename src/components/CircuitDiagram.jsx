@@ -4,6 +4,8 @@ import Reflux from 'reflux';
 import CircuitActions from '../actions/CircuitActions.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
+
+import Wire from './elements/Wire.jsx';
 import Resistor from './elements/Resistor.jsx';
 
 import Utils from './utils/DrawingUtils.js';
@@ -16,7 +18,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      elements: []
+      elements: [],
+      elementToAdd: Wire
     };
   },
 
@@ -26,6 +29,11 @@ export default React.createClass({
 
   componentDidMount() {
     this.listenTo(this.props.circuitStore, this.onCircuitChange, this.onCircuitChange);
+    window.addEventListener('keypress', this.onKeyPress);
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener('keypress', this.onKeyPress);
   },
 
   onClick(event) {
@@ -33,7 +41,7 @@ export default React.createClass({
     CircuitActions.addElement(
       {
         id: uuid.v4(),
-        component: Resistor,
+        component: this.state.elementToAdd,
         props: {
           from: Vector.fromObject({
             x: coords.x,
@@ -48,9 +56,26 @@ export default React.createClass({
     );
   },
 
+  onKeyPress(event) {
+    const char = String.fromCharCode(event.keyCode || event.charCode);
+    switch(char) {
+      case 'r':
+          this.setState({elementToAdd: Resistor});
+          break;
+      case 'w':
+          this.setState({elementToAdd: Wire});
+          break;
+      default:
+          console.log('noop');
+    }
+  },
+
   render() {
     return (
-      <CircuitCanvas ref='canvas' elements={this.state.elements} clickHandler={this.onClick} {...this.props} />
+      <CircuitCanvas ref='canvas'
+        elements={this.state.elements}
+        clickHandler={this.onClick} {...this.props}
+      />
     );
   }
 });
