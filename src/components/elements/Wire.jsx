@@ -1,5 +1,4 @@
 import React from 'react';
-import Reflux from 'reflux';
 
 import Colors from '../../styles/Colors.js';
 
@@ -10,28 +9,22 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING} from '../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
 
-export default React.createClass({
+export default class Wire extends React.Component {
 
-  propTypes: {
-    connectors: React.PropTypes.shape({
-      from: PropTypes.Vector.isRequired,
-      to: PropTypes.Vector.isRequired
-    }).isRequired
-  },
-
-  mixins: [Reflux.ListenerMixin],
-
-  getInitialState() {
-    return {color: Colors.base};
-  },
+  constructor(props) {
+    super(props);
+    this.state = {color: Colors.base};
+    this.highlight = this.highlight.bind(this);
+    this.unHighlight = this.unHighlight.bind(this);
+  }
 
   highlight() {
     this.setState({color: Colors.theme});
-  },
+  }
 
   unHighlight() {
     this.setState({color: Colors.base});
-  },
+  }
 
   render() {
     const end1 = this.props.connectors.from, end2 = this.props.connectors.to;
@@ -52,4 +45,11 @@ export default React.createClass({
       </Group>
     );
   }
-});
+}
+
+Wire.propTypes = {
+  connectors: React.PropTypes.shape({
+    from: PropTypes.Vector.isRequired,
+    to: PropTypes.Vector.isRequired
+  }).isRequired
+};

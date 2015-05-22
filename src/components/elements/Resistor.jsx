@@ -1,6 +1,5 @@
 import React from 'react';
 import {Group, Shape} from 'react-art';
-import Reflux from 'reflux';
 
 import Colors from '../../styles/Colors.js';
 
@@ -11,31 +10,22 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR} from '../utils/Constants.js'
 
 const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 
-export default React.createClass({
+export default class Resistor extends React.Component {
 
-  propTypes: {
-    connectors: React.PropTypes.shape({
-      from: PropTypes.Vector.isRequired,
-      to: PropTypes.Vector.isRequired
-    }).isRequired,
-    color: React.PropTypes.string,
-    mouseOverHandler: React.PropTypes.func,
-    mouseOutHandler: React.PropTypes.func
-  },
-
-  mixins: [Reflux.ListenerMixin],
-
-  getInitialState() {
-    return {color: Colors.base};
-  },
+  constructor(props) {
+    super(props);
+    this.state = {color: Colors.base};
+    this.highlight = this.highlight.bind(this);
+    this.unHighlight = this.unHighlight.bind(this);
+  }
 
   highlight() {
     this.setState({color: Colors.theme});
-  },
+  }
 
   unHighlight() {
     this.setState({color: Colors.base});
-  },
+  }
 
   render() {
     const wireEnd1 = this.props.connectors.from,
@@ -78,4 +68,14 @@ export default React.createClass({
       </Group>
     );
   }
-});
+}
+
+Resistor.propType = {
+  connectors: React.PropTypes.shape({
+    from: PropTypes.Vector.isRequired,
+    to: PropTypes.Vector.isRequired
+  }).isRequired,
+  color: React.PropTypes.string,
+  mouseOverHandler: React.PropTypes.func,
+  mouseOutHandler: React.PropTypes.func
+};
