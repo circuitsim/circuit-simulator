@@ -73,7 +73,10 @@ const utils = {
   },
 
   PropTypes: {
-    Vector: React.PropTypes.instanceOf(Vector)
+    Vector: React.PropTypes.instanceOf(Vector),
+    ArtListener: React.PropTypes.shape({
+      handleEvent: React.PropTypes.func.isRequired
+    })
   }
 };
 

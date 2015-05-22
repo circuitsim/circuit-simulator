@@ -1,9 +1,10 @@
 import React from 'react';
+import {Group, Shape} from 'react-art';
 import Reflux from 'reflux';
 
 import Colors from '../../styles/Colors.js';
 
-import {Group, Shape} from 'react-art';
+import BoundingBox from '../BoundingBox.jsx';
 
 import {drawRectBetweenTwoPoints, drawLine, PropTypes, makeArtListener, midPoint, diff} from '../utils/DrawingUtils.js';
 import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR} from '../utils/Constants.js';
@@ -14,7 +15,10 @@ export default React.createClass({
 
   propTypes: {
     from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
+    to: PropTypes.Vector.isRequired,
+    color: React.PropTypes.string,
+    mouseOverHandler: React.PropTypes.func,
+    mouseOutHandler: React.PropTypes.func
   },
 
   mixins: [Reflux.ListenerMixin],
@@ -42,8 +46,7 @@ export default React.createClass({
 
           wirePath1 = drawLine(wireEnd1, compEnd1, LINE_WIDTH),
           wirePath2 = drawLine(wireEnd2, compEnd2, LINE_WIDTH),
-          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH),
-          boundingBoxPath = drawRectBetweenTwoPoints(wireEnd1, wireEnd2, BOUNDING_BOX_WIDTH);
+          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH);
 
     return (
       <Group>
@@ -61,11 +64,14 @@ export default React.createClass({
           fill={this.state.color}
           d={wirePath2}
         />
-        <Shape // bounding box goes on top, bottom of the list
-          onMouseOver={makeArtListener(this.highlight)}
-          onMouseOut={makeArtListener(this.unHighlight)}
-          fill={Colors.transparent}
-          d={boundingBoxPath}
+        <BoundingBox
+          from={wireEnd1}
+          to={wireEnd2}
+          width={BOUNDING_BOX_WIDTH}
+          handlers={{
+            mouseOver: makeArtListener(this.highlight),
+            mouseOut: makeArtListener(this.unHighlight)
+          }}
         />
       </Group>
     );
