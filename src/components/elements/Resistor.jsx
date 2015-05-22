@@ -14,8 +14,10 @@ const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 export default React.createClass({
 
   propTypes: {
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired,
+    connectors: React.PropTypes.shape({
+      from: PropTypes.Vector.isRequired,
+      to: PropTypes.Vector.isRequired
+    }).isRequired,
     color: React.PropTypes.string,
     mouseOverHandler: React.PropTypes.func,
     mouseOutHandler: React.PropTypes.func
@@ -36,8 +38,8 @@ export default React.createClass({
   },
 
   render() {
-    const wireEnd1 = this.props.from,
-          wireEnd2 = this.props.to,
+    const wireEnd1 = this.props.connectors.from,
+          wireEnd2 = this.props.connectors.to,
 
           n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
           mid = midPoint(wireEnd1, wireEnd2),

@@ -43,14 +43,16 @@ export default React.createClass({
         id: uuid.v4(),
         component: this.state.elementToAdd,
         props: {
-          from: Vector.fromObject({
-            x: coords.x,
-            y: coords.y
-          }),
-          to: Vector.fromObject({
-            x: coords.x + 50,
-            y: coords.y + 50
-          })
+          connectors: {
+            from: Vector.fromObject({
+              x: coords.x,
+              y: coords.y
+            }),
+            to: Vector.fromObject({
+              x: coords.x + 50,
+              y: coords.y + 50
+            })
+          }
         }
       }
     );

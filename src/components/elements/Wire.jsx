@@ -13,8 +13,10 @@ const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
 export default React.createClass({
 
   propTypes: {
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
+    connectors: React.PropTypes.shape({
+      from: PropTypes.Vector.isRequired,
+      to: PropTypes.Vector.isRequired
+    }).isRequired
   },
 
   mixins: [Reflux.ListenerMixin],
@@ -32,8 +34,9 @@ export default React.createClass({
   },
 
   render() {
-    const wirePath = drawLine(this.props.from, this.props.to);
-    const boundingBoxPath = drawRectBetweenTwoPoints(this.props.from, this.props.to, BOUNDING_BOX_WIDTH);
+    const end1 = this.props.connectors.from, end2 = this.props.connectors.to;
+    const wirePath = drawLine(end1, end2);
+    const boundingBoxPath = drawRectBetweenTwoPoints(end1, end2, BOUNDING_BOX_WIDTH);
     return (
       <Group>
         <Shape
