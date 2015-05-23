@@ -58,6 +58,10 @@ var config = {
         loader: 'eslint-loader'
       },
       {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
         // Expose React - react-router requires this
         test: require.resolve('react'),
         loader: 'expose?React'

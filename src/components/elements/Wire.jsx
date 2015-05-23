@@ -20,7 +20,7 @@ export default class Wire extends React.Component {
   }
 
   highlight() {
-    this.setState({color: Colors.theme});
+    if(!this.props.trans) { this.setState({color: Colors.theme}); }
   }
 
   unHighlight() {
@@ -41,7 +41,7 @@ export default class Wire extends React.Component {
         }}
       >
         <Shape
-          fill={this.state.color}
+          fill={this.props.trans ? Colors.trans(this.state.color) : this.state.color}
           d={wirePath}
         />
       </BoundingBox>

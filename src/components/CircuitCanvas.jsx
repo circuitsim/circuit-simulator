@@ -12,21 +12,28 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const elements = this.props.elements.map(function(element) {
-          // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-          const props = Object.assign({key: element.id}, element.props);
-          return React.createElement(element.component, props);
-        });
+    const create = function(element, extraProps) {
+            // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+            const props = Object.assign({key: element.id}, element.props, extraProps);
+            return React.createElement(element.component, props);
+          },
+          elements = this.props.elements.map(create),
+          mouseHandlers = this.props.mouseHandlers;
+    let elementBeingAdded = null;
+    if(this.props.elementBeingAdded) {
+      elementBeingAdded = create(this.props.elementBeingAdded, {trans: true});
+    }
     return (
       <div
-        style={{padding: 0, margin: 0, border: 0}}
-        onClick={this.props.clickHandler}>
+        {...mouseHandlers}
+        style={{padding: 0, margin: 0, border: 0}}>
         <Surface
           width={this.props.width}
           height={this.props.height}
           style={{display: 'block', backgroundColor: Colors.background}}
           >
           {elements}
+          {elementBeingAdded}
         </Surface>
       </div>
     );
