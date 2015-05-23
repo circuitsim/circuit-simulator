@@ -7,6 +7,7 @@ import CircuitCanvas from './CircuitCanvas.jsx';
 
 import Wire from './elements/Wire.jsx';
 import Resistor from './elements/Resistor.jsx';
+import CurrentSource from './elements/CurrentSource.jsx';
 
 import Utils from './utils/DrawingUtils.js';
 import uuid from 'node-uuid';
@@ -61,6 +62,9 @@ export default React.createClass({
   onKeyPress(event) {
     const char = String.fromCharCode(event.keyCode || event.charCode);
     switch(char) {
+      case 'c':
+          this.setState({elementToAdd: CurrentSource});
+          break;
       case 'r':
           this.setState({elementToAdd: Resistor});
           break;

@@ -72,6 +72,17 @@ const utils = {
     return utils.drawRectBetweenTwoPoints(p1, p2, LINE_WIDTH);
   },
 
+  drawCircle(p1: Vector, p2: Vector) {
+    const v = utils.diff(p1, p2);
+    const radius = v.length() / 2;
+
+    return new Path()
+        .moveTo(p1.x, p1.y)
+        .arc(-v.x, -v.y, radius, radius)
+        .arc(v.x, v.y, radius, radius)
+        .close();
+  },
+
   PropTypes: {
     Vector: React.PropTypes.instanceOf(Vector),
     ArtListener: React.PropTypes.shape({

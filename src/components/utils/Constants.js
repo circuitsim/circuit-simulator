@@ -6,5 +6,9 @@ export default {
   RESISTOR: {
     WIDTH: 12,
     LENGTH: 40
+  },
+
+  CURRENT_SOURCE: {
+    RADIUS: 18
   }
 };
