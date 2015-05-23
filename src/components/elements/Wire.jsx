@@ -1,10 +1,11 @@
 import React from 'react';
+import {Shape} from 'react-art';
 
 import Colors from '../../styles/Colors.js';
 
-import {Shape, Group} from 'react-art';
+import BoundingBox from '../BoundingBox.jsx';
 
-import {drawRectBetweenTwoPoints, drawLine, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
+import {drawLine, PropTypes, makeArtListener} from '../utils/DrawingUtils.js';
 import {LINE_WIDTH, BOUNDING_BOX_PADDING} from '../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
@@ -29,20 +30,21 @@ export default class Wire extends React.Component {
   render() {
     const end1 = this.props.connectors.from, end2 = this.props.connectors.to;
     const wirePath = drawLine(end1, end2);
-    const boundingBoxPath = drawRectBetweenTwoPoints(end1, end2, BOUNDING_BOX_WIDTH);
     return (
-      <Group>
+      <BoundingBox
+        from={end1}
+        to={end2}
+        width={BOUNDING_BOX_WIDTH}
+        handlers={{
+          mouseOver: makeArtListener(this.highlight),
+          mouseOut: makeArtListener(this.unHighlight)
+        }}
+      >
         <Shape
           fill={this.state.color}
           d={wirePath}
         />
-        <Shape // bounding box goes on top, bottom of the list
-          onMouseOver={makeArtListener(this.highlight)}
-          onMouseOut={makeArtListener(this.unHighlight)}
-          fill={Colors.transparent}
-          d={boundingBoxPath}
-        />
-      </Group>
+      </BoundingBox>
     );
   }
 }

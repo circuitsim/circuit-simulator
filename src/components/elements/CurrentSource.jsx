@@ -1,5 +1,5 @@
 import React from 'react';
-import {Group, Shape} from 'react-art';
+import {Shape} from 'react-art';
 
 import Colors from '../../styles/Colors.js';
 
@@ -47,7 +47,15 @@ export default class CurrentSource extends React.Component {
           circlePath2 = drawCircle(mid.add(circleOffset), compEnd2);
 
     return (
-      <Group>
+      <BoundingBox
+        from={wireEnd1}
+        to={wireEnd2}
+        width={BOUNDING_BOX_WIDTH}
+        handlers={{
+          mouseOver: makeArtListener(this.highlight),
+          mouseOut: makeArtListener(this.unHighlight)
+        }}
+      >
         <Shape
           fill={Colors.transparent}
           stroke={this.state.color}
@@ -68,16 +76,7 @@ export default class CurrentSource extends React.Component {
           fill={this.state.color}
           d={wirePath2}
         />
-        <BoundingBox
-          from={wireEnd1}
-          to={wireEnd2}
-          width={BOUNDING_BOX_WIDTH}
-          handlers={{
-            mouseOver: makeArtListener(this.highlight),
-            mouseOut: makeArtListener(this.unHighlight)
-          }}
-        />
-      </Group>
+      </BoundingBox>
     );
   }
 }

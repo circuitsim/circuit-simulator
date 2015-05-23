@@ -1,5 +1,5 @@
 import React from 'react';
-import {Group, Shape} from 'react-art';
+import {Shape} from 'react-art';
 
 import Colors from '../../styles/Colors.js';
 
@@ -41,7 +41,15 @@ export default class Resistor extends React.Component {
           rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH);
 
     return (
-      <Group>
+      <BoundingBox
+        from={wireEnd1}
+        to={wireEnd2}
+        width={BOUNDING_BOX_WIDTH}
+        handlers={{
+          mouseOver: makeArtListener(this.highlight),
+          mouseOut: makeArtListener(this.unHighlight)
+        }}
+      >
         <Shape // rectangle
           fill={Colors.transparent}
           stroke={this.state.color}
@@ -56,16 +64,7 @@ export default class Resistor extends React.Component {
           fill={this.state.color}
           d={wirePath2}
         />
-        <BoundingBox
-          from={wireEnd1}
-          to={wireEnd2}
-          width={BOUNDING_BOX_WIDTH}
-          handlers={{
-            mouseOver: makeArtListener(this.highlight),
-            mouseOut: makeArtListener(this.unHighlight)
-          }}
-        />
-      </Group>
+      </BoundingBox>
     );
   }
 }
