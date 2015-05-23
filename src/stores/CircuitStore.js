@@ -2,11 +2,7 @@ import Reflux from 'reflux';
 
 import Vector from 'immutable-vector2d';
 
-import SimpleElement from '../components/SimpleElement.jsx';
-
 import circuitActions from '../actions/CircuitActions.js';
-
-import uuid from 'node-uuid';
 
 const GRID_SIZE = 20;
 
@@ -25,16 +21,7 @@ const snapToGrid = function(connectors) {
   return snappedConnectors;
 };
 
-const initialElements = [
-    {
-      id: uuid.v4(),
-      component: SimpleElement,
-      props: {
-        x: 200,
-        y: 200
-      }
-    }
-  ];
+const initialElements = [];
 
 var elements = initialElements;
 
