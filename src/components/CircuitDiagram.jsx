@@ -9,6 +9,8 @@ import Wire from './elements/Wire.jsx';
 import Resistor from './elements/Resistor.jsx';
 import CurrentSource from './elements/CurrentSource.jsx';
 
+import handleHover from './HighlightOnHover.jsx';
+
 import {relMouseCoords} from './utils/DrawingUtils.js';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
@@ -20,7 +22,7 @@ export default React.createClass({
   getInitialState() {
     return {
       elements: [],
-      elementToAdd: Wire,
+      elementToAdd: handleHover(Wire),
       elementBeingAdded: null,
       addingElement: false
     };
@@ -65,13 +67,13 @@ export default React.createClass({
     const char = String.fromCharCode(event.keyCode || event.charCode);
     switch(char) {
       case 'c':
-          this.setState({elementToAdd: CurrentSource});
+          this.setState({elementToAdd: handleHover(CurrentSource)});
           break;
       case 'r':
-          this.setState({elementToAdd: Resistor});
+          this.setState({elementToAdd: handleHover(Resistor)});
           break;
       case 'w':
-          this.setState({elementToAdd: Wire});
+          this.setState({elementToAdd: handleHover(Wire)});
           break;
       default:
           console.log('noop');
