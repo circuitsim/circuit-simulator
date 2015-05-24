@@ -13,14 +13,15 @@ export default class BoundingBox extends React.Component {
   render() {
     const end1 = this.props.from,
           end2 = this.props.to,
-          boundingBoxPath = drawRectBetweenTwoPoints(end1, end2, this.props.width);
+          boundingBoxPath = drawRectBetweenTwoPoints(end1, end2, this.props.width),
+          handlers = this.props.handlers || {};
 
     return (
       <Group>
         {this.props.children}
         <Shape // at the bottom to properly detect mouse events
-          onMouseOver={this.props.handlers.mouseOver}
-          onMouseOut={this.props.handlers.mouseOut}
+          onMouseOver={handlers.mouseOver}
+          onMouseOut={handlers.mouseOut}
           fill={Colors.transparent}
           d={boundingBoxPath}
         />
