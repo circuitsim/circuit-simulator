@@ -17,6 +17,7 @@ export default Reflux.createStore({
   listenables: AddElementActions,
 
   element: null,
+  init: false,
 
   getInitialState() {
     return this.element;
@@ -31,6 +32,7 @@ export default Reflux.createStore({
         startPoint: startPoint,
         dragPoint: startPoint
       };
+    this.init = false;
   },
 
   onMove(coords) {
@@ -43,6 +45,8 @@ export default Reflux.createStore({
 
     this.element.props.connectors = getConnectorPositions(this.element.component, startPoint, dragPoint);
 
+    this.init = true;
+
     this.trigger(this.element);
   },
 
@@ -53,7 +57,9 @@ export default Reflux.createStore({
     this.element = null;
 
     this.trigger();
-    CircuitActions.addElement(element);
+    if (this.init) { CircuitActions.addElement(element); } // only add element if its position has been initialised
+
+    this.init = false;
   }
 
 });
