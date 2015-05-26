@@ -7,8 +7,6 @@ import ElementCreationStore from '../stores/ElementCreationStore.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
 
-import handleHover from './HighlightOnHover.jsx';
-
 import Wire from './elements/Wire.jsx';
 
 import {relMouseCoords} from './utils/DrawingUtils.js';
@@ -21,8 +19,8 @@ export default React.createClass({
   getInitialState() {
     return {
       elements: [],
-      elementToAdd: handleHover(Wire),
-      addingElement: null
+      elementToAdd: Wire,
+      addingElement: false // element being added or falsey
     };
   },
 
@@ -48,7 +46,7 @@ export default React.createClass({
     const char = String.fromCharCode(event.keyCode || event.charCode);
 
     if (KeyboardShortcuts[char]) {
-      this.setState({elementToAdd: handleHover(KeyboardShortcuts[char])});
+      this.setState({elementToAdd: KeyboardShortcuts[char]});
     }
   },
 

@@ -7,6 +7,7 @@ import uuid from 'node-uuid';
 import {CircuitActions, AddElementActions} from '../actions/CircuitActions.js';
 
 import {GRID_SIZE} from '../components/utils/Constants.js';
+import handleHover from '../components/HighlightOnHover.jsx';
 
 export default Reflux.createStore({
 
@@ -52,8 +53,11 @@ export default Reflux.createStore({
 
   onFinish() {
     const element = this.element;
+    element.component = handleHover(element.component);
+
     this.element = null;
-    this.trigger(this.element);
+
+    this.trigger(false);
     CircuitActions.addElement(element);
   }
 
