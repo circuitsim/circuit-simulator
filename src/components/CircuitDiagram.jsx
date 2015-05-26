@@ -20,7 +20,8 @@ export default React.createClass({
     return {
       elements: [],
       elementToAdd: Wire,
-      addingElement: false // element being added or falsey
+      addingElement: false,
+      elementBeingAdded: null
     };
   },
 
@@ -29,7 +30,7 @@ export default React.createClass({
   },
 
   onAddElementChange(element) {
-    this.setState({addingElement: element});
+    this.setState({elementBeingAdded: element});
   },
 
   componentDidMount() {
@@ -54,6 +55,8 @@ export default React.createClass({
     const elemType = this.state.elementToAdd,
           coords = relMouseCoords(event, this.refs.canvas);
 
+    this.setState({addingElement: true});
+
     AddElementActions.start(elemType, coords);
   },
 
@@ -62,19 +65,20 @@ export default React.createClass({
     AddElementActions.move(coords);
   },
 
-  addElement() {
+  finishAddElement() {
     AddElementActions.finish();
+    this.setState({addingElement: false});
   },
 
   render() {
     return (
       <CircuitCanvas ref='canvas'
         elements={this.state.elements}
-        elementBeingAdded={this.state.addingElement}
+        elementBeingAdded={this.state.elementBeingAdded}
         mouseHandlers={{
           onMouseDown: this.startAddElement,
           onMouseMove: this.state.addingElement ? this.moveElementConnector : () => {},
-          onMouseUp: this.state.addingElement ? this.addElement : () => {}
+          onMouseUp: this.state.addingElement ? this.finishAddElement : () => {} // TODO listen for this on document?
         }}
         {...this.props}
       />

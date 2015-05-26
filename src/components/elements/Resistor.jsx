@@ -5,10 +5,12 @@ import Colors from '../../styles/Colors.js';
 
 import BoundingBox from '../BoundingBox.jsx';
 
-import {drawRectBetweenTwoPoints, drawLine, PropTypes, midPoint, diff} from '../utils/DrawingUtils.js';
-import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR} from '../utils/Constants.js';
+import {drawRectBetweenTwoPoints, drawLine, PropTypes, midPoint, diff, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE} from '../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
+
+const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
 export default class Resistor extends React.Component {
 
@@ -66,3 +68,5 @@ Resistor.propType = {
 Resistor.defaultProps = {
   color: Colors.base
 };
+
+Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);

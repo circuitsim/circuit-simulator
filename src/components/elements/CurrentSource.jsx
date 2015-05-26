@@ -5,10 +5,12 @@ import Colors from '../../styles/Colors.js';
 
 import BoundingBox from '../BoundingBox.jsx';
 
-import {drawLine, drawCircle, PropTypes, midPoint, diff} from '../utils/DrawingUtils.js';
-import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE} from '../utils/Constants.js';
+import {drawLine, drawCircle, PropTypes, midPoint, diff, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
+
+const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
 export default class CurrentSource extends React.Component {
 
@@ -78,3 +80,5 @@ CurrentSource.propType = {
 CurrentSource.defaultProps = {
   color: Colors.base
 };
+
+CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);

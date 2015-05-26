@@ -5,10 +5,12 @@ import Colors from '../../styles/Colors.js';
 
 import BoundingBox from '../BoundingBox.jsx';
 
-import {drawLine, PropTypes} from '../utils/DrawingUtils.js';
-import {LINE_WIDTH, BOUNDING_BOX_PADDING} from '../utils/Constants.js';
+import {drawLine, PropTypes, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, GRID_SIZE} from '../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
+
+const MIN_LENGTH = GRID_SIZE;
 
 export default class Wire extends React.Component {
 
@@ -47,3 +49,5 @@ Wire.propTypes = {
 Wire.defaultProps = {
   color: Colors.base
 };
+
+Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);

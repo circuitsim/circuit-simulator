@@ -2,7 +2,7 @@ import React from 'react';
 import {Path} from 'react-art';
 
 import Vector from 'immutable-vector2d';
-import {LINE_WIDTH} from './Constants.js';
+import {LINE_WIDTH, GRID_SIZE} from './Constants.js';
 
 const utils = {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
@@ -38,6 +38,20 @@ const utils = {
 
   diff(p1: Vector, p2: Vector): Vector {
     return p1.subtract(p2);
+  },
+
+  get2PointConnectorPositionsFor(minLength: number) {
+    /**
+     * Given a fixed start point, and a second point being dragged,
+     * return the connector coordinates for a two-connector element.
+     *
+     * @param  {Vector} startPoint Fixed starting coordinate
+     * @param  {Vector} dragPoint  Coordinate of point being dragged
+     */
+    return function(startPoint: Vector, dragPoint: Vector) {
+      const v = utils.diff(dragPoint, startPoint).minLength(minLength);
+      return {from: startPoint, to: startPoint.add(v).snap(GRID_SIZE)};
+    };
   },
 
   drawRectBetweenTwoPoints(p1: Vector, p2: Vector, width: number) {
