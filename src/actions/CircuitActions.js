@@ -1,5 +1,11 @@
 import Reflux from 'reflux';
 
-export default Reflux.createActions([
+export const CircuitActions = Reflux.createActions([
   'addElement'
+]);
+
+export const AddElementActions = Reflux.createActions([
+  'start',
+  'move',
+  'finish'
 ]);

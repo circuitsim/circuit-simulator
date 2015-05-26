@@ -1,19 +1,17 @@
 import React from 'react/addons';
 import Reflux from 'reflux';
 
-import CircuitActions from '../actions/CircuitActions.js';
+import {AddElementActions} from '../actions/CircuitActions.js';
+
+import ElementCreationStore from '../stores/ElementCreationStore.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
 
-import Wire from './elements/Wire.jsx';
-import Resistor from './elements/Resistor.jsx';
-import CurrentSource from './elements/CurrentSource.jsx';
+import {Wire, Resistor, CurrentSource} from './elements/All.js';
 
 import handleHover from './HighlightOnHover.jsx';
 
 import {relMouseCoords} from './utils/DrawingUtils.js';
-import uuid from 'node-uuid';
-import Vector from 'immutable-vector2d';
 
 export default React.createClass({
 
@@ -23,8 +21,7 @@ export default React.createClass({
     return {
       elements: [],
       elementToAdd: handleHover(Wire),
-      elementBeingAdded: null,
-      addingElement: false
+      addingElement: null
     };
   },
 
@@ -32,35 +29,18 @@ export default React.createClass({
     this.setState({ elements });
   },
 
+  onAddElementChange(element) {
+    this.setState({addingElement: element});
+  },
+
   componentDidMount() {
     this.listenTo(this.props.circuitStore, this.onCircuitChange, this.onCircuitChange);
+    this.listenTo(ElementCreationStore, this.onAddElementChange);
     window.addEventListener('keypress', this.onKeyPress);
   },
 
   componentWillUnmount() {
     window.removeEventListener('keypress', this.onKeyPress);
-  },
-
-  onClick(event) {
-    const coords = relMouseCoords(event, this.refs.canvas);
-    CircuitActions.addElement(
-      {
-        id: uuid.v4(),
-        component: this.state.elementToAdd,
-        props: {
-          connectors: {
-            from: Vector.fromObject({
-              x: coords.x,
-              y: coords.y
-            }),
-            to: Vector.fromObject({
-              x: coords.x + 50,
-              y: coords.y + 50
-            })
-          }
-        }
-      }
-    );
   },
 
   onKeyPress(event) {
@@ -84,64 +64,27 @@ export default React.createClass({
     const elemType = this.state.elementToAdd,
           coords = relMouseCoords(event, this.refs.canvas);
 
-    this.setState({
-      elementBeingAdded:
-        {
-          id: uuid.v4(),
-          component: elemType,
-          props: {
-            connectors: {
-              from: Vector.fromObject({
-                x: coords.x,
-                y: coords.y
-              }),
-              to: Vector.fromObject({
-                x: coords.x + 10,
-                y: coords.y + 10
-              })
-            }
-          }
-        },
-      addingElement: true
-    });
+    AddElementActions.start(elemType, coords);
   },
 
   moveElementConnector(event) {
-    const coords = relMouseCoords(event, this.refs.canvas),
-          currentElem = this.state.elementBeingAdded;
-    this.setState(
-      {
-        elementBeingAdded:
-          React.addons.update(currentElem,
-            {
-              props: {
-                connectors: {
-                  to: {$set: Vector.fromObject({
-                      x: coords.x,
-                      y: coords.y
-                    })
-                  }
-                }
-              }
-            })
-        });
+    const coords = relMouseCoords(event, this.refs.canvas);
+    AddElementActions.move(coords);
   },
 
   addElement() {
-    CircuitActions.addElement(this.state.elementBeingAdded);
-    this.setState({elementBeingAdded: null, addingElement: false});
+    AddElementActions.finish();
   },
 
   render() {
     return (
       <CircuitCanvas ref='canvas'
         elements={this.state.elements}
-        elementBeingAdded={this.state.elementBeingAdded}
+        elementBeingAdded={this.state.addingElement}
         mouseHandlers={{
           onMouseDown: this.startAddElement,
           onMouseMove: this.state.addingElement ? this.moveElementConnector : () => {},
           onMouseUp: this.state.addingElement ? this.addElement : () => {}
-          // onClick: this.onClick
         }}
         {...this.props}
       />

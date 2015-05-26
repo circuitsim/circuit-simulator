@@ -1,23 +1,13 @@
 import Reflux from 'reflux';
 
-import Vector from 'immutable-vector2d';
+import {CircuitActions} from '../actions/CircuitActions.js';
 
-import circuitActions from '../actions/CircuitActions.js';
-
-const GRID_SIZE = 20;
-
-const snap = function (snapTo) {
-  var f = function(val) {
-    return Math.round(val / snapTo) * snapTo;
-  };
-  return vec => new Vector(f(vec.x), f(vec.y));
-};
+import {GRID_SIZE} from '../components/utils/Constants.js';
 
 const snapToGrid = function(connectors) {
   const keys = Object.keys(connectors);
   const snappedConnectors = {};
-  keys.forEach(key => snappedConnectors[key] = snap(GRID_SIZE)(connectors[key]));
-  // keys.forEach(key => snappedConnectors[key] = connectors[key].snap(GRID_SIZE)); // TODO change once vector lib accepts PR
+  keys.forEach(key => snappedConnectors[key] = connectors[key].snap(GRID_SIZE));
   return snappedConnectors;
 };
 
@@ -27,7 +17,7 @@ var elements = initialElements;
 
 export default Reflux.createStore({
 
-  listenables: circuitActions,
+  listenables: CircuitActions,
 
   onAddElement(element) {
     element.props.connectors = snapToGrid(element.props.connectors);
