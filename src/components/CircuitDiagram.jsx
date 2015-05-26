@@ -7,11 +7,12 @@ import ElementCreationStore from '../stores/ElementCreationStore.js';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
 
-import {Wire, Resistor, CurrentSource} from './elements/All.js';
-
 import handleHover from './HighlightOnHover.jsx';
 
+import Wire from './elements/Wire.jsx';
+
 import {relMouseCoords} from './utils/DrawingUtils.js';
+import KeyboardShortcuts from './utils/KeyboardShortcuts.js';
 
 export default React.createClass({
 
@@ -45,18 +46,9 @@ export default React.createClass({
 
   onKeyPress(event) {
     const char = String.fromCharCode(event.keyCode || event.charCode);
-    switch(char) {
-      case 'c':
-          this.setState({elementToAdd: handleHover(CurrentSource)});
-          break;
-      case 'r':
-          this.setState({elementToAdd: handleHover(Resistor)});
-          break;
-      case 'w':
-          this.setState({elementToAdd: handleHover(Wire)});
-          break;
-      default:
-          console.log('noop');
+
+    if (KeyboardShortcuts[char]) {
+      this.setState({elementToAdd: handleHover(KeyboardShortcuts[char])});
     }
   },
 
