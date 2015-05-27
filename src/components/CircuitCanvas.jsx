@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactArt from 'react-art';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import {List} from 'immutable';
 
 import Colors from '../styles/Colors.js';
 
@@ -17,7 +19,6 @@ export default class CircuitCanvas extends React.Component {
 
   render() {
     const elements = this.props.elements.map(create),
-          elementBeingAdded = create(this.props.elementBeingAdded),
           mouseHandlers = this.props.mouseHandlers;
     return (
       <div
@@ -29,7 +30,6 @@ export default class CircuitCanvas extends React.Component {
           style={{display: 'block', backgroundColor: Colors.background}}
           >
           {elements}
-          {elementBeingAdded}
         </Surface>
       </div>
     );
@@ -39,13 +39,13 @@ export default class CircuitCanvas extends React.Component {
 CircuitCanvas.defaultProps = {
   width: 700,
   height: 700,
-  elements: []
+  elements: new List()
 };
 
 CircuitCanvas.propTypes = {
   width: React.PropTypes.number,
   height: React.PropTypes.number,
-  elements: React.PropTypes.arrayOf(
+  elements: ImmutablePropTypes.listOf(
     React.PropTypes.shape({
       id: React.PropTypes.oneOfType([
             React.PropTypes.string,

@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import Reflux from 'reflux';
+import {List} from 'immutable';
 
 import {AddElementActions} from '../actions/CircuitActions.js';
 
@@ -18,7 +19,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      elements: [],
+      elements: new List(),
       elementToAdd: Wire,
       addingElement: false,
       elementBeingAdded: null
@@ -71,10 +72,12 @@ export default React.createClass({
   },
 
   render() {
+    const addingElement = this.state.elementBeingAdded;
+    let elements = this.state.elements;
+    if (addingElement) { elements = elements.push(addingElement); }
     return (
       <CircuitCanvas ref='canvas'
-        elements={this.state.elements}
-        elementBeingAdded={this.state.elementBeingAdded}
+        elements={elements}
         mouseHandlers={{
           onMouseDown: this.startAddElement,
           onMouseMove: this.state.addingElement ? this.moveElementConnector : () => {},

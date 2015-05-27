@@ -1,22 +1,23 @@
 import Reflux from 'reflux';
+import {List} from 'immutable';
 
 import {CircuitActions} from '../actions/CircuitActions.js';
 
-const initialElements = [];
-
-var elements = initialElements;
+const initialElements = new List();
 
 export default Reflux.createStore({
 
   listenables: CircuitActions,
 
+  elements: initialElements,
+
   onAddElement(element) {
-    elements.push(element);
-    this.trigger(elements);
+    this.elements = this.elements.push(element);
+    this.trigger(this.elements);
   },
 
   getInitialState() {
-    return elements;
+    return this.elements;
   }
 
 });
