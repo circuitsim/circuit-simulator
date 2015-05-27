@@ -3,26 +3,22 @@ import ReactArt from 'react-art';
 
 import Colors from '../styles/Colors.js';
 
-var Surface = ReactArt.Surface;
+const Surface = ReactArt.Surface;
+
+const create = function(element, extraProps) {
+  if (element) {
+    // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
+    const props = Object.assign({key: element.id}, element.props, extraProps);
+    return React.createElement(element.component, props);
+  }
+};
 
 export default class CircuitCanvas extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const create = function(element, extraProps) {
-            // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-            const props = Object.assign({key: element.id}, element.props, extraProps);
-            return React.createElement(element.component, props);
-          },
-          elements = this.props.elements.map(create),
+    const elements = this.props.elements.map(create),
+          elementBeingAdded = create(this.props.elementBeingAdded),
           mouseHandlers = this.props.mouseHandlers;
-    let elementBeingAdded = null;
-    if(this.props.elementBeingAdded) {
-      elementBeingAdded = create(this.props.elementBeingAdded, {trans: true});
-    }
     return (
       <div
         {...mouseHandlers}
