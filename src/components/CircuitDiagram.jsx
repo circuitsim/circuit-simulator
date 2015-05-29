@@ -67,8 +67,8 @@ export default React.createClass({
   },
 
   finishAddElement() {
-    AddElementActions.finish();
     this.setState({addingElement: false});
+    AddElementActions.finish();
   },
 
   render() {

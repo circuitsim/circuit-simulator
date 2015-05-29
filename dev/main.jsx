@@ -3,12 +3,19 @@
 'use strict';
 
 import React from 'react';
+import Animator from 'react-mainloop';
 
 import {CircuitStore, FullWindowDiagram} from '../src/main.js';
 
 import './styles.scss';
 
-var rootInstance = React.render(<FullWindowDiagram circuitStore={CircuitStore} />, document.getElementById('circuitsim'));
+const animate = new Animator();
+
+const Diagram = animate(FullWindowDiagram, (/*delta*/) => {
+
+});
+
+const rootInstance = React.render(<Diagram circuitStore={CircuitStore} />, document.getElementById('circuitsim'));
 
 if (module.hot) {
   require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
