@@ -71,6 +71,16 @@ export default React.createClass({
     AddElementActions.finish();
   },
 
+  childContextTypes: {
+    currentOffset: React.PropTypes.number
+  },
+
+  getChildContext() {
+    return {
+      currentOffset: this.props.currentOffset
+    };
+  },
+
   render() {
     const addingElement = this.state.elementBeingAdded;
     let elements = this.state.elements;

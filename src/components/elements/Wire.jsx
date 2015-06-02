@@ -4,6 +4,7 @@ import {Shape} from 'react-art';
 import Colors from '../../styles/Colors.js';
 
 import BoundingBox from '../BoundingBox.jsx';
+import CurrentPath from '../CurrentPath.jsx';
 
 import {drawLine, PropTypes, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
 import {LINE_WIDTH, BOUNDING_BOX_PADDING, GRID_SIZE} from '../utils/Constants.js';
@@ -29,6 +30,12 @@ export default class Wire extends React.Component {
           fill={this.props.color}
           d={wirePath}
         />
+        <CurrentPath
+          connectors={{
+            from: end1,
+            to: end2
+          }}
+        />
       </BoundingBox>
     );
   }
@@ -43,7 +50,9 @@ Wire.propTypes = {
   handlers: React.PropTypes.shape({
     mouseOver: PropTypes.ArtListener,
     mouseOut: PropTypes.ArtListener
-  })
+  }),
+  voltage: React.PropTypes.number,
+  current: React.PropTypes.number
 };
 
 Wire.defaultProps = {
