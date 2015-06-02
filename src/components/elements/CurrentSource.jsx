@@ -4,6 +4,7 @@ import {Shape} from 'react-art';
 import Colors from '../../styles/Colors.js';
 
 import BoundingBox from '../BoundingBox.jsx';
+import CurrentPath from '../CurrentPath.jsx';
 
 import {drawLine, drawCircle, PropTypes, midPoint, diff, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
 import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../utils/Constants.js';
@@ -59,6 +60,12 @@ export default class CurrentSource extends React.Component {
         <Shape
           fill={this.props.color}
           d={wirePath2}
+        />
+        <CurrentPath
+          connectors={{
+            from: wireEnd1,
+            to: wireEnd2
+          }}
         />
       </BoundingBox>
     );
