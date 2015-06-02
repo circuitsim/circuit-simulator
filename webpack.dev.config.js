@@ -9,14 +9,14 @@ var baseDir = path.resolve(__dirname),
     pathToMain = path.resolve(baseDir, 'dev/main.jsx'),
     indexHtml = jade.compileFile(path.resolve(baseDir, 'dev/index.jade')),
 
-    babel = 'babel?optional=es7.objectRestSpread&optional=runtime',
+    babel = 'babel?optional=es7.objectRestSpread&optional=runtime';
     // jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
-    jsLoader = ['react-hot', babel]; // until https://github.com/facebook/flow/issues/349 is fixed
 
 var config = {
   entry: {
+    /* NOTE: React hot loader doesn't work with higher-order components :( */
     app: ['webpack/hot/dev-server', pathToMain],
-    vendor: ['react']
+    vendor: ['react', 'react-art', 'art', 'reflux']
   },
   resolve: {
     alias: {}
@@ -50,7 +50,7 @@ var config = {
       {
         test: /\.(js|jsx)$/,
         exclude: [nodeModulesDir],
-        loaders: jsLoader
+        loaders: ['react-hot', babel] // until https://github.com/facebook/flow/issues/349 is fixed
       },
       { // will be run before loaders above
         test: /\.(js|jsx)$/,
