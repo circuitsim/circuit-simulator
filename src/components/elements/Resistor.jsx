@@ -60,7 +60,7 @@ export default class Resistor extends React.Component {
   }
 }
 
-Resistor.propType = {
+Resistor.propTypes = {
   connectors: React.PropTypes.shape({
     from: PropTypes.Vector.isRequired,
     to: PropTypes.Vector.isRequired

@@ -72,7 +72,7 @@ export default class CurrentSource extends React.Component {
   }
 }
 
-CurrentSource.propType = {
+CurrentSource.propTypes = {
   connectors: React.PropTypes.shape({
     from: PropTypes.Vector.isRequired,
     to: PropTypes.Vector.isRequired

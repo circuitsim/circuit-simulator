@@ -2,7 +2,7 @@ import React from 'react';
 
 import Colors from '../styles/Colors.js';
 
-import {makeArtListener} from './utils/DrawingUtils.js';
+import {makeArtListener, PropTypes} from './utils/DrawingUtils.js';
 
 /**
  * @example
@@ -49,7 +49,11 @@ export default CircuitElement => {
   }
 
   Highlighter.propTypes = {
-    adding: React.PropTypes.bool
+    adding: React.PropTypes.bool,
+    handlers: React.PropTypes.shape({
+      mouseOver: PropTypes.ArtListener,
+      mouseOut: PropTypes.ArtListener
+    })
   };
 
   Highlighter.defaultProps = {

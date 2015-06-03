@@ -56,5 +56,6 @@ CircuitCanvas.propTypes = {
             React.PropTypes.func // ReactClass is a function (could do better checking here)
           ]).isRequired,
       props: React.PropTypes.object
-    }))
+    })),
+  mouseHandlers: React.PropTypes.objectOf(React.PropTypes.func)
 };
