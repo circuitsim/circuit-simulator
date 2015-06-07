@@ -1,4 +1,4 @@
-import handleHover from './HoverHandler.js';
+import handleHover from './handlers/HoverHandler.js';
 
 // TODO chain of command?
 const Modes = {
