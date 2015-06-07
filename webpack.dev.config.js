@@ -7,9 +7,8 @@ var baseDir = path.resolve(__dirname),
     nodeModulesDir = path.resolve(baseDir, 'node_modules'),
 
     pathToMain = path.resolve(baseDir, 'dev/main.jsx'),
-    indexHtml = jade.compileFile(path.resolve(baseDir, 'dev/index.jade')),
+    indexHtml = jade.compileFile(path.resolve(baseDir, 'dev/index.jade'));
 
-    babel = 'babel?optional=es7.objectRestSpread&optional=runtime';
     // jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
 
 var config = {
@@ -50,7 +49,7 @@ var config = {
       {
         test: /\.(js|jsx)$/,
         exclude: [nodeModulesDir],
-        loaders: ['react-hot', babel] // until https://github.com/facebook/flow/issues/349 is fixed
+        loaders: ['react-hot', 'babel'] // until https://github.com/facebook/flow/issues/349 is fixed
       },
       { // will be run before loaders above
         test: /\.(js|jsx)$/,

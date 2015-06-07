@@ -23,7 +23,7 @@
   "license": "EPL-1.0",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js --display-error-details",
-    "build": "rimraf dist && babel src --out-dir dist --optional es7.objectRestSpread --optional runtime",
+    "build": "rimraf dist && babel src --out-dir dist",
     "typecheck": "flow check --all",
     "lint": "eslint src/",
     "jest": "echo \"Error: no tests specified sadface\" && exit 1",
@@ -32,6 +32,7 @@
     "postpublish": "rm npm-shrinkwrap.json"
   },
   "dependencies": {
+    "art": "^0.10.0",
     "babel-runtime": "^5.2.17",
     "color": "^0.8.0",
     "immutable": "^3.7.3",
@@ -40,8 +41,9 @@
     "react": "^0.13.2",
     "react-art": "^0.13.0",
     "react-immutable-proptypes": "^0.1.7",
-    "react-mainloop": "^0.1.1",
-    "reflux": "^0.2.7"
+    "react-mainloop": "^0.3",
+    "reflux": "^0.2.7",
+    "symbol-enum": "^2.0.1-0"
   },
   "devDependencies": {
     "babel": "^5.3.1",
