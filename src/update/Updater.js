@@ -74,7 +74,7 @@ export default function() {
       return {
         props: {
           elements: state.elements,
-          pushEvent: (event) => { eventQueue.push(event); }
+          pushEvent: event => eventQueue.push(event)
         },
         context: {
           currentOffset: state.currentOffset

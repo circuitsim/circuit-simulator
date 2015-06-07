@@ -1,4 +1,4 @@
-import EventTypes from './EventTypes.js';
+import EventTypes from '../EventTypes.js';
 
 // TODO these commands shouldn't be stored by the executor
 
