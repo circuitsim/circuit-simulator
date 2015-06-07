@@ -17,7 +17,7 @@ export default Reflux.createStore({
   listenables: AddElementActions,
 
   element: null,
-  init: false,
+  init: false, // true if element has been initialised
 
   getInitialState() {
     return this.element;
@@ -36,30 +36,34 @@ export default Reflux.createStore({
   },
 
   onMove(coords) {
-    const startPoint = this.element.startPoint,
-          dragPoint = Vector.fromObject(coords).snap(GRID_SIZE);
+    if (this.element) {
+      const startPoint = this.element.startPoint,
+            dragPoint = Vector.fromObject(coords).snap(GRID_SIZE);
 
-    if (dragPoint.equals(startPoint)) {
-      return; // prevent zero size elements
+      if (dragPoint.equals(startPoint)) {
+        return; // prevent zero size elements
+      }
+
+      this.element.props.connectors = getConnectorPositions(this.element.component, startPoint, dragPoint);
+
+      this.init = true;
+
+      this.trigger(this.element);
     }
-
-    this.element.props.connectors = getConnectorPositions(this.element.component, startPoint, dragPoint);
-
-    this.init = true;
-
-    this.trigger(this.element);
   },
 
   onFinish() {
-    const element = this.element;
-    element.component = handleHover(element.component);
+    if (this.element) {
+      const element = this.element;
+      element.component = handleHover(element.component);
 
-    this.element = null;
+      this.element = null;
 
-    this.trigger();
-    if (this.init) { CircuitActions.addElement(element); } // only add element if its position has been initialised
+      this.trigger();
+      if (this.init) { CircuitActions.addElement(element); } // only add element if its position has been initialised
 
-    this.init = false;
+      this.init = false;
+    }
   }
 
 });

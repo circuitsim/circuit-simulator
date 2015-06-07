@@ -51,8 +51,7 @@ Wire.propTypes = {
     mouseOver: PropTypes.ArtListener,
     mouseOut: PropTypes.ArtListener
   }),
-  voltage: React.PropTypes.number,
-  current: React.PropTypes.number
+  id: React.PropTypes.string.isRequired
 };
 
 Wire.defaultProps = {

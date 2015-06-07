@@ -1,100 +1,37 @@
-import React from 'react/addons';
-import Reflux from 'reflux';
-import {List} from 'immutable';
-
-import {AddElementActions} from '../actions/CircuitActions.js';
-
-import ElementCreationStore from '../stores/ElementCreationStore.js';
+import React from 'react';
+import Animator from 'react-mainloop';
 
 import CircuitCanvas from './CircuitCanvas.jsx';
+import Updater from '../update/Updater.js';
 
-import Wire from './elements/Wire.jsx';
+const FPS = 10;
+const TIMESTEP = 1000 / FPS;
 
-import {relMouseCoords} from './utils/DrawingUtils.js';
-import KeyboardShortcuts from './utils/KeyboardShortcuts.js';
+const animate = new Animator(TIMESTEP);
 
-export default React.createClass({
+export default class AnimatedDiagram extends React.Component {
 
-  mixins: [Reflux.ListenerMixin],
-
-  getInitialState() {
-    return {
-      elements: new List(),
-      elementToAdd: Wire,
-      addingElement: false,
-      elementBeingAdded: null
+  constructor(props) {
+    super(props);
+    this.state = {
+      updater: new Updater()
     };
-  },
-
-  onCircuitChange(elements) {
-    this.setState({ elements });
-  },
-
-  onAddElementChange(element) {
-    this.setState({elementBeingAdded: element});
-  },
-
-  componentDidMount() {
-    this.listenTo(this.props.circuitStore, this.onCircuitChange, this.onCircuitChange);
-    this.listenTo(ElementCreationStore, this.onAddElementChange);
-    window.addEventListener('keypress', this.onKeyPress);
-  },
-
-  componentWillUnmount() {
-    window.removeEventListener('keypress', this.onKeyPress);
-  },
-
-  onKeyPress(event) {
-    const char = String.fromCharCode(event.keyCode || event.charCode);
-
-    if (KeyboardShortcuts[char]) {
-      this.setState({elementToAdd: KeyboardShortcuts[char]});
-    }
-  },
-
-  startAddElement(event) {
-    const elemType = this.state.elementToAdd,
-          coords = relMouseCoords(event, this.refs.canvas);
-
-    this.setState({addingElement: true});
-
-    AddElementActions.start(elemType, coords);
-  },
-
-  moveElementConnector(event) {
-    const coords = relMouseCoords(event, this.refs.canvas);
-    AddElementActions.move(coords);
-  },
-
-  finishAddElement() {
-    this.setState({addingElement: false});
-    AddElementActions.finish();
-  },
-
-  childContextTypes: {
-    currentOffset: React.PropTypes.number
-  },
-
-  getChildContext() {
-    return {
-      currentOffset: this.props.currentOffset
-    };
-  },
+  }
 
   render() {
-    const addingElement = this.state.elementBeingAdded;
-    let elements = this.state.elements;
-    if (addingElement) { elements = elements.push(addingElement); }
+    const Diagram = animate(CircuitCanvas, this.state.updater.getUpdateFor);
     return (
-      <CircuitCanvas ref='canvas'
-        elements={elements}
-        mouseHandlers={{
-          onMouseDown: this.startAddElement,
-          onMouseMove: this.state.addingElement ? this.moveElementConnector : () => {},
-          onMouseUp: this.state.addingElement ? this.finishAddElement : () => {} // TODO listen for this on document?
-        }}
-        {...this.props}
+      <Diagram
+        width={this.props.width}
+        height={this.props.height}
+        pushEvent={() => { console.log('pushEvent not registered yet'); }} // this should get overidden after first render - this is a bit nasty
       />
     );
   }
-});
+}
+
+AnimatedDiagram.propTypes = {
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  circuitStore: React.PropTypes.any.isRequired // TODO type
+};

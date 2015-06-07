@@ -1,8 +1,8 @@
 import React from 'react';
 
+import EventTypes from '../update/EventTypes.js';
 import Colors from '../styles/Colors.js';
-
-import {makeArtListener, PropTypes} from './utils/DrawingUtils.js';
+import {makeArtListener} from './utils/DrawingUtils.js';
 
 /**
  * @example
@@ -16,48 +16,41 @@ export default CircuitElement => {
 
     constructor(props) {
       super(props);
-      this.state = {
-        color: props.adding ? Colors.trans(Colors.base) : Colors.base
-      };
-      this.highlight = this.highlight.bind(this);
-      this.unHighlight = this.unHighlight.bind(this);
+      this.push = this.push.bind(this);
     }
 
-    highlight() {
-      this.setState({color: Colors.theme});
-    }
-
-    unHighlight() {
-      this.setState({color: Colors.base});
+    push(event) {
+      this.props.pushEvent({
+        event,
+        type: event.type === 'mouseover' ? EventTypes.ElemMouseOver : EventTypes.ElemMouseLeave,
+        elemID: this.refs.elem.props.id
+      });
     }
 
     render() {
-      const {handlers} = this.props,
-            allHandlers = Object.assign({
-              mouseOver: makeArtListener(this.highlight),
-              mouseOut: makeArtListener(this.unHighlight)
-            }, handlers);
+      const handlers = {
+              mouseOver: makeArtListener(this.push),
+              mouseOut: makeArtListener(this.push)
+            },
+            color = this.props.hover ? Colors.theme : Colors.base;
 
       return (
-        <CircuitElement
+        <CircuitElement ref='elem'
           {...this.props}
-          {...this.state}
-          handlers={allHandlers}
+          color={color}
+          handlers={handlers}
         />
       );
     }
   }
 
   Highlighter.propTypes = {
-    adding: React.PropTypes.bool,
-    handlers: React.PropTypes.shape({
-      mouseOver: PropTypes.ArtListener,
-      mouseOut: PropTypes.ArtListener
-    })
+    hover: React.PropTypes.bool,
+    pushEvent: React.PropTypes.func.isRequired
   };
 
   Highlighter.defaultProps = {
-    adding: false
+    hover: false
   };
 
   return Highlighter;

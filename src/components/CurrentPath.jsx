@@ -24,7 +24,7 @@ export default class CurrentPath extends React.Component {
             .moveTo(end1.x, end1.y)
             .lineTo(end2.x, end2.y),
 
-          offset = (this.props.current * this.context.currentOffset) % CURRENT.DOT_DISTANCE, // TODO
+          offset = (this.props.current * this.context.animContext.currentOffset) % CURRENT.DOT_DISTANCE, // TODO
           startPos = this.props.current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE,
@@ -63,5 +63,7 @@ CurrentPath.defaultProps = {
 };
 
 CurrentPath.contextTypes = {
-  currentOffset: React.PropTypes.number
+  animContext: React.PropTypes.shape({
+    currentOffset: React.PropTypes.number
+  })
 };

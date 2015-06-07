@@ -81,7 +81,8 @@ CurrentSource.propTypes = {
   handlers: React.PropTypes.shape({
     mouseOver: PropTypes.ArtListener,
     mouseOut: PropTypes.ArtListener
-  })
+  }),
+  id: React.PropTypes.string.isRequired
 };
 
 CurrentSource.defaultProps = {
