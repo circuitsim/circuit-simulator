@@ -3,30 +3,30 @@ const Executor = function() {
   const undoStack = [];
   const redoStack = [];
 
-  this.execute = (command, state) => {
-    if (command.undo) {
-      undoStack.push(command); // some commands, like highlighting, shouldn't be added to the undo stack
+  this.execute = (action, state) => {
+    if (action.undo) {
+      undoStack.push(action); // some actions, like highlighting, shouldn't be added to the undo stack
     }
-    return command.do(state);
+    return action.do(state);
   };
-  this.executeAll = (commands, initialState) => {
-    return commands.reduce((state, command) => {
-      return this.execute(command, state);
+  this.executeAll = (actions, initialState) => {
+    return actions.reduce((state, action) => {
+      return this.execute(action, state);
     },
     initialState);
   };
   this.undo = () => {
-    const command = undoStack.pop();
-    if (command) {
-      redoStack.push(command);
-      return command.undo();
+    const action = undoStack.pop();
+    if (action) {
+      redoStack.push(action);
+      return action.undo();
     }
   };
   this.redo = () => {
-    const command = redoStack.pop();
-    if (command) {
-      undoStack.push(command);
-      return command.do();
+    const action = redoStack.pop();
+    if (action) {
+      undoStack.push(action);
+      return action.do();
     }
   };
 };

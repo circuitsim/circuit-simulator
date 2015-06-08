@@ -22,9 +22,9 @@ const handlers = {
 
 const handleHover = (event) => {
   const handler = handlers[event.type];
-  return {
-    command: handler ? handler(event.elemID) : null
-  };
+  return handler ? {
+    action: handler(event.elemID)
+  } : null; // would a Maybe type be nicer?
 };
 
 export default handleHover;
