@@ -48,6 +48,13 @@ export default function() {
       addingElement: null
     };
 
+    const processEventQueue = () => {
+      const {mode, actions} = eventProcessor.process(eventQueue, state.mode);
+      eventQueue = [];
+      state.mode = mode;
+      return actions;
+    };
+
     // add initial element for hover testing
     const initialElem = {
         component: handleHover(Resistor),
@@ -65,10 +72,7 @@ export default function() {
     const update = (delta) => {
       state.currentOffset += delta; // TODO a better way of doing this (and handling overflow)
 
-      const {mode, actions} = eventProcessor.process(eventQueue, state.mode);
-      eventQueue = [];
-      state.mode = mode;
-
+      const actions = processEventQueue();
       state = executor.executeAll(actions, state);
 
       return {
