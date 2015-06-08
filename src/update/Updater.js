@@ -11,7 +11,7 @@ import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
 import Executor from './Executor.js';
 
-// ---
+// --- TODO remove once code to add elements is removed
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 import Resistor from '../components/elements/Resistor.jsx';
@@ -65,11 +65,11 @@ export default function() {
     const update = (delta) => {
       state.currentOffset += delta; // TODO a better way of doing this (and handling overflow)
 
-      const {mode, commands} = eventProcessor.process(eventQueue, state.mode);
+      const {mode, actions} = eventProcessor.process(eventQueue, state.mode);
       eventQueue = [];
       state.mode = mode;
 
-      state = executor.executeAll(commands, state);
+      state = executor.executeAll(actions, state);
 
       return {
         props: {

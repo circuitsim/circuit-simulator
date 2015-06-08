@@ -4,7 +4,9 @@ const Executor = function() {
   const redoStack = [];
 
   this.execute = (command, state) => {
-    undoStack.push(command);
+    if (command.undo) {
+      undoStack.push(command); // some commands, like highlighting, shouldn't be added to the undo stack
+    }
     return command.do(state);
   };
   this.executeAll = (commands, initialState) => {
