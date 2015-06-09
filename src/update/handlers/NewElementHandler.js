@@ -71,6 +71,9 @@ const AddElementAction = function(id) {
     }
     // adding for the first time - TODO get rid of 'addingElement'
     const elem = state.get('addingElement');
+    if (!elem) {
+      return state;
+    }
     elem.component = handleHover(elem.component);
     return state
       .setIn(['elements', id], elem)
