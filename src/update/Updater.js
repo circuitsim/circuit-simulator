@@ -47,7 +47,7 @@ export default function() {
 
     // uses previous state + delta to calculate new props for CircuitCanvas
     const update = (delta) => {
-      state.currentOffset += delta; // TODO a better way of doing this (and handling overflow)
+      state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
       const actions = processEventQueue();
       state = executor.executeAll(actions, state);
@@ -66,7 +66,7 @@ export default function() {
           pushEvent: event => eventQueue.push(event)
         },
         context: {
-          currentOffset: state.currentOffset
+          currentOffset: state.get('currentOffset')
         }
       };
     };
