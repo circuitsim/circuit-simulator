@@ -1,11 +1,4 @@
-import {Map} from 'immutable';
-
-// import Wire from './elements/Wire.jsx';
-// import {relMouseCoords} from './utils/DrawingUtils.js';
-// import KeyboardShortcuts from './utils/KeyboardShortcuts.js';
-// import {AddElementActions} from '../actions/CircuitActions.js';
-// import circuitStore from './stores/CircuitStore.js';
-// import elementCreationStore from './stores/ElementCreationStore.js';
+import Immutable from 'immutable';
 
 import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
@@ -18,41 +11,24 @@ import Resistor from '../components/elements/Resistor.jsx';
 import handleHover from '../components/HighlightOnHover.jsx';
 // ---
 
-
-// const startAddElement = (event, elementType) => {
-//   const coords = relMouseCoords(event, canvasComponent);
-//   AddElementActions.start(elementType, coords);
-// };
-//
-// const moveElementConnector = (event) => {
-//   const coords = relMouseCoords(event, canvasComponent);
-//   AddElementActions.move(coords);
-// };
-//
-// const finishAddElement = () => {
-//   AddElementActions.finish();
-// };
-
 export default function() {
   let eventQueue = [];
   const eventProcessor = new EventProcessor();
   const executor = new Executor();
   this.getUpdateFor = (canvasComponent) => {
 
-    let state = { // TODO new Map
+    let state = new Immutable.Map({
       canvasComponent,
       mode: Modes.default,
       currentOffset: 0,
-      elements: new Map(), // elemID -> element
+      elements: new Immutable.Map(), // elemID -> element
       addingElement: null // TODO remove this, just use a known ID in elements?
-    };
-
-    let numOfElems = 1;
+    });
 
     const processEventQueue = () => {
-      const {mode, actions} = eventProcessor.process(eventQueue, state.mode);
+      const {mode, actions} = eventProcessor.process(eventQueue, state.get('mode'));
       eventQueue = [];
-      state.mode = mode;
+      state = state.set('mode', mode);
       return actions;
     };
 
@@ -67,7 +43,7 @@ export default function() {
           )
         }
       };
-    state.elements = state.elements.set(initialElem.props.id, initialElem);
+    state = state.setIn(['elements', initialElem.props.id], initialElem);
 
     // uses previous state + delta to calculate new props for CircuitCanvas
     const update = (delta) => {
@@ -76,18 +52,17 @@ export default function() {
       const actions = processEventQueue();
       state = executor.executeAll(actions, state);
 
-      const elems = state.addingElement
-        ? state.elements.set(state.addingElement.props.id, state.addingElement)
-        : state.elements;
+      const mutableState = state.toJS();
 
-      if (elems.size !== numOfElems) {
-        console.log(elems);
-        numOfElems = elems.size;
+      const elems = mutableState.elements;
+      const addingElem = mutableState.addingElement;
+      if (addingElem) {
+        elems[addingElem.props.id] = addingElem;
       }
 
       return {
         props: {
-          elements: elems,
+          elements: new Immutable.Map(elems),
           pushEvent: event => eventQueue.push(event)
         },
         context: {

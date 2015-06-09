@@ -13,7 +13,7 @@ import handleHover from '../../components/HighlightOnHover.jsx';
 const StartAddElementAction = function(elemType, coords) {
   this.do = (state) => {
     const startPoint = Vector.fromObject(coords).snap(GRID_SIZE);
-    state.addingElement = {
+    return state.set('addingElement', {
         component: elemType,
         props: {
           id: uuid.v4(),
@@ -23,8 +23,7 @@ const StartAddElementAction = function(elemType, coords) {
           }
         },
         startPoint
-      };
-    return state;
+      });
   };
 };
 
@@ -50,7 +49,7 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 const MoveElementAction = function(coords) {
   this.do = (state) => {
-    const elem = state.addingElement,
+    const elem = state.get('addingElement'),
           startPoint = elem.startPoint,
           dragPoint = Vector.fromObject(coords).snap(GRID_SIZE);
 
@@ -58,7 +57,7 @@ const MoveElementAction = function(coords) {
       return state; // prevent zero size elements
     }
     elem.props.connectors = getConnectorPositions(elem.component, startPoint, dragPoint);
-    return state;
+    return state.set('addingElement', elem);
   };
 };
 
@@ -79,17 +78,16 @@ export const handleAdding = event => { // TODO make a reusable version of this
 
 const AddElementAction = function() {
   let id;
-  this.do = (state) => { // FIXME redo don't work - we need the element in the constructor
-    const elem = state.addingElement;
+  this.do = (state) => { // FIXME redo doesn't work - we need the element in the constructor
+    const elem = state.get('addingElement');
     id = elem.props.id;
     elem.component = handleHover(elem.component);
-    state.elements = state.elements.set(id, elem);
-    state.addingElement = null;
-    return state;
+    return state
+      .setIn(['elements', id], elem)
+      .set('addingElement', null);
   };
   this.undo = (state) => {
-    state.elements.delete(id);
-    return state;
+    return state.elements.delete(id);
   };
 };
 
@@ -101,7 +99,6 @@ const finishAddingHandlers = {
 };
 
 export const handleFinishAdding = event => { // TODO make a reusable version of this
-  console.log('handleFinishAdding');
   const handler = finishAddingHandlers[event.type];
   return handler ? handler() : null;
 };
