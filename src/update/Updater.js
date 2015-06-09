@@ -5,12 +5,6 @@ import Modes from './Modes.js';
 import Executor from './Executor.js';
 import Wire from '../components/elements/Wire.jsx';
 
-// --- TODO remove once code to add elements is removed
-import uuid from 'node-uuid';
-import Vector from 'immutable-vector2d';
-import handleHover from '../components/HighlightOnHover.jsx';
-// ---
-
 export default function() {
   let eventQueue = [];
   const eventProcessor = new EventProcessor();
@@ -31,19 +25,6 @@ export default function() {
       state = state.set('mode', mode);
       return actions;
     };
-
-    // add initial element for hover testing
-    const initialElem = {
-        component: handleHover(Wire),
-        props: {
-          id: uuid.v4(),
-          connectors: Wire.getConnectorPositions(
-            new Vector(50, 50),
-            new Vector(75, 75)
-          )
-        }
-      };
-    state = state.setIn(['elements', initialElem.props.id], initialElem);
 
     // uses previous state + delta to calculate new props for CircuitCanvas
     const update = (delta) => {
