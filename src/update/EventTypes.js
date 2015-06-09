@@ -2,5 +2,8 @@ import Enum from 'symbol-enum';
 
 export default new Enum(
   'ElemMouseOver',
-  'ElemMouseLeave'
+  'ElemMouseLeave',
+  'CanvasMouseDown',
+  'CanvasMouseMove',
+  'CanvasMouseUp'
 );

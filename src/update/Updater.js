@@ -39,14 +39,15 @@ export default function() {
   const executor = new Executor();
   this.getUpdateFor = (canvasComponent) => {
 
-    // make immutable? though that doesn't seem to work: https://github.com/facebook/react/issues/2059
-    let state = {
+    let state = { // TODO new Map
       canvasComponent,
       mode: Modes.default,
       currentOffset: 0,
       elements: new Map(), // elemID -> element
-      addingElement: null
+      addingElement: null // TODO remove this, just use a known ID in elements?
     };
+
+    let numOfElems = 1;
 
     const processEventQueue = () => {
       const {mode, actions} = eventProcessor.process(eventQueue, state.mode);
@@ -75,9 +76,18 @@ export default function() {
       const actions = processEventQueue();
       state = executor.executeAll(actions, state);
 
+      const elems = state.addingElement
+        ? state.elements.set(state.addingElement.props.id, state.addingElement)
+        : state.elements;
+
+      if (elems.size !== numOfElems) {
+        console.log(elems);
+        numOfElems = elems.size;
+      }
+
       return {
         props: {
-          elements: state.elements,
+          elements: elems,
           pushEvent: event => eventQueue.push(event)
         },
         context: {

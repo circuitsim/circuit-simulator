@@ -4,6 +4,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {Map} from 'immutable';
 
 import Colors from '../styles/Colors.js';
+import EventTypes from '../update/EventTypes.js';
+import {relMouseCoords} from './utils/DrawingUtils.js';
+
 
 const Surface = ReactArt.Surface;
 
@@ -11,6 +14,12 @@ const addPropsAndCreate = (extraProps) => (element) => {
   // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
   const props = Object.assign({key: element.props.id}, extraProps || {}, element.props);
   return React.createElement(element.component, props);
+};
+
+const convert = {
+  mousedown: EventTypes.CanvasMouseDown,
+  mousemove: EventTypes.CanvasMouseMove,
+  mouseup: EventTypes.CanvasMouseUp
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -24,7 +33,8 @@ export default class CircuitCanvas extends React.Component {
   onMouse(event) {
     this.props.pushEvent({
       event,
-      type: 'CircuitCanvas onMouse TODO'
+      type: convert[event.type],
+      coords: relMouseCoords(event, this.refs.canvas)
     });
   }
 
@@ -50,7 +60,7 @@ export default class CircuitCanvas extends React.Component {
         pushEvent: this.props.pushEvent
       }));
     return (
-      <div
+      <div ref='canvas'
         onMouseDown={this.onMouse}
         onMouseMove={this.onMouse}
         onMouseUp={this.onMouse}

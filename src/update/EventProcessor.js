@@ -13,7 +13,9 @@ const EventProcessor = function() {
    */
   this.process = (events, initialMode) => {
     return events.reduce((prev, event) => {
+      console.log('EventProcessor', prev.mode, event);
       const {mode, action} = prev.mode(event);
+      console.log('mode, action', mode, action);
       return {
         mode: mode || prev.mode,
         actions: action ? prev.actions.push(action) : prev.actions
