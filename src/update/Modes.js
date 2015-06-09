@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 
 import handleHover from './handlers/HoverHandler.js';
 import {handleStartAddFor, handleAdding, handleFinishAddFor} from './handlers/NewElementHandler.js';
+import handleElementTypeChange from './handlers/KeyPressHandler.js';
 
 const isNotNull = x => x !== null;
 
@@ -27,6 +28,7 @@ const returnFirstResult = seq => input => {
 const Modes = new Immutable.Record({
   add: (type) => {
     const handlers = [
+      handleElementTypeChange,
       handleHover,
       handleStartAddFor(type)
     ];

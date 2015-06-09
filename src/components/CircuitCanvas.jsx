@@ -19,7 +19,8 @@ const addPropsAndCreate = (extraProps) => (element) => {
 const convert = {
   mousedown: EventTypes.CanvasMouseDown,
   mousemove: EventTypes.CanvasMouseMove,
-  mouseup: EventTypes.CanvasMouseUp
+  mouseup: EventTypes.CanvasMouseUp,
+  keypress: EventTypes.KeyPress
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -41,7 +42,8 @@ export default class CircuitCanvas extends React.Component {
   onKeyPress(event) {
     this.props.pushEvent({
       event,
-      type: 'Window KeyPress TODO'
+      type: convert[event.type],
+      char: String.fromCharCode(event.keyCode || event.charCode)
     });
   }
 
