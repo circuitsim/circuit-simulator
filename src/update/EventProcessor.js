@@ -8,12 +8,12 @@ const EventProcessor = function() {
    * Returns the current mode, and a queue of actions to perform.
    *
    * @returns {Object} r
-   * @returns {function} r.mode
+   * @returns {Mode} r.mode
    * @returns {ImmutableList} r.actions
    */
   this.process = (events, initialMode) => {
     return events.reduce((prev, event) => {
-      const {mode, action} = prev.mode(event);
+      const {mode, action} = prev.mode.handle(event);
       return {
         mode: mode || prev.mode,
         actions: action ? prev.actions.push(action) : prev.actions

@@ -10,31 +10,13 @@ import handleHover from '../../components/HighlightOnHover.jsx';
  * START ADDING ELEMENT
  */
 
-const StartAddElementAction = function(elemType, coords) {
-  this.do = (state) => {
-    const startPoint = Vector.fromObject(coords).snap(GRID_SIZE);
-    return state.set('addingElement', {
-        component: elemType,
-        props: {
-          id: uuid.v4(),
-          connectors: {
-            from: startPoint,
-            to: startPoint
-          }
-        },
-        startPoint
-      });
-  };
-};
-
 const addHandlers = {
   [EventTypes.CanvasMouseDown]: (elemType, coords) => ({
-      action: new StartAddElementAction(elemType, coords),
-      mode: Modes.addingElement
+      mode: Modes.adding(elemType, uuid.v4(), coords)
     })
 };
 
-export const handleStartAdd = elemType => event => {
+export const handleStartAddFor = elemType => event => {
   const handler = addHandlers[event.type];
   return handler ? handler(elemType, event.coords) : null;
 };
@@ -47,58 +29,67 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
   return !component.getConnectorPositions || component.getConnectorPositions(startPoint, dragPoint);
 };
 
-const MoveElementAction = function(coords) {
+const MoveElementAction = function(type, id, startCoords, dragCoords) {
   this.do = (state) => {
-    const elem = state.get('addingElement'),
-          startPoint = elem.startPoint,
-          dragPoint = Vector.fromObject(coords).snap(GRID_SIZE);
+    const startPoint = Vector.fromObject(startCoords).snap(GRID_SIZE),
+          dragPoint = Vector.fromObject(dragCoords).snap(GRID_SIZE);
 
     if (dragPoint.equals(startPoint)) {
       return state; // prevent zero size elements
     }
-    elem.props.connectors = getConnectorPositions(elem.component, startPoint, dragPoint);
-    return state.set('addingElement', elem);
+
+    return state.set('addingElement', {
+        component: type,
+        props: {
+          id,
+          connectors: getConnectorPositions(type, startPoint, dragPoint)
+        }
+      });
   };
 };
 
 const addingHandlers = {
-  [EventTypes.CanvasMouseMove]: (coords) => ({
-    action: new MoveElementAction(coords)
+  [EventTypes.CanvasMouseMove]: (type, id, start, drag) => ({
+    action: new MoveElementAction(type, id, start, drag)
   })
 };
 
-export const handleAdding = event => { // TODO make a reusable version of this
+export const handleAdding = (type, id, startCoords) => event => { // TODO make a reusable version of this
   const handler = addingHandlers[event.type];
-  return handler ? handler(event.coords) : null;
+  return handler ? handler(type, id, startCoords, event.coords) : null;
 };
 
 /*
  * FINISH ADDING
  */
 
-const AddElementAction = function() {
-  let id;
-  this.do = (state) => { // FIXME redo doesn't work - we need the element in the constructor
+const AddElementAction = function(id) {
+  let element;
+  this.do = (state) => {
+    if (element) { // redo
+      return state.setIn(['elements', id], element);
+    }
+    // adding for the first time - TODO get rid of 'addingElement'
     const elem = state.get('addingElement');
-    id = elem.props.id;
     elem.component = handleHover(elem.component);
     return state
       .setIn(['elements', id], elem)
       .set('addingElement', null);
   };
   this.undo = (state) => {
+    element = state.elements.get(id);
     return state.elements.delete(id);
   };
 };
 
 const finishAddingHandlers = {
-  [EventTypes.CanvasMouseUp]: () => ({
-    action: new AddElementAction(),
-    mode: Modes.default
+  [EventTypes.CanvasMouseUp]: (id, type) => ({
+    action: new AddElementAction(id),
+    mode: Modes.add(type)
   })
 };
 
-export const handleFinishAdding = event => { // TODO make a reusable version of this
+export const handleFinishAddFor = (id, type) => event => { // TODO make a reusable version of this
   const handler = finishAddingHandlers[event.type];
-  return handler ? handler() : null;
+  return handler ? handler(id, type) : null;
 };

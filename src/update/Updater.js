@@ -3,11 +3,11 @@ import Immutable from 'immutable';
 import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
 import Executor from './Executor.js';
+import Wire from '../components/elements/Wire.jsx';
 
 // --- TODO remove once code to add elements is removed
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
-import Resistor from '../components/elements/Resistor.jsx';
 import handleHover from '../components/HighlightOnHover.jsx';
 // ---
 
@@ -19,7 +19,7 @@ export default function() {
 
     let state = new Immutable.Map({
       canvasComponent,
-      mode: Modes.default,
+      mode: Modes.add(Wire),
       currentOffset: 0,
       elements: new Immutable.Map(), // elemID -> element
       addingElement: null // TODO remove this, just use a known ID in elements?
@@ -34,10 +34,10 @@ export default function() {
 
     // add initial element for hover testing
     const initialElem = {
-        component: handleHover(Resistor),
+        component: handleHover(Wire),
         props: {
           id: uuid.v4(),
-          connectors: Resistor.getConnectorPositions(
+          connectors: Wire.getConnectorPositions(
             new Vector(50, 50),
             new Vector(75, 75)
           )

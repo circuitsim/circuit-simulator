@@ -1,24 +1,7 @@
 import Immutable from 'immutable';
 
 import handleHover from './handlers/HoverHandler.js';
-import {handleStartAdd, handleAdding, handleFinishAdding} from './handlers/NewElementHandler.js';
-import Wire from '../components/elements/Wire.jsx';
-
-// TODO rather than returning a function, return {mode: 'modename', handle: eventHandler()}
-// so we can debug which mode we're in
-
-// ModeMap :: ModeName: Handler
-// Handler :: event => {mode, action} | null
-const Modes = new Immutable.Map({
-  default: [
-      handleHover,
-      handleStartAdd(Wire)
-    ],
-  addingElement: [
-      handleFinishAdding,
-      handleAdding
-    ]
-});
+import {handleStartAddFor, handleAdding, handleFinishAddFor} from './handlers/NewElementHandler.js';
 
 const isNotNull = x => x !== null;
 
@@ -35,7 +18,33 @@ const returnFirstResult = seq => input => {
     || {};
 };
 
-export default Modes
-  .map(handlers => new Immutable.Seq(handlers))
-  .map(handlersSeq => returnFirstResult(handlersSeq))
-  .toObject();
+// export default Modes
+//   .map(handlers => new Immutable.Seq(handlers))
+//   .map(handlersSeq => returnFirstResult(handlersSeq))
+//   .toObject();
+
+// TODO make reusable code
+const Modes = new Immutable.Record({
+  add: (type) => {
+    const handlers = [
+      handleHover,
+      handleStartAddFor(type)
+    ];
+    return {
+      name: 'add ' + type.name,
+      handle: returnFirstResult(new Immutable.Seq(handlers))
+    };
+  },
+  adding: (type, id, coords) => {
+    const handlers = [
+      handleAdding(type, id, coords),
+      handleFinishAddFor(id, type)
+    ];
+    return {
+      name: 'adding ' + type.name,
+      handle: returnFirstResult(new Immutable.Seq(handlers))
+    };
+  }
+});
+
+export default new Modes();
