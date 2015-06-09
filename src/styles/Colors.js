@@ -9,6 +9,7 @@ export const trans = function(color: string, by = 0.5) {
 const colors: { [key: string]: string } = {
   background: '#333',
   base: '#ccc',
+  highlight: 'white',
   theme: '#8800ff',
   transparent: 'rgba(0,0,0,0)',
 

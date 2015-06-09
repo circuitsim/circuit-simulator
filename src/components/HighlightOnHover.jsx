@@ -32,7 +32,7 @@ export default CircuitElement => {
               mouseOver: makeArtListener(this.push),
               mouseOut: makeArtListener(this.push)
             },
-            color = this.props.hover ? Colors.theme : Colors.base;
+            color = this.props.hover ? Colors.highlight : Colors.base;
 
       return (
         <CircuitElement ref='elem'
