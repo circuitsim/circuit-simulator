@@ -15,8 +15,7 @@ export default function() {
       canvasComponent,
       mode: Modes.add(Wire),
       currentOffset: 0,
-      elements: new Immutable.Map(), // elemID -> element
-      addingElement: null // TODO remove this, just use a known ID in elements?
+      elements: new Immutable.Map() // elemID -> element
     });
 
     const processEventQueue = () => {
@@ -33,17 +32,9 @@ export default function() {
       const actions = processEventQueue();
       state = executor.executeAll(actions, state);
 
-      const mutableState = state.toJS();
-
-      const elems = mutableState.elements;
-      const addingElem = mutableState.addingElement;
-      if (addingElem) {
-        elems[addingElem.props.id] = addingElem;
-      }
-
       return {
         props: {
-          elements: new Immutable.Map(elems),
+          elements: state.get('elements'),
           pushEvent: event => eventQueue.push(event)
         },
         context: {

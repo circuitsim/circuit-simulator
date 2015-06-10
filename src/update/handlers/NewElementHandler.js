@@ -38,7 +38,7 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
       return state; // prevent zero size elements
     }
 
-    return state.set('addingElement', {
+    return state.setIn(['elements', id], {
         component: type,
         props: {
           id,
@@ -69,15 +69,14 @@ const AddElementAction = function(id) {
     if (element) { // redo
       return state.setIn(['elements', id], element);
     }
-    // adding for the first time - TODO get rid of 'addingElement'
-    const elem = state.get('addingElement');
-    if (!elem) {
+    // adding for the first time
+    element = state.getIn(['elements', id]);
+    if (!element) {
       return state;
     }
-    elem.component = handleHover(elem.component);
+    element.component = handleHover(element.component);
     return state
-      .setIn(['elements', id], elem)
-      .set('addingElement', null);
+      .setIn(['elements', id], element);
   };
   this.undo = (state) => {
     element = state.elements.get(id);

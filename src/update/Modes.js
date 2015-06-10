@@ -4,6 +4,8 @@ import handleHover from './handlers/HoverHandler.js';
 import {handleStartAddFor, handleAdding, handleFinishAddFor} from './handlers/NewElementHandler.js';
 import handleElementTypeChange from './handlers/KeyPressHandler.js';
 
+// TODO think about modelling Modes as a state machine
+
 const isNotNull = x => x !== null;
 
 /**
@@ -26,6 +28,7 @@ const returnFirstResult = seq => input => {
 
 // TODO make reusable code
 const Modes = new Immutable.Record({
+
   add: (type) => {
     const handlers = [
       handleElementTypeChange,
@@ -37,6 +40,7 @@ const Modes = new Immutable.Record({
       handle: returnFirstResult(new Immutable.Seq(handlers))
     };
   },
+
   adding: (type, id, coords) => {
     const handlers = [
       handleAdding(type, id, coords),
