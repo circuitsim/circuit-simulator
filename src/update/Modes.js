@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 
 import handleHover from './handlers/HoverHandler.js';
 import {handleStartAddFor, handleAdding, handleFinishAddFor} from './handlers/NewElementHandler.js';
-import handleElementTypeChange from './handlers/KeyPressHandler.js';
+import handleKeyPress from './handlers/KeyPressHandler.js';
 
 // TODO think about modelling Modes as a state machine
 
@@ -31,7 +31,7 @@ const Modes = new Immutable.Record({
 
   add: (type) => {
     const handlers = [
-      handleElementTypeChange,
+      handleKeyPress,
       handleHover,
       handleStartAddFor(type)
     ];

@@ -6,7 +6,7 @@ import {Map} from 'immutable';
 import Colors from '../styles/Colors.js';
 import EventTypes from '../update/EventTypes.js';
 import {relMouseCoords} from './utils/DrawingUtils.js';
-
+import {getKeyCombo} from './utils/KeyboardShortcuts.js';
 
 const Surface = ReactArt.Surface;
 
@@ -20,14 +20,14 @@ const convert = {
   mousedown: EventTypes.CanvasMouseDown,
   mousemove: EventTypes.CanvasMouseMove,
   mouseup: EventTypes.CanvasMouseUp,
-  keypress: EventTypes.KeyPress
+  keydown: EventTypes.KeyDown
 };
 
 export default class CircuitCanvas extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onKeyPress = this.onKeyPress.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onMouse = this.onMouse.bind(this);
   }
 
@@ -39,20 +39,20 @@ export default class CircuitCanvas extends React.Component {
     });
   }
 
-  onKeyPress(event) {
+  onKeyDown(event) {
     this.props.pushEvent({
       event,
       type: convert[event.type],
-      char: String.fromCharCode(event.keyCode || event.charCode)
+      keys: getKeyCombo(event)
     });
   }
 
   componentDidMount() {
-    window.addEventListener('keypress', this.onKeyPress);
+    window.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keypress', this.onKeyPress);
+    window.removeEventListener('keydown', this.onKeyDown);
   }
 
   render() {

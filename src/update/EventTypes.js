@@ -6,5 +6,5 @@ export default new Enum(
   'CanvasMouseDown',
   'CanvasMouseMove',
   'CanvasMouseUp',
-  'KeyPress'
+  'KeyDown'
 );
