@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 
-import {GRID_SIZE} from '../../components/utils/Constants.js';
+import {GRID_SIZE} from '../../utils/Constants.js';
 import EventTypes from '../EventTypes.js';
 import Modes from '../Modes.js';
 import handleHover from '../../components/HighlightOnHover.jsx';

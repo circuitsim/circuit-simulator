@@ -2,7 +2,7 @@ import React from 'react';
 import {Path} from 'react-art';
 
 import Vector from 'immutable-vector2d';
-import {LINE_WIDTH, GRID_SIZE} from './Constants.js';
+import {LINE_WIDTH, GRID_SIZE} from '../../utils/Constants.js';
 
 const utils = {
   // credit to: https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element

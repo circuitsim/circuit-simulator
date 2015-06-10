@@ -7,7 +7,7 @@ import BoundingBox from '../BoundingBox.jsx';
 import CurrentPath from '../CurrentPath.jsx';
 
 import {drawLine, drawCircle, PropTypes, midPoint, diff, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
-import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../utils/Constants.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 

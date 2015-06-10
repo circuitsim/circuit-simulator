@@ -1,6 +1,6 @@
 import EventTypes from '../EventTypes.js';
 import Modes from '../Modes.js';
-import {KeyToElement} from '../../components/utils/KeyboardShortcuts.js';
+import {KeyToElement} from '../../utils/KeyboardShortcuts.js';
 
 const keyPressHandlers = {
   [EventTypes.KeyDown]: (keys) => ({

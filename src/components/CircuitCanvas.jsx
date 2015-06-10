@@ -6,7 +6,7 @@ import {Map} from 'immutable';
 import Colors from '../styles/Colors.js';
 import EventTypes from '../update/EventTypes.js';
 import {relMouseCoords} from './utils/DrawingUtils.js';
-import {getKeyCombo} from './utils/KeyboardShortcuts.js';
+import {getKeyCombo} from '../utils/KeyboardShortcuts.js';
 
 const Surface = ReactArt.Surface;
 

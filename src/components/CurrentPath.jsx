@@ -6,7 +6,7 @@ import Circle from 'react-art/shapes/circle';
 import MetricsPath from 'art/metrics/path';
 
 import {PropTypes, diff} from './utils/DrawingUtils.js';
-import {CURRENT} from './utils/Constants.js';
+import {CURRENT} from '../utils/Constants.js';
 
 import Colors from '../styles/Colors.js';
 

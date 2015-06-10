@@ -1,6 +1,6 @@
 import Enum from 'symbol-enum';
 
-import CircuitElements from '../elements/All.js';
+import CircuitElements from '../components/elements/All.js';
 
 const Keys = new Enum(
   'c',

@@ -7,7 +7,7 @@ import BoundingBox from '../BoundingBox.jsx';
 import CurrentPath from '../CurrentPath.jsx';
 
 import {drawRectBetweenTwoPoints, drawLine, PropTypes, midPoint, diff, get2PointConnectorPositionsFor} from '../utils/DrawingUtils.js';
-import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE} from '../utils/Constants.js';
+import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE} from '../../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 
