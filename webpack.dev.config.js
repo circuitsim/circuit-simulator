@@ -6,15 +6,15 @@ var path = require('path'),
 var baseDir = path.resolve(__dirname),
     nodeModulesDir = path.resolve(baseDir, 'node_modules'),
 
-    pathToMain = path.resolve(baseDir, 'dev/main.jsx'),
-    indexHtml = jade.compileFile(path.resolve(baseDir, 'dev/index.jade'));
+    pathToEntry = path.resolve(baseDir, 'demo/demo.jsx'),
+    indexHtml = jade.compileFile(path.resolve(baseDir, 'demo/index.jade'));
 
     // jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
 
 var config = {
   entry: {
     /* NOTE: React hot loader doesn't work with higher-order components :( */
-    app: ['webpack/hot/dev-server', pathToMain],
+    app: ['webpack/hot/dev-server', pathToEntry],
     vendor: ['react', 'react-art', 'art', 'reflux']
   },
   resolve: {
