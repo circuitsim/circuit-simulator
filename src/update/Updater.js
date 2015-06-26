@@ -73,32 +73,36 @@ export default function() {
     return actions;
   };
 
-  let i = state.get('elements').size;
+  let i = state.get('elements').size; // DEBUG
 
-  this.getUpdateFor = (/*canvasComponent*/ /* TODO remove this from Animator? */) => {
+  // uses previous state + delta to calculate new props for CircuitCanvas
+  const update = (delta) => {
+    state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
-    // uses previous state + delta to calculate new props for CircuitCanvas
-    const update = (delta) => {
-      state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
-
-      const actions = processEventQueue();
-      state = executor.executeAll(actions, state);
-
-      if (i !== state.get('elements').size) {
-        printModel(state.get('elements'));
-        i++;
+    return {
+      props: {
+        elements: state.get('elements'),
+        pushEvent: event => eventQueue.push(event)
+      },
+      context: {
+        currentOffset: state.get('currentOffset')
       }
-
-      return {
-        props: {
-          elements: state.get('elements'),
-          pushEvent: event => eventQueue.push(event)
-        },
-        context: {
-          currentOffset: state.get('currentOffset')
-        }
-      };
     };
-    return update;
+  };
+
+  const begin = () => {
+    const actions = processEventQueue();
+    state = executor.executeAll(actions, state);
+
+    // DEBUG
+    if (i !== state.get('elements').size) {
+      printModel(state.get('elements'));
+      i++;
+    }
+  };
+
+  return {
+    update,
+    begin
   };
 }

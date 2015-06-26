@@ -19,7 +19,8 @@ export default class CircuitDiagram extends React.Component {
   }
 
   render() {
-    const Diagram = animate(CircuitCanvas, this.state.updater.getUpdateFor);
+    const updater = this.state.updater,
+          Diagram = animate(CircuitCanvas, updater.update, updater.begin);
     return (
       <Diagram
         width={this.props.width}
