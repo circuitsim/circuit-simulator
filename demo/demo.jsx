@@ -6,8 +6,6 @@ import React from 'react';
 
 import {FullWindow, CircuitDiagram} from '../src/main.js';
 
-import './styles.scss';
-
 const rootInstance = React.render(
   <FullWindow>
     <CircuitDiagram />
