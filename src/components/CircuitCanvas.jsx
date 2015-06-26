@@ -16,6 +16,8 @@ const addPropsAndCreate = (extraProps) => (element) => {
   return React.createElement(element.component, props);
 };
 
+const toJS = e => e.toJS();
+
 const convert = {
   mousedown: EventTypes.CanvasMouseDown,
   mousemove: EventTypes.CanvasMouseMove,
@@ -58,6 +60,7 @@ export default class CircuitCanvas extends React.Component {
   render() {
     const elements = this.props.elements
       .toList()
+      .map(toJS)
       .map(addPropsAndCreate({
         pushEvent: this.props.pushEvent
       }));

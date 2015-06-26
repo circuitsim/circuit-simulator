@@ -2,18 +2,13 @@ import EventTypes from '../EventTypes.js';
 
 const HighlightElementAction = function(elemID) {
   this.do = (state) => {
-    // this is a bit nasty...
-    const elem = state.getIn(['elements', elemID]);
-    elem.props.hover = true;
-    return state.setIn(['elements', elemID], elem);
+    return state.updateIn(['elements', elemID, 'props', 'hover'], () => true);
   };
 };
 
 const UnhighlightElementAction = function(elemID) {
   this.do = (state) => {
-    const elem = state.getIn(['elements', elemID]);
-    elem.props.hover = false;
-    return state.setIn(['elements', elemID], elem);
+    return state.updateIn(['elements', elemID, 'props', 'hover'], () => false);
   };
 };
 

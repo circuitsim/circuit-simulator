@@ -1,5 +1,6 @@
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
+import Immutable from 'immutable';
 
 import {GRID_SIZE} from '../../utils/Constants.js';
 import EventTypes from '../EventTypes.js';
@@ -38,13 +39,14 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
       return state; // prevent zero size elements
     }
 
-    return state.setIn(['elements', id], {
+    return state.setIn(['elements', id],
+      Immutable.fromJS({
         component: type,
         props: {
           id,
           connectors: getConnectorPositions(type, startPoint, dragPoint)
         }
-      });
+      }));
   };
 };
 
@@ -70,9 +72,8 @@ const AddElementAction = function(id) {
     if (!element) {
       return state;
     }
-    // FIXME this will happen every time we redo - element should be immutable?
-    element.component = handleHover(element.component);
-    return state.setIn(['elements', id], element);
+    const e = element.update('component', component => handleHover(component));
+    return state.setIn(['elements', id], e);
   };
   this.undo = (state) => {
     return state.elements.delete(id);

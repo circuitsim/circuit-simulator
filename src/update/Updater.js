@@ -96,7 +96,7 @@ export default function() {
 
     // DEBUG
     if (i !== state.get('elements').size) {
-      printModel(state.get('elements'));
+      // printModel(state.get('elements'));
       i++;
     }
   };
