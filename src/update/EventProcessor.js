@@ -12,11 +12,11 @@ const EventProcessor = function() {
    * @returns {ImmutableList} r.actions
    */
   this.process = (events, initialMode) => {
-    return events.reduce((prev, event) => {
-      const {mode, action} = prev.mode.handle(event);
+    return events.reduce(({mode, actions}, event) => {
+      const {mode: nextMode, action} = mode.handle(event);
       return {
-        mode: mode || prev.mode,
-        actions: action ? prev.actions.push(action) : prev.actions
+        mode: nextMode || mode,
+        actions: action ? actions.push(action) : actions
       };
     }, {
       mode: initialMode,

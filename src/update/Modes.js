@@ -21,11 +21,6 @@ const returnFirstResult = seq => input => {
     || {};
 };
 
-// export default Modes
-//   .map(handlers => new Immutable.Seq(handlers))
-//   .map(handlersSeq => returnFirstResult(handlersSeq))
-//   .toObject();
-
 // TODO make reusable code
 const Modes = new Immutable.Record({
 

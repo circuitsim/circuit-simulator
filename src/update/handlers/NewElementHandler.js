@@ -66,20 +66,15 @@ export const handleAdding = (type, id, startCoords) => event => { // TODO make a
 const AddElementAction = function(id) {
   let element;
   this.do = (state) => {
-    if (element) { // redo
-      return state.setIn(['elements', id], element);
-    }
-    // adding for the first time
-    element = state.getIn(['elements', id]);
+    element = element || state.getIn(['elements', id]);
     if (!element) {
       return state;
     }
+    // FIXME this will happen every time we redo - element should be immutable?
     element.component = handleHover(element.component);
-    return state
-      .setIn(['elements', id], element);
+    return state.setIn(['elements', id], element);
   };
   this.undo = (state) => {
-    element = state.elements.get(id);
     return state.elements.delete(id);
   };
 };
