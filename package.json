@@ -54,7 +54,7 @@
     "eslint": "^0.23",
     "eslint-loader": "^0.14",
     "eslint-plugin-react": "^2.2.0",
-    "expose-loader": "^0.6",
+    "expose-loader": "^0.7",
     "file-loader": "^0.8.1",
     "flowcheck": "^0.2.6",
     "flowcheck-loader": "^1.0.0",
