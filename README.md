@@ -1,6 +1,9 @@
 Circuit Diagram
 ===============
 
+[![David](https://img.shields.io/david/circuitsim/circuit-diagram.svg?style=flat-square)](https://david-dm.org/circuitsim/circuit-diagram)
+[![David](https://img.shields.io/david/dev/circuitsim/circuit-diagram.svg?style=flat-square)](https://david-dm.org/circuitsim/circuit-diagram#info=devDependencies)
+
 A view layer for drawing interactive circuit diagrams.
 
 ## TODO
