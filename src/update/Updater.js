@@ -4,18 +4,17 @@ import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
 import Executor from './Executor.js';
 import Wire from '../components/elements/Wire.jsx';
-import toModels from '../models/ModelMap.js';
 
-const listConnectorVectors = connectorMap => {
-  return Object.keys(connectorMap)
-    .map(name => connectorMap[name]);
+const viewModelChanged = (state1, state2) => {
+  return state1.get('elements') !== state2.get('elements');
 };
 
 const toConnectors = elem => {
-  return listConnectorVectors(elem.props.connectors)
+  return elem.getIn(['props', 'connectors'])
+    .valueSeq()
     .map(vector => ({
       pos: vector,
-      link: elem.props.id
+      link: elem.getIn(['props', 'id'])
     }));
 };
 
@@ -34,9 +33,9 @@ const giveOrderedID = (node, i) => {
 
 const position = connector => connector.pos.toString();
 
-const printModel = elements => {
+const toModel = elements => {
 
-  const elementModels = elements.map(toModels);
+  const links = new Immutable.List(); // TODO map element views to models
 
   const nodes = elements
     .valueSeq()
@@ -45,14 +44,12 @@ const printModel = elements => {
     .map(mergeLinks).valueSeq()
     .map(giveOrderedID);
 
-  // TODO tell each model which nodes it is connected to
-  // TODO we don't need to do this every update()
-  //   the circuit model should be re-made only when the circuit changes
-  //   we analyse() based on this model
+  // TODO tell each link which nodes it is connected to
 
-  console.log('Updater - pseudo nodes:', nodes.toJS());
-  console.log('Updater - element models:', elementModels.toJS());
-
+  return {
+    nodes,
+    links
+  };
 };
 
 export default function() {
@@ -73,8 +70,6 @@ export default function() {
     return actions;
   };
 
-  let i = state.get('elements').size; // DEBUG
-
   // uses previous state + delta to calculate new props for CircuitCanvas
   const update = (delta) => {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
@@ -92,12 +87,14 @@ export default function() {
 
   const begin = () => {
     const actions = processEventQueue();
-    state = executor.executeAll(actions, state);
+    const oldState = state;
+    state = executor.executeAll(actions, oldState);
+    if (viewModelChanged(state, oldState)) {
+      // this will cause re-analysis even when hover-highlighting... could be better
+      const {nodes, links} = toModel(state.get('elements'));
 
-    // DEBUG
-    if (i !== state.get('elements').size) {
-      // printModel(state.get('elements'));
-      i++;
+      console.log('Updater - pseudo nodes:', nodes.toJS());
+      console.log('Updater - element models:', links.toJS());
     }
   };
 
