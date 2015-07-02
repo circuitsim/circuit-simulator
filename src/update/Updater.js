@@ -10,11 +10,12 @@ const viewModelChanged = (state1, state2) => {
 };
 
 const toConnectors = elem => {
-  return elem.getIn(['props', 'connectors'])
+  const props = elem.get('props');
+  return props.get('connectors')
     .valueSeq()
     .map(vector => ({
       pos: vector,
-      link: elem.getIn(['props', 'id'])
+      link: props.get('id')
     }));
 };
 
