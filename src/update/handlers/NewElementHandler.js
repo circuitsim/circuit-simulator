@@ -42,6 +42,7 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
     return state.setIn(['elements', id],
       Immutable.fromJS({
         component: type,
+        model: type.model,
         props: {
           id,
           connectors: getConnectorPositions(type, startPoint, dragPoint)
@@ -66,14 +67,16 @@ export const handleAdding = (type, id, startCoords) => event => { // TODO make a
  */
 
 const AddElementAction = function(id) {
-  let element;
+  let element; // TODO should make this const...
   this.do = (state) => {
-    element = element || state.getIn(['elements', id]);
-    if (!element) {
-      return state;
-    }
-    const e = element.update('component', component => handleHover(component));
-    return state.setIn(['elements', id], e);
+    return state.updateIn(['elements', id], (existing) => {
+      element = element || existing;
+      if (!element) {
+        return existing;
+      }
+      const e = element.update('component', component => handleHover(component));
+      return e;
+    });
   };
   this.undo = (state) => {
     return state.elements.delete(id);
