@@ -27,7 +27,7 @@ export const handleStartAddFor = elemType => event => {
  */
 
 const getConnectorPositions = function(component, startPoint, dragPoint) {
-  return !component.getConnectorPositions || component.getConnectorPositions(startPoint, dragPoint);
+  return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
 };
 
 const MoveElementAction = function(type, id, startCoords, dragCoords) {
