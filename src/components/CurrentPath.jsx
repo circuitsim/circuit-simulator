@@ -16,8 +16,7 @@ import Colors from '../styles/Colors.js';
 export default class CurrentPath extends React.Component {
 
   render() {
-    const end1 = this.props.connectors.from,
-          end2 = this.props.connectors.to,
+    const [end1, end2] = this.props.connectors,
           d = diff(end1, end2),
 
           path = new MetricsPath()
@@ -51,10 +50,7 @@ export default class CurrentPath extends React.Component {
 }
 
 CurrentPath.propTypes = {
-  connectors: React.PropTypes.shape({
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
-  }).isRequired,
+  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   current: React.PropTypes.number
 };
 

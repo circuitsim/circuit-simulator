@@ -16,8 +16,7 @@ const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 export default class Resistor extends React.Component {
 
   render() {
-    const wireEnd1 = this.props.connectors.from,
-          wireEnd2 = this.props.connectors.to,
+    const [wireEnd1, wireEnd2] = this.props.connectors,
 
           n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
           mid = midPoint(wireEnd1, wireEnd2),
@@ -50,10 +49,7 @@ export default class Resistor extends React.Component {
           d={wirePath2}
         />
         <CurrentPath
-          connectors={{
-            from: wireEnd1,
-            to: wireEnd2
-          }}
+          connectors={this.props.connectors}
         />
       </BoundingBox>
     );
@@ -61,10 +57,7 @@ export default class Resistor extends React.Component {
 }
 
 Resistor.propTypes = {
-  connectors: React.PropTypes.shape({
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
-  }).isRequired,
+  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
     mouseOver: PropTypes.ArtListener,

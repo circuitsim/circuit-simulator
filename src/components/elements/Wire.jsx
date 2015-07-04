@@ -16,8 +16,7 @@ const MIN_LENGTH = GRID_SIZE;
 export default class Wire extends React.Component {
 
   render() {
-    const end1 = this.props.connectors.from,
-          end2 = this.props.connectors.to,
+    const [end1, end2] = this.props.connectors,
           wirePath = drawLine(end1, end2);
     return (
       <BoundingBox
@@ -31,10 +30,7 @@ export default class Wire extends React.Component {
           d={wirePath}
         />
         <CurrentPath
-          connectors={{
-            from: end1,
-            to: end2
-          }}
+          connectors={this.props.connectors}
         />
       </BoundingBox>
     );
@@ -42,10 +38,7 @@ export default class Wire extends React.Component {
 }
 
 Wire.propTypes = {
-  connectors: React.PropTypes.shape({
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
-  }).isRequired,
+  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
     mouseOver: PropTypes.ArtListener,

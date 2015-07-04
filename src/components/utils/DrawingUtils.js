@@ -51,7 +51,7 @@ const utils = {
     return function(startPoint: Vector, dragPoint: Vector) {
       startPoint = startPoint.snap(GRID_SIZE);
       const v = utils.diff(dragPoint, startPoint).minLength(minLength);
-      return {from: startPoint, to: startPoint.add(v).snap(GRID_SIZE)};
+      return [startPoint, startPoint.add(v).snap(GRID_SIZE)];
     };
   },
 

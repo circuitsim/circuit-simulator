@@ -16,8 +16,7 @@ const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 export default class CurrentSource extends React.Component {
 
   render() {
-    const wireEnd1 = this.props.connectors.from,
-          wireEnd2 = this.props.connectors.to,
+    const [wireEnd1, wireEnd2] = this.props.connectors,
 
           mid = midPoint(wireEnd1, wireEnd2),
           n = diff(wireEnd1, wireEnd2).normalize(),
@@ -62,10 +61,7 @@ export default class CurrentSource extends React.Component {
           d={wirePath2}
         />
         <CurrentPath
-          connectors={{
-            from: wireEnd1,
-            to: wireEnd2
-          }}
+          connectors={this.props.connectors}
         />
       </BoundingBox>
     );
@@ -73,10 +69,7 @@ export default class CurrentSource extends React.Component {
 }
 
 CurrentSource.propTypes = {
-  connectors: React.PropTypes.shape({
-    from: PropTypes.Vector.isRequired,
-    to: PropTypes.Vector.isRequired
-  }).isRequired,
+  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
     mouseOver: PropTypes.ArtListener,
