@@ -11,47 +11,45 @@ const viewModelChanged = (state1, state2) => {
 
 const toConnectors = elem => {
   const props = elem.get('props');
-  return props.get('connectors')
-    .valueSeq()
-    .map(vector => ({
+  return props
+    .get('connectors')
+    .map((vector, key) => ({
       pos: vector,
-      link: props.get('id')
+      id: {
+        viewID: props.get('id'),
+        connectorID: key
+      }
     }));
 };
 
-const mergeLinks = connectors => {
-  return connectors.reduce((cs, c) => {
-    cs.links.push(c.link);
-    return cs;
-  }, {
-    links: []
-  });
+const merge = connectors => {
+  return connectors
+    .reduce((nodeIDs, c) => {
+      return nodeIDs.push(c.id);
+    }, new Immutable.List());
 };
 
-const giveOrderedID = (node, i) => {
-  return Object.assign({id: i}, node);
+const giveOrderedID = (map, node, i) => {
+  return map.set(i, node);
 };
 
 const position = connector => connector.pos.toString();
 
-const updateModel = (views, models) => {
+const updateNodes = elements => elements // withMutations?
+  .valueSeq()
+  .flatMap(toConnectors)
+  .groupBy(position).valueSeq()
+  .map(merge)
+  .reduce(giveOrderedID, new Immutable.Map());
 
-  const nodes = views
-    .valueSeq()
-    .flatMap(toConnectors)
-    .groupBy(position)
-    .map(mergeLinks).valueSeq()
-    .map(giveOrderedID);
-
-  // const links = models.
-
-  // TODO tell each link which nodes it is connected to
-
-  return {
-    nodes,
-    links
-  };
-};
+const updateEdges = (models, nodes) => models
+  .withMutations(ms => {
+    nodes.forEach((node, nodeID) => {
+      node.forEach(connector => {
+        ms.setIn([connector.viewID, 'nodes', connector.connectorID], nodeID);
+      });
+    });
+  });
 
 export default function() {
   const eventProcessor = new EventProcessor();
@@ -61,8 +59,8 @@ export default function() {
   let state = new Immutable.Map({
     mode: Modes.add(Wire),
     currentOffset: 0,
-    models: new Immutable.Map(), // elemID -> element model
     elements: new Immutable.Map(), // elemID -> element view
+    models: new Immutable.Map(), // elemID -> element model
     nodes: new Immutable.Map() // nodeID -> node
   });
 
@@ -94,12 +92,15 @@ export default function() {
     state = executor.executeAll(actions, oldState);
     if (viewModelChanged(state, oldState)) {
       // this will cause re-analysis even when hover-highlighting... could be better
-      const {nodes, links} = updateModel(state.get('elements'), state.get('models'));
+      const nodes = updateNodes(state.get('elements'));
+      const edges = updateEdges(state.get('models'), nodes);
 
-      // TODO put updated nodes and links back into state
+      state = state.withMutations(s => {
+        s.set('nodes', nodes).set('models', edges);
+      });
 
-      console.log('Updater - pseudo nodes:', nodes.toJS());
-      console.log('Updater - element models:', links.toJS());
+      console.log('Updater - nodes:', nodes.toJS());
+      console.log('Updater - element models:', edges.toJS());
     }
   };
 

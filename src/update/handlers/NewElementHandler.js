@@ -40,11 +40,8 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
     }
 
     return state
-      .setIn(['models', id],
-        Immutable.fromJS({
-          model: type.model
-        })
-      ).setIn(['elements', id],
+      .setIn(['models', id], type.model)
+      .setIn(['elements', id],
         Immutable.fromJS({
           component: type,
           props: {
@@ -84,7 +81,7 @@ const AddElementAction = function(id) {
     });
   };
   this.undo = (state) => {
-    return state.elements.delete(id);
+    return state.elements.delete(id); // FIXME
   };
 };
 

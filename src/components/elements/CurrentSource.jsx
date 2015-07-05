@@ -1,5 +1,6 @@
 import React from 'react';
 import {Shape} from 'react-art';
+import {COMPONENTS} from 'circuit-models';
 
 import Colors from '../../styles/Colors.js';
 
@@ -10,8 +11,9 @@ import {drawLine, drawCircle, PropTypes, midPoint, diff, get2PointConnectorPosit
 import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
-
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
+
+const {CurrentSource: CurrentSourceModel} = COMPONENTS;
 
 export default class CurrentSource extends React.Component {
 
@@ -83,3 +85,5 @@ CurrentSource.defaultProps = {
 };
 
 CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
+
+CurrentSource.model = CurrentSourceModel;

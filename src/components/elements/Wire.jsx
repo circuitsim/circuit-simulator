@@ -1,5 +1,6 @@
 import React from 'react';
 import {Shape} from 'react-art';
+import {COMPONENTS} from 'circuit-models';
 
 import Colors from '../../styles/Colors.js';
 
@@ -10,8 +11,9 @@ import {drawLine, PropTypes, get2PointConnectorPositionsFor} from '../utils/Draw
 import {LINE_WIDTH, BOUNDING_BOX_PADDING, GRID_SIZE} from '../../utils/Constants.js';
 
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
-
 const MIN_LENGTH = GRID_SIZE;
+
+const {Wire: WireModel} = COMPONENTS;
 
 export default class Wire extends React.Component {
 
@@ -52,3 +54,5 @@ Wire.defaultProps = {
 };
 
 Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
+
+Wire.model = WireModel;
