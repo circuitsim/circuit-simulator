@@ -2,13 +2,13 @@ import EventTypes from '../EventTypes.js';
 
 const HighlightElementAction = function(elemID) {
   this.do = (state) => {
-    return state.updateIn(['elements', elemID, 'props', 'hover'], () => true);
+    return state.updateIn(['views', elemID, 'props', 'hover'], () => true);
   };
 };
 
 const UnhighlightElementAction = function(elemID) {
   this.do = (state) => {
-    return state.updateIn(['elements', elemID, 'props', 'hover'], () => false);
+    return state.updateIn(['views', elemID, 'props', 'hover'], () => false);
   };
 };
 

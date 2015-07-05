@@ -6,7 +6,7 @@ import Executor from './Executor.js';
 import Wire from '../components/elements/Wire.jsx';
 
 const viewModelChanged = (state1, state2) => {
-  return state1.get('elements') !== state2.get('elements');
+  return state1.get('views') !== state2.get('views');
 };
 
 const toConnectors = elem => {
@@ -35,7 +35,7 @@ const giveOrderedID = (map, node, i) => {
 
 const position = connector => connector.pos.toString();
 
-const updateNodes = elements => elements // withMutations?
+const updateNodes = views => views // withMutations?
   .valueSeq()
   .flatMap(toConnectors)
   .groupBy(position).valueSeq()
@@ -59,7 +59,7 @@ export default function() {
   let state = new Immutable.Map({
     mode: Modes.add(Wire),
     currentOffset: 0,
-    elements: new Immutable.Map(), // elemID -> element view
+    views: new Immutable.Map(), // elemID -> element view
     models: new Immutable.Map(), // elemID -> element model
     nodes: new Immutable.Map() // nodeID -> node
   });
@@ -77,7 +77,7 @@ export default function() {
 
     return {
       props: {
-        elements: state.get('elements'),
+        elements: state.get('views'),
         pushEvent: event => eventQueue.push(event)
       },
       context: {
@@ -92,7 +92,7 @@ export default function() {
     state = executor.executeAll(actions, oldState);
     if (viewModelChanged(state, oldState)) {
       // this will cause re-analysis even when hover-highlighting... could be better
-      const nodes = updateNodes(state.get('elements'));
+      const nodes = updateNodes(state.get('views'));
       const edges = updateEdges(state.get('models'), nodes);
 
       state = state.withMutations(s => {

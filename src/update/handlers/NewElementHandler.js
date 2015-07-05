@@ -36,12 +36,12 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
           dragPoint = Vector.fromObject(dragCoords).snap(GRID_SIZE);
 
     if (dragPoint.equals(startPoint)) {
-      return state; // prevent zero size elements
+      return state; // prevent zero size views
     }
 
     return state
       .setIn(['models', id], type.model)
-      .setIn(['elements', id],
+      .setIn(['views', id],
         Immutable.fromJS({
           component: type,
           props: {
@@ -71,7 +71,7 @@ export const handleAdding = (type, id, startCoords) => event => { // TODO make a
 const AddElementAction = function(id) {
   let element; // TODO should make this const...
   this.do = (state) => {
-    return state.updateIn(['elements', id], (existing) => {
+    return state.updateIn(['views', id], (existing) => {
       element = element || existing;
       if (!element) {
         return existing;
@@ -81,7 +81,7 @@ const AddElementAction = function(id) {
     });
   };
   this.undo = (state) => {
-    return state.elements.delete(id); // FIXME
+    return state.views.delete(id); // FIXME
   };
 };
 
