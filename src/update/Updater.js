@@ -5,11 +5,11 @@ import Modes from './Modes.js';
 import Executor from './Executor.js';
 import Wire from '../components/elements/Wire.jsx';
 
-const viewModelChanged = (state1, state2) => {
+function viewModelChanged(state1, state2) {
   return state1.get('views') !== state2.get('views');
-};
+}
 
-const toConnectors = elem => {
+function toConnectors(elem) {
   const props = elem.get('props');
   return props
     .get('connectors')
@@ -20,38 +20,42 @@ const toConnectors = elem => {
         connectorID: key
       }
     }));
-};
+}
 
-const merge = connectors => {
+function merge(connectors) {
   return connectors
     .reduce((nodeIDs, c) => {
       return nodeIDs.push(c.id);
     }, new Immutable.List());
-};
+}
 
-const giveOrderedID = (map, node, i) => {
+function giveOrderedID(map, node, i) {
   return map.set(i, node);
-};
+}
 
-const position = connector => connector.pos.toString();
+function position(connector) { return connector.pos.toString(); }
 
-const updateNodes = views => views // withMutations?
-  .valueSeq()
-  .flatMap(toConnectors)
-  .groupBy(position).valueSeq()
-  .map(merge)
-  .reduce(giveOrderedID, new Immutable.Map());
+function toNodes(views) {
+  return views // withMutations?
+    .valueSeq()
+    .flatMap(toConnectors)
+    .groupBy(position).valueSeq()
+    .map(merge)
+    .reduce(giveOrderedID, new Immutable.Map());
+}
 
-const updateEdges = (models, nodes) => models
-  .withMutations(ms => {
-    nodes.forEach((node, nodeID) => {
-      node.forEach(connector => {
-        ms.setIn([connector.viewID, 'nodes', connector.connectorID], nodeID);
+function updateEdges(models, nodes) {
+  return models
+    .withMutations(ms => {
+      nodes.forEach((node, nodeID) => {
+        node.forEach(connector => {
+          ms.setIn([connector.viewID, 'nodes', connector.connectorID], nodeID);
+        });
       });
     });
-  });
+}
 
-export default function() {
+function Updater() {
   const eventProcessor = new EventProcessor();
   const executor = new Executor();
 
@@ -64,15 +68,15 @@ export default function() {
     nodes: new Immutable.Map() // nodeID -> node
   });
 
-  const processEventQueue = () => {
+  function processEventQueue() {
     const {mode, actions} = eventProcessor.process(eventQueue, state.get('mode'));
     eventQueue = [];
     state = state.set('mode', mode);
     return actions;
-  };
+  }
 
   // uses previous state + delta to calculate new props for CircuitCanvas
-  const update = (delta) => {
+  function update(delta) {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
     return {
@@ -84,15 +88,17 @@ export default function() {
         currentOffset: state.get('currentOffset')
       }
     };
-  };
+  }
 
-  const begin = () => {
+  function begin() {
     const actions = processEventQueue();
     const oldState = state;
     state = executor.executeAll(actions, oldState);
     if (viewModelChanged(state, oldState)) {
-      // this will cause re-analysis even when hover-highlighting... could be better
-      const nodes = updateNodes(state.get('views'));
+      // FIXME this will cause re-analysis even when hover-highlighting... could be better
+
+      // create a graph of the circuit that we can use to analyse
+      const nodes = toNodes(state.get('views'));
       const edges = updateEdges(state.get('models'), nodes);
 
       state = state.withMutations(s => {
@@ -102,10 +108,12 @@ export default function() {
       console.log('Updater - nodes:', nodes.toJS());
       console.log('Updater - element models:', edges.toJS());
     }
-  };
+  }
 
   return {
-    update,
-    begin
+    begin,
+    update
   };
 }
+
+export default Updater;
