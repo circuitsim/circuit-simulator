@@ -34,16 +34,16 @@ const giveOrderedID = (node, i) => {
 
 const position = connector => connector.pos.toString();
 
-const toModel = elements => {
+const updateModel = (views, models) => {
 
-  const links = new Immutable.List(); // TODO map element views to models
-
-  const nodes = elements
+  const nodes = views
     .valueSeq()
     .flatMap(toConnectors)
     .groupBy(position)
     .map(mergeLinks).valueSeq()
     .map(giveOrderedID);
+
+  // const links = models.
 
   // TODO tell each link which nodes it is connected to
 
@@ -61,7 +61,9 @@ export default function() {
   let state = new Immutable.Map({
     mode: Modes.add(Wire),
     currentOffset: 0,
-    elements: new Immutable.Map() // elemID -> element
+    models: new Immutable.Map(), // elemID -> element model
+    elements: new Immutable.Map(), // elemID -> element view
+    nodes: new Immutable.Map() // nodeID -> node
   });
 
   const processEventQueue = () => {
@@ -92,7 +94,9 @@ export default function() {
     state = executor.executeAll(actions, oldState);
     if (viewModelChanged(state, oldState)) {
       // this will cause re-analysis even when hover-highlighting... could be better
-      const {nodes, links} = toModel(state.get('elements'));
+      const {nodes, links} = updateModel(state.get('elements'), state.get('models'));
+
+      // TODO put updated nodes and links back into state
 
       console.log('Updater - pseudo nodes:', nodes.toJS());
       console.log('Updater - element models:', links.toJS());

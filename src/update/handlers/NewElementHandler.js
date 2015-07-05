@@ -39,15 +39,20 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
       return state; // prevent zero size elements
     }
 
-    return state.setIn(['elements', id],
-      Immutable.fromJS({
-        component: type,
-        model: type.model,
-        props: {
-          id,
-          connectors: getConnectorPositions(type, startPoint, dragPoint)
-        }
-      }));
+    return state
+      .setIn(['models', id],
+        Immutable.fromJS({
+          model: type.model
+        })
+      ).setIn(['elements', id],
+        Immutable.fromJS({
+          component: type,
+          props: {
+            id,
+            connectors: getConnectorPositions(type, startPoint, dragPoint)
+          }
+        })
+      );
   };
 };
 

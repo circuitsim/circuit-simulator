@@ -58,8 +58,8 @@ CurrentPath.defaultProps = {
   current: 0.05
 };
 
-CurrentPath.contextTypes = {
-  animContext: React.PropTypes.shape({
-    currentOffset: React.PropTypes.number
-  })
-};
+// CurrentPath.contextTypes = {
+//   animContext: React.PropTypes.shape({
+//     currentOffset: React.PropTypes.number
+//   })
+// };
