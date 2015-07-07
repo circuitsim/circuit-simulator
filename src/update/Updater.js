@@ -1,9 +1,14 @@
 import Immutable from 'immutable';
+import Analyser from 'circuit-analysis';
+import {Functions} from 'circuit-models';
+import R from 'ramda';
 
 import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
 import Executor from './Executor.js';
 import Wire from '../components/elements/Wire.jsx';
+
+const {stamp} = Functions;
 
 function viewModelChanged(state1, state2) {
   return state1.get('views') !== state2.get('views');
@@ -44,7 +49,7 @@ function toNodes(views) {
     .reduce(giveOrderedID, new Immutable.Map());
 }
 
-function updateEdges(models, nodes) {
+function setNodesInModels(models, nodes) {
   return models
     .withMutations(ms => {
       nodes.forEach((node, nodeID) => {
@@ -53,6 +58,48 @@ function updateEdges(models, nodes) {
         });
       });
     });
+}
+
+function getCircuitInfo(state) {
+  return {
+    numOfNodes: state.get('nodes').size,
+    numOfVSources: state.get('models')
+      .filter(m => m.has('vSources'))
+      .reduce((n, m) => n + m.get('vSources'), 0)
+  };
+}
+
+function solveCircuit(state, circuitInfo) {
+  try {
+    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
+    state.get('models').forEach(model => {
+      stamp(model, stamper);
+    });
+    return solve();
+  } catch(e) {
+    console.warn(e);
+  }
+}
+
+function updateCircuit(state, solution, circuitInfo) {
+  if (!solution) { return state; }
+
+  const flattened = R.prepend(0, R.flatten(solution())); // add 0 volt ground node
+
+  const voltages = R.take(circuitInfo.numOfNodes, flattened);
+  const currents = R.drop(circuitInfo.numOfNodes, flattened);
+
+  console.log('voltages', voltages, 'currents', currents);
+
+  // update node voltages
+
+  // update models with node voltages
+
+  // update models with currents
+
+  // update views...
+
+  return state;
 }
 
 function Updater() {
@@ -79,6 +126,10 @@ function Updater() {
   function update(delta) {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
+    const circuitInfo = getCircuitInfo(state);
+    const solution = solveCircuit(state, circuitInfo);
+    state = updateCircuit(state, solution, circuitInfo);
+
     return {
       props: {
         elements: state.get('views'),
@@ -99,14 +150,14 @@ function Updater() {
 
       // create a graph of the circuit that we can use to analyse
       const nodes = toNodes(state.get('views'));
-      const edges = updateEdges(state.get('models'), nodes);
+      const edges = setNodesInModels(state.get('models'), nodes);
 
       state = state.withMutations(s => {
         s.set('nodes', nodes).set('models', edges);
       });
 
-      console.log('Updater - nodes:', nodes.toJS());
-      console.log('Updater - element models:', edges.toJS());
+      // console.log('Updater - nodes:', nodes.toJS());
+      // console.log('Updater - element models:', edges.toJS());
     }
   }
 
