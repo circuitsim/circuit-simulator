@@ -53,5 +53,7 @@ export default CircuitElement => {
     hover: false
   };
 
+  Highlighter.displayName = `Highlighted ${CircuitElement.model.get('type')}`;
+
   return Highlighter;
 };
