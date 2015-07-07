@@ -1,6 +1,6 @@
 import React from 'react';
 import {Shape} from 'react-art';
-import {COMPONENTS} from 'circuit-models';
+import {BaseData} from 'circuit-models';
 
 import Colors from '../../styles/Colors.js';
 
@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE} from '../../utils
 const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
-const {Resistor: ResistorModel} = COMPONENTS;
+const {Resistor: ResistorModel} = BaseData;
 
 export default class Resistor extends React.Component {
 

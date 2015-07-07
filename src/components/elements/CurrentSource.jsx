@@ -1,6 +1,6 @@
 import React from 'react';
 import {Shape} from 'react-art';
-import {COMPONENTS} from 'circuit-models';
+import {BaseData} from 'circuit-models';
 
 import Colors from '../../styles/Colors.js';
 
@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../..
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
-const {CurrentSource: CurrentSourceModel} = COMPONENTS;
+const {CurrentSource: CurrentSourceModel} = BaseData;
 
 export default class CurrentSource extends React.Component {
 

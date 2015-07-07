@@ -1,6 +1,6 @@
 import React from 'react';
 import {Shape} from 'react-art';
-import {COMPONENTS} from 'circuit-models';
+import {BaseData} from 'circuit-models';
 
 import Colors from '../../styles/Colors.js';
 
@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, GRID_SIZE} from '../../utils/Constants
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = GRID_SIZE;
 
-const {Wire: WireModel} = COMPONENTS;
+const {Wire: WireModel} = BaseData;
 
 export default class Wire extends React.Component {
 
