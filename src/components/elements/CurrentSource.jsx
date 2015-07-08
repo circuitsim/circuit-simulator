@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE} from '../..
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
-const {CurrentSource: CurrentSourceModel} = BaseData;
+const {CurrentSource: BaseCurrentSourceModel} = BaseData;
 
 export default class CurrentSource extends React.Component {
 
@@ -71,6 +71,8 @@ export default class CurrentSource extends React.Component {
 }
 
 CurrentSource.propTypes = {
+  current: React.PropTypes.number,
+  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
@@ -81,9 +83,11 @@ CurrentSource.propTypes = {
 };
 
 CurrentSource.defaultProps = {
+  current: BaseCurrentSourceModel.get('current'),
+  voltages: [0, 0],
   color: Colors.base
 };
 
 CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
-CurrentSource.model = CurrentSourceModel;
+CurrentSource.model = BaseCurrentSourceModel;

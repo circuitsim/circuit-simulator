@@ -86,20 +86,21 @@ function updateCircuit(state, solution, circuitInfo) {
 
   const flattened = R.prepend(0, R.flatten(solution())); // add 0 volt ground node
 
+  console.log('solution', flattened);
+
   const voltages = R.take(circuitInfo.numOfNodes, flattened);
-  const currents = R.drop(circuitInfo.numOfNodes, flattened);
+  // const currents = R.drop(circuitInfo.numOfNodes, flattened);
 
-  console.log('voltages', voltages, 'currents', currents);
-
-  // update node voltages
-
-  // update models with node voltages
-
-  // update models with currents
-
-  // update views...
-
-  return state;
+  return state.update('views', views => views.map(view => {
+    const viewID = view.getIn(['props', 'id']);
+    const nodeIDs = state.getIn(['models', viewID, 'nodes']);
+    const vs = nodeIDs.map(nodeID => voltages[nodeID]);
+    view = view.setIn(['props', 'voltages'], vs.toJS());
+    // if (view.hasIn(['props', 'current'])) {
+    //   // TODO set currents - need mapping from model to vSourceID
+    // }
+    return view;
+  }));
 }
 
 function Updater() {

@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, GRID_SIZE} from '../../utils/Constants
 const BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = GRID_SIZE;
 
-const {Wire: WireModel} = BaseData;
+const {Wire: BaseWireModel} = BaseData;
 
 export default class Wire extends React.Component {
 
@@ -40,6 +40,7 @@ export default class Wire extends React.Component {
 }
 
 Wire.propTypes = {
+  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
@@ -50,9 +51,10 @@ Wire.propTypes = {
 };
 
 Wire.defaultProps = {
+  voltages: [0, 0],
   color: Colors.base
 };
 
 Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
-Wire.model = WireModel;
+Wire.model = BaseWireModel;

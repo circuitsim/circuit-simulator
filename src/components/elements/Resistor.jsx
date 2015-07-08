@@ -13,7 +13,7 @@ import {LINE_WIDTH, BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE} from '../../utils
 const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
-const {Resistor: ResistorModel} = BaseData;
+const {Resistor: BaseResistorModel} = BaseData;
 
 export default class Resistor extends React.Component {
 
@@ -27,7 +27,13 @@ export default class Resistor extends React.Component {
 
           wirePath1 = drawLine(wireEnd1, compEnd1, LINE_WIDTH),
           wirePath2 = drawLine(wireEnd2, compEnd2, LINE_WIDTH),
-          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH);
+          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH),
+
+          voltages = this.props.voltages,
+          current = (voltages[0] - voltages[1]) / this.props.resistance;
+
+    console.log('RESISTOR voltages', voltages);
+    console.log('RESISTOR current', current);
 
     return (
       <BoundingBox
@@ -59,6 +65,8 @@ export default class Resistor extends React.Component {
 }
 
 Resistor.propTypes = {
+  resistance: React.PropTypes.number,
+  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
@@ -69,9 +77,11 @@ Resistor.propTypes = {
 };
 
 Resistor.defaultProps = {
+  resistance: BaseResistorModel.get('resistance'),
+  voltages: [0, 0],
   color: Colors.base
 };
 
 Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
-Resistor.model = ResistorModel;
+Resistor.model = BaseResistorModel;
