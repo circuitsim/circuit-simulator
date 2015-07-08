@@ -64,6 +64,7 @@ export default class CurrentSource extends React.Component {
         />
         <CurrentPath
           connectors={this.props.connectors}
+          current={this.props.current}
         />
       </BoundingBox>
     );

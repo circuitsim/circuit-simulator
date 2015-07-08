@@ -32,9 +32,6 @@ export default class Resistor extends React.Component {
           voltages = this.props.voltages,
           current = (voltages[0] - voltages[1]) / this.props.resistance;
 
-    console.log('RESISTOR voltages', voltages);
-    console.log('RESISTOR current', current);
-
     return (
       <BoundingBox
         from={wireEnd1}
@@ -58,6 +55,7 @@ export default class Resistor extends React.Component {
         />
         <CurrentPath
           connectors={this.props.connectors}
+          current={current}
         />
       </BoundingBox>
     );

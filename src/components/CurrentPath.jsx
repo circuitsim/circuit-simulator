@@ -55,7 +55,7 @@ CurrentPath.propTypes = {
 };
 
 CurrentPath.defaultProps = {
-  current: 0.05
+  current: 0
 };
 
 CurrentPath.contextTypes = {

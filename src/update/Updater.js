@@ -86,19 +86,26 @@ function updateCircuit(state, solution, circuitInfo) {
 
   const flattened = R.prepend(0, R.flatten(solution())); // add 0 volt ground node
 
-  console.log('solution', flattened);
-
   const voltages = R.take(circuitInfo.numOfNodes, flattened);
-  // const currents = R.drop(circuitInfo.numOfNodes, flattened);
+  let currents = R.drop(circuitInfo.numOfNodes, flattened);
 
   return state.update('views', views => views.map(view => {
     const viewID = view.getIn(['props', 'id']);
-    const nodeIDs = state.getIn(['models', viewID, 'nodes']);
+    const model = state.getIn(['models', viewID]);
+    const nodeIDs = model.get('nodes');
+
+    // set voltages
     const vs = nodeIDs.map(nodeID => voltages[nodeID]);
     view = view.setIn(['props', 'voltages'], vs.toJS());
-    // if (view.hasIn(['props', 'current'])) {
-    //   // TODO set currents - need mapping from model to vSourceID
-    // }
+
+    // set currents
+    const numOfVSources = model.get('vSources', 0);
+    if (numOfVSources > 0) {
+      const cs = R.take(numOfVSources, currents);
+      currents = R.drop(numOfVSources, currents); // yeah yeah mutating state...
+      view = view.setIn(['props', 'currents'], cs);
+    }
+
     return view;
   }));
 }
@@ -111,6 +118,7 @@ function Updater() {
   let state = new Immutable.Map({
     mode: Modes.add(Wire),
     currentOffset: 0,
+    // NOTE: Immutable.Maps are iterated in a stable order. This, (for better of worse) is implicitly relied on
     views: new Immutable.Map(), // elemID -> element view
     models: new Immutable.Map(), // elemID -> element model
     nodes: new Immutable.Map() // nodeID -> node
@@ -156,9 +164,6 @@ function Updater() {
       state = state.withMutations(s => {
         s.set('nodes', nodes).set('models', edges);
       });
-
-      // console.log('Updater - nodes:', nodes.toJS());
-      // console.log('Updater - element models:', edges.toJS());
     }
   }
 

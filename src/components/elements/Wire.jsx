@@ -33,6 +33,7 @@ export default class Wire extends React.Component {
         />
         <CurrentPath
           connectors={this.props.connectors}
+          current={this.props.currents[0]}
         />
       </BoundingBox>
     );
@@ -41,6 +42,7 @@ export default class Wire extends React.Component {
 
 Wire.propTypes = {
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
+  currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
   color: React.PropTypes.string,
   handlers: React.PropTypes.shape({
@@ -52,6 +54,7 @@ Wire.propTypes = {
 
 Wire.defaultProps = {
   voltages: [0, 0],
+  currents: [0],
   color: Colors.base
 };
 
