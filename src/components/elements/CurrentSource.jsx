@@ -64,7 +64,7 @@ export default class CurrentSource extends React.Component {
         />
         <CurrentPath
           connectors={this.props.connectors}
-          current={this.props.current}
+          current={this.props.current} // FIXME current should be zero unless part of a complete circuit
         />
       </BoundingBox>
     );

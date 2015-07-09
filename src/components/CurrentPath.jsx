@@ -23,8 +23,20 @@ export default class CurrentPath extends React.Component {
             .moveTo(end1.x, end1.y)
             .lineTo(end2.x, end2.y),
 
-          offset = (this.props.current * this.context.animContext.currentOffset) % CURRENT.DOT_DISTANCE, // TODO
-          startPos = this.props.current >= 0
+          current = this.props.current,
+
+          /* map from log10 to logbase scale, e.g. for base = 2, a mapping of:
+           * 1    -> 1
+           * 0.1  -> 0.5
+           * 0.01 -> 0.25
+           */
+          base = Math.E,
+          mappedCurrent = Math.sign(current) * Math.pow(base, Math.log10(Math.abs(current))),
+
+          fiddleCurrent = mappedCurrent / 10, // FIXME no magic fiddles
+
+          offset = (fiddleCurrent * this.context.animContext.currentOffset) % CURRENT.DOT_DISTANCE,
+          startPos = current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE,
 

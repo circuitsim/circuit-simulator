@@ -118,7 +118,7 @@ function Updater() {
   let state = new Immutable.Map({
     mode: Modes.add(Wire),
     currentOffset: 0,
-    // NOTE: Immutable.Maps are iterated in a stable order. This, (for better of worse) is implicitly relied on
+    // NOTE: Immutable.Maps are iterated in a stable order. This (for better of worse) is implicitly relied on
     views: new Immutable.Map(), // elemID -> element view
     models: new Immutable.Map(), // elemID -> element model
     nodes: new Immutable.Map() // nodeID -> node
