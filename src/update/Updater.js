@@ -136,12 +136,11 @@ function isPathBetween(startNode, destNode, nodes, models, modelID) {
     const n = q.shift();
     const connectors = nodes[n];
 
-    // queue all directly connected nodes
     for (let i = 0; i < connectors.length; i++) {
       const con = connectors[i];
       const id = con.viewID;
       if (id === modelID) {
-        continue; // ignore paths through the model
+        continue; // ignore paths through the model itself
       }
       const connectedNodes = models[id].nodes;
       for (let j = 0; j < connectedNodes.length; j++) {
