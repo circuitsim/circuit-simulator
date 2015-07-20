@@ -33,7 +33,11 @@ export default class CurrentSource extends React.Component {
           wirePath2 = drawLine(wireEnd2, compEnd2, LINE_WIDTH),
 
           circlePath1 = drawCircle(compEnd1, mid.subtract(circleOffset)),
-          circlePath2 = drawCircle(mid.add(circleOffset), compEnd2);
+          circlePath2 = drawCircle(mid.add(circleOffset), compEnd2),
+
+          error = this.context.animContext.circuitError,
+
+          current = error ? 0 : this.props.current;
 
     return (
       <BoundingBox
@@ -64,7 +68,7 @@ export default class CurrentSource extends React.Component {
         />
         <CurrentPath
           connectors={this.props.connectors}
-          current={this.props.current} // FIXME current should be zero unless part of a complete circuit
+          current={current}
         />
       </BoundingBox>
     );
@@ -87,6 +91,12 @@ CurrentSource.defaultProps = {
   current: BaseCurrentSourceModel.get('current'),
   voltages: [0, 0],
   color: Colors.base
+};
+
+CurrentSource.contextTypes = {
+  animContext: React.PropTypes.shape({
+    circuitError: React.PropTypes.any
+  })
 };
 
 CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);

@@ -75,16 +75,26 @@ function solveCircuit(state, circuitInfo) {
     state.get('models').forEach(model => {
       stamp(model, stamper);
     });
-    return solve();
+    const solution = solve();
+    return {
+      solution: R.flatten(solution())
+    };
   } catch(e) {
+    // if we can't solve, there's probably something wrong with the circuit
     console.warn(e);
+    // just return a blank solution (zeros for voltages/currents)
+    const n = Math.max(0, circuitInfo.numOfNodes + circuitInfo.numOfVSources - 1);
+    return {
+      solution: Array.fill(new Array(n), 0),
+      error: e
+    };
   }
 }
 
 function updateCircuit(state, solution, circuitInfo) {
   if (!solution) { return state; }
 
-  const flattened = R.prepend(0, R.flatten(solution())); // add 0 volt ground node
+  const flattened = R.prepend(0, solution); // add 0 volt ground node
 
   const voltages = R.take(circuitInfo.numOfNodes, flattened);
   let currents = R.drop(circuitInfo.numOfNodes, flattened);
@@ -136,7 +146,7 @@ function Updater() {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
     const circuitInfo = getCircuitInfo(state);
-    const solution = solveCircuit(state, circuitInfo);
+    const {solution, error} = solveCircuit(state, circuitInfo);
     state = updateCircuit(state, solution, circuitInfo);
 
     return {
@@ -145,7 +155,8 @@ function Updater() {
         pushEvent: event => eventQueue.push(event)
       },
       context: {
-        currentOffset: state.get('currentOffset')
+        currentOffset: state.get('currentOffset'),
+        circuitError: error
       }
     };
   }
