@@ -112,12 +112,66 @@ function updateCircuit(state, solution, circuitInfo) {
     const numOfVSources = model.get('vSources', 0);
     if (numOfVSources > 0) {
       const cs = R.take(numOfVSources, currents);
-      currents = R.drop(numOfVSources, currents); // yeah yeah mutating state...
+      currents = R.drop(numOfVSources, currents);
       view = view.setIn(['props', 'currents'], cs);
     }
 
     return view;
   }));
+}
+
+/**
+ * Use BFS to find a path between two nodes in the circuit graph.
+ */
+function isPathBetween(startNode, destNode, nodes, models, modelID) {
+  const visited = [],
+        q = [];
+
+  visited[startNode] = true;
+  q.push(startNode);
+
+  if (startNode === destNode) { return true; }
+
+  while (q.length !== 0) {
+    const n = q.shift();
+    const connectors = nodes[n];
+
+    // queue all directly connected nodes
+    for (let i = 0; i < connectors.length; i++) {
+      const con = connectors[i];
+      const id = con.viewID;
+      if (id === modelID) {
+        continue; // ignore paths through the model
+      }
+      const connectedNodes = models[id].nodes;
+      for (let j = 0; j < connectedNodes.length; j++) {
+        const connectedNode = connectedNodes[j];
+        if (connectedNode === destNode) {
+          return true;
+        }
+
+        if (!visited[connectedNode]) {
+          visited[connectedNode] = true;
+          q.push(connectedNode);
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function hasPathProblem(state) {
+  const models = state.get('models'),
+        isCurrentSource = model => model.get('type') === 'CurrentSource',  // TODO make this less ugh
+        hasPath = (currentSource, id) => {
+          const nodes = state.get('nodes'),
+                [n1, n2] = currentSource.get('nodes').toJS();
+          return isPathBetween(n1, n2, nodes.toJS(), models.toJS(), id);
+        };
+  // look for current sources with no path for current
+  return !models
+    .filter(isCurrentSource)
+    .every(hasPath);
 }
 
 function Updater() {
@@ -145,6 +199,8 @@ function Updater() {
   function update(delta) {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
+    // TODO could do a lot of this in begin.viewModelChanged...
+    const pathProblem = hasPathProblem(state);
     const circuitInfo = getCircuitInfo(state);
     const {solution, error} = solveCircuit(state, circuitInfo);
     state = updateCircuit(state, solution, circuitInfo);
@@ -156,7 +212,7 @@ function Updater() {
       },
       context: {
         currentOffset: state.get('currentOffset'),
-        circuitError: error
+        circuitError: error || pathProblem
       }
     };
   }
@@ -175,6 +231,7 @@ function Updater() {
       state = state.withMutations(s => {
         s.set('nodes', nodes).set('models', edges);
       });
+
     }
   }
 
