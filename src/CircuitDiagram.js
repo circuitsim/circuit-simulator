@@ -1,8 +1,8 @@
 import React from 'react';
 import Animator from 'react-mainloop';
 
-import CircuitCanvas from './CircuitCanvas.jsx';
-import Updater from '../update/Updater.js';
+import {CircuitCanvas} from 'circuit-diagram';
+import Updater from './update/Updater.js';
 
 const FPS = 30;
 const TIMESTEP = 1000 / FPS;
@@ -21,6 +21,7 @@ export default class CircuitDiagram extends React.Component {
   render() {
     const updater = this.state.updater,
           Diagram = animate(CircuitCanvas, updater.update, updater.begin);
+
     return (
       <Diagram
         width={this.props.width}

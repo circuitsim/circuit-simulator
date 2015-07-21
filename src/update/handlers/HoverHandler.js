@@ -1,4 +1,4 @@
-import EventTypes from '../EventTypes.js';
+import {EventTypes} from 'circuit-diagram';
 
 const HighlightElementAction = function(elemID) {
   this.do = (state) => {

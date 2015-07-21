@@ -1,52 +1,47 @@
 {
-  "name": "circuit-diagram",
-  "version": "0.0.1",
-  "description": "A view layer for drawing interactive circuit diagrams",
+  "name": "circuit-simulator",
+  "version": "0.0.0",
+  "description": "An interactive electronic simulator",
   "main": "dist/main.js",
   "author": "Thom Wright <npm@thomwright.co.uk> (http://thomwright.co.uk/)",
   "keywords": [
     "electronics",
     "circuit",
-    "diagram"
+    "simulator"
   ],
   "directories": {
     "lib": "src"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/circuitsim/circuit-diagram"
+    "url": "http://github.com/circuitsim/circuit-simulator"
   },
   "bugs": {
-    "url": "http://github.com/circuitsim/circuit-diagram/issues"
+    "url": "http://github.com/circuitsim/circuit-simulator/issues"
   },
-  "homepage": "http://github.com/circuitsim/circuit-diagram",
+  "homepage": "http://github.com/circuitsim/circuit-simulator",
   "license": "EPL-1.0",
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --hot --content-base build --config webpack.dev.config.js --display-error-details",
     "build": "rimraf dist && babel src --out-dir dist",
-    "typecheck": "flow check --all",
     "lint": "eslint src/",
-    "jest": "echo \"Error: no tests specified sadface\" && exit 1",
-    "test": "npm run lint && npm run jest",
+    "test": "npm run lint",
     "prepublish": "npm test && npm run build && npm shrinkwrap",
     "postpublish": "rm npm-shrinkwrap.json"
   },
   "dependencies": {
-    "art": "^0.10.0",
     "babel-runtime": "^5.2.17",
-    "circuit-analysis": "^0.5.0",
+    "circuit-analysis": "^0.5",
+    "circuit-diagram": "^0",
     "circuit-models": "^0",
-    "color": "^0.10",
     "immutable": "^3.7.3",
     "immutable-vector2d": "^0",
+    "keyboard-shortcuts": "^0.1.0",
     "node-uuid": "^1.4.3",
     "ramda": "^0.15.1",
-    "react": "^0.13.2",
-    "react-art": "^0.13.0",
-    "react-immutable-proptypes": "^1.0",
-    "react-mainloop": "^0.4",
-    "reflux": "^0.2.7",
-    "symbol-enum": "^2.0.1-0"
+    "react": "^0.13.3",
+    "react-mainloop": "^0",
+    "symbol-enum": "^2"
   },
   "devDependencies": {
     "babel": "^5.3.1",
@@ -67,7 +62,7 @@
     "json-loader": "^0.5",
     "jsx-loader": "^0.13",
     "node-libs-browser": "^0.5.2",
-    "react-fullscreen": "0.0.2",
+    "react-fullscreen": "^0",
     "react-hot-loader": "^1.2.7",
     "rimraf": "^2.3.3",
     "style-loader": "^0.12",

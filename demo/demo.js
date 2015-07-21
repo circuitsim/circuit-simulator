@@ -3,10 +3,8 @@
 'use strict';
 
 import React from 'react';
-
 import FullScreen from 'react-fullscreen';
-
-import {CircuitDiagram} from '../src/main.js';
+import CircuitDiagram from '../src/CircuitDiagram.js';
 
 const rootInstance = React.render(
   <FullScreen>

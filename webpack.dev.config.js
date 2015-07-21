@@ -1,12 +1,17 @@
 var path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
+    // DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
     jade = require('jade');
 
 var baseDir = path.resolve(__dirname),
-    nodeModulesDir = path.resolve(baseDir, 'node_modules'),
+    srcDir = path.resolve(baseDir, 'src'),
+    demoDir = path.resolve(baseDir, 'demo'),
 
-    pathToEntry = path.resolve(baseDir, 'demo/demo.jsx'),
+    nodeModulesDir = path.resolve(baseDir, 'node_modules'),
+    reactDir = path.resolve(nodeModulesDir, 'react'),
+
+    pathToEntry = path.resolve(baseDir, 'demo/demo.js'),
     indexHtml = jade.compileFile(path.resolve(baseDir, 'demo/index.jade'));
 
     // jsLoader = ['react-hot', 'babel?whitelist[]=flow', 'flowcheck', babel + '&blacklist[]=flow']; // hack from flowcheck/issues#18
@@ -15,10 +20,14 @@ var config = {
   entry: {
     /* NOTE: React hot loader doesn't work with higher-order components :( */
     app: ['webpack/hot/dev-server', pathToEntry],
-    vendor: ['react', 'react-art', 'art', 'reflux']
+    vendor: ['react']
   },
   resolve: {
-    alias: {}
+    alias: {
+      // npm link + webpack doesn't dedupe peerDependencies properly
+      react: reactDir,
+      'keyboard-shortcuts': path.resolve(nodeModulesDir, 'keyboard-shortcuts')
+    }
   },
   devtool: 'eval',
   debug: true,
@@ -28,13 +37,14 @@ var config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Circuit-Diagram',
+      title: 'Circuit-Simulator',
       templateContent: function(templateParams) {
         var files = templateParams.htmlWebpackPlugin.files; // js, css, chunks
         return indexHtml(files);
       }
     }),
     new CommonsChunkPlugin('vendor', 'common.js')
+    // new DedupePlugin()
   ],
   module: {
     loaders: [
@@ -48,11 +58,13 @@ var config = {
       },
       {
         test: /\.(js|jsx)$/,
+        include: [srcDir, demoDir],
         exclude: [nodeModulesDir],
         loaders: ['react-hot', 'babel'] // until https://github.com/facebook/flow/issues/349 is fixed
       },
       { // will be run before loaders above
         test: /\.(js|jsx)$/,
+        include: [srcDir, demoDir],
         exclude: [nodeModulesDir],
         loader: 'eslint-loader'
       },

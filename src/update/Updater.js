@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import {Elements} from 'circuit-diagram';
 import Analyser from 'circuit-analysis';
 import {Functions} from 'circuit-models';
 import R from 'ramda';
@@ -6,7 +7,6 @@ import R from 'ramda';
 import EventProcessor from './EventProcessor.js';
 import Modes from './Modes.js';
 import Executor from './Executor.js';
-import Wire from '../components/elements/Wire.jsx';
 
 const {stamp} = Functions;
 
@@ -179,7 +179,7 @@ function Updater() {
 
   let eventQueue = new Immutable.List();
   let state = new Immutable.Map({
-    mode: Modes.add(Wire),
+    mode: Modes.add(Elements.Wire),
     currentOffset: 0,
     // NOTE: Immutable.Maps are iterated in a stable order. This (for better of worse) is implicitly relied on
     views: new Immutable.Map(), // elemID -> element view

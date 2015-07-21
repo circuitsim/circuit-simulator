@@ -1,9 +1,11 @@
-import EventTypes from '../EventTypes.js';
+import {EventTypes} from 'circuit-diagram';
 import Modes from '../Modes.js';
 import {KeyToElement} from '../../utils/KeyboardShortcuts.js';
 
+// TODO this whole system is a bit of a mess, needs clearing up
+
 const keyPressHandlers = {
-  [EventTypes.KeyDown]: (keys) => ({
+  [EventTypes.KeyDown]: keys => ({
     mode: KeyToElement[keys] ? Modes.add(KeyToElement[keys]) : null
   })
 };

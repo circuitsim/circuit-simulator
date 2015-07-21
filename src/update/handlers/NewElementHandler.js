@@ -1,11 +1,9 @@
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 import Immutable from 'immutable';
+import {EventTypes, handleHover} from 'circuit-diagram';
 
-import {GRID_SIZE} from '../../utils/Constants.js';
-import EventTypes from '../EventTypes.js';
 import Modes from '../Modes.js';
-import handleHover from '../../components/HighlightOnHover.jsx';
 
 /*
  * START ADDING ELEMENT
@@ -32,11 +30,13 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 const MoveElementAction = function(type, id, startCoords, dragCoords) {
   this.do = (state) => {
-    const startPoint = Vector.fromObject(startCoords).snap(GRID_SIZE),
-          dragPoint = Vector.fromObject(dragCoords).snap(GRID_SIZE);
+    const startPoint = Vector.fromObject(startCoords),
+          dragPoint = Vector.fromObject(dragCoords);
 
-    if (dragPoint.equals(startPoint)) {
-      return state; // prevent zero size views
+    const connectors = getConnectorPositions(type, startPoint, dragPoint);
+
+    if (connectors.length === 0) {
+      return state; // couldn't get connector positions, maybe too small
     }
 
     return state
@@ -46,7 +46,7 @@ const MoveElementAction = function(type, id, startCoords, dragCoords) {
           component: type,
           props: {
             id,
-            connectors: getConnectorPositions(type, startPoint, dragPoint)
+            connectors
           }
         })
       );
