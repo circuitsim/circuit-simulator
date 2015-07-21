@@ -67,6 +67,7 @@
     "json-loader": "^0.5",
     "jsx-loader": "^0.13",
     "node-libs-browser": "^0.5.2",
+    "react-fullscreen": "0.0.2",
     "react-hot-loader": "^1.2.7",
     "rimraf": "^2.3.3",
     "style-loader": "^0.12",

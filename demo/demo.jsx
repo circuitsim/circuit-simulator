@@ -4,12 +4,14 @@
 
 import React from 'react';
 
-import {FullWindow, CircuitDiagram} from '../src/main.js';
+import FullScreen from 'react-fullscreen';
+
+import {CircuitDiagram} from '../src/main.js';
 
 const rootInstance = React.render(
-  <FullWindow>
+  <FullScreen>
     <CircuitDiagram />
-  </FullWindow>,
+  </FullScreen>,
   document.getElementById('circuitsim')
 );
 
