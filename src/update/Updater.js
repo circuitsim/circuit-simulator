@@ -69,55 +69,10 @@ function getCircuitInfo(state) {
   };
 }
 
-function solveCircuit(state, circuitInfo) {
-  try {
-    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
-    state.get('models').forEach(model => {
-      stamp(model, stamper);
-    });
-    const solution = solve();
-    return {
-      solution: R.flatten(solution())
-    };
-  } catch(e) {
-    // if we can't solve, there's probably something wrong with the circuit
-    console.warn(e);
-    // just return a blank solution (zeros for voltages/currents)
-    const n = Math.max(0, circuitInfo.numOfNodes + circuitInfo.numOfVSources - 1);
-    return {
-      solution: Array.fill(new Array(n), 0),
-      error: e
-    };
-  }
-}
-
-function updateCircuit(state, solution, circuitInfo) {
-  if (!solution) { return state; }
-
-  const flattened = R.prepend(0, solution); // add 0 volt ground node
-
-  const voltages = R.take(circuitInfo.numOfNodes, flattened);
-  let currents = R.drop(circuitInfo.numOfNodes, flattened);
-
-  return state.update('views', views => views.map(view => {
-    const viewID = view.getIn(['props', 'id']);
-    const model = state.getIn(['models', viewID]);
-    const nodeIDs = model.get('nodes');
-
-    // set voltages
-    const vs = nodeIDs.map(nodeID => voltages[nodeID]);
-    view = view.setIn(['props', 'voltages'], vs.toJS());
-
-    // set currents
-    const numOfVSources = model.get('vSources', 0);
-    if (numOfVSources > 0) {
-      const cs = R.take(numOfVSources, currents);
-      currents = R.drop(numOfVSources, currents);
-      view = view.setIn(['props', 'currents'], cs);
-    }
-
-    return view;
-  }));
+function blankSolution(circuitInfo) {
+  // just return a blank solution (zeros for voltages/currents)
+  const n = Math.max(0, circuitInfo.numOfNodes + circuitInfo.numOfVSources - 1);
+  return Array.fill(new Array(n), 0);
 }
 
 /**
@@ -173,6 +128,64 @@ function hasPathProblem(state) {
     .every(hasPath);
 }
 
+function solveCircuit(state, circuitInfo) {
+  const pathProblem = hasPathProblem(state);
+  if (pathProblem) {
+    console.warn('path problem');
+    // FIXME should use a descriptive error returned from hasPathProblem
+    return {
+      solution: blankSolution(circuitInfo),
+      error: 'path problem'
+    };
+  }
+  try {
+    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
+    state.get('models').forEach(model => {
+      stamp(model, stamper);
+    });
+    const solution = solve();
+    return {
+      solution: R.flatten(solution())
+    };
+  } catch(e) {
+    // if we can't solve, there's probably something wrong with the circuit
+    console.warn(e);
+    return {
+      solution: blankSolution(circuitInfo),
+      error: e
+    };
+  }
+}
+
+function updateCircuit(state, solution, circuitInfo) {
+  if (!solution) { return state; }
+
+  const flattened = R.prepend(0, solution); // add 0 volt ground node
+
+  const voltages = R.take(circuitInfo.numOfNodes, flattened);
+  let currents = R.drop(circuitInfo.numOfNodes, flattened);
+
+  return state.update('views', views => views.map(view => {
+    const viewID = view.getIn(['props', 'id']);
+    const model = state.getIn(['models', viewID]);
+    const nodeIDs = model.get('nodes');
+
+    // set voltages
+    const vs = nodeIDs.map(nodeID => voltages[nodeID]);
+    view = view.setIn(['props', 'voltages'], vs.toJS());
+
+    // set currents
+    const numOfVSources = model.get('vSources', 0);
+    if (numOfVSources > 0) {
+      const cs = R.take(numOfVSources, currents);
+      currents = R.drop(numOfVSources, currents);
+      view = view.setIn(['props', 'currents'], cs);
+    }
+
+    return view;
+  }));
+}
+
 function Updater() {
   const eventProcessor = new EventProcessor();
   const executor = new Executor();
@@ -199,7 +212,6 @@ function Updater() {
     state = state.update('currentOffset', currentOffset => currentOffset += delta); // TODO a better way of doing this (and handling overflow)
 
     // TODO could do a lot of this in begin.viewModelChanged...
-    const pathProblem = hasPathProblem(state);
     const circuitInfo = getCircuitInfo(state);
     const {solution, error} = solveCircuit(state, circuitInfo);
     state = updateCircuit(state, solution, circuitInfo);
@@ -211,7 +223,7 @@ function Updater() {
       },
       context: {
         currentOffset: state.get('currentOffset'),
-        circuitError: error || pathProblem
+        circuitError: error
       }
     };
   }
