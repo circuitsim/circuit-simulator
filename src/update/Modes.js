@@ -38,6 +38,7 @@ const Modes = new Immutable.Record({
 
   adding: (type, id, coords) => {
     const handlers = [
+      handleHover,
       handleAdding(type, id, coords),
       handleFinishAddFor(id, type)
     ];
