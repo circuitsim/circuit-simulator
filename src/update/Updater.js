@@ -10,6 +10,12 @@ import Executor from './Executor.js';
 
 const {stamp} = Functions;
 
+const val = e => ({
+  isIn(array) {
+    return array.indexOf(e) !== -1;
+  }
+});
+
 function viewModelChanged(state1, state2) {
   return state1.get('views') !== state2.get('views');
 }
@@ -77,8 +83,23 @@ function blankSolution(circuitInfo) {
 
 /**
  * Use BFS to find a path between two nodes in the circuit graph.
+ *
+ * @param startNode - Node to begin searching from.
+ * @param destNode - Node to find path to.
+ * @param nodes - Nodes in the graph.
+ * @param models - Edges of the graph.
+ * @param opts - Extra options.
+ * @param opts.exclude - Don't look for paths through models with these IDs.
+ * @param opts.types - If defined, only look for paths through these types.
  */
-function isPathBetween(startNode, destNode, nodes, models, modelID) {
+function isPathBetween(
+    startNode, destNode,
+    nodes, models,
+    {exclude, types} = {
+      exclude: [],
+      types: null
+    }) {
+
   const visited = [],
         q = [];
 
@@ -94,8 +115,10 @@ function isPathBetween(startNode, destNode, nodes, models, modelID) {
     for (let i = 0; i < connectors.length; i++) {
       const con = connectors[i];
       const id = con.viewID;
-      if (id === modelID) {
-        continue; // ignore paths through the model itself
+      if (val(id).isIn(exclude)) {
+        continue; // ignore paths through excluded models
+      } else if (types && !val(models[id].type).isIn(types)) {
+        continue; // ignore paths that aren't through the given types
       }
       const connectedNodes = models[id].nodes;
       for (let j = 0; j < connectedNodes.length; j++) {
@@ -115,23 +138,39 @@ function isPathBetween(startNode, destNode, nodes, models, modelID) {
 }
 
 function hasPathProblem(state) {
-  const models = state.get('models'),
-        isCurrentSource = model => model.get('type') === 'CurrentSource',  // TODO make this less ugh
-        hasPath = (currentSource, id) => {
-          const nodes = state.get('nodes'),
-                [n1, n2] = currentSource.get('nodes').toJS();
-          return isPathBetween(n1, n2, nodes.toJS(), models.toJS(), id);
-        };
-  // look for current sources with no path for current
-  return !models
-    .filter(isCurrentSource)
-    .every(hasPath);
+  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
+        CURR_SOURCE = ['CurrentSource'],
+        models = state.get('models'),
+        isType = types => model => {
+          return val(model.get('type')).isIn(types);
+        },
+        hasPathThrough = types => (component, id) => {
+          const nodes = state.get('nodes').toJS(),
+                modelsJS = models.toJS(),
+                [node1, node2] = modelsJS[id].nodes;
+          return isPathBetween(node1, node2, nodes, modelsJS, {
+            exclude: [id], // exclude the component we're looking at
+            types
+          });
+        },
+        hasPath = hasPathThrough();
+  return (
+    // look for current sources with no path for current
+    !models
+      .filter(isType(CURR_SOURCE))
+      .every(hasPath)
+    ||
+    // look for loops of voltage sources
+    models
+      .filter(isType(VOLT_SOURCES))
+      .some(hasPathThrough(VOLT_SOURCES))
+  );
 }
 
 function solveCircuit(state, circuitInfo) {
   const pathProblem = hasPathProblem(state);
   if (pathProblem) {
-    console.warn('path problem');
+    console.error('path problem');
     // FIXME should use a descriptive error returned from hasPathProblem
     return {
       solution: blankSolution(circuitInfo),
@@ -149,7 +188,7 @@ function solveCircuit(state, circuitInfo) {
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
-    console.warn(e);
+    console.error(e);
     return {
       solution: blankSolution(circuitInfo),
       error: e
@@ -219,7 +258,7 @@ function Updater() {
     return {
       props: {
         elements: state.get('views'),
-        pushEvent: event => eventQueue.push(event)
+        pushEvent: event => eventQueue.push(event) // TODO make this into an external API for the rest of the app to use
       },
       context: {
         currentOffset: state.get('currentOffset'),
