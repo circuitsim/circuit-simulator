@@ -22,13 +22,12 @@ function blankSolution(circuitInfo) {
 }
 
 export function solveCircuit(state, circuitInfo) {
-  const pathProblem = hasPathProblem(state);
-  if (pathProblem) {
-    console.error('path problem');
-    // FIXME should use a descriptive error returned from hasPathProblem
+  const problem = hasPathProblem(state);
+  if (problem) {
+    console.error('Path problem:', problem);
     return {
       solution: blankSolution(circuitInfo),
-      error: 'path problem'
+      error: problem
     };
   }
   try {
