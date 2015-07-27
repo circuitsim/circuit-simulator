@@ -6,12 +6,13 @@ import {hasPathProblem} from './Paths.js';
 
 const {stamp} = Functions;
 
-export function getCircuitInfo(state) {
+export function getCircuitInfo(circuit) {
+  function addVSources(n, m) {
+    return n + (m.vSources || 0);
+  }
   return {
-    numOfNodes: state.get('nodes').size,
-    numOfVSources: state.get('models')
-      .filter(m => m.has('vSources'))
-      .reduce((n, m) => n + m.get('vSources'), 0)
+    numOfNodes: Object.keys(circuit.nodes).length,
+    numOfVSources: R.reduce(addVSources, 0, Object.values(circuit.models))
   };
 }
 
@@ -21,8 +22,8 @@ function blankSolution(circuitInfo) {
   return Array.fill(new Array(n), 0);
 }
 
-export function solveCircuit(state, circuitInfo) {
-  const problem = hasPathProblem(state);
+export function solveCircuit(circuit, circuitInfo) {
+  const problem = hasPathProblem(circuit);
   if (problem) {
     console.error('Path problem:', problem);
     return {
@@ -32,9 +33,9 @@ export function solveCircuit(state, circuitInfo) {
   }
   try {
     const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
-    state.get('models').forEach(model => {
+    R.forEach(model => {
       stamp(model, stamper);
-    });
+    }, R.values(circuit.models));
     const solution = solve();
     return {
       solution: R.flatten(solution())

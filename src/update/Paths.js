@@ -1,11 +1,5 @@
 import R from 'ramda';
 
-const val = e => ({
-  isIn(array) {
-    return array.indexOf(e) !== -1;
-  }
-});
-
 /**
  * Use BFS to find a path between two nodes in the circuit graph.
  *
@@ -41,9 +35,10 @@ function isPathBetween(
     for (let i = 0; i < connectors.length; i++) {
       const con = connectors[i];
       const id = con.viewID;
-      if (val(id).isIn(exclude)) {
+
+      if (R.contains(id, exclude)) {
         continue; // ignore paths through excluded models
-      } else if (types && !val(models[id].type).isIn(types)) {
+      } else if (types && !R.contains(models[id].type, types)) {
         continue; // ignore paths that aren't through the given types
       }
       const connectedNodes = models[id].nodes;
@@ -64,50 +59,53 @@ function isPathBetween(
 }
 
 function isType(types) {
-  return function(model) {
-    return val(model.get('type')).isIn(types);
+  return function([model]) {
+    return R.contains(model.type, types);
   };
 }
 
 function pathFinderFor(circuit) {
-  const pathFinder = {};
   function hasPathThrough(types) {
-    return function hasPath(model, id) {
-      const [node1, node2] = model.toJS().nodes;
+    return function hasPath([model, id]) {
+      const [node1, node2] = model.nodes;
       return isPathBetween(node1, node2, circuit, {
         exclude: [id], // exclude the model we're looking at
         types
       });
     };
   }
+  const pathFinder = {};
   pathFinder.hasPathThrough = hasPathThrough;
   pathFinder.hasPath = hasPathThrough();
   return pathFinder;
 }
 
-export function hasPathProblem(state) {
+function toReversePairs(obj) {
+  return R.pipe(
+    R.keys,
+    R.map(k => [obj[k], k])
+  )(obj);
+}
+
+export function hasPathProblem(circuit) {
   const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
         CURR_SOURCE = ['CurrentSource'],
 
-        models = state.get('models'),
+        modelIDPairs = toReversePairs(circuit.models),
 
-        {hasPathThrough, hasPath} = pathFinderFor({
-            nodes: state.get('nodes').toJS(),
-            models: models.toJS()
-          }),
+        {hasPathThrough, hasPath} = pathFinderFor(circuit),
 
-        hasNoCurrentPath = () => {
-          // look for current sources with no path for current
-          return !models
-            .filter(isType(CURR_SOURCE))
-            .every(hasPath);
-        },
-        hasVoltageSourceLoop = () => {
-          // look for loops of voltage sources
-          return models
-            .filter(isType(VOLT_SOURCES))
-            .some(hasPathThrough(VOLT_SOURCES));
-        },
+        // look for current sources with no path for current
+        hasNoCurrentPath = R.pipe(
+          R.filter(isType(CURR_SOURCE)),
+          R.all(hasPath),
+          R.not
+        ),
+        // look for loops of voltage sources
+        hasVoltageSourceLoop = R.pipe(
+          R.filter(isType(VOLT_SOURCES)),
+          R.any(hasPathThrough(VOLT_SOURCES))
+        ),
 
         checks = [
           {
@@ -120,7 +118,7 @@ export function hasPathProblem(state) {
           }
         ],
 
-        problem = R.find(check => check.run(), checks);
+        problem = R.find(check => check.run(modelIDPairs), checks);
 
   return problem ? problem.error : false;
 }

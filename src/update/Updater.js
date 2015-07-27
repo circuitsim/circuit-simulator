@@ -56,6 +56,13 @@ function setNodesInModels(models, nodes) {
     });
 }
 
+function getCircuit(state) {
+  return {
+    nodes: state.get('nodes').toJS(),
+    models: state.get('models').toJS()
+  };
+}
+
 function Updater() {
   const eventProcessor = new EventProcessor();
   const executor = new Executor();
@@ -109,8 +116,9 @@ function Updater() {
       });
 
       // solve the circuit
-      const circuitInfo = getCircuitInfo(state);
-      const {solution, error} = solveCircuit(state, circuitInfo);
+      const circuit = getCircuit(state);
+      const circuitInfo = getCircuitInfo(circuit);
+      const {solution, error} = solveCircuit(circuit, circuitInfo);
       state = updateCircuit(state, solution, circuitInfo);
 
       state = state.set('error', error);

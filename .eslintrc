@@ -44,5 +44,10 @@
     },
     "plugins": [
         "react"
-    ]
+    ],
+    "globals": {
+        "describe": false,
+        "it": false,
+        "expect": false
+    }
 }
