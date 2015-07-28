@@ -66,3 +66,31 @@ export const VOLTAGE_SOURCE_LOOP = {
     }
   }
 };
+
+export const KCL_VIOLATION = {
+  nodes: {
+    0: [{viewID: 'CurrentSource2'},
+        {viewID: 'Wire1'}],
+    1: [{viewID: 'Wire1'},
+        {viewID: 'CurrentSource1'}],
+    2: [{viewID: 'CurrentSource1'},
+        {viewID: 'CurrentSource2'}]
+  },
+  models: {
+    'Wire1': {
+      type: 'Wire',
+      nodes: [0, 1],
+      vSources: 1
+    },
+    'CurrentSource1': {
+      nodes: [1, 2],
+      type: 'CurrentSource',
+      current: 0.5
+    },
+    'CurrentSource2': {
+      nodes: [2, 0],
+      type: 'CurrentSource',
+      current: 0.5
+    }
+  }
+};

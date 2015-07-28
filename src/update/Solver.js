@@ -23,14 +23,11 @@ function blankSolution(circuitInfo) {
 }
 
 export function solveCircuit(circuit, circuitInfo) {
-  const problem = hasPathProblem(circuit);
-  if (problem) {
-    return {
-      solution: blankSolution(circuitInfo),
-      error: problem
-    };
-  }
   try {
+    const problem = hasPathProblem(circuit);
+    if (problem) {
+      throw problem;
+    }
     const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
     R.forEach(model => {
       stamp(model, stamper);

@@ -1,5 +1,5 @@
 import {getCircuitInfo, solveCircuit} from '../Solver.js';
-import {BASIC_CIRCUIT, NO_CURRENT_PATH} from './CircuitData.js';
+import {BASIC_CIRCUIT, NO_CURRENT_PATH, KCL_VIOLATION} from './CircuitData.js';
 
 function isTruthy(x) { return x ? true : false; }
 function isFalsy(x) { return !isTruthy(x); }
@@ -18,7 +18,7 @@ describe('getCircuitInfo()', () => {
   });
 });
 
-describe('solveCircuit', () => {
+describe('solveCircuit()', () => {
   it('should solve a basic circuit', () => {
     const {solution, error} = solveCircuit(BASIC_CIRCUIT, getCircuitInfo(BASIC_CIRCUIT));
     expect(error).to.satisfy(isFalsy);
@@ -35,8 +35,14 @@ describe('solveCircuit', () => {
     expect(solution).to.deep.equal([ 0 ]);
   });
 
-  it('should return an error for an unsolvable circuit');
+  it('should return an error for an unsolvable circuit', () => {
+    const {error} = solveCircuit(KCL_VIOLATION, getCircuitInfo(KCL_VIOLATION));
+    expect(error).to.satisfy(isTruthy);
+  });
 
-  it('should return a blank solution for an unsolvable circuit');
+  it('should return a blank solution for an unsolvable circuit', () => {
+    const {solution} = solveCircuit(KCL_VIOLATION, getCircuitInfo(KCL_VIOLATION));
+    expect(solution).to.deep.equal([ 0, 0, 0 ]);
+  });
 
 });
