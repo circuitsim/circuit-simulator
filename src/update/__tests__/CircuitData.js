@@ -12,7 +12,8 @@ export const BASIC_CIRCUIT = {
   models: {
     'CurrentSource1': {
       nodes: [0, 1],
-      type: 'CurrentSource'
+      type: 'CurrentSource',
+      current: 0.5
     },
     'Wire1': {
       type: 'Wire',
@@ -21,7 +22,8 @@ export const BASIC_CIRCUIT = {
     },
     'Resistor1': {
       nodes: [2, 3],
-      type: 'Resistor'
+      type: 'Resistor',
+      resistance: 10
     },
     'Wire2': {
       type: 'Wire',

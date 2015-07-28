@@ -25,7 +25,6 @@ function blankSolution(circuitInfo) {
 export function solveCircuit(circuit, circuitInfo) {
   const problem = hasPathProblem(circuit);
   if (problem) {
-    console.error('Path problem:', problem);
     return {
       solution: blankSolution(circuitInfo),
       error: problem
@@ -42,7 +41,6 @@ export function solveCircuit(circuit, circuitInfo) {
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
-    console.error(e);
     return {
       solution: blankSolution(circuitInfo),
       error: e

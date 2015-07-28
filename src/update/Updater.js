@@ -121,6 +121,7 @@ function Updater() {
       const {solution, error} = solveCircuit(circuit, circuitInfo);
       state = updateCircuit(state, solution, circuitInfo);
 
+      if (error) { console.error(error); }
       state = state.set('error', error);
     }
   }
