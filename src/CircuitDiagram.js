@@ -4,7 +4,7 @@ import Animator from 'react-mainloop';
 import {CircuitCanvas} from 'circuit-diagram';
 import Updater from './update/Updater.js';
 
-const FPS = 30;
+const FPS = 10;
 const TIMESTEP = 1000 / FPS;
 
 const animate = new Animator(TIMESTEP);
