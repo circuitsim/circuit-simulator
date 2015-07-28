@@ -31,6 +31,7 @@
     "postpublish": "rm npm-shrinkwrap.json"
   },
   "dependencies": {
+    "art": "^0.10.0",
     "babel-runtime": "^5.2.17",
     "circuit-analysis": "^0.5",
     "circuit-diagram": "^0",
@@ -41,6 +42,7 @@
     "node-uuid": "^1.4.3",
     "ramda": "^0.17",
     "react": "^0.13",
+    "react-art": "^0.13.0",
     "react-mainloop": "^0",
     "symbol-enum": "^2"
   },
