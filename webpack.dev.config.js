@@ -1,7 +1,7 @@
 var path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
-    // DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
+    DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
     jade = require('jade');
 
 var baseDir = path.resolve(__dirname),
@@ -26,7 +26,8 @@ var config = {
     alias: {
       // npm link + webpack doesn't dedupe peerDependencies properly
       react: reactDir,
-      'keyboard-shortcuts': path.resolve(nodeModulesDir, 'keyboard-shortcuts')
+      'keyboard-shortcuts': path.resolve(nodeModulesDir, 'keyboard-shortcuts'),
+      'babel-runtime': path.resolve(nodeModulesDir, 'babel-runtime')
     }
   },
   devtool: 'eval',
@@ -43,8 +44,8 @@ var config = {
         return indexHtml(files);
       }
     }),
-    new CommonsChunkPlugin('vendor', 'common.js')
-    // new DedupePlugin()
+    new CommonsChunkPlugin('vendor', 'common.js'),
+    new DedupePlugin()
   ],
   module: {
     loaders: [
