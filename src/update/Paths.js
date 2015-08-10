@@ -39,7 +39,7 @@ function isPathBetween(
 
           if (R.contains(id, exclude)) {
             continue; // ignore paths through excluded models
-          } else if (types && !R.contains(models[id].type, types)) {
+          } else if (types && !R.contains(models[id].typeID, types)) {
             continue; // ignore paths that aren't through the given types
           }
           const connectedNodes = models[id].nodes;
@@ -61,7 +61,7 @@ function isPathBetween(
 
 function isType(types) {
   return function([model]) {
-    return R.contains(model.type, types);
+    return R.contains(model.typeID, types);
   };
 }
 

@@ -25,8 +25,7 @@ export default class CircuitDiagram extends React.Component {
 
     return (
       <Diagram
-        width={this.props.width}
-        height={this.props.height}
+        {...this.props}
         pushEvent={() => { console.log('pushEvent not registered yet'); }} // this should get overidden after first render - this is a bit nasty
       />
     );
@@ -35,5 +34,6 @@ export default class CircuitDiagram extends React.Component {
 
 CircuitDiagram.propTypes = {
   width: React.PropTypes.number,
-  height: React.PropTypes.number
+  height: React.PropTypes.number,
+  theme: React.PropTypes.object.isRequired
 };

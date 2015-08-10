@@ -12,21 +12,21 @@ export const BASIC_CIRCUIT = {
   models: {
     'CurrentSource1': {
       nodes: [0, 1],
-      type: 'CurrentSource',
+      typeID: 'CurrentSource',
       current: 0.5
     },
     'Wire1': {
-      type: 'Wire',
+      typeID: 'Wire',
       nodes: [1, 2],
       vSources: 1
     },
     'Resistor1': {
       nodes: [2, 3],
-      type: 'Resistor',
+      typeID: 'Resistor',
       resistance: 10
     },
     'Wire2': {
-      type: 'Wire',
+      typeID: 'Wire',
       nodes: [3, 0],
       vSources: 1
     }
@@ -41,7 +41,7 @@ export const NO_CURRENT_PATH = {
   models: {
     'CurrentSource1': {
       nodes: [0, 1],
-      type: 'CurrentSource'
+      typeID: 'CurrentSource'
     }
   }
 };
@@ -55,12 +55,12 @@ export const VOLTAGE_SOURCE_LOOP = {
   },
   models: {
     'Wire1': {
-      type: 'Wire',
+      typeID: 'Wire',
       nodes: [0, 1],
       vSources: 1
     },
     'Wire2': {
-      type: 'Wire',
+      typeID: 'Wire',
       nodes: [1, 0],
       vSources: 1
     }
@@ -78,18 +78,18 @@ export const KCL_VIOLATION = {
   },
   models: {
     'Wire1': {
-      type: 'Wire',
+      typeID: 'Wire',
       nodes: [0, 1],
       vSources: 1
     },
     'CurrentSource1': {
       nodes: [1, 2],
-      type: 'CurrentSource',
+      typeID: 'CurrentSource',
       current: 0.5
     },
     'CurrentSource2': {
       nodes: [2, 0],
-      type: 'CurrentSource',
+      typeID: 'CurrentSource',
       current: 0.5
     }
   }

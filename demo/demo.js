@@ -9,7 +9,7 @@ import CircuitDiagram from '../src/CircuitDiagram.js';
 
 const rootInstance = React.render(
   <FullScreen>
-    <CircuitDiagram theme={ theme } />
+    <CircuitDiagram theme={ Theme } />
   </FullScreen>,
   document.getElementById('circuitsim')
 );
