@@ -52,6 +52,7 @@
     "babel-eslint": "^4.0.5",
     "babel-loader": "^5.0.0",
     "chai": "^3.2.0",
+    "circuitsim-theme": "^0",
     "css-loader": "^0.15",
     "eslint": "^1.1.0",
     "eslint-loader": "^1.0.0",

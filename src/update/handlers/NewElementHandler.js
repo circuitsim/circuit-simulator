@@ -11,8 +11,8 @@ import Modes from '../Modes.js';
 
 const addHandlers = {
   [EventTypes.CanvasMouseDown]: (elemType, coords) => ({
-      mode: Modes.adding(elemType, uuid.v4(), coords)
-    })
+    mode: Modes.adding(elemType, uuid.v4(), coords)
+  })
 };
 
 export const handleStartAddFor = elemType => event => {
@@ -30,8 +30,9 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 const MoveElementAction = function(type, id, startCoords, dragCoords) {
   this.do = (state) => {
-    const startPoint = Vector.fromObject(startCoords),
-          dragPoint = Vector.fromObject(dragCoords);
+    const
+      startPoint = Vector.fromObject(startCoords),
+      dragPoint = Vector.fromObject(dragCoords);
 
     const connectors = getConnectorPositions(type, startPoint, dragPoint);
 

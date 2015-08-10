@@ -20,43 +20,44 @@ function isPathBetween(
       types: null
     }) {
 
-  const visited = [],
+      const
+        visited = [],
         q = [];
 
-  visited[startNode] = true;
-  q.push(startNode);
+      visited[startNode] = true;
+      q.push(startNode);
 
-  if (startNode === destNode) { return true; }
+      if (startNode === destNode) { return true; }
 
-  while (q.length !== 0) {
-    const n = q.shift();
-    const connectors = nodes[n];
+      while (q.length !== 0) {
+        const n = q.shift();
+        const connectors = nodes[n];
 
-    for (let i = 0; i < connectors.length; i++) {
-      const con = connectors[i];
-      const id = con.viewID;
+        for (let i = 0; i < connectors.length; i++) {
+          const con = connectors[i];
+          const id = con.viewID;
 
-      if (R.contains(id, exclude)) {
-        continue; // ignore paths through excluded models
-      } else if (types && !R.contains(models[id].type, types)) {
-        continue; // ignore paths that aren't through the given types
-      }
-      const connectedNodes = models[id].nodes;
-      for (let j = 0; j < connectedNodes.length; j++) {
-        const connectedNode = connectedNodes[j];
-        if (connectedNode === destNode) {
-          return true;
+          if (R.contains(id, exclude)) {
+            continue; // ignore paths through excluded models
+          } else if (types && !R.contains(models[id].type, types)) {
+            continue; // ignore paths that aren't through the given types
+          }
+          const connectedNodes = models[id].nodes;
+          for (let j = 0; j < connectedNodes.length; j++) {
+            const connectedNode = connectedNodes[j];
+            if (connectedNode === destNode) {
+              return true;
+            }
+
+            if (!visited[connectedNode]) {
+              visited[connectedNode] = true;
+              q.push(connectedNode);
+            }
+          }
         }
-
-        if (!visited[connectedNode]) {
-          visited[connectedNode] = true;
-          q.push(connectedNode);
-        }
       }
+      return false;
     }
-  }
-  return false;
-}
 
 function isType(types) {
   return function([model]) {
@@ -88,37 +89,38 @@ function toReversePairs(obj) {
 }
 
 export function hasPathProblem(circuit) {
-  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
-        CURR_SOURCE = ['CurrentSource'],
+  const
+    VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
+    CURR_SOURCE = ['CurrentSource'],
 
-        modelIDPairs = toReversePairs(circuit.models),
+    modelIDPairs = toReversePairs(circuit.models),
 
-        {hasPathThrough, hasPath} = pathFinderFor(circuit),
+    {hasPathThrough, hasPath} = pathFinderFor(circuit),
 
-        // look for current sources with no path for current
-        hasNoCurrentPath = R.pipe(
-          R.filter(isType(CURR_SOURCE)),
-          R.all(hasPath),
-          R.not
-        ),
-        // look for loops of voltage sources
-        hasVoltageSourceLoop = R.pipe(
-          R.filter(isType(VOLT_SOURCES)),
-          R.any(hasPathThrough(VOLT_SOURCES))
-        ),
+    // look for current sources with no path for current
+    hasNoCurrentPath = R.pipe(
+      R.filter(isType(CURR_SOURCE)),
+      R.all(hasPath),
+      R.not
+    ),
+    // look for loops of voltage sources
+    hasVoltageSourceLoop = R.pipe(
+      R.filter(isType(VOLT_SOURCES)),
+      R.any(hasPathThrough(VOLT_SOURCES))
+    ),
 
-        checks = [
-          {
-            run: hasNoCurrentPath,
-            error: 'No path for current source.'
-          },
-          {
-            run: hasVoltageSourceLoop,
-            error: 'Voltage source loop.'
-          }
-        ],
+    checks = [
+      {
+        run: hasNoCurrentPath,
+        error: 'No path for current source.'
+      },
+      {
+        run: hasVoltageSourceLoop,
+        error: 'Voltage source loop.'
+      }
+    ],
 
-        problem = R.find(check => check.run(modelIDPairs), checks);
+    problem = R.find(check => check.run(modelIDPairs), checks);
 
   return problem ? problem.error : false;
 }
