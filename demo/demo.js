@@ -3,22 +3,18 @@
 'use strict';
 
 import React from 'react';
-import FullScreen from 'react-fullscreen';
+// import FullScreen from 'react-fullscreen';
 import Theme from 'circuitsim-theme';
+// import ComponentSelector from 'circuitsim-component-selector';
 import CircuitDiagram from '../src/CircuitDiagram.js';
 
-const rootInstance = React.render(
-  <FullScreen>
-    <CircuitDiagram theme={ Theme } />
-  </FullScreen>,
+// expose for devTools
+window.React = React;
+
+    // <ComponentSelector theme={ Theme }  />
+React.render(
+  <div >
+    <CircuitDiagram theme={ Theme }  />
+  </div>,
   document.getElementById('circuitsim')
 );
-
-if (module.hot) {
-  require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
-    getRootInstances: function () {
-      // Help React Hot Loader figure out the root component instances on the page:
-      return [rootInstance];
-    }
-  });
-}
