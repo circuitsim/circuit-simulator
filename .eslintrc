@@ -1,9 +1,11 @@
 {
     "parser": "babel-eslint",
+    "extends": "eslint:recommended",
     "rules": {
         "indent": [
             2,
-            2
+            2,
+            {"VariableDeclarator": 3}
         ],
         "quotes": [
             2,
@@ -17,6 +19,7 @@
             2,
             "always"
         ],
+        "no-console": 0,
         "react/jsx-boolean-value": 1,
         "react/jsx-quotes": 1,
         "react/jsx-no-undef": 1,

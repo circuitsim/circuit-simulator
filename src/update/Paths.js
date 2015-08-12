@@ -20,9 +20,8 @@ function isPathBetween(
       types: null
     }) {
 
-      const
-        visited = [],
-        q = [];
+      const visited = [],
+            q = [];
 
       visited[startNode] = true;
       q.push(startNode);
@@ -89,38 +88,34 @@ function toReversePairs(obj) {
 }
 
 export function hasPathProblem(circuit) {
-  const
-    VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
-    CURR_SOURCE = ['CurrentSource'],
+  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
+        CURR_SOURCE = ['CurrentSource'],
 
-    modelIDPairs = toReversePairs(circuit.models),
+        modelIDPairs = toReversePairs(circuit.models),
 
-    {hasPathThrough, hasPath} = pathFinderFor(circuit),
+        {hasPathThrough, hasPath} = pathFinderFor(circuit),
 
-    // look for current sources with no path for current
-    hasNoCurrentPath = R.pipe(
-      R.filter(isType(CURR_SOURCE)),
-      R.all(hasPath),
-      R.not
-    ),
-    // look for loops of voltage sources
-    hasVoltageSourceLoop = R.pipe(
-      R.filter(isType(VOLT_SOURCES)),
-      R.any(hasPathThrough(VOLT_SOURCES))
-    ),
+        // look for current sources with no path for current
+        hasNoCurrentPath = R.pipe(
+          R.filter(isType(CURR_SOURCE)),
+          R.all(hasPath),
+          R.not
+        ),
+        // look for loops of voltage sources
+        hasVoltageSourceLoop = R.pipe(
+          R.filter(isType(VOLT_SOURCES)),
+          R.any(hasPathThrough(VOLT_SOURCES))
+        ),
 
-    checks = [
-      {
-        run: hasNoCurrentPath,
-        error: 'No path for current source.'
-      },
-      {
-        run: hasVoltageSourceLoop,
-        error: 'Voltage source loop.'
-      }
-    ],
+        checks = [{
+          run: hasNoCurrentPath,
+          error: 'No path for current source.'
+        }, {
+          run: hasVoltageSourceLoop,
+          error: 'Voltage source loop.'
+        }],
 
-    problem = R.find(check => check.run(modelIDPairs), checks);
+        problem = R.find(check => check.run(modelIDPairs), checks);
 
   return problem ? problem.error : false;
 }

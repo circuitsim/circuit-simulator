@@ -30,9 +30,8 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 const MoveElementAction = function(type, id, startCoords, dragCoords) {
   this.do = (state) => {
-    const
-      startPoint = Vector.fromObject(startCoords),
-      dragPoint = Vector.fromObject(dragCoords);
+    const startPoint = Vector.fromObject(startCoords),
+          dragPoint = Vector.fromObject(dragCoords);
 
     const connectors = getConnectorPositions(type, startPoint, dragPoint);
 

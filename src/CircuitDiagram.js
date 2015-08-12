@@ -19,9 +19,8 @@ export default class CircuitDiagram extends React.Component {
   }
 
   render() {
-    const
-      updater = this.state.updater,
-      Diagram = animate(CircuitCanvas, updater.update, updater.begin);
+    const updater = this.state.updater,
+          Diagram = animate(CircuitCanvas, updater.update, updater.begin);
 
     return (
       <Diagram
