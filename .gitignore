@@ -2,5 +2,6 @@
 npm-debug.log
 dist/
 build/
+dev_build/
 node_modules/
 npm-shrinkwrap.json
