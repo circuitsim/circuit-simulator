@@ -27,8 +27,7 @@
     "lint": "eslint src/",
     "mocha": "mocha src/**/*__tests__/* -R spec --require test-setup",
     "test": "npm run lint && npm run mocha",
-    "prepublish": "npm run build && npm shrinkwrap",
-    "postpublish": "rm npm-shrinkwrap.json"
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "art": "^0.10.0",
@@ -59,12 +58,10 @@
     "eslint-config-circuitsim": "^0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
-    "gulp-dedupe": "0.0.2",
     "gulp-jade": "^1.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "jade": "^1.9.2",
     "mocha": "^2.2.5",
-    "react-fullscreen": "^0",
     "rimraf": "^2.3.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

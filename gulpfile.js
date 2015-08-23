@@ -7,7 +7,6 @@ var watchify = require('watchify');
 var babel = require('babelify');
 var jade = require('gulp-jade');
 var connect = require('gulp-connect');
-var dedupe = require('gulp-dedupe');
 
 var outDir = 'dev_build';
 
@@ -36,7 +35,6 @@ function compile(opts) {
       .on('error', handleError)
       .pipe(source('demo.js'))
       .pipe(buffer())
-      .pipe(dedupe())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(outDir))

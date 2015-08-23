@@ -32,7 +32,7 @@ export default class CircuitDiagram extends React.Component {
 }
 
 CircuitDiagram.propTypes = {
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
+  width: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired,
   theme: React.PropTypes.object.isRequired
 };
