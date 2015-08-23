@@ -34,7 +34,7 @@ export function solveCircuit(circuit, circuitInfo) {
     }, R.values(circuit.models));
     const solution = solve();
     return {
-      solution: R.flatten(solution())
+      solution: R.flatten(solution()) // flatten single column matrix into array
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit

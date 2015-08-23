@@ -13,50 +13,50 @@ import R from 'ramda';
  * @param opts.types - If defined, only look for paths through these types.
  */
 function isPathBetween(
-    startNode, destNode,
-    {nodes, models},
-    {exclude, types} = {
-      exclude: [],
-      types: null
-    }) {
+  startNode, destNode,
+  {nodes, models},
+  {exclude, types} = {
+    exclude: [],
+    types: null
+  }) {
 
-      const visited = [],
-            q = [];
+    const visited = [],
+          q = [];
 
-      visited[startNode] = true;
-      q.push(startNode);
+    visited[startNode] = true;
+    q.push(startNode);
 
-      if (startNode === destNode) { return true; }
+    if (startNode === destNode) { return true; }
 
-      while (q.length !== 0) {
-        const n = q.shift();
-        const connectors = nodes[n];
+    while (q.length !== 0) {
+      const n = q.shift();
+      const connectors = nodes[n];
 
-        for (let i = 0; i < connectors.length; i++) {
-          const con = connectors[i];
-          const id = con.viewID;
+      for (let i = 0; i < connectors.length; i++) {
+        const con = connectors[i];
+        const id = con.viewID;
 
-          if (R.contains(id, exclude)) {
-            continue; // ignore paths through excluded models
-          } else if (types && !R.contains(models[id].typeID, types)) {
-            continue; // ignore paths that aren't through the given types
+        if (R.contains(id, exclude)) {
+          continue; // ignore paths through excluded models
+        } else if (types && !R.contains(models[id].typeID, types)) {
+          continue; // ignore paths that aren't through the given types
+        }
+        const connectedNodes = models[id].nodes;
+        for (let j = 0; j < connectedNodes.length; j++) {
+          const connectedNode = connectedNodes[j];
+          if (connectedNode === destNode) {
+            return true;
           }
-          const connectedNodes = models[id].nodes;
-          for (let j = 0; j < connectedNodes.length; j++) {
-            const connectedNode = connectedNodes[j];
-            if (connectedNode === destNode) {
-              return true;
-            }
 
-            if (!visited[connectedNode]) {
-              visited[connectedNode] = true;
-              q.push(connectedNode);
-            }
+          if (!visited[connectedNode]) {
+            visited[connectedNode] = true;
+            q.push(connectedNode);
           }
         }
       }
-      return false;
     }
+    return false;
+  }
 
 function isType(types) {
   return function([model]) {
@@ -91,8 +91,6 @@ export function hasPathProblem(circuit) {
   const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
         CURR_SOURCE = ['CurrentSource'],
 
-        modelIDPairs = toReversePairs(circuit.models),
-
         {hasPathThrough, hasPath} = pathFinderFor(circuit),
 
         // look for current sources with no path for current
@@ -115,6 +113,7 @@ export function hasPathProblem(circuit) {
           error: 'Voltage source loop.'
         }],
 
+        modelIDPairs = toReversePairs(circuit.models),
         problem = R.find(check => check.run(modelIDPairs), checks);
 
   return problem ? problem.error : false;
