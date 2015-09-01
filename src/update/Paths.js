@@ -1,4 +1,12 @@
 import R from 'ramda';
+import { BaseData as Models } from 'circuit-models';
+
+const VOLT_SOURCE_TYPES = R.pipe(
+  R.values,
+  R.filter(m => m.vSources > 0),
+  R.map(m => m.typeID)
+)(Models);
+const CURR_SOURCE_TYPES = [Models.CurrentSource.typeID];
 
 /**
  * Use BFS to find a path between two nodes in the circuit graph.
@@ -88,21 +96,18 @@ function toReversePairs(obj) {
 }
 
 export function hasPathProblem(circuit) {
-  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // FIXME make this less ugh - don't use magic strings!
-        CURR_SOURCE = ['CurrentSource'],
-
-        {hasPathThrough, hasPath} = pathFinderFor(circuit),
+  const {hasPathThrough, hasPath} = pathFinderFor(circuit),
 
         // look for current sources with no path for current
         hasNoCurrentPath = R.pipe(
-          R.filter(isType(CURR_SOURCE)),
+          R.filter(isType(CURR_SOURCE_TYPES)),
           R.all(hasPath),
           R.not
         ),
         // look for loops of voltage sources
         hasVoltageSourceLoop = R.pipe(
-          R.filter(isType(VOLT_SOURCES)),
-          R.any(hasPathThrough(VOLT_SOURCES))
+          R.filter(isType(VOLT_SOURCE_TYPES)),
+          R.any(hasPathThrough(VOLT_SOURCE_TYPES))
         ),
 
         checks = [{
