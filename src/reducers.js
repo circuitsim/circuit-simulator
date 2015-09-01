@@ -157,7 +157,7 @@ export default function simulator(state = initialState, action) {
       const {solution, error} = solveCircuit(circuit, circuitInfo);
 
       // update view with new circuit state
-      const views = updateViews(circuit, circuitInfo, state.views, solution);
+      const views = updateViews(models, circuitInfo, state.views, solution);
 
       if (error) { console.warn(error); } // eslint-disable-line no-console
 
