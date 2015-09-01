@@ -177,8 +177,8 @@ export default function simulator(state = initialState, action) {
 
   case COMPONENT_SELECTOR_BUTTON_CLICKED:
     const updatedState = R.assoc('selectedButton', action.button, state);
-    switch (action.button.group) {
     // FIXME this is horribly brittle, we need to import list of categories from component selector or something
+    switch (action.button.group) {
     case 'Mouse':
       return R.assoc('mode', {
         type: MODES.select

@@ -67,10 +67,10 @@ export function setNodesInModels(models, nodes) {
   let ms = models;
   forEachIndexed((node, nodeID) => {
     R.forEach(connector => {
-      // FIXME find better way to modify array
+      // TODO find better way to modify array
+      // R.update doesn't seem to like updating empty arrays
       const nodesForModel = R.clone(ms[connector.viewID].nodes);
       nodesForModel[connector.index] = nodeID;
-      // nodesForModel = R.update(connector.index, nodeID, nodesForModel);
       ms = R.assocPath([connector.viewID, 'nodes'], nodesForModel, ms);
     }, node);
   }, nodes);
