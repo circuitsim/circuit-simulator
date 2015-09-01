@@ -18,5 +18,4 @@ describe('hasPathProblem()', () => {
     expect(problem).to.be.a('string');
     expect(problem).to.contain('loop');
   });
-
 });

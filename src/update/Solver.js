@@ -34,7 +34,8 @@ export function solveCircuit(circuit, circuitInfo) {
     }, R.values(circuit.models));
     const solution = solve();
     return {
-      solution: R.flatten(solution()) // flatten single column matrix into array
+      solution: R.flatten(solution()), // flatten single column matrix into array
+      error: false
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
@@ -43,33 +44,4 @@ export function solveCircuit(circuit, circuitInfo) {
       error: e
     };
   }
-}
-
-export function updateCircuit(state, solution, circuitInfo) {
-  if (!solution) { return state; }
-
-  const flattened = R.prepend(0, solution); // add 0 volt ground node
-
-  const voltages = R.take(circuitInfo.numOfNodes, flattened);
-  let currents = R.drop(circuitInfo.numOfNodes, flattened);
-
-  return state.update('views', views => views.map(view => {
-    const viewID = view.getIn(['props', 'id']);
-    const model = state.getIn(['models', viewID]);
-    const nodeIDs = model.get('nodes');
-
-    // set voltages
-    const vs = nodeIDs.map(nodeID => voltages[nodeID]);
-    view = view.setIn(['props', 'voltages'], vs.toJS());
-
-    // set currents
-    const numOfVSources = model.get('vSources', 0);
-    if (numOfVSources > 0) {
-      const cs = R.take(numOfVSources, currents);
-      currents = R.drop(numOfVSources, currents);
-      view = view.setIn(['props', 'currents'], cs);
-    }
-
-    return view;
-  }));
 }

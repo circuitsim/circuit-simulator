@@ -1,8 +1,11 @@
 import React from 'react';
-import { Style } from 'radium';
 import Theme from 'circuitsim-theme';
-import ComponentSelector from 'circuitsim-component-selector';
-import CircuitDiagram from '../src/CircuitDiagram.js';
+import App from '../src/App.js';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import reducer from '../src/reducers';
 
 // expose for devTools
 window.React = React;
@@ -43,16 +46,20 @@ const windowSize = (function getDimensions() {
     height: window.innerHeight
   };
 })();
-const mainWidth = windowSize.width - sidebarWidth;
-const mainHeight = windowSize.height;
+const canvasSize = { // FIXME this needs to change if the window size changes
+  width: windowSize.width - sidebarWidth,
+  height: windowSize.height
+};
+
+const store = createStore(reducer);
 
 React.render(
-  <div >
-    <Style
-      rules={ styles.global }
-    />
-    <ComponentSelector theme={ Theme } style={ styles.side } />
-    <CircuitDiagram theme={ Theme } style={ styles.main } width={ mainWidth } height={ mainHeight } />
-  </div>,
+  <Provider store={ store }>
+    {() => <App
+      styles={ styles }
+      theme={ Theme }
+      canvasDimensions={ canvasSize }
+    />}
+  </Provider>,
   document.getElementById('circuitsim')
 );

@@ -6,7 +6,3 @@ export const KeyToElement = {
   [Keys.r]: Elements.Resistor,
   [Keys.w]: Elements.Wire
 };
-
-export const UndoRedo = {
-  // TODO how to we map keys to undo/redo? we can't just make an action for it...
-};

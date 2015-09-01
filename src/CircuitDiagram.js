@@ -9,23 +9,29 @@ const TIMESTEP = 1000 / FPS;
 
 const animate = new Animator(TIMESTEP);
 
+// Uses `store` from context to manage its own state changes using Animator/Updater
 export default class CircuitDiagram extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      updater: new Updater()
-    };
+  componentWillMount() {
+    this.setState({
+      updater: new Updater(this.context.store)
+    });
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const {width, height, theme} = this.props;
+    return width !== nextProps.width
+      || height !== nextProps.height
+      || theme !== nextProps.theme;
   }
 
   render() {
     const updater = this.state.updater,
-          Diagram = animate(CircuitCanvas, updater.update, updater.begin);
+          AnimatedDiagram = animate(CircuitCanvas, updater.update, updater.begin);
 
     return (
-      <Diagram
+      <AnimatedDiagram
         {...this.props}
-        pushEvent={() => { console.log('pushEvent not registered yet'); }} // this should get overidden after first render - this is a bit nasty
       />
     );
   }
@@ -35,4 +41,11 @@ CircuitDiagram.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
   theme: React.PropTypes.object.isRequired
+};
+
+CircuitDiagram.contextTypes = {
+  store: React.PropTypes.shape({
+    getState: React.PropTypes.func.isRequired,
+    dispatch: React.PropTypes.func.isRequired
+  }).isRequired
 };

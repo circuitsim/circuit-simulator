@@ -35,15 +35,15 @@
     "circuit-analysis": "^0.5",
     "circuit-diagram": "^0",
     "circuit-models": "^0",
-    "immutable": "^3.7.3",
     "immutable-vector2d": "^0",
-    "keyboard-shortcuts": "^0.1.0",
+    "keyboard-shortcuts": "^0",
     "node-uuid": "^1.4.3",
     "ramda": "^0.17",
     "react": "^0.13",
     "react-art": "^0.13.0",
     "react-mainloop": "^0",
-    "symbol-enum": "^2"
+    "react-redux": "^1.0.1",
+    "redux": "^1.0.1"
   },
   "devDependencies": {
     "babel": "^5.3.1",

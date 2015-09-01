@@ -88,7 +88,7 @@ function toReversePairs(obj) {
 }
 
 export function hasPathProblem(circuit) {
-  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // TODO make this less ugh - don't use magic strings!
+  const VOLT_SOURCES = ['VoltageSource', 'Wire'], // FIXME make this less ugh - don't use magic strings!
         CURR_SOURCE = ['CurrentSource'],
 
         {hasPathThrough, hasPath} = pathFinderFor(circuit),
