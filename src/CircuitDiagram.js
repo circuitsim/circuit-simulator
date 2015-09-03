@@ -3,6 +3,7 @@ import Animator from 'react-mainloop';
 
 import {CircuitCanvas} from 'circuit-diagram';
 import Updater from './update/Updater.js';
+import resize from './Resize.js';
 
 const FPS = 10;
 const TIMESTEP = 1000 / FPS;
@@ -10,7 +11,7 @@ const TIMESTEP = 1000 / FPS;
 const animate = new Animator(TIMESTEP);
 
 // Uses `store` from context to manage its own state changes using Animator/Updater
-export default class CircuitDiagram extends React.Component {
+class CircuitDiagram extends React.Component {
 
   componentWillMount() {
     this.setState({
@@ -49,3 +50,5 @@ CircuitDiagram.contextTypes = {
     dispatch: React.PropTypes.func.isRequired
   }).isRequired
 };
+
+export default resize(CircuitDiagram);

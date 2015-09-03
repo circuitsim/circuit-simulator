@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import Theme from 'circuitsim-theme';
 import App from '../src/App.js';
 
@@ -6,6 +8,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import reducer from '../src/reducers';
+import getWindowDimensions from '../src/utils/getWindowDimensions.js';
 
 // expose for devTools
 window.React = React;
@@ -40,25 +43,23 @@ const styles = {
     bottom: '0px'
   }
 };
-const windowSize = (function getDimensions() {
+
+function getCanvasSize() {
+  const windowSize = getWindowDimensions();
   return {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: windowSize.width - sidebarWidth,
+    height: windowSize.height
   };
-})();
-const canvasSize = { // FIXME this needs to change if the window size changes
-  width: windowSize.width - sidebarWidth,
-  height: windowSize.height
-};
+}
 
 const store = createStore(reducer);
 
-React.render(
+ReactDOM.render(
   <Provider store={ store }>
     <App
       styles={ styles }
       theme={ Theme }
-      canvasDimensions={ canvasSize }
+      getCanvasSize={ getCanvasSize }
     />
   </Provider>,
   document.getElementById('circuitsim')

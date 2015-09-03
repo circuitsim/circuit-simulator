@@ -3,15 +3,19 @@ import { connect } from 'react-redux';
 import { Style } from 'radium';
 
 import ComponentSelector from 'circuitsim-component-selector';
-import CircuitDiagram from '../src/CircuitDiagram.js';
+import CircuitDiagram from './CircuitDiagram.js';
 
 import { componentSelectorButtonClicked } from './actions.js';
 
 class App extends Component {
   render() {
-    const styles = this.props.styles,
-          theme = this.props.theme,
-          canvasDimensions = this.props.canvasDimensions;
+    const {
+      styles,
+      theme,
+      getCanvasSize,
+      selectedButton,
+      componentSelectorButtonClicked: onButtonClicked
+    } = this.props;
     return (
       <div>
         <Style
@@ -20,13 +24,12 @@ class App extends Component {
         <ComponentSelector
           theme={ theme } // TODO put theme in context? or is this a silly idea?
           style={ styles.side }
-          onButtonClicked={ this.props.componentSelectorButtonClicked }
-          selectedButton={ this.props.selectedButton } />
+          onButtonClicked={ onButtonClicked }
+          selectedButton={ selectedButton } />
         <CircuitDiagram
           theme={ theme }
           style={ styles.main }
-          width={ canvasDimensions.width }
-          height={ canvasDimensions.height } />
+          getDimensions={ getCanvasSize } />
       </div>
     );
   }
@@ -39,10 +42,7 @@ App.propTypes = {
     side: PropTypes.object
   }).isRequired,
   theme: PropTypes.object.isRequired,
-  canvasDimensions: PropTypes.shape({
-    height: PropTypes.number,
-    width: PropTypes.number
-  }).isRequired,
+  getCanvasSize: PropTypes.func.isRequired,
 
   /* Injected by redux */
   // state
