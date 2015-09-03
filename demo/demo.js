@@ -55,11 +55,11 @@ const store = createStore(reducer);
 
 React.render(
   <Provider store={ store }>
-    {() => <App
+    <App
       styles={ styles }
       theme={ Theme }
       canvasDimensions={ canvasSize }
-    />}
+    />
   </Provider>,
   document.getElementById('circuitsim')
 );
