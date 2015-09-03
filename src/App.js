@@ -46,10 +46,7 @@ App.propTypes = {
 
   /* Injected by redux */
   // state
-  selectedButton: PropTypes.shape({
-    group: PropTypes.string.isRequired,
-    button: PropTypes.string.isRequired
-  }).isRequired,
+  selectedButton: PropTypes.string.isRequired,
 
   // action creators
   componentSelectorButtonClicked: PropTypes.func.isRequired

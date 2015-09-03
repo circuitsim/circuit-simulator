@@ -65,10 +65,7 @@ const initialState = {
   circuitChanged: false,
   error: false, // string | false
 
-  selectedButton: {
-    group: 'Mouse', // TODO import these from component selector
-    button: 'Select'
-  }
+  selectedButton: 'select'
 };
 
 const getConnectorPositions = function(component, startPoint, dragPoint) {
@@ -176,20 +173,23 @@ export default function simulator(state = initialState, action) {
 
 
   case COMPONENT_SELECTOR_BUTTON_CLICKED:
-    const updatedState = R.assoc('selectedButton', action.button, state);
-    // FIXME this is horribly brittle, we need to import list of categories from component selector or something
-    switch (action.button.group) {
-    case 'Mouse':
-      return R.assoc('mode', {
+    const buttonID = action.buttonID;
+    const updatedState = R.assoc('selectedButton', buttonID, state);
+
+    const buttonIdToModeMap = {
+      select: {
         type: MODES.select
-      }, updatedState);
-    case 'Components':
-      return R.assoc('mode', {
+      }
+    };
+    const element = Elements[buttonID];
+    const mode = element
+      ? {
         type: MODES.add,
-        componentType: Elements[action.typeID]
-      }, updatedState);
-    }
-    return state;
+        componentType: element
+      }
+      : buttonIdToModeMap[buttonID];
+
+    return R.assoc('mode', mode, updatedState);
 
   default:
     return state;

@@ -70,10 +70,9 @@ export function keyPress(key) {
   };
 }
 
-export function componentSelectorButtonClicked(button, typeID) {
+export function componentSelectorButtonClicked(buttonID) {
   return {
     type: COMPONENT_SELECTOR_BUTTON_CLICKED,
-    button,
-    typeID
+    buttonID
   };
 }
