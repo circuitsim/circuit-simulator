@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import reducer from '../src/reducers';
 import getWindowDimensions from '../src/utils/getWindowDimensions.js';
 
-// expose for devTools
+// expose for devTools TODO only in dev
 window.React = React;
 
 const COLORS = Theme.COLORS;
