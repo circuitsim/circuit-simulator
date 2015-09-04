@@ -16,7 +16,7 @@ window.React = React;
 const COLORS = Theme.COLORS;
 const {lineHeight, fontSize, fontFamily} = Theme.TYPOGRAPHY;
 
-const sidebarWidth = 300;
+const sidebarWidth = 250;
 const sidebarWidthPx = `${sidebarWidth}px`;
 const styles = {
   global: {
@@ -36,6 +36,8 @@ const styles = {
     bottom: '0px'
   },
   side: {
+    boxSizing: 'border-box',
+    borderRight: `${COLORS.theme} 2px solid`,
     position: 'absolute',
     width: sidebarWidthPx,
     top: '0px',

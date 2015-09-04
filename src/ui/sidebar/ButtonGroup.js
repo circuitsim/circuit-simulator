@@ -1,11 +1,15 @@
 import React from 'react';
 import parseunit from 'parseunit';
 
-function styles({ TYPOGRAPHY }) {
-  const { val, unit } = parseunit(TYPOGRAPHY.lineHeight);
+function styles({ TYPOGRAPHY, COLORS }) {
+  const [ val, unit ] = parseunit(TYPOGRAPHY.lineHeight);
+
   return {
     title: {
-      lineHeight: `${val * 1.5}${unit}`
+      lineHeight: `${val * 1.5}${unit}`,
+      paddingLeft: '5px',
+      fontSize: 'larger',
+      color: COLORS.highlight
     }
   };
 }
