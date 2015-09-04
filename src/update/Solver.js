@@ -32,9 +32,12 @@ export function solveCircuit(circuit, circuitInfo) {
     R.forEach(model => {
       stamp(model, stamper);
     }, R.values(circuit.models));
-    const solution = solve();
+    const solution = R.flatten(solve()()); // flatten single column matrix into array
+    if (R.any(isNaN, solution)) {
+      throw 'Error: Solution contained NaNs';
+    }
     return {
-      solution: R.flatten(solution()), // flatten single column matrix into array
+      solution: solution,
       error: false
     };
   } catch(e) {

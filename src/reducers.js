@@ -140,8 +140,6 @@ export default function simulatorReducer(state = initialState, action) {
       const circuitInfo = getCircuitInfo(circuit);
       const {solution, error} = solveCircuit(circuit, circuitInfo);
 
-      console.log(solution, error);
-
       // update view with new circuit state
       const views = updateViews(models, circuitInfo, state.views, solution);
 
