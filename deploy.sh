@@ -2,6 +2,8 @@
 
 set -e
 
+npm run build
+
 # Check for uncommitted changes or untracked files
 [ -n "$(git status --porcelain)" ] && git status && exit 1
 
