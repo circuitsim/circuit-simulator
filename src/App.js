@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Style } from 'radium';
 
-import ComponentSelector from 'circuitsim-component-selector';
+import ComponentSelector from './ui/sidebar/ComponentSelector.js';
 import CircuitDiagram from './CircuitDiagram.js';
 
 import { componentSelectorButtonClicked } from './redux/actions.js';
