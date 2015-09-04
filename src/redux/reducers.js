@@ -1,10 +1,10 @@
 import R from 'ramda';
 import { Elements } from 'circuit-diagram';
 
-import addingComponentsReducer from './redux/reducers/addingComponents.js';
-import { getCircuitInfo, solveCircuit } from './update/Solver.js';
-import { updateViews, setNodesInModels, toNodes } from './update/CircuitUpdater.js';
-import MODES from './Modes.js';
+import addingComponentsReducer from './reducers/addingComponents.js';
+import { getCircuitInfo, solveCircuit } from '../update/Solver.js';
+import { updateViews, setNodesInModels, toNodes } from '../update/CircuitUpdater.js';
+import MODES from '../Modes.js';
 
 import {
   ADDING_START,

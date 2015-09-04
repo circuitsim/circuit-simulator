@@ -5,8 +5,8 @@ import Theme from 'circuitsim-theme';
 import App from '../src/App.js';
 
 import { Provider } from 'react-redux';
-import configureStore from '../src/configureStore';
-import reducer from '../src/reducers';
+import configureStore from '../src/redux/configureStore';
+import reducer from '../src/redux/reducers';
 
 import getWindowDimensions from '../src/utils/getWindowDimensions.js';
 

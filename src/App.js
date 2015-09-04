@@ -5,7 +5,7 @@ import { Style } from 'radium';
 import ComponentSelector from 'circuitsim-component-selector';
 import CircuitDiagram from './CircuitDiagram.js';
 
-import { componentSelectorButtonClicked } from './actions.js';
+import { componentSelectorButtonClicked } from './redux/actions.js';
 
 class App extends Component {
   render() {

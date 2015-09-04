@@ -1,4 +1,4 @@
-import MODES from './Modes.js';
+import MODES from '../Modes.js';
 
 // Action types
 export const ADDING_START = 'ADDING_START';

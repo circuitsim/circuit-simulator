@@ -9,7 +9,7 @@ import {
 
   loopBegin,
   loopUpdate
-} from '../actions.js';
+} from '../redux/actions.js';
 
 /* Special object that reads state from store when update() is called,
   rather than subscribing to store changes. */

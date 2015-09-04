@@ -8,7 +8,7 @@ import {
   ADDING_START,
   ADDING_MOVE,
   ADDING_FINISH
-} from '../../actions.js';
+} from '../actions.js';
 
 const getConnectorPositions = function(component, startPoint, dragPoint) {
   return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
