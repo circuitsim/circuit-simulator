@@ -26,8 +26,7 @@
     "build": "rimraf build && gulp build",
     "lint": "eslint src/",
     "mocha": "mocha 'src/**/__tests__/*' --reporter spec --require test-setup",
-    "test": "npm run lint && npm run mocha",
-    "prepublish": "npm run build"
+    "test": "npm run lint && npm run mocha"
   },
   "dependencies": {
     "art": "^0.10.0",
