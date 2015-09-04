@@ -33,7 +33,7 @@ const GROUPS = {
     buttons: ['select']
   },
   components: {
-    name: 'CircuitComponents',
+    name: 'Components',
     buttons: R.keys(CircuitComponents)
   }
 };
