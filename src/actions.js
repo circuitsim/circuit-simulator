@@ -1,6 +1,6 @@
+import MODES from './Modes.js';
 
 // Action types
-export const CANVAS_MOUSE_DOWN = 'CANVAS_MOUSE_DOWN';
 export const CANVAS_MOUSE_MOVE = 'CANVAS_MOUSE_MOVE';
 export const CANVAS_MOUSE_UP = 'CANVAS_MOUSE_UP';
 
@@ -18,9 +18,13 @@ export const COMPONENT_SELECTOR_BUTTON_CLICKED = 'COMPONENT_SELECTOR_BUTTON_CLIC
 
 // Action creators
 export function canvasMouseDown(coords) {
-  return {
-    type: CANVAS_MOUSE_DOWN,
-    coords
+  return function(_, getState) {
+    if (getState().mode.type === MODES.add) {
+      return {
+        type: START_ADDING,
+        coords
+      };
+    }
   };
 }
 

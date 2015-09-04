@@ -5,11 +5,14 @@ import { Elements, handleHover } from 'circuit-diagram';
 
 import { getCircuitInfo, solveCircuit } from './update/Solver.js';
 import { updateViews, setNodesInModels, toNodes } from './update/CircuitUpdater.js';
+import MODES from './Modes.js';
 
 import {
   CANVAS_MOUSE_DOWN,
   CANVAS_MOUSE_MOVE,
   CANVAS_MOUSE_UP,
+
+  START_ADDING,
 
   COMPONENT_MOUSE_OVER,
   COMPONENT_MOUSE_OUT,
@@ -19,13 +22,6 @@ import {
 
   COMPONENT_SELECTOR_BUTTON_CLICKED
 } from './actions.js';
-
-const modeNames = [
-  'add',
-  'adding',
-  'select' // does nothing ATM
-];
-const MODES = R.zipObj(modeNames, modeNames);
 
 const initialState = {
   mode: {
@@ -74,16 +70,13 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 export default function simulator(state = initialState, action) {
   switch (action.type) {
-  case CANVAS_MOUSE_DOWN:
-    if (state.mode.type === MODES.add) {
-      return R.assoc('mode', {
-        type: MODES.adding,
-        componentType: state.mode.componentType,
-        id: uuid.v4(),
-        start: action.coords
-      }, state);
-    }
-    return state;
+  case START_ADDING:
+    return R.assoc('mode', {
+      type: MODES.adding,
+      componentType: state.mode.componentType,
+      id: uuid.v4(),
+      start: action.coords
+    }, state);
 
   case CANVAS_MOUSE_MOVE:
     if (state.mode.type === MODES.adding) {
