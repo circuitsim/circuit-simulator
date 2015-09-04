@@ -1,10 +1,9 @@
 import MODES from './Modes.js';
 
 // Action types
-export const CANVAS_MOUSE_MOVE = 'CANVAS_MOUSE_MOVE';
-export const CANVAS_MOUSE_UP = 'CANVAS_MOUSE_UP';
-
-export const START_ADDING = 'START_ADDING';
+export const ADDING_START = 'ADDING_START';
+export const ADDING_MOVE = 'ADDING_MOVE';
+export const ADDING_FINISH = 'ADDING_FINISH';
 
 export const COMPONENT_MOUSE_OVER = 'COMPONENT_MOUSE_OVER';
 export const COMPONENT_MOUSE_OUT = 'COMPONENT_MOUSE_OUT';
@@ -21,7 +20,7 @@ export function canvasMouseDown(coords) {
   return function(_, getState) {
     if (getState().mode.type === MODES.add) {
       return {
-        type: START_ADDING,
+        type: ADDING_START,
         coords
       };
     }
@@ -29,16 +28,24 @@ export function canvasMouseDown(coords) {
 }
 
 export function canvasMouseMove(coords) {
-  return {
-    type: CANVAS_MOUSE_MOVE,
-    coords
+  return function(_, getState) {
+    if (getState().mode.type === MODES.adding) {
+      return {
+        type: ADDING_MOVE,
+        coords
+      };
+    }
   };
 }
 
 export function canvasMouseUp(coords) {
-  return {
-    type: CANVAS_MOUSE_UP,
-    coords
+  return function(_, getState) {
+    if (getState().mode.type === MODES.adding) {
+      return {
+        type: ADDING_FINISH,
+        coords
+      };
+    }
   };
 }
 

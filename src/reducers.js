@@ -8,11 +8,9 @@ import { updateViews, setNodesInModels, toNodes } from './update/CircuitUpdater.
 import MODES from './Modes.js';
 
 import {
-  CANVAS_MOUSE_DOWN,
-  CANVAS_MOUSE_MOVE,
-  CANVAS_MOUSE_UP,
-
-  START_ADDING,
+  ADDING_START,
+  ADDING_MOVE,
+  ADDING_FINISH,
 
   COMPONENT_MOUSE_OVER,
   COMPONENT_MOUSE_OUT,
@@ -70,7 +68,7 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 export default function simulator(state = initialState, action) {
   switch (action.type) {
-  case START_ADDING:
+  case ADDING_START:
     return R.assoc('mode', {
       type: MODES.adding,
       componentType: state.mode.componentType,
@@ -78,51 +76,47 @@ export default function simulator(state = initialState, action) {
       start: action.coords
     }, state);
 
-  case CANVAS_MOUSE_MOVE:
-    if (state.mode.type === MODES.adding) {
-      const startPoint = Vector.fromObject(state.mode.start),
-            dragPoint = Vector.fromObject(action.coords),
-            id = state.mode.id,
-            type = state.mode.componentType,
-            connectors = getConnectorPositions(type, startPoint, dragPoint);
-      if (connectors.length === 0) {
-        return state; // couldn't get connector positions, maybe too small
-      }
+  case ADDING_MOVE: {
+    const startPoint = Vector.fromObject(state.mode.start),
+          dragPoint = Vector.fromObject(action.coords),
+          id = state.mode.id,
+          type = state.mode.componentType,
+          connectors = getConnectorPositions(type, startPoint, dragPoint);
+    if (connectors.length === 0) {
+      return state; // couldn't get connector positions, maybe too small
+    }
 
+    return R.pipe(
+      R.assoc('circuitChanged', true),
+      R.assocPath(['models', id], type.model),
+      R.assocPath(['views', id], {
+        component: type,
+        props: {
+          id,
+          connectors
+        }
+      })
+    )(state);
+  }
+
+  case ADDING_FINISH: {
+    const id = state.mode.id,
+          componentType = state.mode.componentType,
+          stateWithNextMode = R.assoc('mode', {
+            type: MODES.add,
+            componentType
+          }, state),
+          newView = state.views[id];
+
+    if (newView) {
       return R.pipe(
         R.assoc('circuitChanged', true),
-        R.assocPath(['models', id], type.model),
-        R.assocPath(['views', id], {
-          component: type,
-          props: {
-            id,
-            connectors
-          }
-        })
-      )(state);
+        R.assocPath(['views', id, 'component'], handleHover(newView.component))
+      )(stateWithNextMode);
+    } else {
+      return stateWithNextMode;
     }
-    return state;
-
-  case CANVAS_MOUSE_UP: // FIXME horrible logic
-    if (state.mode.type === MODES.adding) {
-      const id = state.mode.id,
-            componentType = state.mode.componentType,
-            stateWithNextMode = R.assoc('mode', {
-              type: MODES.add,
-              componentType
-            }, state),
-            newView = state.views[id];
-
-      if (newView) {
-        return R.pipe(
-          R.assoc('circuitChanged', true),
-          R.assocPath(['views', id, 'component'], handleHover(newView.component))
-        )(stateWithNextMode);
-      } else {
-        return stateWithNextMode;
-      }
-    }
-    return state;
+  }
 
 
   case COMPONENT_MOUSE_OVER:
@@ -165,7 +159,7 @@ export default function simulator(state = initialState, action) {
     return R.assoc('currentOffset', state.currentOffset += action.delta, state);
 
 
-  case COMPONENT_SELECTOR_BUTTON_CLICKED:
+  case COMPONENT_SELECTOR_BUTTON_CLICKED: {
     const buttonID = action.buttonID;
     const updatedState = R.assoc('selectedButton', buttonID, state);
 
@@ -183,6 +177,7 @@ export default function simulator(state = initialState, action) {
       : buttonIdToModeMap[buttonID];
 
     return R.assoc('mode', mode, updatedState);
+  }
 
   default:
     return state;
