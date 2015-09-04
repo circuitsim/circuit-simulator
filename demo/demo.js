@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 import Theme from 'circuitsim-theme';
 import App from '../src/App.js';
 
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-
+import configureStore from '../src/configureStore';
 import reducer from '../src/reducers';
+
 import getWindowDimensions from '../src/utils/getWindowDimensions.js';
 
 // expose for devTools TODO only in dev
@@ -52,7 +52,7 @@ function getCanvasSize() {
   };
 }
 
-const store = createStore(reducer);
+const store = configureStore(reducer);
 
 ReactDOM.render(
   <Provider store={ store }>

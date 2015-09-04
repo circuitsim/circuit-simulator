@@ -44,7 +44,8 @@
     "react-art": "^0.13.2",
     "react-mainloop": "^0",
     "react-redux": "^1.0.1",
-    "redux": "^1.0.1"
+    "redux": "^1.0.1",
+    "redux-thunk": "^0.1.0"
   },
   "devDependencies": {
     "babel": "^5.3.1",
