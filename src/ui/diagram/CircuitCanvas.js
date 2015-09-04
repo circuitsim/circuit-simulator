@@ -19,18 +19,24 @@ export default class CircuitCanvas extends React.Component {
   }
 
   onMouse(event) {
+    event.preventDefault();
     const coords = Utils.relMouseCoords(event, this.refs.canvas);
     const handlers = this.props.handlers.canvas;
 
     switch (event.type) {
     case 'mousedown':
+    case 'touchstart':
       handlers.onMouseDown(coords);
       break;
     case 'mousemove':
+    case 'touchmove':
       handlers.onMouseMove(coords);
       break;
     case 'mouseup':
+    case 'touchend':
       handlers.onMouseUp(coords);
+      break;
+    case 'touchcancel': // FIXME handle this
       break;
     }
   }
@@ -46,6 +52,10 @@ export default class CircuitCanvas extends React.Component {
         onMouseDown={this.onMouse}
         onMouseMove={this.onMouse}
         onMouseUp={this.onMouse}
+        onTouchStart={this.onMouse}
+        onTouchMove={this.onMouse}
+        onTouchEnd={this.onMouse}
+        onTouchCancel={this.onMouse}
         style={R.merge({padding: 0, margin: 0, border: 0}, this.props.style)}>
         <Surface
           width={this.props.width}
