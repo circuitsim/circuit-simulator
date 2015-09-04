@@ -6,4 +6,4 @@ const modeNames = [
   'select' // does nothing ATM
 ];
 
-export const MODES = R.zipObj(modeNames, modeNames);
+export default R.zipObj(modeNames, modeNames);

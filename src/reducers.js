@@ -21,7 +21,7 @@ import {
   COMPONENT_SELECTOR_BUTTON_CLICKED
 } from './actions.js';
 
-const initialState = {
+export const initialState = {
   mode: {
     type: MODES.select
   },
@@ -66,7 +66,7 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
   return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
 };
 
-export default function simulator(state = initialState, action) {
+export default function simulatorReducer(state = initialState, action) {
   switch (action.type) {
   case ADDING_START:
     return R.assoc('mode', {
@@ -139,6 +139,8 @@ export default function simulator(state = initialState, action) {
       };
       const circuitInfo = getCircuitInfo(circuit);
       const {solution, error} = solveCircuit(circuit, circuitInfo);
+
+      console.log(solution, error);
 
       // update view with new circuit state
       const views = updateViews(models, circuitInfo, state.views, solution);

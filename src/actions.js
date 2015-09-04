@@ -17,34 +17,34 @@ export const COMPONENT_SELECTOR_BUTTON_CLICKED = 'COMPONENT_SELECTOR_BUTTON_CLIC
 
 // Action creators
 export function canvasMouseDown(coords) {
-  return function(_, getState) {
+  return function(dispatch, getState) {
     if (getState().mode.type === MODES.add) {
-      return {
+      dispatch({
         type: ADDING_START,
         coords
-      };
+      });
     }
   };
 }
 
 export function canvasMouseMove(coords) {
-  return function(_, getState) {
+  return function(dispatch, getState) {
     if (getState().mode.type === MODES.adding) {
-      return {
+      dispatch({
         type: ADDING_MOVE,
         coords
-      };
+      });
     }
   };
 }
 
 export function canvasMouseUp(coords) {
-  return function(_, getState) {
+  return function(dispatch, getState) {
     if (getState().mode.type === MODES.adding) {
-      return {
+      dispatch({
         type: ADDING_FINISH,
         coords
-      };
+      });
     }
   };
 }
