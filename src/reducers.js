@@ -1,8 +1,7 @@
-import uuid from 'node-uuid';
-import Vector from 'immutable-vector2d';
 import R from 'ramda';
-import { Elements, handleHover } from 'circuit-diagram';
+import { Elements } from 'circuit-diagram';
 
+import addingComponentsReducer from './redux/reducers/addingComponents.js';
 import { getCircuitInfo, solveCircuit } from './update/Solver.js';
 import { updateViews, setNodesInModels, toNodes } from './update/CircuitUpdater.js';
 import MODES from './Modes.js';
@@ -62,61 +61,12 @@ export const initialState = {
   selectedButton: 'select'
 };
 
-const getConnectorPositions = function(component, startPoint, dragPoint) {
-  return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
-};
-
 export default function simulatorReducer(state = initialState, action) {
   switch (action.type) {
   case ADDING_START:
-    return R.assoc('mode', {
-      type: MODES.adding,
-      componentType: state.mode.componentType,
-      id: uuid.v4(),
-      start: action.coords
-    }, state);
-
-  case ADDING_MOVE: {
-    const startPoint = Vector.fromObject(state.mode.start),
-          dragPoint = Vector.fromObject(action.coords),
-          id = state.mode.id,
-          type = state.mode.componentType,
-          connectors = getConnectorPositions(type, startPoint, dragPoint);
-    if (connectors.length === 0) {
-      return state; // couldn't get connector positions, maybe too small
-    }
-
-    return R.pipe(
-      R.assoc('circuitChanged', true),
-      R.assocPath(['models', id], type.model),
-      R.assocPath(['views', id], {
-        component: type,
-        props: {
-          id,
-          connectors
-        }
-      })
-    )(state);
-  }
-
-  case ADDING_FINISH: {
-    const id = state.mode.id,
-          componentType = state.mode.componentType,
-          stateWithNextMode = R.assoc('mode', {
-            type: MODES.add,
-            componentType
-          }, state),
-          newView = state.views[id];
-
-    if (newView) {
-      return R.pipe(
-        R.assoc('circuitChanged', true),
-        R.assocPath(['views', id, 'component'], handleHover(newView.component))
-      )(stateWithNextMode);
-    } else {
-      return stateWithNextMode;
-    }
-  }
+  case ADDING_MOVE:
+  case ADDING_FINISH:
+    return addingComponentsReducer(state, action);
 
 
   case COMPONENT_MOUSE_OVER:
