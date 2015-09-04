@@ -50,7 +50,7 @@ export default class CircuitCanvas extends React.Component {
         <Surface
           width={this.props.width}
           height={this.props.height}
-          style={{display: 'block', backgroundColor: this.props.theme.COLORS.background}}
+          style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
         >
           {elements}
         </Surface>

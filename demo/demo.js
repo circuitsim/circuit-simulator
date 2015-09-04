@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Theme from 'circuitsim-theme';
+import Theme from '../src/ui/theme.js';
 import App from '../src/App.js';
 
 import { Provider } from 'react-redux';
