@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseData } from 'circuit-models';
+import { BaseData } from './models/Models.js';
 import { Utils as DrawingUtils, Line } from 'circuitsim-art-utils';
 
 import BoundingBox from '../BoundingBox.js';

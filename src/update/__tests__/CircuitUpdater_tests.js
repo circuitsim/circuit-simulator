@@ -16,7 +16,7 @@ describe('setNodesInModels()', () => {
 });
 
 describe('updateViews()', () => {
-  it('should ', () => {
+  it('should update views with new currents and voltages from solution', () => {
     const nodes = toNodes(BASIC_CIRCUIT.views);
     const models = setNodesInModels(BASIC_CIRCUIT.models, nodes);
 
