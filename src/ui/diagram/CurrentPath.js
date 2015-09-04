@@ -2,7 +2,7 @@ import React from 'react';
 import {Group} from 'react-art';
 import Circle from 'react-art/shapes/circle';
 import MetricsPath from 'art/metrics/path';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../utils/DrawingUtils.js';
 
 import { CURRENT } from './Constants.js';
 

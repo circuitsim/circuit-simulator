@@ -1,7 +1,7 @@
 import React from 'react';
 import {Shape, Path} from 'react-art';
 import Vector from 'immutable-vector2d';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../../utils/DrawingUtils.js';
 
 const STEM_SIZE = new Vector(6, 15);
 const ARROW_LENGTH = 42;

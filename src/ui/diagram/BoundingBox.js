@@ -1,6 +1,6 @@
 import React from 'react';
 import {Shape, Group} from 'react-art';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../utils/DrawingUtils.js';
 
 /**
  * A bounding box is a transparent box used to detect mouse events near a component.

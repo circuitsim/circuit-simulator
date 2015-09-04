@@ -1,5 +1,5 @@
 import React from 'react';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../utils/DrawingUtils.js';
 
 const { makeArtListener } = Utils;
 

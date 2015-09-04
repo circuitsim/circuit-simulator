@@ -1,5 +1,5 @@
 import Vector from 'immutable-vector2d';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../utils/DrawingUtils.js';
 
 import { GRID_SIZE } from './Constants.js';
 

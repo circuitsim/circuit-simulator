@@ -1,7 +1,8 @@
 import React from 'react';
 import { Shape } from 'react-art';
 import { BaseData } from './models/Models.js';
-import { Utils as DrawingUtils, Line } from 'circuitsim-art-utils';
+import DrawingUtils from '../../utils/DrawingUtils.js';
+import Line from '../../utils/Line.js';
 
 import BoundingBox from '../BoundingBox.js';
 import CurrentPath from '../CurrentPath.js';

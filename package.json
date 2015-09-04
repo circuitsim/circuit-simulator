@@ -31,7 +31,6 @@
   "dependencies": {
     "art": "^0.10.0",
     "circuit-analysis": "^0.5",
-    "circuitsim-art-utils": "^0",
     "color": "^0.10.1",
     "immutable-vector2d": "^0",
     "keyboard-shortcuts": "^0",
@@ -42,6 +41,7 @@
     "react": "^0.14.0-a",
     "react-addons-create-fragment": "^0.14.0-beta3",
     "react-art": "^0.13.2",
+    "react-dom": "^0.14.0-beta3",
     "react-mainloop": "^0",
     "react-redux": "^1.0.1",
     "redux": "^1.0.1",
@@ -65,7 +65,6 @@
     "gulp-uglify": "^1.4.0",
     "jade": "^1.9.2",
     "mocha": "^2.2.5",
-    "react-dom": "^0.14.0-beta3",
     "rimraf": "^2.3.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

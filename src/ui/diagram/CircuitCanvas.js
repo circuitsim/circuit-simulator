@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactArt from 'react-art';
 import R from 'ramda';
-import { Utils } from 'circuitsim-art-utils';
+import Utils from '../utils/DrawingUtils.js';
 
 const Surface = ReactArt.Surface;
 
