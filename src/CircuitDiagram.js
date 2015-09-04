@@ -1,7 +1,7 @@
 import React from 'react';
 import Animator from 'react-mainloop';
 
-import {CircuitCanvas} from 'circuit-diagram';
+import CircuitCanvas from './ui/diagram/CircuitCanvas.js';
 import Updater from './update/Updater.js';
 import resize from './Resize.js';
 

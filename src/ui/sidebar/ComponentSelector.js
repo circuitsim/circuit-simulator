@@ -1,7 +1,7 @@
 import React from 'react';
 import createFragment from 'react-addons-create-fragment';
 import R from 'ramda';
-import { Elements as Components } from 'circuit-diagram';
+import CircuitComponents from '../diagram/components/All.js';
 
 import Button from './Button.js';
 import ButtonGroup from './ButtonGroup.js';
@@ -25,7 +25,7 @@ const BUTTONS = R.reduce((buttons, component) => {
     name: camelToSpace(component.typeID),
     art: component
   }, buttons);
-}, baseButtons, R.values(Components));
+}, baseButtons, R.values(CircuitComponents));
 
 const GROUPS = {
   mouse: {
@@ -33,8 +33,8 @@ const GROUPS = {
     buttons: ['select']
   },
   components: {
-    name: 'Components',
-    buttons: R.keys(Components)
+    name: 'CircuitComponents',
+    buttons: R.keys(CircuitComponents)
   }
 };
 

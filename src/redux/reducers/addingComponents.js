@@ -1,7 +1,7 @@
 import R from 'ramda';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
-import { handleHover } from 'circuit-diagram';
+import handleHover from '../../ui/diagram/handleHover.js';
 
 import MODES from '../../Modes.js';
 import {

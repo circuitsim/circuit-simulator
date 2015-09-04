@@ -1,5 +1,5 @@
 import R from 'ramda';
-import { Elements } from 'circuit-diagram';
+import CircuitComponents from '../ui/diagram/components/All.js';
 
 import addingComponentsReducer from './reducers/addingComponents.js';
 import { getCircuitInfo, solveCircuit } from '../update/Solver.js';
@@ -118,7 +118,7 @@ export default function simulatorReducer(state = initialState, action) {
         type: MODES.select
       }
     };
-    const element = Elements[buttonID];
+    const element = CircuitComponents[buttonID];
     const mode = element
       ? {
         type: MODES.add,

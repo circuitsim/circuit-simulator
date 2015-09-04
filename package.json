@@ -33,7 +33,6 @@
     "art": "^0.10.0",
     "babel-runtime": "^5.2.17",
     "circuit-analysis": "^0.5",
-    "circuit-diagram": "^0",
     "circuit-models": "^0",
     "circuitsim-art-utils": "^0",
     "immutable-vector2d": "^0",
