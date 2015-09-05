@@ -54,10 +54,10 @@ export const initialState = {
   // }
   models: {},
 
-  // nodes: [
+  // nodes: [ // node ID is index in this array
   //   [ // array of views connected to this node
   //     {
-  //       viewID,
+  //       viewID, // maybe modelID would be better?
   //       index
   //     }
   //   ]
