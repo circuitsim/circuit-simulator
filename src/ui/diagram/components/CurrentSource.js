@@ -3,6 +3,7 @@ import { Shape } from 'react-art';
 import { BaseData } from './models/Models.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
+import Circle from '../../utils/Circle.js';
 
 import BoundingBox from '../BoundingBox.js';
 import CurrentPath from '../CurrentPath.js';
@@ -33,8 +34,8 @@ export default class CurrentSource extends React.Component {
           compEnd1 = mid.add(compOffset),
           compEnd2 = mid.subtract(compOffset),
 
-          circlePath1 = drawCircle(compEnd1, mid.subtract(circleOffset)),
-          circlePath2 = drawCircle(mid.add(circleOffset), compEnd2),
+          circlePoints1 = [compEnd1, mid.subtract(circleOffset)],
+          circlePoints2 = [mid.add(circleOffset), compEnd2],
 
           error = this.context
                   && this.context.animContext
@@ -52,17 +53,15 @@ export default class CurrentSource extends React.Component {
         onMouseOver={this.props.onMouseOver}
         onMouseOut={this.props.onMouseOut}
       >
-        <Shape
-          fill={this.props.theme.COLORS.transparent}
-          stroke={color}
-          strokeWidth={LINE_WIDTH}
-          d={circlePath1}
+        <Circle
+          lineColor={color}
+          lineWidth={LINE_WIDTH}
+          points={circlePoints1}
         />
-        <Shape
-          fill={this.props.theme.COLORS.transparent}
-          stroke={color}
-          strokeWidth={LINE_WIDTH}
-          d={circlePath2}
+        <Circle
+          lineColor={color}
+          lineWidth={LINE_WIDTH}
+          points={circlePoints2}
         />
         <Line
           color={color}
