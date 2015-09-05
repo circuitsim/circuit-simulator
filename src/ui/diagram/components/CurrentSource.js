@@ -1,5 +1,4 @@
 import React from 'react';
-import { Shape } from 'react-art';
 import { BaseData } from './models/Models.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
@@ -11,7 +10,7 @@ import CurrentPath from '../CurrentPath.js';
 import { get2PointConnectorPositionsFor } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
 
-const { drawCircle, PropTypes, midPoint, diff } = DrawingUtils;
+const { PropTypes, midPoint, diff } = DrawingUtils;
 
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
