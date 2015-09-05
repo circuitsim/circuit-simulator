@@ -58,6 +58,15 @@ const utils = {
         .close();
   },
 
+  drawCenteredCircle(p: Vector, radius: number) {
+    const offset = {
+      x: radius,
+      y: 0
+    };
+    const [p1, p2] = [p.subtract(offset), p.add(offset)];
+    return utils.drawCircle(p1, p2);
+  },
+
   drawCircle(p1: Vector, p2: Vector) {
     const v = utils.diff(p1, p2);
     const radius = v.length() / 2;

@@ -56,12 +56,16 @@ export default class CurrentSource extends React.Component {
         <Circle
           lineColor={color}
           lineWidth={LINE_WIDTH}
-          points={circlePoints1}
+          position={{
+            points: circlePoints1
+          }}
         />
         <Circle
           lineColor={color}
           lineWidth={LINE_WIDTH}
-          points={circlePoints2}
+          position={{
+            points: circlePoints2
+          }}
         />
         <Line
           color={color}
