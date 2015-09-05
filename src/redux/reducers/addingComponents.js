@@ -3,7 +3,6 @@ import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 import handleHover from '../../ui/diagram/handleHover.js';
 
-import MODES from '../../Modes.js';
 import {
   ADDING_START,
   ADDING_MOVE,
@@ -16,19 +15,19 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 
 export default function addingComponentsReducer(state, action) {
   switch (action.type) {
-  case ADDING_START:
-    return R.assoc('mode', {
-      type: MODES.adding,
-      componentType: state.mode.componentType,
+  case ADDING_START: {
+    const {coords, componentType} = action;
+    return R.assoc('addingComponent', {
       id: uuid.v4(),
-      start: action.coords
+      start: coords,
+      componentType
     }, state);
+  }
 
   case ADDING_MOVE: {
-    const startPoint = Vector.fromObject(state.mode.start),
+    const {start, id, componentType: type} = state.addingComponent,
+          startPoint = Vector.fromObject(start),
           dragPoint = Vector.fromObject(action.coords),
-          id = state.mode.id,
-          type = state.mode.componentType,
           connectors = getConnectorPositions(type, startPoint, dragPoint);
     if (connectors.length === 0) {
       return state; // couldn't get connector positions, maybe too small
@@ -48,22 +47,17 @@ export default function addingComponentsReducer(state, action) {
   }
 
   case ADDING_FINISH: {
-    const id = state.mode.id,
-          componentType = state.mode.componentType,
-          stateWithNextMode = R.assoc('mode', {
-            type: MODES.add,
-            componentType
-          }, state),
+    const { id } = state.addingComponent,
           newView = state.views[id];
 
     if (newView) {
       return R.pipe(
+        R.assoc('addingComponent', {}),
         R.assoc('circuitChanged', true),
         R.assocPath(['views', id, 'component'], handleHover(newView.component))
-      )(stateWithNextMode);
-    } else {
-      return stateWithNextMode;
+      )(state);
     }
+    return state;
   }
 
   default:

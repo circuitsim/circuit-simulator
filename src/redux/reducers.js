@@ -1,12 +1,18 @@
 import R from 'ramda';
-import CircuitComponents from '../ui/diagram/components/All.js';
 
 import addingComponentsReducer from './reducers/addingComponents.js';
+import modesReducer from './reducers/modes.js';
+
 import { getCircuitInfo, solveCircuit } from '../update/Solver.js';
 import { updateViews, setNodesInModels, toNodes } from '../update/CircuitUpdater.js';
 import MODES from '../Modes.js';
 
 import {
+  MODE_ADD,
+  MODE_ADDING,
+  MODE_SELECT,
+  CHANGE_MODE_BUTTON_CLICK,
+
   ADDING_START,
   ADDING_MOVE,
   ADDING_FINISH,
@@ -17,13 +23,16 @@ import {
   LOOP_BEGIN,
   LOOP_UPDATE,
 
-  COMPONENT_SELECTOR_BUTTON_CLICKED
+  SELECT_BUTTON
 } from './actions.js';
 
 export const initialState = {
   mode: {
     type: MODES.select
   },
+
+  addingComponent: {},
+
   currentOffset: 0,
 
   // views: {
@@ -63,6 +72,13 @@ export const initialState = {
 
 export default function simulatorReducer(state = initialState, action) {
   switch (action.type) {
+
+  case MODE_ADD:
+  case MODE_ADDING:
+  case MODE_SELECT:
+  case CHANGE_MODE_BUTTON_CLICK:
+    return modesReducer(state, action);
+
   case ADDING_START:
   case ADDING_MOVE:
   case ADDING_FINISH:
@@ -109,25 +125,8 @@ export default function simulatorReducer(state = initialState, action) {
     return R.assoc('currentOffset', state.currentOffset += action.delta, state);
 
 
-  case COMPONENT_SELECTOR_BUTTON_CLICKED: {
-    const buttonID = action.buttonID;
-    const updatedState = R.assoc('selectedButton', buttonID, state);
-
-    const buttonIdToModeMap = {
-      select: {
-        type: MODES.select
-      }
-    };
-    const element = CircuitComponents[buttonID];
-    const mode = element
-      ? {
-        type: MODES.add,
-        componentType: element
-      }
-      : buttonIdToModeMap[buttonID];
-
-    return R.assoc('mode', mode, updatedState);
-  }
+  case SELECT_BUTTON:
+    return R.assoc('selectedButton', action.buttonID, state);
 
   default:
     return state;
