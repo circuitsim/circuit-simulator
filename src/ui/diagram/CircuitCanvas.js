@@ -6,9 +6,9 @@ import Utils from '../utils/DrawingUtils.js';
 const Surface = ReactArt.Surface;
 
 const addPropsAndCreate = (extraProps) => (element) => {
-  // https://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-  const props = Object.assign({key: element.props.id}, extraProps || {}, element.props);
-  return React.createElement(element.component, props);
+  const CircuitComponent = element.component,
+        props = element.props;
+  return <CircuitComponent {...props} {...extraProps} key={props.id} />;
 };
 
 export default class CircuitCanvas extends React.Component {
