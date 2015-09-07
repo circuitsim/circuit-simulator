@@ -24,3 +24,7 @@ export function get2PointConnectorPositionsFor(minLength: number) {
     return [startPoint, startPoint.add(v).snap(GRID_SIZE)];
   };
 }
+
+export function getDisplayName(Component) {
+  return Component.displayName || Component.name || 'Component';
+}
