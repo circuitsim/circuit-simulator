@@ -1,17 +1,15 @@
 import React from 'react';
-import { Shape } from 'react-art';
+import { Shape, Group } from 'react-art';
 import { BaseData } from './models/Models.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
-import BoundingBox from '../BoundingBox.js';
 import CurrentPath from '../CurrentPath.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
+import { RESISTOR, GRID_SIZE } from '../Constants.js';
 
 const { drawRectBetweenTwoPoints, PropTypes, midPoint, diff } = DrawingUtils;
 
-const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
 const BaseResistorModel = BaseData.Resistor;
@@ -36,13 +34,7 @@ export default class Resistor extends React.Component {
           color = this.props.color || this.props.theme.COLORS.base;
 
     return (
-      <BoundingBox
-        from={wireEnd1}
-        to={wireEnd2}
-        width={BOUNDING_BOX_WIDTH}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-      >
+      <Group>
         <Shape
           fill={DrawingUtils.Colors.transparent}
           stroke={color}
@@ -64,7 +56,7 @@ export default class Resistor extends React.Component {
           current={current}
           theme={this.props.theme}
         />
-      </BoundingBox>
+      </Group>
     );
   }
 }
@@ -77,10 +69,7 @@ Resistor.propTypes = {
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
   color: React.PropTypes.string,
-  theme: React.PropTypes.object.isRequired,
-
-  onMouseOver: PropTypes.ArtListener,
-  onMouseOut: PropTypes.ArtListener
+  theme: React.PropTypes.object.isRequired
 };
 
 Resistor.defaultProps = {

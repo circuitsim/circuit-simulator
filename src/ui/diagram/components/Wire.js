@@ -1,13 +1,14 @@
 import React from 'react';
+import { Group } from 'react-art';
+
 import { BaseData } from './models/Models.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 
-import BoundingBox from '../BoundingBox.js';
 import CurrentPath from '../CurrentPath.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { BOUNDING_BOX_PADDING, GRID_SIZE } from '../Constants.js';
+import { GRID_SIZE } from '../Constants.js';
 
 const { PropTypes } = DrawingUtils;
 
@@ -19,19 +20,10 @@ export default class Wire extends React.Component {
 
   render() {
     const { LINE_WIDTH } = this.props.theme.ART,
-          BOUNDING_BOX_WIDTH = LINE_WIDTH + BOUNDING_BOX_PADDING * 2,
-
-          [end1, end2] = this.props.connectors,
           color = this.props.color || this.props.theme.COLORS.base;
 
     return (
-      <BoundingBox
-        from={end1}
-        to={end2}
-        width={BOUNDING_BOX_WIDTH}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-      >
+      <Group>
         <Line
           color={color}
           points={this.props.connectors}
@@ -42,7 +34,7 @@ export default class Wire extends React.Component {
           current={this.props.currents[0]}
           theme={this.props.theme}
         />
-      </BoundingBox>
+      </Group>
     );
   }
 }
@@ -55,10 +47,7 @@ Wire.propTypes = {
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
   color: React.PropTypes.string,
-  theme: React.PropTypes.object.isRequired,
-
-  onMouseOver: PropTypes.ArtListener,
-  onMouseOut: PropTypes.ArtListener
+  theme: React.PropTypes.object.isRequired
 };
 
 Wire.defaultProps = {

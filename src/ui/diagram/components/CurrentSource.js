@@ -1,18 +1,17 @@
 import React from 'react';
+import { Group } from 'react-art';
 import { BaseData } from './models/Models.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import Circle from '../../utils/Circle.js';
 
-import BoundingBox from '../BoundingBox.js';
 import CurrentPath from '../CurrentPath.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
+import { CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
 
 const { PropTypes, midPoint, diff } = DrawingUtils;
 
-const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
 const BaseCurrentSourceModel = BaseData.CurrentSource;
@@ -45,13 +44,7 @@ export default class CurrentSource extends React.Component {
           color = this.props.color || this.props.theme.COLORS.base;
 
     return (
-      <BoundingBox
-        from={wireEnd1}
-        to={wireEnd2}
-        width={BOUNDING_BOX_WIDTH}
-        onMouseOver={this.props.onMouseOver}
-        onMouseOut={this.props.onMouseOut}
-      >
+      <Group>
         <Circle
           lineColor={color}
           lineWidth={LINE_WIDTH}
@@ -81,7 +74,7 @@ export default class CurrentSource extends React.Component {
           current={current}
           theme={this.props.theme}
         />
-      </BoundingBox>
+      </Group>
     );
   }
 }
@@ -94,10 +87,7 @@ CurrentSource.propTypes = {
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
   color: React.PropTypes.string,
-  theme: React.PropTypes.object.isRequired,
-
-  onMouseOver: PropTypes.ArtListener,
-  onMouseOut: PropTypes.ArtListener
+  theme: React.PropTypes.object.isRequired
 };
 
 CurrentSource.defaultProps = {
