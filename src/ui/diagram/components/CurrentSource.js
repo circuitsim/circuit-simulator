@@ -4,14 +4,16 @@ import { BaseData } from './models/AllModels.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import Circle from '../../utils/Circle.js';
+import boundingBox from '../boundingBox.js';
 
 import CurrentPath from '../CurrentPath.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
+import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
 
 const { PropTypes, midPoint, diff } = DrawingUtils;
 
+const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
 const BaseCurrentSourceModel = BaseData.CurrentSource;
@@ -105,7 +107,4 @@ CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH)
 
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
-// TODO CurrentSource.getBoundingBox = connectors => {
-//  Used instead of handleHover to decide which CircuitComponent is being hovered
-//  return new Shape(...); // has method: Shape.contains(Point)
-// }
+CurrentSource.getBoundingBox = boundingBox(BOUNDING_BOX_WIDTH);

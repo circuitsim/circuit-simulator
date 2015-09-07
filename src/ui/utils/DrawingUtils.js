@@ -23,7 +23,7 @@ const utils = {
     };
   },
 
-  drawRectBetweenTwoPoints(p1: Vector, p2: Vector, width: number) {
+  getRectPointsBetween(p1: Vector, p2: Vector, width: number) {
     const v = utils.diff(p1, p2);
     const p = { // perpendicular
       x: v.y,
@@ -43,6 +43,11 @@ const utils = {
       {x: p2.x + np.x, y: p2.y + np.y}
     ];
 
+    return cs;
+  },
+
+  getRectPathBetween(p1: Vector, p2: Vector, width: number) {
+    const cs = utils.getRectPointsBetween(p1, p2, width);
     return new Path()
         .moveTo(cs[0].x, cs[0].y)
         .lineTo(cs[1].x, cs[1].y)

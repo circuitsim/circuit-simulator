@@ -4,12 +4,14 @@ import { BaseData } from './models/AllModels.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import CurrentPath from '../CurrentPath.js';
+import boundingBox from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { RESISTOR, GRID_SIZE } from '../Constants.js';
+import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
 
-const { drawRectBetweenTwoPoints, PropTypes, midPoint, diff } = DrawingUtils;
+const { getRectPathBetween, PropTypes, midPoint, diff } = DrawingUtils;
 
+const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
 const BaseResistorModel = BaseData.Resistor;
@@ -26,7 +28,7 @@ export default class Resistor extends React.Component {
           compEnd1 = mid.add(n),
           compEnd2 = mid.subtract(n),
 
-          rectPath = drawRectBetweenTwoPoints(compEnd1, compEnd2, RESISTOR.WIDTH),
+          rectPath = getRectPathBetween(compEnd1, compEnd2, RESISTOR.WIDTH),
 
           voltages = this.props.voltages,
           current = (voltages[0] - voltages[1]) / this.props.resistance,
@@ -80,3 +82,5 @@ Resistor.defaultProps = {
 Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
 Resistor.typeID = BaseResistorModel.typeID;
+
+Resistor.getBoundingBox = boundingBox(BOUNDING_BOX_WIDTH);

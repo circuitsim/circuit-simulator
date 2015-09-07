@@ -4,11 +4,11 @@ import { Group } from 'react-art';
 import { BaseData } from './models/AllModels.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
-
 import CurrentPath from '../CurrentPath.js';
+import boundingBox from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { GRID_SIZE } from '../Constants.js';
+import { BOUNDING_BOX_PADDING, GRID_SIZE } from '../Constants.js';
 
 const { PropTypes } = DrawingUtils;
 
@@ -58,3 +58,5 @@ Wire.defaultProps = {
 Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
 Wire.typeID = BaseWireModel.typeID;
+
+Wire.getBoundingBox = boundingBox(BOUNDING_BOX_PADDING * 2);
