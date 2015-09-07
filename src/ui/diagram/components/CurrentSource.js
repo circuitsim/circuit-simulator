@@ -103,7 +103,7 @@ CurrentSource.contextTypes = {
 
 CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
-CurrentSource.model = BaseCurrentSourceModel;
+CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
 // TODO CurrentSource.getBoundingBox = connectors => {
 //  Used instead of handleHover to decide which CircuitComponent is being hovered

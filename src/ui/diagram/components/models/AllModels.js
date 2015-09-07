@@ -18,7 +18,7 @@ function setKeyAsTypeID(model, typeID) {
 }
 
 /**
- * List of default data for each model typeID
+ * Map from typeID to default data
  */
 export const BaseData = R.mapObjIndexed(setKeyAsTypeID, MODELS);
 

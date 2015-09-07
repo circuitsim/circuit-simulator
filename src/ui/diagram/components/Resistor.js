@@ -79,4 +79,4 @@ Resistor.defaultProps = {
 
 Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
-Resistor.model = BaseResistorModel;
+Resistor.typeID = BaseResistorModel.typeID;
