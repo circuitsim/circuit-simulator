@@ -1,5 +1,5 @@
 import R from 'ramda';
-import CircuitComponents from '../../ui/diagram/components/All.js';
+import CircuitComponents from '../../ui/diagram/components/AllViews.js';
 
 import MODES from '../../Modes.js';
 import {

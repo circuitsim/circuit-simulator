@@ -1,3 +1,3 @@
 # Elements
 
-All elements should be imported using [All.js](./All.js) so they have a `typeID`.
+All elements should be imported using [AllViews.js](./AllViews.js) so they have a `typeID`.

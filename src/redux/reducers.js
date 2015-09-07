@@ -1,6 +1,6 @@
 import R from 'ramda';
 
-import { BaseData as Models } from '../ui/diagram/components/models/Models.js';
+import { BaseData as Models } from '../ui/diagram/components/models/AllModels.js';
 
 import addingComponentsReducer from './reducers/addingComponents.js';
 import modesReducer from './reducers/modes.js';

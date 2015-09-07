@@ -2,7 +2,7 @@ import React from 'react';
 import ReactArt from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
-import CircuitComponents from '../diagram/components/All.js';
+import CircuitComponents from '../diagram/components/AllViews.js';
 
 const Surface = ReactArt.Surface;
 

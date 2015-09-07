@@ -1,7 +1,7 @@
 import R from 'ramda';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
-import Components from '../../ui/diagram/components/All.js';
+import Components from '../../ui/diagram/components/AllViews.js';
 
 import {
   ADDING_START,

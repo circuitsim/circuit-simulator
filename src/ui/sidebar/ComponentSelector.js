@@ -1,7 +1,7 @@
 import React from 'react';
 import createFragment from 'react-addons-create-fragment';
 import R from 'ramda';
-import CircuitComponents from '../diagram/components/All.js';
+import CircuitComponents from '../diagram/components/AllViews.js';
 
 import Button from './Button.js';
 import ButtonGroup from './ButtonGroup.js';

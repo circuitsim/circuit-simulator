@@ -1,5 +1,5 @@
 import Keys from 'keyboard-shortcuts';
-import CircuitComponents from '../ui/diagram/components/All.js';
+import CircuitComponents from '../ui/diagram/components/AllViews.js';
 
 export const KeyToElement = {
   [Keys.c]: CircuitComponents.CurrentSource,
