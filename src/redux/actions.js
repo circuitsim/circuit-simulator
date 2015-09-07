@@ -20,6 +20,8 @@ export const KEY_PRESS = 'KEY_PRESS';
 
 export const SELECT_BUTTON = 'SELECT_BUTTON';
 
+export const MOUSE_MOVED = 'MOUSE_MOVED';
+
 // Action creators
 export function canvasMouseDown(coords) {
   return function(dispatch, getState) {
@@ -40,6 +42,10 @@ export function canvasMouseDown(coords) {
 
 export function canvasMouseMove(coords) {
   return function(dispatch, getState) {
+    dispatch({
+      type: MOUSE_MOVED,
+      coords
+    });
     if (getState().mode.type === MODES.adding) {
       dispatch({
         type: ADDING_MOVE,

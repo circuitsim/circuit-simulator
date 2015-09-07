@@ -25,13 +25,17 @@ import {
   LOOP_BEGIN,
   LOOP_UPDATE,
 
-  SELECT_BUTTON
+  SELECT_BUTTON,
+
+  MOUSE_MOVED
 } from './actions.js';
 
 export const initialState = {
   mode: {
     type: MODES.select
   },
+
+  mousePos: {},
 
   addingComponent: {},
 
@@ -77,6 +81,7 @@ export default function simulatorReducer(state = initialState, action) {
 
 
   case LOOP_BEGIN:
+    // TODO check if mouse is over a circuit component 
     if (state.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
       let preViews = state.views;
@@ -126,6 +131,9 @@ export default function simulatorReducer(state = initialState, action) {
 
   case SELECT_BUTTON:
     return R.assoc('selectedButton', action.buttonID, state);
+
+  case MOUSE_MOVED:
+    return R.assoc('mousePos', action.coords, state);
 
   default:
     return state;
