@@ -3,13 +3,27 @@ import ReactArt from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
+import handleHover from './highlightOnHover.js';
 
 const Surface = ReactArt.Surface;
 
-const createWithProps = extraProps => component => {
-  const CircuitComponent = CircuitComponents[component.typeID],
-        props = component.props;
-  return <CircuitComponent {...props} {...extraProps} key={props.id} />;
+const create = component => {
+  const {CircuitComponent, props} = component;
+  return <CircuitComponent {...props} key={props.id} />;
+};
+
+const lookUpComponent = component => {
+  return {
+    CircuitComponent: CircuitComponents[component.typeID],
+    props: component.props
+  };
+};
+
+const addModifiers = component => {
+  return {
+    CircuitComponent: handleHover(component.CircuitComponent),
+    props: component.props
+  };
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -43,11 +57,20 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const create = createWithProps({
-      handlers: this.props.handlers.component,
-      theme: this.props.theme
-    });
-    const circuitComponents = R.map(create, this.props.circuitComponents);
+    const addProps = component => {
+      return R.assoc('props', R.merge(component.props, {
+        handlers: this.props.handlers.component,
+        theme: this.props.theme,
+        hover: component.props.id === this.props.hoveredViewID
+      }), component);
+    };
+    const circuitComponents = R.pipe(
+      R.map(addProps),
+      R.map(lookUpComponent),
+      R.map(addModifiers),
+      R.map(create)
+    )(this.props.circuitComponents);
+
     return (
       <div ref='canvas'
         onMouseDown={this.onMouse}
@@ -102,6 +125,7 @@ CircuitCanvas.propTypes = {
   circuitComponents: React.PropTypes.arrayOf(
     CircuitComponent
   ),
+  hoveredViewID: React.PropTypes.string,
 
   // action creators
   handlers: React.PropTypes.shape({

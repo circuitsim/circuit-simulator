@@ -1,6 +1,8 @@
 import R from 'ramda';
 
+import CircuitComponents from '../ui/diagram/components/AllViews.js';
 import { BaseData as Models } from '../ui/diagram/components/models/AllModels.js';
+import { isPointIn } from '../ui/diagram/boundingBox.js';
 
 import addingComponentsReducer from './reducers/addingComponents.js';
 import modesReducer from './reducers/modes.js';
@@ -51,6 +53,7 @@ export const initialState = {
   //   }
   // }
   views: {},
+  hoveredViewID: null,
 
   circuitChanged: false,
   error: false, // string | false
@@ -80,13 +83,31 @@ export default function simulatorReducer(state = initialState, action) {
     return R.assocPath(['views', action.id, 'props', 'hover'], false, state);
 
 
-  case LOOP_BEGIN:
-    // TODO check if mouse is over a circuit component 
-    if (state.circuitChanged) {
+  case LOOP_BEGIN: {
+    let localState = state;
+    const views = localState.views;
+
+    const isMouseOver = view => {
+      const { typeID, props: { connectors }} = view;
+      const CircuitComp = CircuitComponents[typeID];
+      if (localState.addingComponent.id === view.props.id) {
+        return false; // don't detect hovers over component being added
+      }
+      return isPointIn(localState.mousePos, CircuitComp.getBoundingBox(connectors));
+    };
+
+    const hoveredViewID = R.pipe(
+      R.filter(isMouseOver),
+      R.map(view => view.props.id),
+      R.head // TODO better strategy for choosing
+    )(R.values(views));
+
+    localState = R.assocPath(['hoveredViewID'], hoveredViewID, localState);
+
+    if (localState.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
-      let preViews = state.views;
-      const nodes = toNodes(preViews);
-      const preModels = R.mapObj(view => Models[view.typeID], preViews);
+      const nodes = toNodes(views);
+      const preModels = R.mapObj(view => Models[view.typeID], views);
       const models = setNodesInModels(preModels, nodes);
 
       // solve the circuit
@@ -113,17 +134,18 @@ export default function simulatorReducer(state = initialState, action) {
       const {solution, error} = solveCircuit(circuit, circuitInfo);
 
       // update view with new circuit state
-      const views = updateViews(models, circuitInfo, preViews, solution);
+      const updatedViews = updateViews(models, circuitInfo, views, solution);
 
       if (error) { console.warn(error); } // eslint-disable-line no-console
 
       return R.pipe(
-        R.assoc('views', views),
+        R.assoc('views', updatedViews),
         R.assoc('circuitChanged', false),
         R.assoc('error', error || false)
-      )(state);
+      )(localState);
     }
-    return state;
+    return localState;
+  }
 
   case LOOP_UPDATE:
     return R.assoc('currentOffset', state.currentOffset += action.delta, state);
