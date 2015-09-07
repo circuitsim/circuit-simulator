@@ -32,10 +32,11 @@ Circle.propTypes = {
     })
   ]).isRequired,
   fillColor: React.PropTypes.string,
-  lineColor: React.PropTypes.string.isRequired,
+  lineColor: React.PropTypes.string,
   lineWidth: React.PropTypes.number.isRequired
 };
 
 Circle.defaultProps = {
-  fillColor: 'rgba(0,0,0,0)'
+  fillColor: 'rgba(0,0,0,0)',
+  lineColor: 'rgba(0,0,0,0)'
 };

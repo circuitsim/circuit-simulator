@@ -10,7 +10,7 @@ const ART = {
   LINE_WIDTH: 2
 };
 
-const BASE_COLOR = '#bbb';
+const BASE_COLOR = '#aaa';
 const ELECTRIC_BLUE = '#7DF9FF';
 
 const COLORS = {
