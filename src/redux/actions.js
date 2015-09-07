@@ -27,11 +27,11 @@ export function canvasMouseDown(coords) {
     if (mode.type === MODES.add) {
       dispatch({
         type: MODE_ADDING,
-        componentType: mode.componentType
+        typeID: mode.typeID
       });
       dispatch({
         type: ADDING_START,
-        componentType: mode.componentType,
+        typeID: mode.typeID,
         coords
       });
     }
@@ -55,7 +55,7 @@ export function canvasMouseUp(coords) {
     if (mode.type === MODES.adding) {
       dispatch({
         type: MODE_ADD,
-        componentType: mode.componentType
+        typeID: mode.typeID
       });
       dispatch({
         type: ADDING_FINISH,

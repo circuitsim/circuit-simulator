@@ -1,5 +1,7 @@
 import R from 'ramda';
 
+import { BaseData as Models } from '../ui/diagram/components/models/Models.js';
+
 import addingComponentsReducer from './reducers/addingComponents.js';
 import modesReducer from './reducers/modes.js';
 
@@ -37,7 +39,7 @@ export const initialState = {
 
   // views: {
   //   id: {
-  //     ReactComponent,
+  //     typeID,
   //     props: {
   //       id,
   //       connectors: [Vector]
@@ -45,24 +47,6 @@ export const initialState = {
   //   }
   // }
   views: {},
-
-  // models: {
-  //   id: {
-  //     typeID,
-  //     nodes: [nodeIDs]
-  //   }
-  // }
-  models: {},
-
-  // nodes: [ // node ID is index in this array
-  //   [ // array of views connected to this node
-  //     {
-  //       viewID, // maybe modelID would be better?
-  //       index
-  //     }
-  //   ]
-  // ]
-  nodes: [],
 
   circuitChanged: false,
   error: false, // string | false
@@ -95,26 +79,41 @@ export default function simulatorReducer(state = initialState, action) {
   case LOOP_BEGIN:
     if (state.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
-      const nodes = toNodes(state.views);
-      const models = setNodesInModels(state.models, nodes);
+      let preViews = state.views;
+      const nodes = toNodes(preViews);
+      const preModels = R.mapObj(view => Models[view.typeID], preViews);
+      const models = setNodesInModels(preModels, nodes);
 
       // solve the circuit
       const circuit = {
-        nodes,
-        models
+        // models: {
+        //   id: {
+        //     typeID,
+        //     nodes: [nodeIDs]
+        //   }
+        // }
+        models,
+
+        // nodes: [ // node ID is index in this array
+        //   [ // array of views connected to this node
+        //     {
+        //       viewID, // maybe modelID would be better?
+        //       index
+        //     }
+        //   ]
+        // ]
+        nodes
       };
       const circuitInfo = getCircuitInfo(circuit);
       const {solution, error} = solveCircuit(circuit, circuitInfo);
 
       // update view with new circuit state
-      const views = updateViews(models, circuitInfo, state.views, solution);
+      const views = updateViews(models, circuitInfo, preViews, solution);
 
       if (error) { console.warn(error); } // eslint-disable-line no-console
 
       return R.pipe(
         R.assoc('views', views),
-        R.assoc('models', models),
-        R.assoc('nodes', nodes),
         R.assoc('circuitChanged', false),
         R.assoc('error', error || false)
       )(state);

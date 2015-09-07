@@ -10,6 +10,7 @@ function addTypeID(component) {
   return component;
 }
 
+// FIXME I've assumed that component views are indexed by their typeID but this is not enforced
 // All elements should be imported from here so the type ID is included
 export default R.mapObj(addTypeID, {
   CurrentSource,

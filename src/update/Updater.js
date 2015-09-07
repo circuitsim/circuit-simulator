@@ -15,6 +15,10 @@ import {
   rather than subscribing to store changes. */
 function Updater(store) {
 
+  function begin() {
+    store.dispatch(loopBegin());
+  }
+
   // uses previous state + delta to calculate new props for CircuitCanvas
   function update(delta) {
 
@@ -24,7 +28,7 @@ function Updater(store) {
 
     return {
       props: {
-        elements: R.values(state.views),
+        circuitComponents: R.values(state.views),
         handlers: {
           canvas: {
             onMouseDown: coords => store.dispatch(canvasMouseDown(coords)),
@@ -42,10 +46,6 @@ function Updater(store) {
         circuitError: state.error
       }
     };
-  }
-
-  function begin() {
-    store.dispatch(loopBegin());
   }
 
   return {

@@ -37,7 +37,7 @@ export function toNodes(views) {
   // IN:
   // views: {
   //   id: {
-  //     component: ReactComponent,
+  //     typeID: string,
   //     props: {
   //       id,
   //       connectors: [Vector]

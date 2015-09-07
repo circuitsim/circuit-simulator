@@ -58,7 +58,7 @@ export const BASIC_CIRCUIT = {
   },
   views: {
     CurrentSource1: {
-      component: undefined,
+      typeID: 'CurrentSource',
       props: {
         id: 'CurrentSource1',
         connectors: [
@@ -68,7 +68,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Wire1: {
-      component: undefined,
+      typeID: 'Wire',
       props: {
         id: 'Wire1',
         connectors: [
@@ -78,7 +78,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Resistor1: {
-      component: undefined,
+      typeID: 'Resistor',
       props: {
         id: 'Resistor1',
         connectors: [
@@ -88,7 +88,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Wire2: {
-      component: undefined,
+      typeID: 'Wire',
       props: {
         id: 'Wire2',
         connectors: [
@@ -100,7 +100,7 @@ export const BASIC_CIRCUIT = {
   },
   viewsSolution: {
     CurrentSource1: {
-      component: undefined,
+      typeID: 'CurrentSource',
       props: {
         id: 'CurrentSource1',
         connectors: [
@@ -114,7 +114,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Wire1: {
-      component: undefined,
+      typeID: 'Wire',
       props: {
         id: 'Wire1',
         connectors: [
@@ -131,7 +131,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Resistor1: {
-      component: undefined,
+      typeID: 'Resistor',
       props: {
         id: 'Resistor1',
         connectors: [
@@ -145,7 +145,7 @@ export const BASIC_CIRCUIT = {
       }
     },
     Wire2: {
-      component: undefined,
+      typeID: 'Wire',
       props: {
         id: 'Wire2',
         connectors: [

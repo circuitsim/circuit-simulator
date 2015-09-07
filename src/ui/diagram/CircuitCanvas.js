@@ -2,12 +2,13 @@ import React from 'react';
 import ReactArt from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
+import CircuitComponents from '../diagram/components/All.js';
 
 const Surface = ReactArt.Surface;
 
-const addPropsAndCreate = (extraProps) => (element) => {
-  const CircuitComponent = element.component,
-        props = element.props;
+const createWithProps = extraProps => component => {
+  const CircuitComponent = CircuitComponents[component.typeID],
+        props = component.props;
   return <CircuitComponent {...props} {...extraProps} key={props.id} />;
 };
 
@@ -42,11 +43,11 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const elements = R.map(addPropsAndCreate({
+    const create = createWithProps({
       handlers: this.props.handlers.component,
       theme: this.props.theme
-    }), this.props.elements);
-
+    });
+    const circuitComponents = R.map(create, this.props.circuitComponents);
     return (
       <div ref='canvas'
         onMouseDown={this.onMouse}
@@ -62,7 +63,7 @@ export default class CircuitCanvas extends React.Component {
           height={this.props.height}
           style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
         >
-          {elements}
+          {circuitComponents}
         </Surface>
       </div>
     );
@@ -70,7 +71,8 @@ export default class CircuitCanvas extends React.Component {
 }
 
 CircuitCanvas.defaultProps = {
-  elements: [],
+  circuitComponents: [],
+
   handlers: {
     canvas: {
       onMouseDown: () => {},
@@ -84,6 +86,11 @@ CircuitCanvas.defaultProps = {
   }
 };
 
+const CircuitComponent = React.PropTypes.shape({
+  typeID: React.PropTypes.string,
+  props: React.PropTypes.object
+});
+
 CircuitCanvas.propTypes = {
   // appearence
   width: React.PropTypes.number.isRequired,
@@ -92,14 +99,8 @@ CircuitCanvas.propTypes = {
   style: React.PropTypes.object,
 
   //state
-  elements: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      component: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.func // ReactClass is a function (could do better checking here)
-      ]),
-      props: React.PropTypes.object
-    })
+  circuitComponents: React.PropTypes.arrayOf(
+    CircuitComponent
   ),
 
   // action creators

@@ -20,13 +20,13 @@ export default function addingComponentsReducer(state, action) {
   case MODE_ADD:
     return R.assoc('mode', {
       type: MODES.add,
-      componentType: action.componentType
+      typeID: action.typeID
     }, state);
 
   case MODE_ADDING:
     return R.assoc('mode', {
       type: MODES.adding,
-      componentType: action.componentType
+      typeID: action.typeID
     }, state);
 
   case MODE_SELECT:
@@ -36,12 +36,11 @@ export default function addingComponentsReducer(state, action) {
 
   case CHANGE_MODE_BUTTON_CLICK: {
     const buttonID = action.buttonID;
-    const element = CircuitComponents[buttonID];
-    const mode = element
+    const mode = R.has(buttonID, CircuitComponents)
     // if the button ID is a component type, then enter add mode
       ? {
         type: MODES.add,
-        componentType: element
+        typeID: buttonID
       }
     // else look up the mode in the map
       : buttonIdToModeMap[buttonID];

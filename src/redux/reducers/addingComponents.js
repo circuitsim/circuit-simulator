@@ -1,7 +1,7 @@
 import R from 'ramda';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
-import handleHover from '../../ui/diagram/handleHover.js';
+import Components from '../../ui/diagram/components/All.js';
 
 import {
   ADDING_START,
@@ -16,28 +16,27 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
 export default function addingComponentsReducer(state, action) {
   switch (action.type) {
   case ADDING_START: {
-    const {coords, componentType} = action;
+    const {coords, typeID} = action;
     return R.assoc('addingComponent', {
       id: uuid.v4(),
       start: coords,
-      componentType
+      typeID
     }, state);
   }
 
   case ADDING_MOVE: {
-    const {start, id, componentType: type} = state.addingComponent,
+    const {start, id, typeID} = state.addingComponent,
           startPoint = Vector.fromObject(start),
           dragPoint = Vector.fromObject(action.coords),
-          connectors = getConnectorPositions(type, startPoint, dragPoint);
+          connectors = getConnectorPositions(Components[typeID], startPoint, dragPoint);
     if (connectors.length === 0) {
       return state; // couldn't get connector positions, maybe too small
     }
 
     return R.pipe(
       R.assoc('circuitChanged', true),
-      R.assocPath(['models', id], type.model),
       R.assocPath(['views', id], {
-        component: type,
+        typeID,
         props: {
           id,
           connectors
@@ -47,17 +46,7 @@ export default function addingComponentsReducer(state, action) {
   }
 
   case ADDING_FINISH: {
-    const { id } = state.addingComponent,
-          newView = state.views[id];
-
-    if (newView) {
-      return R.pipe(
-        R.assoc('addingComponent', {}),
-        R.assoc('circuitChanged', true),
-        R.assocPath(['views', id, 'component'], handleHover(newView.component))
-      )(state);
-    }
-    return state;
+    return R.assoc('addingComponent', {}, state);
   }
 
   default:
