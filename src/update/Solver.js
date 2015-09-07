@@ -22,29 +22,36 @@ function blankSolution(circuitInfo) {
   return Array.fill(new Array(n), 0);
 }
 
+function anError(circuitInfo, error) {
+  return {
+    solution: blankSolution(circuitInfo),
+    error
+  };
+}
+
 export function solveCircuit(circuit, circuitInfo) {
   try {
     const problem = hasPathProblem(circuit);
     if (problem) {
-      throw problem;
+      return anError(circuitInfo, problem);
     }
+
     const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
     R.forEach(model => {
       stamp(model, stamper);
     }, R.values(circuit.models));
+
     const solution = R.flatten(solve()()); // flatten single column matrix into array
     if (R.any(isNaN, solution)) {
-      throw 'Error: Solution contained NaNs';
+      return anError(circuitInfo, 'Error: Solution contained NaNs');
     }
+
     return {
       solution: solution,
       error: false
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
-    return {
-      solution: blankSolution(circuitInfo),
-      error: e
-    };
+    return anError(circuitInfo, e);
   }
 }
