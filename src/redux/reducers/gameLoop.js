@@ -20,10 +20,19 @@ function setHover(state) {
     return isPointIn(state.mousePos, CircuitComp.getBoundingBox(connectors));
   };
 
+  const pickBest = R.reduce((currentBest, viewID) => {
+    return currentBest || viewID;
+  }, state.hoveredViewID); // prefer currently hovered view
+
+  const moreThanOne = R.pipe(
+    R.length,
+    R.gt(R.__, 1) // eslint-disable-line no-underscore-dangle
+  );
+
   const hoveredViewID = R.pipe(
     R.filter(isMouseOver),
     R.map(view => view.props.id),
-    R.head // TODO better strategy for choosing
+    R.ifElse(moreThanOne, pickBest, R.head)
   )(R.values(views));
 
   return R.assocPath(['hoveredViewID'], hoveredViewID, state);
