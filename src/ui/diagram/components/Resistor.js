@@ -8,6 +8,7 @@ import boundingBox from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
+import { LINE_WIDTH } from '../../Constants.js';
 
 const { getRectPathBetween, PropTypes, midPoint, diff } = DrawingUtils;
 
@@ -19,9 +20,7 @@ const BaseResistorModel = BaseData.Resistor;
 export default class Resistor extends React.Component {
 
   render() {
-    const {LINE_WIDTH} = this.props.theme.ART,
-
-          [wireEnd1, wireEnd2] = this.props.connectors,
+    const [wireEnd1, wireEnd2] = this.props.connectors,
 
           n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
           mid = midPoint(wireEnd1, wireEnd2),

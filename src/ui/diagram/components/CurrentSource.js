@@ -10,6 +10,7 @@ import CurrentPath from '../CurrentPath.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
+import { LINE_WIDTH } from '../../Constants.js';
 
 const { PropTypes, midPoint, diff } = DrawingUtils;
 
@@ -21,9 +22,7 @@ const BaseCurrentSourceModel = BaseData.CurrentSource;
 export default class CurrentSource extends React.Component {
 
   render() {
-    const {LINE_WIDTH} = this.props.theme.ART,
-
-          [wireEnd1, wireEnd2] = this.props.connectors,
+    const [wireEnd1, wireEnd2] = this.props.connectors,
 
           mid = midPoint(wireEnd1, wireEnd2),
           n = diff(wireEnd1, wireEnd2).normalize(),

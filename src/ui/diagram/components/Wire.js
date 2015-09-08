@@ -9,6 +9,7 @@ import boundingBox from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, GRID_SIZE } from '../Constants.js';
+import { LINE_WIDTH } from '../../Constants.js';
 
 const { PropTypes } = DrawingUtils;
 
@@ -19,8 +20,7 @@ const BaseWireModel = BaseData.Wire;
 export default class Wire extends React.Component {
 
   render() {
-    const { LINE_WIDTH } = this.props.theme.ART,
-          color = this.props.color || this.props.theme.COLORS.base;
+    const color = this.props.color || this.props.theme.COLORS.base;
 
     return (
       <Group>

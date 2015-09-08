@@ -2,6 +2,7 @@ import React from 'react';
 import {Shape, Path} from 'react-art';
 import Vector from 'immutable-vector2d';
 import Utils from '../../utils/DrawingUtils.js';
+import { LINE_WIDTH } from '../../Constants.js';
 
 const STEM_SIZE = new Vector(6, 15);
 const ARROW_LENGTH = 42;
@@ -36,7 +37,7 @@ export default class Mouse extends React.Component {
 
     return (
       <Shape
-        strokeWidth={this.props.theme.ART.LINE_WIDTH}
+        strokeWidth={LINE_WIDTH}
         stroke={this.props.color}
         strokeJoin='round'
         d={path}

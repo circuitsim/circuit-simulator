@@ -6,10 +6,6 @@ const trans = function(color: string, by = 0.5) {
   return c.clearer(by).rgbString();
 };
 
-const ART = {
-  LINE_WIDTH: 2
-};
-
 const BASE_COLOR = '#aaa';
 const ELECTRIC_BLUE = '#7DF9FF';
 
@@ -31,7 +27,6 @@ const TYPOGRAPHY = {
 };
 
 export default {
-  ART,
   COLORS,
   TYPOGRAPHY
 };
