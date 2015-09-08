@@ -9,28 +9,33 @@ import {
   LOOP_UPDATE
 } from '../actions.js';
 
+function setHover(state) {
+  const views = state.views;
+  const isMouseOver = view => {
+    const { typeID, props: { connectors }} = view;
+    const CircuitComp = CircuitComponents[typeID];
+    if (state.addingComponent.id === view.props.id) {
+      return false; // don't detect hovers over component being added
+    }
+    return isPointIn(state.mousePos, CircuitComp.getBoundingBox(connectors));
+  };
+
+  const hoveredViewID = R.pipe(
+    R.filter(isMouseOver),
+    R.map(view => view.props.id),
+    R.head // TODO better strategy for choosing
+  )(R.values(views));
+
+  return R.assocPath(['hoveredViewID'], hoveredViewID, state);
+}
+
 export default function gameLoopReducers(state, action) {
   switch (action.type) {
   case LOOP_BEGIN: {
     let localState = state;
     const views = localState.views;
 
-    const isMouseOver = view => {
-      const { typeID, props: { connectors }} = view;
-      const CircuitComp = CircuitComponents[typeID];
-      if (localState.addingComponent.id === view.props.id) {
-        return false; // don't detect hovers over component being added
-      }
-      return isPointIn(localState.mousePos, CircuitComp.getBoundingBox(connectors));
-    };
-
-    const hoveredViewID = R.pipe(
-      R.filter(isMouseOver),
-      R.map(view => view.props.id),
-      R.head // TODO better strategy for choosing
-    )(R.values(views));
-
-    localState = R.assocPath(['hoveredViewID'], hoveredViewID, localState);
+    localState = setHover(localState);
 
     if (localState.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
