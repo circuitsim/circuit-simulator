@@ -9,7 +9,7 @@ export default class Circle extends React.Component {
     const {position, fillColor, lineColor, lineWidth} = this.props,
           path = position.points
             ? drawCircle(...position.points)
-            : drawCenteredCircle(position.center);
+            : drawCenteredCircle(position.center, position.radius);
 
     return (
       <Shape
@@ -25,7 +25,8 @@ export default class Circle extends React.Component {
 Circle.propTypes = {
   position: React.PropTypes.oneOfType([
     React.PropTypes.shape({
-      center: PropTypes.Vector
+      center: PropTypes.Vector,
+      radius: PropTypes.number
     }),
     React.PropTypes.shape({
       points: React.PropTypes.arrayOf(PropTypes.Vector) // two points
