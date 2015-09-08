@@ -13,6 +13,10 @@ const utils = {
     return p1.subtract(p2);
   },
 
+  distance(p1: Vector, p2: Vector): Vector {
+    return p1.subtract(p2);
+  },
+
   relMouseCoords(event, node) {
     return evPos(event.nativeEvent || event, node);
   },

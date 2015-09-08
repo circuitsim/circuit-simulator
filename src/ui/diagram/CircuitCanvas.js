@@ -4,6 +4,7 @@ import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
 import handleHover from './highlightOnHover.js';
+import showConnectors from './showConnectors.js';
 
 const Surface = ReactArt.Surface;
 
@@ -21,7 +22,7 @@ const lookUpComponent = component => {
 
 const addModifiers = component => {
   return {
-    CircuitComponent: handleHover(component.CircuitComponent),
+    CircuitComponent: handleHover(showConnectors(component.CircuitComponent)),
     props: component.props
   };
 };
