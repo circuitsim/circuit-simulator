@@ -28,6 +28,6 @@ Connector.propTypes = {
   color: React.PropTypes.string.isRequired
 };
 
-Connector.isMouseOver = (mousePos, connectorPos) => {
-  return distance(mousePos, connectorPos) < CONNECTOR_RADIUS;
+Connector.isPointIn = point => connectorPos => {
+  return distance(point, connectorPos).length() < CONNECTOR_RADIUS;
 };

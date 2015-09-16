@@ -1,6 +1,5 @@
 import R from 'ramda';
-import CircuitComponents from '../../ui/diagram/components/AllViews.js';
-import { isPointIn } from '../../ui/diagram/boundingBox.js';
+import { hoverFor } from '../../ui/diagram/boundingBox.js';
 import { BaseData as Models } from '../../ui/diagram/components/models/AllModels.js';
 import { getCircuitInfo, solveCircuit } from '../../update/Solver.js';
 import { updateViews, setNodesInModels, toNodes } from '../../update/CircuitUpdater.js';
@@ -11,31 +10,44 @@ import {
 
 function setHover(state) {
   const views = state.views;
-  const isMouseOver = view => {
+  const getHoverInfo = hoverFor(state.mousePos);
+  const addHoverInfo = view => {
     const { typeID, props: { connectors }} = view;
-    const CircuitComp = CircuitComponents[typeID];
     if (state.addingComponent.id === view.props.id) {
       return false; // don't detect hovers over component being added
     }
-    return isPointIn(state.mousePos, CircuitComp.getBoundingBox(connectors));
+    const { hovered, connectorIndex } = getHoverInfo(typeID, connectors);
+    return {
+      viewID: view.props.id,
+      hovered,
+      connectorIndex
+    };
   };
 
-  const pickBest = R.reduce((currentBest, viewID) => {
-    return currentBest || viewID;
-  }, state.hoveredViewID); // prefer currently hovered view
+  const isHovered = hoverInfo => hoverInfo.hovered;
 
   const moreThanOne = R.pipe(
     R.length,
     R.gt(R.__, 1) // eslint-disable-line no-underscore-dangle
   );
 
-  const hoveredViewID = R.pipe(
-    R.filter(isMouseOver),
-    R.map(view => view.props.id),
-    R.ifElse(moreThanOne, pickBest, R.head)
-  )(R.values(views));
+  const pickBest = R.reduce((currentBest, hoverInfo) => {
+    // TODO ugh nested ternaries - not clear what's going on or why
+    return currentBest.viewID
+      ? currentBest.viewID === hoverInfo.viewID
+        ? hoverInfo
+        : currentBest
+      : hoverInfo;
+  }, state.hover); // prefer currently hovered view
 
-  return R.assocPath(['hoveredViewID'], hoveredViewID, state);
+  const hoverInfo = R.pipe(
+    R.map(addHoverInfo),
+    R.filter(isHovered),
+    R.ifElse(moreThanOne, pickBest, R.head)
+  )(R.values(views))
+  || {};
+
+  return R.assocPath(['hover'], hoverInfo, state);
 }
 
 export default function gameLoopReducers(state, action) {

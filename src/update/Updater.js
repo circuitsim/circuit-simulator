@@ -29,7 +29,7 @@ function Updater(store) {
     return {
       props: {
         circuitComponents: R.values(state.views),
-        hoveredViewID: state.hoveredViewID,
+        hover: state.hover,
         handlers: {
           canvas: {
             onMouseDown: coords => store.dispatch(canvasMouseDown(coords)),

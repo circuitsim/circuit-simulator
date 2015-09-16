@@ -16,7 +16,6 @@ const COLORS = {
   transBase: trans(BASE_COLOR),
   highlight: 'white',
   theme: ELECTRIC_BLUE,
-  transparent: 'rgba(0,0,0,0)',
   current: trans(ELECTRIC_BLUE, 0.3)
 };
 

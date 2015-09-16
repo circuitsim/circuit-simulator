@@ -9,13 +9,17 @@ const { PropTypes } = DrawingUtils;
 export default CircuitComponent => {
   class Connectors extends React.Component {
     render() {
-      let connectors = null;
-      if (this.props.hover) {
-        connectors = this.props.connectors.map((connector, i) => {
+      const { hovered, hoveredConnectorIndex, connectors, theme } = this.props;
+      let connectorViews = null;
+      if (hovered) {
+        connectorViews = connectors.map((connector, i) => {
+          const color = i === hoveredConnectorIndex
+            ? theme.COLORS.highlight
+            : theme.COLORS.transBase;
           return (
             <Connector
               position={connector}
-              color={this.props.theme.COLORS.transBase}
+              color={color}
               key={i}
             />
           );
@@ -24,7 +28,7 @@ export default CircuitComponent => {
       return (
         <Group>
           <CircuitComponent {...this.props} />
-          {connectors}
+          {connectorViews}
         </Group>
       );
     }
@@ -33,11 +37,12 @@ export default CircuitComponent => {
   Connectors.propTypes = {
     connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
     theme: React.PropTypes.object.isRequired,
-    hover: React.PropTypes.bool
+    hovered: React.PropTypes.bool,
+    hoveredConnectorIndex: React.PropTypes.number // index of connector being hovered
   };
 
   Connectors.defaultProps = {
-    hover: false
+    hovered: false
   };
 
   Connectors.displayName = `ConnectorsFor(${getDisplayName(CircuitComponent)})`;

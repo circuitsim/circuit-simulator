@@ -7,7 +7,7 @@ export default CircuitElement => {
 
     render() {
       const COLORS = this.props.theme.COLORS,
-            color = this.props.hover ? COLORS.highlight : COLORS.base;
+            color = this.props.hovered ? COLORS.highlight : COLORS.base;
 
       return (
         <CircuitElement ref='elem'
@@ -19,12 +19,12 @@ export default CircuitElement => {
   }
 
   Highlighter.propTypes = {
-    hover: React.PropTypes.bool,
+    hovered: React.PropTypes.bool,
     theme: React.PropTypes.object.isRequired
   };
 
   Highlighter.defaultProps = {
-    hover: false
+    hovered: false
   };
 
   Highlighter.displayName = `Highlighted(${getDisplayName(CircuitElement)})`;

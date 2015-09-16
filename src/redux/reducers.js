@@ -1,4 +1,5 @@
 import R from 'ramda';
+import Vector from 'immutable-vector2d';
 
 import addingComponentsReducer from './reducers/addingComponents.js';
 import modesReducer from './reducers/modes.js';
@@ -48,7 +49,10 @@ export const initialState = {
   //   }
   // }
   views: {},
-  hoveredViewID: null,
+  hover: {
+    viewID: null,
+    connectorIndex: -1
+  },
 
   circuitChanged: false,
   error: false, // string | false
@@ -87,7 +91,7 @@ export default function simulatorReducer(state = initialState, action) {
     return R.assoc('selectedButton', action.buttonID, state);
 
   case MOUSE_MOVED:
-    return R.assoc('mousePos', action.coords, state);
+    return R.assoc('mousePos', Vector.fromObject(action.coords), state);
 
   default:
     return state;

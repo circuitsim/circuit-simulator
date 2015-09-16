@@ -58,11 +58,17 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
+    const { handlers, hover, theme } = this.props;
     const addProps = component => {
+      const hovered = component.props.id === hover.viewID;
+      const hoveredConnectorIndex = hovered
+        ? hover.connectorIndex
+        : null;
       return R.assoc('props', R.merge(component.props, {
-        handlers: this.props.handlers.component,
-        theme: this.props.theme,
-        hover: component.props.id === this.props.hoveredViewID
+        handlers: handlers.component,
+        theme: theme,
+        hovered,
+        hoveredConnectorIndex
       }), component);
     };
     const circuitComponents = R.pipe(
@@ -126,7 +132,10 @@ CircuitCanvas.propTypes = {
   circuitComponents: React.PropTypes.arrayOf(
     CircuitComponent
   ),
-  hoveredViewID: React.PropTypes.string,
+  hover: React.PropTypes.shape({
+    viewID: React.PropTypes.string,
+    connectorIndex: React.PropTypes.number
+  }),
 
   // action creators
   handlers: React.PropTypes.shape({
