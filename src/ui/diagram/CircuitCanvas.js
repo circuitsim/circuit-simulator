@@ -8,9 +8,17 @@ import showConnectors from './showConnectors.js';
 
 const Surface = ReactArt.Surface;
 
-const create = component => {
-  const {CircuitComponent, props} = component;
-  return <CircuitComponent {...props} key={props.id} />;
+const addProps = ({ handlers, hover, theme }) => component => {
+  const hovered = component.props.id === hover.viewID;
+  const hoveredConnectorIndex = hovered
+    ? hover.connectorIndex
+    : null;
+  return R.assoc('props', R.merge(component.props, {
+    handlers: handlers.component,
+    theme,
+    hovered,
+    hoveredConnectorIndex
+  }), component);
 };
 
 const lookUpComponent = component => {
@@ -22,9 +30,20 @@ const lookUpComponent = component => {
 
 const addModifiers = component => {
   return {
-    CircuitComponent: handleHover(showConnectors(component.CircuitComponent)),
+    CircuitComponent: handleHover(component.CircuitComponent),
+    Connectors: showConnectors(component.CircuitComponent),
     props: component.props
   };
+};
+
+const createCircuitComponents = component => {
+  const {CircuitComponent, props} = component;
+  return <CircuitComponent {...props} key={props.id} />;
+};
+
+const createConnectors = component => {
+  const {Connectors, props} = component;
+  return <Connectors {...props} key={props.id} />;
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -58,25 +77,14 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const { handlers, hover, theme } = this.props;
-    const addProps = component => {
-      const hovered = component.props.id === hover.viewID;
-      const hoveredConnectorIndex = hovered
-        ? hover.connectorIndex
-        : null;
-      return R.assoc('props', R.merge(component.props, {
-        handlers: handlers.component,
-        theme: theme,
-        hovered,
-        hoveredConnectorIndex
-      }), component);
-    };
-    const circuitComponents = R.pipe(
-      R.map(addProps),
+    const things = R.pipe(
+      R.map(addProps(this.props)),
       R.map(lookUpComponent),
-      R.map(addModifiers),
-      R.map(create)
+      R.map(addModifiers)
     )(this.props.circuitComponents);
+
+    const circuitComponents = R.map(createCircuitComponents, things);
+    const connectors = R.map(createConnectors, things);
 
     return (
       <div ref='canvas'
@@ -94,6 +102,7 @@ export default class CircuitCanvas extends React.Component {
           style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
         >
           {circuitComponents}
+          {connectors}
         </Surface>
       </div>
     );

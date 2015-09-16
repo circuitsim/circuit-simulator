@@ -27,7 +27,6 @@ export default CircuitComponent => {
       }
       return (
         <Group>
-          <CircuitComponent {...this.props} />
           {connectorViews}
         </Group>
       );
