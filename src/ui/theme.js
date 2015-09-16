@@ -12,10 +12,14 @@ const ELECTRIC_BLUE = '#7DF9FF';
 const COLORS = {
   background: '#222',
   canvasBackground: '#333',
+
   base: BASE_COLOR,
   transBase: trans(BASE_COLOR),
+
   highlight: 'white',
+
   theme: ELECTRIC_BLUE,
+
   current: trans(ELECTRIC_BLUE, 0.3)
 };
 
