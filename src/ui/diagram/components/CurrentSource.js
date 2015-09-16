@@ -4,7 +4,7 @@ import { BaseData } from './models/AllModels.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import Circle from '../../utils/Circle.js';
-import boundingBox from '../boundingBox.js';
+import { get2PointBoundingBox } from '../boundingBox.js';
 
 import CurrentPath from '../CurrentPath.js';
 
@@ -106,4 +106,4 @@ CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH)
 
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
-CurrentSource.getBoundingBox = boundingBox(BOUNDING_BOX_WIDTH);
+CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);

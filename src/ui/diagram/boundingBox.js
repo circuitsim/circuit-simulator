@@ -1,29 +1,21 @@
 import R from 'ramda';
-import getBoundingBox from 'getboundingbox';
+import inside from 'point-in-polygon';
 
-import DrawingUtils from '../utils/DrawingUtils.js';
+import { getRectPointsBetween } from '../utils/DrawingUtils.js';
 
 // Bounding box stuff
 
-// Currently this just uses a non-rotated (i.e. horizontal) rectangles defined by
-// max/min X/Y points.
-// This is simple and efficient, but has the disadvantage of large empty spaces
-// for e.g. diagonal wires.
-// A nicer solution would use rotated rectangles for e.g. diagonal wires.
+/*
+ * A bounding box is represented e.g. [[1, 2], [3, 4], [5, 6]]
+ */
 
-export default width => connectors => {
+export const get2PointBoundingBox = width => connectors => {
   const [p1, p2] = connectors;
-  const points = R.map(p => [p.x, p.y],
-    DrawingUtils.getRectPointsBetween(p1, p2, width));
-
-  return getBoundingBox(points);
+  const rectanglePoints = getRectPointsBetween(p1, p2, width);
+  return R.map(p => [p.x, p.y], rectanglePoints);
 };
 
-export function isPointIn(point, boundingBox) {
-  const { x, y } = point;
-  const { maxX, minX, maxY, minY } = boundingBox;
-  return x < maxX
-    && x > minX
-    && y < maxY
-    && y > minY;
+export function isPointIn(pointVector, polygon) {
+  const point = [pointVector.x, pointVector.y];
+  return inside(point, polygon);
 }

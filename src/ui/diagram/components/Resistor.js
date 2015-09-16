@@ -4,7 +4,7 @@ import { BaseData } from './models/AllModels.js';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import CurrentPath from '../CurrentPath.js';
-import boundingBox from '../boundingBox.js';
+import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
@@ -82,4 +82,4 @@ Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
 Resistor.typeID = BaseResistorModel.typeID;
 
-Resistor.getBoundingBox = boundingBox(BOUNDING_BOX_WIDTH);
+Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
