@@ -49,10 +49,11 @@ export const initialState = {
   //   }
   // }
   views: {},
-  hover: {
-    viewID: null,
-    connectorIndex: -1
-  },
+  // hover: {
+  //   viewID,
+  //   connectorIndex
+  // }
+  hover: {},
 
   circuitChanged: false,
   error: false, // string | false
