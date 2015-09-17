@@ -3,6 +3,7 @@ import { hoverFor } from '../../ui/diagram/boundingBox.js';
 import { BaseData as Models } from '../../ui/diagram/components/models/AllModels.js';
 import { getCircuitInfo, solveCircuit } from '../../update/Solver.js';
 import { updateViews, setNodesInModels, toNodes } from '../../update/CircuitUpdater.js';
+import MODES from '../../Modes.js';
 import {
   LOOP_BEGIN,
   LOOP_UPDATE
@@ -56,9 +57,11 @@ export default function gameLoopReducer(state, action) {
   switch (action.type) {
   case LOOP_BEGIN: {
     let localState = state;
-    const views = localState.views;
+    const { views, mode } = localState;
 
-    localState = setHover(localState);
+    localState = mode.type === MODES.move // only hover in move mode
+      ? setHover(localState)
+      : state;
 
     if (localState.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
