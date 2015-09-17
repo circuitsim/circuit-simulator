@@ -3,7 +3,8 @@ import R from 'ramda';
 const modeNames = [
   'add',
   'adding',
-  'move' // does nothing ATM
+  'move',
+  'moving'
 ];
 
 export default R.zipObj(modeNames, modeNames);

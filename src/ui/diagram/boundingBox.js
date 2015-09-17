@@ -27,9 +27,10 @@ function isPointIn(p: Vector, polygon) {
 export const hoverFor = (mousePos: Vector) => (typeID, connectors) => {
   const CircuitComp = CircuitComponents[typeID];
 
-  const hoveredConnectorIndex = R.findIndex(Connector.isPointIn(mousePos), connectors);
+  let hoveredConnectorIndex = R.findIndex(Connector.isPointIn(mousePos), connectors);
+  hoveredConnectorIndex = hoveredConnectorIndex === -1 ? false : hoveredConnectorIndex;
   return {
-    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(connectors)) || hoveredConnectorIndex !== -1,
+    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(connectors)) || hoveredConnectorIndex,
     connectorIndex: hoveredConnectorIndex
   };
 };

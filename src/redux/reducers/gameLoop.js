@@ -9,11 +9,12 @@ import {
 } from '../actions.js';
 
 function setHover(state) {
-  const views = state.views;
-  const getHoverInfo = hoverFor(state.mousePos);
+  const { views, mousePos, addingComponent, hover } = state;
+
+  const getHoverInfo = hoverFor(mousePos);
   const addHoverInfo = view => {
     const { typeID, props: { connectors }} = view;
-    if (state.addingComponent.id === view.props.id) {
+    if (addingComponent.id === view.props.id) {
       return false; // don't detect hovers over component being added
     }
     const { hovered, connectorIndex } = getHoverInfo(typeID, connectors);
@@ -38,7 +39,7 @@ function setHover(state) {
         ? hoverInfo
         : currentBest
       : hoverInfo;
-  }, state.hover); // prefer currently hovered view
+  }, hover); // prefer currently hovered view
 
   const hoverInfo = R.pipe(
     R.map(addHoverInfo),
@@ -47,10 +48,10 @@ function setHover(state) {
   )(R.values(views))
   || {};
 
-  return R.assocPath(['hover'], hoverInfo, state);
+  return R.assoc('hover', hoverInfo, state);
 }
 
-export default function gameLoopReducers(state, action) {
+export default function gameLoopReducer(state, action) {
   switch (action.type) {
   case LOOP_BEGIN: {
     let localState = state;

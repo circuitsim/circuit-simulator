@@ -6,6 +6,7 @@ import {
   MODE_ADD,
   MODE_ADDING,
   MODE_MOVE,
+  MODE_MOVING,
   CHANGE_MODE_BUTTON_CLICK
 } from '../actions.js';
 
@@ -32,6 +33,11 @@ export default function modesReducer(state, action) {
   case MODE_MOVE:
     return R.assoc('mode', {
       type: MODES.move
+    }, state);
+
+  case MODE_MOVING:
+    return R.assoc('mode', {
+      type: MODES.moving
     }, state);
 
   case CHANGE_MODE_BUTTON_CLICK: {

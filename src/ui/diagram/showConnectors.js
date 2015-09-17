@@ -36,7 +36,10 @@ export default CircuitComponent => {
     connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
     theme: React.PropTypes.object.isRequired,
     hovered: React.PropTypes.bool,
-    hoveredConnectorIndex: React.PropTypes.number // index of connector being hovered
+    hoveredConnectorIndex: React.PropTypes.oneOfType([ // index of connector being hovered
+      React.PropTypes.number,
+      React.PropTypes.bool
+    ])
   };
 
   Connectors.defaultProps = {
