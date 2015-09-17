@@ -8,7 +8,11 @@ const { distance, PropTypes } = DrawingUtils;
 export default class Connector extends React.Component {
 
   render() {
-    const { position, color } = this.props;
+    const { hovered, position, theme } = this.props;
+
+    const color = hovered
+      ? theme.COLORS.base
+      : theme.COLORS.transBase;
 
     return (
       <Circle
@@ -25,7 +29,9 @@ export default class Connector extends React.Component {
 
 Connector.propTypes = {
   position: PropTypes.Vector.isRequired,
-  color: React.PropTypes.string.isRequired
+  hovered: React.PropTypes.bool,
+
+  theme: React.PropTypes.object.isRequired
 };
 
 Connector.isPointIn = point => connectorPos => {

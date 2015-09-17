@@ -13,13 +13,12 @@ export default CircuitComponent => {
       let connectorViews = null;
       if (hovered) {
         connectorViews = connectors.map((connector, i) => {
-          const color = i === hoveredConnectorIndex
-            ? theme.COLORS.base
-            : theme.COLORS.transBase;
+
           return (
             <Connector
               position={connector}
-              color={color}
+              hovered={hoveredConnectorIndex === i}
+              theme={theme}
               key={i}
             />
           );
