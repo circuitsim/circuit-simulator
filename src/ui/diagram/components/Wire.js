@@ -8,7 +8,7 @@ import CurrentPath from '../CurrentPath.js';
 import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { get2PointConnectorPositionsFor } from '../Utils.js';
-import { BOUNDING_BOX_PADDING, GRID_SIZE } from '../Constants.js';
+import { GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
 const { PropTypes } = DrawingUtils;
@@ -59,4 +59,4 @@ Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
 
 Wire.typeID = BaseWireModel.typeID;
 
-Wire.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_PADDING * 2);
+Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);

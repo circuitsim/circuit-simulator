@@ -4,6 +4,7 @@ import Vector from 'immutable-vector2d';
 
 import CircuitComponents from './components/AllViews.js';
 import Connector from './Connector.js';
+import { BOUNDING_BOX_PADDING } from './Constants.js';
 import { getRectPointsBetween } from '../utils/DrawingUtils.js';
 
 // Bounding box stuff
@@ -14,7 +15,7 @@ import { getRectPointsBetween } from '../utils/DrawingUtils.js';
 
 export const get2PointBoundingBox = width => connectors => {
   const [p1, p2] = connectors;
-  const rectanglePoints = getRectPointsBetween(p1, p2, width);
+  const rectanglePoints = getRectPointsBetween(p1, p2, width + 2 * BOUNDING_BOX_PADDING);
   return R.map(p => [p.x, p.y], rectanglePoints);
 };
 
