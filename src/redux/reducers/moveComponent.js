@@ -13,7 +13,7 @@ export default function addingComponentReducer(state, action) {
       id: viewID,
       from: action.coords,
       dragPointIndex
-    });
+    }, state);
   }
 
   // case MOVING_MOVE: {

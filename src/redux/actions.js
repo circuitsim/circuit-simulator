@@ -97,6 +97,7 @@ export function canvasMouseUp(coords) {
         coords
       });
       break;
+
     case MODES.moving:
       dispatch({
         type: MODE_MOVE
