@@ -17,22 +17,21 @@ export default class Mouse extends React.Component {
           topPoint = tl.mix(tr, 0.25).snap(1), // snap to prevent blurriness
 
           bottomPoint = topPoint.add(new Vector(0, ARROW_LENGTH)),
+          rightPoint = topPoint.add(new Vector(1, 1).normalize(ARROW_LENGTH)),
 
+          stemTR = rightPoint.subtract(new Vector(THING_LENGTH, 0)),
           stemTL = bottomPoint.add(new Vector(1, -1).normalize(THING_LENGTH)),
           stemBL = stemTL.add(STEM_SIZE),
-          stemBR = stemBL.add(new Vector(4, -2)),
-          stemTR = stemBR.subtract(STEM_SIZE),
-
-          rightPoint = stemTR.add(new Vector(THING_LENGTH, 0));
+          stemBR = stemTR.add(STEM_SIZE);
 
     const path = new Path()
-        .moveTo(topPoint.x, topPoint.y)
-        .lineTo(bottomPoint.x, bottomPoint.y)
+        .moveTo(stemBL.x, stemBL.y)
         .lineTo(stemTL.x, stemTL.y)
-        .lineTo(stemBL.x, stemBL.y)
-        .lineTo(stemBR.x, stemBR.y)
-        .lineTo(stemTR.x, stemTR.y)
+        .lineTo(bottomPoint.x, bottomPoint.y)
+        .lineTo(topPoint.x, topPoint.y)
         .lineTo(rightPoint.x, rightPoint.y)
+        .lineTo(stemTR.x, stemTR.y)
+        .lineTo(stemBR.x, stemBR.y)
         .close();
 
     return (
