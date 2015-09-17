@@ -10,9 +10,6 @@ export const ADDING_START = 'ADDING_START';
 export const ADDING_MOVE = 'ADDING_MOVE';
 export const ADDING_FINISH = 'ADDING_FINISH';
 
-export const COMPONENT_MOUSE_OVER = 'COMPONENT_MOUSE_OVER';
-export const COMPONENT_MOUSE_OUT = 'COMPONENT_MOUSE_OUT';
-
 export const LOOP_BEGIN = 'LOOP_BEGIN';
 export const LOOP_UPDATE = 'LOOP_UPDATE';
 
@@ -68,20 +65,6 @@ export function canvasMouseUp(coords) {
         coords
       });
     }
-  };
-}
-
-export function componentMouseOver(id) {
-  return {
-    type: COMPONENT_MOUSE_OVER,
-    id
-  };
-}
-
-export function componentMouseOut(id) {
-  return {
-    type: COMPONENT_MOUSE_OUT,
-    id
   };
 }
 

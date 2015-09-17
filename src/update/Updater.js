@@ -4,9 +4,6 @@ import {
   canvasMouseMove,
   canvasMouseUp,
 
-  componentMouseOver,
-  componentMouseOut,
-
   loopBegin,
   loopUpdate
 } from '../redux/actions.js';
@@ -35,10 +32,6 @@ function Updater(store) {
             onMouseDown: coords => store.dispatch(canvasMouseDown(coords)),
             onMouseMove: coords => store.dispatch(canvasMouseMove(coords)),
             onMouseUp: coords => store.dispatch(canvasMouseUp(coords))
-          },
-          component: {
-            onMouseOver: id => store.dispatch(componentMouseOver(id)),
-            onMouseOut: id => store.dispatch(componentMouseOut(id))
           }
         }
       },

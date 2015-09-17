@@ -17,9 +17,6 @@ import {
   ADDING_MOVE,
   ADDING_FINISH,
 
-  COMPONENT_MOUSE_OVER,
-  COMPONENT_MOUSE_OUT,
-
   LOOP_BEGIN,
   LOOP_UPDATE,
 
@@ -74,14 +71,6 @@ export default function simulatorReducer(state = initialState, action) {
   case ADDING_MOVE:
   case ADDING_FINISH:
     return addingComponentReducer(state, action);
-
-
-  case COMPONENT_MOUSE_OVER:
-    return R.assocPath(['views', action.id, 'props', 'hover'], true, state);
-
-  case COMPONENT_MOUSE_OUT:
-    return R.assocPath(['views', action.id, 'props', 'hover'], false, state);
-
 
   case LOOP_BEGIN:
   case LOOP_UPDATE:

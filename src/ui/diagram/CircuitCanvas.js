@@ -117,10 +117,6 @@ CircuitCanvas.defaultProps = {
       onMouseDown: () => {},
       onMouseMove: () => {},
       onMouseUp: () => {}
-    },
-    component: {
-      onMouseOver: () => {},
-      onMouseOut: () => {}
     }
   }
 };
@@ -143,15 +139,14 @@ CircuitCanvas.propTypes = {
   ),
   hover: React.PropTypes.shape({
     viewID: React.PropTypes.string,
-    connectorIndex: React.PropTypes.number
+    connectorIndex: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.bool
+    ])
   }),
 
   // action creators
   handlers: React.PropTypes.shape({
-    component: React.PropTypes.shape({
-      onMouseOver: React.PropTypes.func,
-      onMouseOut: React.PropTypes.func
-    }).isRequired,
     canvas: React.PropTypes.shape({
       onMouseDown: React.PropTypes.func,
       onMouseMove: React.PropTypes.func,
