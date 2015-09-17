@@ -1,7 +1,7 @@
 import MODES from '../Modes.js';
 
 // Action types
-export const MODE_SELECT = 'MODE_SELECT';
+export const MODE_MOVE = 'MODE_MOVE';
 export const MODE_ADD = 'MODE_ADD';
 export const MODE_ADDING = 'MODE_ADDING';
 export const CHANGE_MODE_BUTTON_CLICK = 'CHANGE_MODE_BUTTON_CLICK';

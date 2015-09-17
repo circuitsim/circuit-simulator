@@ -10,7 +10,7 @@ import MODES from '../Modes.js';
 import {
   MODE_ADD,
   MODE_ADDING,
-  MODE_SELECT,
+  MODE_MOVE,
   CHANGE_MODE_BUTTON_CLICK,
 
   ADDING_START,
@@ -30,7 +30,7 @@ import {
 
 export const initialState = {
   mode: {
-    type: MODES.select
+    type: MODES.move
   },
 
   mousePos: {},
@@ -58,7 +58,7 @@ export const initialState = {
   circuitChanged: false,
   error: false, // string | false
 
-  selectedButton: 'select'
+  selectedButton: 'move'
 };
 
 export default function simulatorReducer(state = initialState, action) {
@@ -66,7 +66,7 @@ export default function simulatorReducer(state = initialState, action) {
 
   case MODE_ADD:
   case MODE_ADDING:
-  case MODE_SELECT:
+  case MODE_MOVE:
   case CHANGE_MODE_BUTTON_CLICK:
     return modesReducer(state, action);
 

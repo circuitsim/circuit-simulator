@@ -5,13 +5,13 @@ import MODES from '../../Modes.js';
 import {
   MODE_ADD,
   MODE_ADDING,
-  MODE_SELECT,
+  MODE_MOVE,
   CHANGE_MODE_BUTTON_CLICK
 } from '../actions.js';
 
 const buttonIdToModeMap = {
-  select: {
-    type: MODES.select
+  move: {
+    type: MODES.move
   }
 };
 
@@ -29,9 +29,9 @@ export default function addingComponentsReducer(state, action) {
       typeID: action.typeID
     }, state);
 
-  case MODE_SELECT:
+  case MODE_MOVE:
     return R.assoc('mode', {
-      type: MODES.select
+      type: MODES.move
     }, state);
 
   case CHANGE_MODE_BUTTON_CLICK: {
