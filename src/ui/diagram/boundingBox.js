@@ -27,10 +27,9 @@ function isPointIn(p: Vector, polygon) {
 export const hoverFor = (mousePos: Vector) => (typeID, dragPoints) => {
   const CircuitComp = CircuitComponents[typeID];
 
-  let hoveredDragPointIndex = R.findIndex(DragPoint.isPointIn(mousePos), dragPoints);
-  hoveredDragPointIndex = hoveredDragPointIndex === -1 ? false : hoveredDragPointIndex;
+  const hoveredDragPointIndex = R.findIndex(DragPoint.isPointIn(mousePos), dragPoints);
   return {
-    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(dragPoints)) || hoveredDragPointIndex,
-    dragPointIndex: hoveredDragPointIndex
+    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(dragPoints)) || hoveredDragPointIndex >= 0,
+    dragPointIndex: hoveredDragPointIndex >= 0 ? hoveredDragPointIndex : false
   };
 };
