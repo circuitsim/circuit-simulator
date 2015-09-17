@@ -15,7 +15,7 @@ const buttonIdToModeMap = {
   }
 };
 
-export default function addingComponentsReducer(state, action) {
+export default function modesReducer(state, action) {
   switch (action.type) {
   case MODE_ADD:
     return R.assoc('mode', {

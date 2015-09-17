@@ -1,7 +1,7 @@
 import R from 'ramda';
 import Vector from 'immutable-vector2d';
 
-import addingComponentsReducer from './reducers/addingComponents.js';
+import addingComponentReducer from './reducers/addingComponent.js';
 import modesReducer from './reducers/modes.js';
 import gameLoopReducers from './reducers/gameLoop.js';
 
@@ -73,7 +73,7 @@ export default function simulatorReducer(state = initialState, action) {
   case ADDING_START:
   case ADDING_MOVE:
   case ADDING_FINISH:
-    return addingComponentsReducer(state, action);
+    return addingComponentReducer(state, action);
 
 
   case COMPONENT_MOUSE_OVER:

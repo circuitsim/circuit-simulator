@@ -13,7 +13,7 @@ const getConnectorPositions = function(component, startPoint, dragPoint) {
   return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
 };
 
-export default function addingComponentsReducer(state, action) {
+export default function addingComponentReducer(state, action) {
   switch (action.type) {
   case ADDING_START: {
     const {coords, typeID} = action;
