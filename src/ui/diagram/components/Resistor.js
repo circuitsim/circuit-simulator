@@ -79,6 +79,7 @@ Resistor.defaultProps = {
 };
 
 Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
+Resistor.getDragPointPositions = Resistor.getConnectorPositions;
 
 Resistor.typeID = BaseResistorModel.typeID;
 

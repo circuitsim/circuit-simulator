@@ -15,7 +15,7 @@ export function get2PointConnectorPositionsFor(minLength: number) {
    * @param  {Vector} startPoint Fixed starting coordinate
    * @param  {Vector} dragPoint  Coordinate of point being dragged
    */
-  return function(startPoint: Vector, dragPoint: Vector) {
+  return function([startPoint: Vector, dragPoint: Vector]) {
     startPoint = startPoint.snap(GRID_SIZE);
     if (dragPoint.snap(GRID_SIZE).equals(startPoint)) {
       return []; // prevent zero size views

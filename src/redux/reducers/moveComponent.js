@@ -8,17 +8,17 @@ import {
 export default function addingComponentReducer(state, action) {
   switch (action.type) {
   case MOVING_START: {
-    const { hover: { viewID, connectorIndex } } = state;
+    const { hover: { viewID, dragPointIndex } } = state;
     return R.assoc('movingComponent', {
       id: viewID,
       from: action.coords,
-      connectorIndex
+      dragPointIndex
     });
   }
 
   // case MOVING_MOVE: {
-  //   const { hover: { id, from, connectorIndex } } = state;
-  //   if (connectorIndex) { // moving a single connector
+  //   const { hover: { id, from, dragPointIndex } } = state;
+  //   if (dragPointIndex) { // moving a single dragPoint
   //
   //   } else { // moving a whole component
   //   }

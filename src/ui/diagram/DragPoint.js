@@ -5,7 +5,7 @@ import { CONNECTOR_RADIUS } from './Constants.js';
 
 const { distance, PropTypes } = DrawingUtils;
 
-export default class Connector extends React.Component {
+export default class DragPoint extends React.Component {
 
   render() {
     const { hovered, position, theme } = this.props;
@@ -27,13 +27,13 @@ export default class Connector extends React.Component {
   }
 }
 
-Connector.propTypes = {
+DragPoint.propTypes = {
   position: PropTypes.Vector.isRequired,
   hovered: React.PropTypes.bool,
 
   theme: React.PropTypes.object.isRequired
 };
 
-Connector.isPointIn = point => connectorPos => {
+DragPoint.isPointIn = point => connectorPos => {
   return distance(point, connectorPos).length() < CONNECTOR_RADIUS;
 };

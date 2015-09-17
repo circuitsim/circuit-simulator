@@ -45,7 +45,7 @@ export const initialState = {
   addingComponent: {},
   // movingComponent: {
   //   id,
-  //   connectorIndex: number|false,
+  //   dragPointIndex: number|false,
   //   from: coords
   // }
   movingComponent: {},
@@ -57,6 +57,7 @@ export const initialState = {
   //     typeID,
   //     props: {
   //       id,
+  //       dragPoints: [Vector], // 2 drag points
   //       connectors: [Vector]
   //     }
   //   }
@@ -64,7 +65,7 @@ export const initialState = {
   views: {},
   // hover: {
   //   viewID,
-  //   connectorIndex: number|false
+  //   dragPointIndex: number|false
   // }
   hover: {},
 

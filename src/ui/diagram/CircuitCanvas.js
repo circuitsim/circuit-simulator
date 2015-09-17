@@ -4,20 +4,20 @@ import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
 import handleHover from './highlightOnHover.js';
-import showConnectors from './showConnectors.js';
+import showDragPoints from './showDragPoints.js';
 
 const Surface = ReactArt.Surface;
 
 const addProps = ({ handlers, hover, theme }) => component => {
   const hovered = component.props.id === hover.viewID;
-  const hoveredConnectorIndex = hovered
-    ? hover.connectorIndex
+  const hoveredDragPointIndex = hovered
+    ? hover.dragPointIndex
     : null;
   return R.assoc('props', R.merge(component.props, {
     handlers: handlers.component,
     theme,
     hovered,
-    hoveredConnectorIndex
+    hoveredDragPointIndex
   }), component);
 };
 
@@ -31,7 +31,7 @@ const lookUpComponent = component => {
 const addModifiers = component => {
   return {
     CircuitComponent: handleHover(component.CircuitComponent),
-    Connectors: showConnectors(component.CircuitComponent),
+    DragPoints: showDragPoints(component.CircuitComponent),
     props: component.props
   };
 };
@@ -41,9 +41,9 @@ const createCircuitComponents = component => {
   return <CircuitComponent {...props} key={props.id} />;
 };
 
-const createConnectors = component => {
-  const {Connectors, props} = component;
-  return <Connectors {...props} key={props.id} />;
+const createDragPoints = component => {
+  const {DragPoints, props} = component;
+  return <DragPoints {...props} key={props.id} />;
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -84,7 +84,7 @@ export default class CircuitCanvas extends React.Component {
     )(this.props.circuitComponents);
 
     const circuitComponents = R.map(createCircuitComponents, things);
-    const connectors = R.map(createConnectors, things);
+    const dragPoints = R.map(createDragPoints, things);
 
     return (
       <div ref='canvas'
@@ -102,7 +102,7 @@ export default class CircuitCanvas extends React.Component {
           style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
         >
           {circuitComponents}
-          {connectors}
+          {dragPoints}
         </Surface>
       </div>
     );
@@ -139,7 +139,7 @@ CircuitCanvas.propTypes = {
   ),
   hover: React.PropTypes.shape({
     viewID: React.PropTypes.string,
-    connectorIndex: React.PropTypes.oneOfType([
+    dragPointIndex: React.PropTypes.oneOfType([
       React.PropTypes.number,
       React.PropTypes.bool
     ])

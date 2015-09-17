@@ -8,20 +8,21 @@ import {
   LOOP_UPDATE
 } from '../actions.js';
 
+// TODO move hover stuff to its own file
 function setHover(state) {
   const { views, mousePos, addingComponent, hover } = state;
 
   const getHoverInfo = hoverFor(mousePos);
   const addHoverInfo = view => {
-    const { typeID, props: { connectors }} = view;
+    const { typeID, props: { dragPoints }} = view;
     if (addingComponent.id === view.props.id) {
       return false; // don't detect hovers over component being added
     }
-    const { hovered, connectorIndex } = getHoverInfo(typeID, connectors);
+    const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
     return {
       viewID: view.props.id,
       hovered,
-      connectorIndex
+      dragPointIndex
     };
   };
 

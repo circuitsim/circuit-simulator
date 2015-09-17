@@ -103,6 +103,7 @@ CurrentSource.contextTypes = {
 };
 
 CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
+CurrentSource.getDragPointPositions = CurrentSource.getConnectorPositions;
 
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 

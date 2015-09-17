@@ -56,6 +56,7 @@ Wire.defaultProps = {
 };
 
 Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
+Wire.getDragPointPositions = Wire.getConnectorPositions;
 
 Wire.typeID = BaseWireModel.typeID;
 

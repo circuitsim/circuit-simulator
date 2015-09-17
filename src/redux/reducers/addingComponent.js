@@ -9,10 +9,6 @@ import {
   ADDING_FINISH
 } from '../actions.js';
 
-const getConnectorPositions = function(component, startPoint, dragPoint) {
-  return component.getConnectorPositions && component.getConnectorPositions(startPoint, dragPoint);
-};
-
 export default function addingComponentReducer(state, action) {
   switch (action.type) {
   case ADDING_START: {
@@ -28,10 +24,13 @@ export default function addingComponentReducer(state, action) {
     const {start, id, typeID} = state.addingComponent,
           startPoint = Vector.fromObject(start),
           dragPoint = Vector.fromObject(action.coords),
-          connectors = getConnectorPositions(Components[typeID], startPoint, dragPoint);
-    if (connectors.length === 0) {
-      return state; // couldn't get connector positions, maybe too small
+          component = Components[typeID],
+          dragPoints = component.getDragPointPositions([startPoint, dragPoint]);
+    if (dragPoints.length === 0) {
+      return state; // couldn't get dragPoint positions, maybe too small
     }
+
+    const connectors = component.getConnectorPositions(dragPoints);
 
     return R.pipe(
       R.assoc('circuitChanged', true),
@@ -39,6 +38,7 @@ export default function addingComponentReducer(state, action) {
         typeID,
         props: {
           id,
+          dragPoints,
           connectors
         }
       })
