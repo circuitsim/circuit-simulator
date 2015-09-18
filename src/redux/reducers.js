@@ -12,6 +12,7 @@ import {
   MODE_ADD,
   MODE_ADDING,
   MODE_MOVE,
+  MODE_MOVING,
   CHANGE_MODE_BUTTON_CLICK,
 
   ADDING_START,
@@ -46,7 +47,8 @@ export const initialState = {
   // movingComponent: {
   //   id,
   //   dragPointIndex: number|false,
-  //   from: coords
+  //   from: Vector,
+  //   origDragPoints
   // }
   movingComponent: {},
 
@@ -81,6 +83,7 @@ export default function simulatorReducer(state = initialState, action) {
   case MODE_ADD:
   case MODE_ADDING:
   case MODE_MOVE:
+  case MODE_MOVING:
   case CHANGE_MODE_BUTTON_CLICK:
     return modesReducer(state, action);
 

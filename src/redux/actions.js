@@ -1,3 +1,5 @@
+import Vector from 'immutable-vector2d';
+
 import MODES from '../Modes.js';
 
 // Action types
@@ -49,7 +51,7 @@ export function canvasMouseDown(coords) {
         });
         dispatch({
           type: MOVING_START,
-          coords
+          mouseVector: Vector.fromObject(coords)
         });
       }
       break;
@@ -76,7 +78,7 @@ export function canvasMouseMove(coords) {
     case MODES.moving:
       dispatch({
         type: MOVING_MOVE,
-        coords
+        mouseVector: Vector.fromObject(coords)
       });
       break;
     }
@@ -104,7 +106,7 @@ export function canvasMouseUp(coords) {
       });
       dispatch({
         type: MOVING_FINISH,
-        coords
+        mouseVector: Vector.fromObject(coords)
       });
       break;
     }

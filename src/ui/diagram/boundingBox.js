@@ -28,8 +28,9 @@ export const hoverFor = (mousePos: Vector) => (typeID, dragPoints) => {
   const CircuitComp = CircuitComponents[typeID];
 
   const hoveredDragPointIndex = R.findIndex(DragPoint.isPointIn(mousePos), dragPoints);
+  const isIndex = R.is(Number, hoveredDragPointIndex) && hoveredDragPointIndex >= 0;
   return {
-    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(dragPoints)) || hoveredDragPointIndex >= 0,
-    dragPointIndex: hoveredDragPointIndex >= 0 ? hoveredDragPointIndex : false
+    hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(dragPoints)) || isIndex,
+    dragPointIndex: isIndex ? hoveredDragPointIndex : false
   };
 };

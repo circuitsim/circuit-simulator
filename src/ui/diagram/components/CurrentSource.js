@@ -8,7 +8,7 @@ import { get2PointBoundingBox } from '../boundingBox.js';
 
 import CurrentPath from '../CurrentPath.js';
 
-import { get2PointConnectorPositionsFor } from '../Utils.js';
+import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
@@ -102,8 +102,8 @@ CurrentSource.contextTypes = {
   })
 };
 
-CurrentSource.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
-CurrentSource.getDragPointPositions = CurrentSource.getConnectorPositions;
+CurrentSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
+CurrentSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 

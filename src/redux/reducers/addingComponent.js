@@ -1,6 +1,7 @@
 import R from 'ramda';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
+import { snapToGrid } from '../../ui/diagram/Utils.js';
 import Components from '../../ui/diagram/components/AllViews.js';
 
 import {
@@ -22,15 +23,19 @@ export default function addingComponentReducer(state, action) {
 
   case ADDING_MOVE: {
     const {start, id, typeID} = state.addingComponent,
-          startPoint = Vector.fromObject(start),
-          dragPoint = Vector.fromObject(action.coords),
-          component = Components[typeID],
-          dragPoints = component.getDragPointPositions([startPoint, dragPoint]);
-    if (dragPoints.length === 0) {
-      return state; // couldn't get dragPoint positions, maybe too small
+
+          startPoint = snapToGrid(Vector.fromObject(start)),
+          mousePos = Vector.fromObject(action.coords);
+
+    if (snapToGrid(mousePos).equals(startPoint)) {
+      return state; // prevent zero size views
     }
 
-    const connectors = component.getConnectorPositions(dragPoints);
+    const Component = Components[typeID],
+          dragPoint = Component.dragPoint(mousePos, {fixed: startPoint}),
+          dragPoints = [startPoint, dragPoint];
+
+    const connectors = Component.getConnectorPositions(dragPoints);
 
     return R.pipe(
       R.assoc('circuitChanged', true),

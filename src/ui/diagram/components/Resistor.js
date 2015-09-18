@@ -6,7 +6,7 @@ import Line from '../../utils/Line.js';
 import CurrentPath from '../CurrentPath.js';
 import { get2PointBoundingBox } from '../boundingBox.js';
 
-import { get2PointConnectorPositionsFor } from '../Utils.js';
+import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
@@ -78,8 +78,8 @@ Resistor.defaultProps = {
   voltages: [0, 0]
 };
 
-Resistor.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
-Resistor.getDragPointPositions = Resistor.getConnectorPositions;
+Resistor.dragPoint = getDragFunctionFor(MIN_LENGTH);
+Resistor.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 Resistor.typeID = BaseResistorModel.typeID;
 

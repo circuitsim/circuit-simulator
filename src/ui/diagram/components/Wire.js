@@ -7,7 +7,7 @@ import Line from '../../utils/Line.js';
 import CurrentPath from '../CurrentPath.js';
 import { get2PointBoundingBox } from '../boundingBox.js';
 
-import { get2PointConnectorPositionsFor } from '../Utils.js';
+import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
 import { GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
@@ -55,8 +55,8 @@ Wire.defaultProps = {
   currents: [0]
 };
 
-Wire.getConnectorPositions = get2PointConnectorPositionsFor(MIN_LENGTH);
-Wire.getDragPointPositions = Wire.getConnectorPositions;
+Wire.dragPoint = getDragFunctionFor(MIN_LENGTH);
+Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 Wire.typeID = BaseWireModel.typeID;
 

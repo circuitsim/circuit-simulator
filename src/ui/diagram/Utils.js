@@ -1,28 +1,33 @@
 import Vector from 'immutable-vector2d';
 import Utils from '../utils/DrawingUtils.js';
-
 import { GRID_SIZE } from './Constants.js';
+
+const { diff } = Utils;
 
 export function snapToGrid(v: Vector) {
   return v.snap(GRID_SIZE);
 }
 
-export function get2PointConnectorPositionsFor(minLength: number) {
+const roundUpToNearestMultipleOf = mult => n => {
+  return mult * Math.ceil(n / mult);
+};
+const roundUpToGrid = roundUpToNearestMultipleOf(GRID_SIZE);
+
+export function getDragFunctionFor(minLength: number) {
+  minLength = roundUpToGrid(minLength);
   /**
-   * Given a fixed start point, and a second point being dragged,
-   * return the connector coordinates for a two-connector element.
-   *
-   * @param  {Vector} startPoint Fixed starting coordinate
-   * @param  {Vector} dragPoint  Coordinate of point being dragged
+   * Ensure that the point being dragged is properly snapped,
+   * and a minimum distance away from a fixed point.
    */
-  return function([startPoint: Vector, dragPoint: Vector]) {
-    startPoint = startPoint.snap(GRID_SIZE);
-    if (dragPoint.snap(GRID_SIZE).equals(startPoint)) {
-      return []; // prevent zero size views
-    }
-    const v = Utils.diff(dragPoint, startPoint).minLength(minLength);
-    return [startPoint, startPoint.add(v).snap(GRID_SIZE)];
+  return (dragPoint, { fixed }) => {
+    const fixedPoint = snapToGrid(fixed);
+    const dragOffset = diff(dragPoint, fixedPoint).minLength(minLength);
+    return snapToGrid(fixedPoint.add(dragOffset));
   };
+}
+
+export function get2ConnectorsFromDragPoints(dragPoints) {
+  return dragPoints;
 }
 
 export function getDisplayName(Component) {
