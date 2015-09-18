@@ -38,16 +38,16 @@
     "keyboard-shortcuts": "^0",
     "node-uuid": "^1.4.3",
     "parseunit": "^0",
-    "radium": "^0.13.5",
+    "radium": "^0.14.1",
     "ramda": "^0.17",
     "react": "^0.14.0-a",
     "react-addons-create-fragment": "^0.14.0-beta3",
     "react-art": "^0.14",
     "react-dom": "^0.14.0-beta3",
     "react-mainloop": "^0",
-    "react-redux": "^1.0.1",
-    "redux": "^1.0.1",
-    "redux-thunk": "^0.1.0"
+    "react-redux": "^2.1.2",
+    "redux": "^3.0.0",
+    "redux-thunk": "^1.0.0"
   },
   "devDependencies": {
     "babel": "^5.3.1",
