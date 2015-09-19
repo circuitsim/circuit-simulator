@@ -5,27 +5,22 @@ import { CONNECTOR_RADIUS } from './Constants.js';
 
 const { distance, PropTypes } = DrawingUtils;
 
-export default class DragPoint extends React.Component {
+const DragPoint = ({ hovered, position, theme }) => {
+  const color = hovered
+    ? theme.COLORS.base
+    : theme.COLORS.transBase;
 
-  render() {
-    const { hovered, position, theme } = this.props;
-
-    const color = hovered
-      ? theme.COLORS.base
-      : theme.COLORS.transBase;
-
-    return (
-      <Circle
-        position={{
-          center: position,
-          radius: CONNECTOR_RADIUS
-        }}
-        lineWidth={0}
-        fillColor={color}
-      />
-    );
-  }
-}
+  return (
+    <Circle
+      position={{
+        center: position,
+        radius: CONNECTOR_RADIUS
+      }}
+      lineWidth={0}
+      fillColor={color}
+    />
+  );
+};
 
 DragPoint.propTypes = {
   position: PropTypes.Vector.isRequired,
@@ -37,3 +32,5 @@ DragPoint.propTypes = {
 DragPoint.isPointIn = point => connectorPos => {
   return distance(point, connectorPos).length() < CONNECTOR_RADIUS;
 };
+
+export default DragPoint;

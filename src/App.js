@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Style } from 'radium';
 
@@ -7,33 +7,31 @@ import CircuitDiagram from './CircuitDiagram.js';
 
 import { componentSelectorButtonClicked } from './redux/actions.js';
 
-class App extends Component {
-  render() {
-    const {
-      styles,
-      theme,
-      getCanvasSize,
-      selectedButton,
-      componentSelectorButtonClicked: onButtonClicked
-    } = this.props;
-    return (
-      <div>
-        <Style
-          rules={ styles.global }
-        />
-        <ComponentSelector
-          theme={ theme } // TODO put theme in context? or is this a silly idea?
-          style={ styles.side }
-          onButtonClicked={ onButtonClicked }
-          selectedButton={ selectedButton } />
-        <CircuitDiagram
-          theme={ theme }
-          style={ styles.main }
-          getDimensions={ getCanvasSize } />
-      </div>
-    );
-  }
-}
+const App = props => {
+  const {
+    styles,
+    theme,
+    getCanvasSize,
+    selectedButton,
+    componentSelectorButtonClicked: onButtonClicked
+  } = props;
+  return (
+    <div>
+      <Style
+        rules={ styles.global }
+      />
+      <ComponentSelector
+        theme={ theme } // TODO put theme in context? or is this a silly idea?
+        style={ styles.side }
+        onButtonClicked={ onButtonClicked }
+        selectedButton={ selectedButton } />
+      <CircuitDiagram
+        theme={ theme }
+        style={ styles.main }
+        getDimensions={ getCanvasSize } />
+    </div>
+  );
+};
 
 App.propTypes = {
   styles: PropTypes.shape({

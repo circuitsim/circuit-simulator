@@ -17,27 +17,30 @@ const MIN_LENGTH = GRID_SIZE;
 
 const BaseWireModel = BaseData.Wire;
 
-export default class Wire extends React.Component {
+const Wire = ({
+    // voltages = [0, 0],
+    currents = [0],
+    connectors,
+    color: propColor,
+    theme
+  }) => {
+  const color = propColor || theme.COLORS.base;
 
-  render() {
-    const color = this.props.color || this.props.theme.COLORS.base;
-
-    return (
-      <Group>
-        <Line
-          color={color}
-          points={this.props.connectors}
-          width={LINE_WIDTH}
-        />
-        <CurrentPath
-          connectors={this.props.connectors}
-          current={this.props.currents[0]}
-          theme={this.props.theme}
-        />
-      </Group>
-    );
-  }
-}
+  return (
+    <Group>
+      <Line
+        color={color}
+        points={connectors}
+        width={LINE_WIDTH}
+      />
+      <CurrentPath
+        connectors={connectors}
+        current={currents[0]}
+        theme={theme}
+      />
+    </Group>
+  );
+};
 
 Wire.propTypes = {
   id: React.PropTypes.string.isRequired,
@@ -50,14 +53,11 @@ Wire.propTypes = {
   theme: React.PropTypes.object.isRequired
 };
 
-Wire.defaultProps = {
-  voltages: [0, 0],
-  currents: [0]
-};
-
 Wire.dragPoint = getDragFunctionFor(MIN_LENGTH);
 Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 Wire.typeID = BaseWireModel.typeID;
 
 Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
+
+export default Wire;

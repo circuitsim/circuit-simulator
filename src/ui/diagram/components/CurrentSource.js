@@ -19,66 +19,73 @@ const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
 
 const BaseCurrentSourceModel = BaseData.CurrentSource;
 
-export default class CurrentSource extends React.Component {
+const CurrentSource = (
+    {
+      current = BaseCurrentSourceModel.current,
+      voltages = [0, 0],
+      connectors,
+      color: propColor,
+      theme
+    },
+    context
+  ) => {
 
-  render() {
-    const [wireEnd1, wireEnd2] = this.props.connectors,
+  const [wireEnd1, wireEnd2] = connectors,
 
-          mid = midPoint(wireEnd1, wireEnd2),
-          n = diff(wireEnd1, wireEnd2).normalize(),
+        mid = midPoint(wireEnd1, wireEnd2),
+        n = diff(wireEnd1, wireEnd2).normalize(),
 
-          compOffset = n.multiply(CURRENT_SOURCE.RADIUS * 1.5),
-          circleOffset = n.multiply(CURRENT_SOURCE.RADIUS / 2),
+        compOffset = n.multiply(CURRENT_SOURCE.RADIUS * 1.5),
+        circleOffset = n.multiply(CURRENT_SOURCE.RADIUS / 2),
 
-          compEnd1 = mid.add(compOffset),
-          compEnd2 = mid.subtract(compOffset),
+        compEnd1 = mid.add(compOffset),
+        compEnd2 = mid.subtract(compOffset),
 
-          circlePoints1 = [compEnd1, mid.subtract(circleOffset)],
-          circlePoints2 = [mid.add(circleOffset), compEnd2],
+        circlePoints1 = [compEnd1, mid.subtract(circleOffset)],
+        circlePoints2 = [mid.add(circleOffset), compEnd2],
 
-          error = this.context
-                  && this.context.animContext
-                  && this.context.animContext.circuitError, // :( this makes me sad
+        error = context
+                && context.animContext
+                && context.animContext.circuitError, // :( makes me sad
 
-          current = error ? 0 : this.props.current,
+        color = propColor || theme.COLORS.base;
 
-          color = this.props.color || this.props.theme.COLORS.base;
+  current = error ? 0 : current;
 
-    return (
-      <Group>
-        <Circle
-          lineColor={color}
-          lineWidth={LINE_WIDTH}
-          position={{
-            points: circlePoints1
-          }}
-        />
-        <Circle
-          lineColor={color}
-          lineWidth={LINE_WIDTH}
-          position={{
-            points: circlePoints2
-          }}
-        />
-        <Line
-          color={color}
-          points={[wireEnd1, compEnd1]}
-          width={LINE_WIDTH}
-        />
-        <Line
-          color={color}
-          points={[wireEnd2, compEnd2]}
-          width={LINE_WIDTH}
-        />
-        <CurrentPath
-          connectors={this.props.connectors}
-          current={current}
-          theme={this.props.theme}
-        />
-      </Group>
-    );
-  }
-}
+  return (
+    <Group>
+      <Circle
+        lineColor={color}
+        lineWidth={LINE_WIDTH}
+        position={{
+          points: circlePoints1
+        }}
+      />
+      <Circle
+        lineColor={color}
+        lineWidth={LINE_WIDTH}
+        position={{
+          points: circlePoints2
+        }}
+      />
+      <Line
+        color={color}
+        points={[wireEnd1, compEnd1]}
+        width={LINE_WIDTH}
+      />
+      <Line
+        color={color}
+        points={[wireEnd2, compEnd2]}
+        width={LINE_WIDTH}
+      />
+      <CurrentPath
+        connectors={connectors}
+        current={current}
+        theme={theme}
+      />
+    </Group>
+  );
+};
 
 CurrentSource.propTypes = {
   id: React.PropTypes.string.isRequired,
@@ -89,11 +96,6 @@ CurrentSource.propTypes = {
 
   color: React.PropTypes.string,
   theme: React.PropTypes.object.isRequired
-};
-
-CurrentSource.defaultProps = {
-  current: BaseCurrentSourceModel.current,
-  voltages: [0, 0]
 };
 
 CurrentSource.contextTypes = {
@@ -108,3 +110,5 @@ CurrentSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
+
+export default CurrentSource;

@@ -17,50 +17,53 @@ const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
 const BaseResistorModel = BaseData.Resistor;
 
-export default class Resistor extends React.Component {
+const Resistor = ({
+    resistance = BaseResistorModel.resistance,
+    voltages = [0, 0],
+    connectors,
+    color: propColor,
+    theme
+  }) => {
 
-  render() {
-    const [wireEnd1, wireEnd2] = this.props.connectors,
+  const [wireEnd1, wireEnd2] = connectors,
 
-          n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
-          mid = midPoint(wireEnd1, wireEnd2),
-          compEnd1 = mid.add(n),
-          compEnd2 = mid.subtract(n),
+        n = diff(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
+        mid = midPoint(wireEnd1, wireEnd2),
+        compEnd1 = mid.add(n),
+        compEnd2 = mid.subtract(n),
 
-          rectPath = getRectPathBetween(compEnd1, compEnd2, RESISTOR.WIDTH),
+        rectPath = getRectPathBetween(compEnd1, compEnd2, RESISTOR.WIDTH),
 
-          voltages = this.props.voltages,
-          current = (voltages[0] - voltages[1]) / this.props.resistance,
+        current = (voltages[0] - voltages[1]) / resistance,
 
-          color = this.props.color || this.props.theme.COLORS.base;
+        color = propColor || theme.COLORS.base;
 
-    return (
-      <Group>
-        <Shape
-          fill={DrawingUtils.Colors.transparent}
-          stroke={color}
-          strokeWidth={LINE_WIDTH}
-          d={rectPath}
-        />
-        <Line
-          color={color}
-          points={[wireEnd1, compEnd1]}
-          width={LINE_WIDTH}
-        />
-        <Line
-          color={color}
-          points={[wireEnd2, compEnd2]}
-          width={LINE_WIDTH}
-        />
-        <CurrentPath
-          connectors={this.props.connectors}
-          current={current}
-          theme={this.props.theme}
-        />
-      </Group>
-    );
-  }
-}
+  return (
+    <Group>
+      <Shape
+        fill={DrawingUtils.Colors.transparent}
+        stroke={color}
+        strokeWidth={LINE_WIDTH}
+        d={rectPath}
+      />
+      <Line
+        color={color}
+        points={[wireEnd1, compEnd1]}
+        width={LINE_WIDTH}
+      />
+      <Line
+        color={color}
+        points={[wireEnd2, compEnd2]}
+        width={LINE_WIDTH}
+      />
+      <CurrentPath
+        connectors={connectors}
+        current={current}
+        theme={theme}
+      />
+    </Group>
+  );
+};
 
 Resistor.propTypes = {
   id: React.PropTypes.string.isRequired,
@@ -73,14 +76,11 @@ Resistor.propTypes = {
   theme: React.PropTypes.object.isRequired
 };
 
-Resistor.defaultProps = {
-  resistance: BaseResistorModel.resistance,
-  voltages: [0, 0]
-};
-
 Resistor.dragPoint = getDragFunctionFor(MIN_LENGTH);
 Resistor.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 Resistor.typeID = BaseResistorModel.typeID;
 
 Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
+
+export default Resistor;

@@ -14,19 +14,17 @@ function styles({ TYPOGRAPHY, COLORS }) {
   };
 }
 
-export default class ButtonGroup extends React.Component {
-  render() {
-    return (
-      <div>
-        <div style={styles(this.props.theme).title} >{this.props.name}</div>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+const ButtonGroup = ({theme, name, children}) => (
+  <div>
+    <div style={styles(theme).title} >{name}</div>
+    {children}
+  </div>
+);
 
 ButtonGroup.propTypes = {
   name: React.PropTypes.string,
   theme: React.PropTypes.object.isRequired,
   children: React.PropTypes.array.isRequired
 };
+
+export default ButtonGroup;
