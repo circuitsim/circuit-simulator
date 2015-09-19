@@ -1,50 +1,54 @@
+import R from 'ramda';
 import Analyser from 'circuit-analysis';
 
 import { Functions } from '../../../ui/diagram/components/models/AllModels.js';
-import R from 'ramda';
 
-import {hasPathProblem} from './Paths.js';
+import { hasPathProblem } from './Paths.js';
 
-const {stamp} = Functions;
+const { stamp } = Functions;
 
-export function getCircuitInfo(circuit) {
+export function getCircuitInfo({nodes, models}) {
   function addVSources(n, m) {
     return n + (m.vSources || 0);
   }
   return {
-    numOfNodes: Object.keys(circuit.nodes).length,
-    numOfVSources: R.reduce(addVSources, 0, Object.values(circuit.models))
+    numOfNodes: R.length(nodes),
+    numOfVSources: R.reduce(addVSources, 0, R.values(models))
   };
 }
 
-function blankSolution(circuitInfo) {
+function blankSolution(circuit) {
   // just return a blank solution (zeros for voltages/currents)
-  const n = Math.max(0, circuitInfo.numOfNodes + circuitInfo.numOfVSources - 1);
+  const n = Math.max(0, circuit.numOfNodes + circuit.numOfVSources - 1);
   return Array.fill(new Array(n), 0);
 }
 
-function anError(circuitInfo, error) {
+function anError(circuit, error) {
   return {
-    solution: blankSolution(circuitInfo),
+    solution: blankSolution(circuit),
     error
   };
 }
 
-export function solveCircuit(circuit, circuitInfo) {
+export function solveCircuit(circuit) {
   try {
     const problem = hasPathProblem(circuit);
     if (problem) {
-      return anError(circuitInfo, problem);
+      return anError(circuit, problem);
     }
 
-    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuitInfo);
+    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuit);
     R.forEach(model => {
       stamp(model, stamper);
     }, R.values(circuit.models));
 
+    // TODO connect disconnected graph
+    // connectDisconnectedCircuits(circuit, stamper);
+
     const solution = R.flatten(solve()()); // flatten single column matrix into array
+
     if (R.any(isNaN, solution)) {
-      return anError(circuitInfo, 'Error: Solution contained NaNs');
+      return anError(circuit, 'Error: Solution contained NaNs');
     }
 
     return {
@@ -53,6 +57,6 @@ export function solveCircuit(circuit, circuitInfo) {
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
-    return anError(circuitInfo, e);
+    return anError(circuit, e);
   }
 }

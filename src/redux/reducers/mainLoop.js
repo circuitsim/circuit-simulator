@@ -1,10 +1,8 @@
 import R from 'ramda';
 
-import { BaseData as Models } from '../../ui/diagram/components/models/AllModels.js';
-
 import setHover from './hover.js';
 import { getCircuitInfo, solveCircuit } from './mainLoop/Solver.js';
-import { updateViews, setNodesInModels, toNodes } from './mainLoop/CircuitUpdater.js';
+import { updateViews, setNodesInModels, toNodes, toModels } from './mainLoop/CircuitUpdater.js';
 
 import MODES from '../../Modes.js';
 import {
@@ -25,11 +23,8 @@ export default function mainLoopReducer(state, action) {
     if (localState.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
       const nodes = toNodes(views);
-      const preModels = R.mapObj(view => Models[view.typeID], views);
-      const models = setNodesInModels(preModels, nodes);
-
-      // solve the circuit
-      const circuit = {
+      const models = setNodesInModels(toModels(views), nodes);
+      const circuitGraph = {
         // models: {
         //   id: {
         //     typeID,
@@ -46,15 +41,19 @@ export default function mainLoopReducer(state, action) {
         //     }
         //   ]
         // ]
-        nodes
+        nodes,
+
+        // numOfNodes
+        // numOfVSources
+        ...getCircuitInfo({models, nodes})
       };
-      const circuitInfo = getCircuitInfo(circuit);
-      const {solution, error} = solveCircuit(circuit, circuitInfo);
 
-      // update view with new circuit state
-      const updatedViews = updateViews(models, circuitInfo, views, solution);
-
+      // solve the circuit
+      const {solution, error} = solveCircuit(circuitGraph);
       if (error) { console.warn(error); } // eslint-disable-line no-console
+
+      // update view with new circuitGraph state
+      const updatedViews = updateViews(circuitGraph, solution, views);
 
       return R.pipe(
         R.assoc('views', updatedViews),

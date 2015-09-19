@@ -1,5 +1,7 @@
 import R from 'ramda';
 
+import { BaseData as Models } from '../../../ui/diagram/components/models/AllModels.js';
+
 function toConnectors(view) {
   // IN:
   // props: {
@@ -62,6 +64,10 @@ export function toNodes(views) {
   )(views);
 }
 
+export function toModels(views) {
+  return R.mapObj(view => Models[view.typeID], views);
+}
+
 export function setNodesInModels(models, nodes) {
   const forEachIndexed = R.addIndex(R.forEach);
   let ms = models;
@@ -77,17 +83,17 @@ export function setNodesInModels(models, nodes) {
   return ms;
 }
 
-export function updateViews(models, circuitInfo, views, solution) {
+export function updateViews(circuitGraph, solution, views) {
   if (!solution) { return views; }
 
   const flattened = R.prepend(0, solution); // add 0 volt ground node
 
-  const voltages = R.take(circuitInfo.numOfNodes, flattened);
-  let currents = R.drop(circuitInfo.numOfNodes, flattened);
+  const voltages = R.take(circuitGraph.numOfNodes, flattened);
+  let currents = R.drop(circuitGraph.numOfNodes, flattened);
 
   return R.mapObj(view => {
     const viewID = view.props.id;
-    const model = models[viewID];
+    const model = circuitGraph.models[viewID];
     const nodeIDs = model.nodes;
 
     // set voltages
