@@ -4,7 +4,7 @@ import Vector from 'immutable-vector2d';
 import addingComponentReducer from './reducers/addingComponent.js';
 import moveComponentReducer from './reducers/moveComponent.js';
 import modesReducer from './reducers/modes.js';
-import gameLoopReducer from './reducers/gameLoop.js';
+import mainLoopReducer from './reducers/mainLoop.js';
 
 import MODES from '../Modes.js';
 
@@ -99,7 +99,7 @@ export default function simulatorReducer(state = initialState, action) {
 
   case LOOP_BEGIN:
   case LOOP_UPDATE:
-    return gameLoopReducer(state, action);
+    return mainLoopReducer(state, action);
 
   case SELECT_BUTTON:
     return R.assoc('selectedButton', action.buttonID, state);

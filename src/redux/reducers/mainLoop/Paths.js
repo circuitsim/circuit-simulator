@@ -1,5 +1,6 @@
 import R from 'ramda';
-import { BaseData as Models } from '../ui/diagram/components/models/AllModels.js';
+
+import { BaseData as Models } from '../../../ui/diagram/components/models/AllModels.js';
 
 const VOLT_SOURCE_TYPES = R.pipe(
   R.values,

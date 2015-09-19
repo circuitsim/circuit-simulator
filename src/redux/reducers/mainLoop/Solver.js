@@ -1,5 +1,6 @@
 import Analyser from 'circuit-analysis';
-import {Functions} from '../ui/diagram/components/models/AllModels.js';
+
+import { Functions } from '../../../ui/diagram/components/models/AllModels.js';
 import R from 'ramda';
 
 import {hasPathProblem} from './Paths.js';

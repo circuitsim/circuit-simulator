@@ -2,7 +2,7 @@ import React from 'react';
 import Animator from 'react-mainloop';
 
 import CircuitCanvas from './ui/diagram/CircuitCanvas.js';
-import Updater from './update/Updater.js';
+import Updater from './Updater.js';
 import resize from './Resize.js';
 
 const FPS = 10;

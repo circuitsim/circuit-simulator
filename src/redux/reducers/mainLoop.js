@@ -1,62 +1,24 @@
 import R from 'ramda';
-import { hoverFor } from '../../ui/diagram/boundingBox.js';
+
 import { BaseData as Models } from '../../ui/diagram/components/models/AllModels.js';
-import { getCircuitInfo, solveCircuit } from '../../update/Solver.js';
-import { updateViews, setNodesInModels, toNodes } from '../../update/CircuitUpdater.js';
+
+import setHover from './hover.js';
+import { getCircuitInfo, solveCircuit } from './mainLoop/Solver.js';
+import { updateViews, setNodesInModels, toNodes } from './mainLoop/CircuitUpdater.js';
+
 import MODES from '../../Modes.js';
 import {
   LOOP_BEGIN,
   LOOP_UPDATE
 } from '../actions.js';
 
-// TODO move hover stuff to its own file
-function setHover(state) {
-  const { views, mousePos, hover } = state;
-
-  const getHoverInfo = hoverFor(mousePos);
-  const addHoverInfo = view => {
-    const { typeID, props: { dragPoints }} = view;
-    const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
-    return {
-      viewID: view.props.id,
-      hovered,
-      dragPointIndex
-    };
-  };
-
-  const isHovered = hoverInfo => hoverInfo.hovered;
-
-  const moreThanOne = R.pipe(
-    R.length,
-    R.gt(R.__, 1) // eslint-disable-line no-underscore-dangle
-  );
-
-  const pickBest = R.reduce((currentBest, hoverInfo) => {
-    // TODO ugh nested ternaries - not clear what's going on or why
-    return currentBest.viewID
-      ? currentBest.viewID === hoverInfo.viewID
-        ? hoverInfo
-        : currentBest
-      : hoverInfo;
-  }, hover); // prefer currently hovered view
-
-  const hoverInfo = R.pipe(
-    R.map(addHoverInfo),
-    R.filter(isHovered),
-    R.ifElse(moreThanOne, pickBest, R.head)
-  )(R.values(views))
-  || {};
-
-  return R.assoc('hover', hoverInfo, state);
-}
-
-export default function gameLoopReducer(state, action) {
+export default function mainLoopReducer(state, action) {
   switch (action.type) {
   case LOOP_BEGIN: {
     let localState = state;
     const { views, mode } = localState;
 
-    localState = mode.type === MODES.move // only hover in move mode
+    localState = mode.type === MODES.move // only hover highlight in move mode
       ? setHover(localState)
       : state;
 
