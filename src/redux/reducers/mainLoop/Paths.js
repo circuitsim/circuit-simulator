@@ -124,3 +124,51 @@ export function hasPathProblem(circuit) {
 
   return problem ? problem.error : false;
 }
+// Use BFS to find all nodes connected to the given nodeID.
+function findConnectedNodes({nodes, models, numOfNodes}, nodeID) {
+  const connected = R.repeat(false, numOfNodes),
+        q = [nodeID];
+
+  while (q.length !== 0) {
+    const currNodeID = q.shift(),
+          connectors = nodes[currNodeID];
+
+    for (let i = 0; i < connectors.length; i++) {
+      const modelID = connectors[i].viewID,
+            connectedNodes = models[modelID].nodes;
+
+      for (let j = 0; j < connectedNodes.length; j++) {
+        const connectedNode = connectedNodes[j];
+        if (!connected[connectedNode]) {
+          connected[connectedNode] = true;
+          q.push(connectedNode);
+        }
+      }
+    }
+    return connected;
+  }
+}
+
+const GROUND_NODE = 0;
+const HIGH_RESISTANCE = 10e6;
+
+// connect any disconnected circuits to ground using a high-value resistance
+export function connectDisconnectedCircuits(circuit, stamp) {
+  let connected = R.repeat(false, circuit.numOfNodes);
+
+  for (let nodeID = 0; nodeID < connected.length; nodeID++) {
+    if (connected[nodeID]) {
+      continue;
+    }
+
+    const connectedToNodeID = findConnectedNodes(circuit, nodeID);
+
+    if (nodeID !== GROUND_NODE) {
+      stamp(HIGH_RESISTANCE).ohms.between(nodeID, GROUND_NODE);
+    }
+
+    connected = R.zipWith((n1, n2) => {
+      return n1 || n2;
+    }, connected, connectedToNodeID);
+  }
+}

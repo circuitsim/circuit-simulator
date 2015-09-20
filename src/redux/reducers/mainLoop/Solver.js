@@ -3,7 +3,7 @@ import Analyser from 'circuit-analysis';
 
 import { Functions } from '../../../ui/diagram/components/models/AllModels.js';
 
-import { hasPathProblem } from './Paths.js';
+import { hasPathProblem, connectDisconnectedCircuits } from './Paths.js';
 
 const { stamp } = Functions;
 
@@ -42,8 +42,7 @@ export function solveCircuit(circuit) {
       stamp(model, stamper);
     }, R.values(circuit.models));
 
-    // TODO connect disconnected graph
-    // connectDisconnectedCircuits(circuit, stamper);
+    connectDisconnectedCircuits(circuit, stamper);
 
     const solution = R.flatten(solve()()); // flatten single column matrix into array
 
