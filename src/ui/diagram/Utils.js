@@ -13,17 +13,31 @@ const roundUpToNearestMultipleOf = mult => n => {
 };
 const roundUpToGrid = roundUpToNearestMultipleOf(GRID_SIZE);
 
-export function getDragFunctionFor(minLength: number) {
+function maxLengthF(vector, l) {
+  return vector.length() > l
+    ? vector.normalize(l)
+    : vector;
+}
+
+export function getDragFunctionFor(minLength: number = 0, maxLength: number = Infinity) {
+  if (minLength > maxLength) {
+    throw Error(`Max length (${maxLength}) shouldn't be smaller then min length (${minLength})`);
+  }
   minLength = roundUpToGrid(minLength);
+  maxLength = minLength > maxLength ? minLength : maxLength;
   /**
    * Ensure that the point being dragged is properly snapped,
    * and a minimum distance away from a fixed point.
    */
   return (dragPoint, { fixed }) => {
     const fixedPoint = snapToGrid(fixed);
-    const dragOffset = diff(dragPoint, fixedPoint).minLength(minLength);
+    const dragOffset = maxLengthF(diff(dragPoint, fixedPoint).minLength(minLength), maxLength);
     return snapToGrid(fixedPoint.add(dragOffset));
   };
+}
+
+export function getConnectorFromFirstDragPoint(dragPoints) {
+  return [dragPoints[0]];
 }
 
 export function get2ConnectorsFromDragPoints(dragPoints) {

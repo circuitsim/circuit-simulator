@@ -1,5 +1,6 @@
 import R from 'ramda';
 
+import { GROUND_NODE } from '../../../Constants.js';
 import { BaseData as Models } from '../../../ui/diagram/components/models/AllModels.js';
 
 function toConnectors(view) {
@@ -55,12 +56,22 @@ export function toNodes(views) {
   //   }]
   // ]
 
+  const groundIDs = R.pipe(
+    R.values,
+    R.filter(v => v.typeID === Models.Ground.typeID),
+    R.map(v => ({
+      viewID: v.props.id,
+      index: 1 // implicit second connector connected to GROUND_NODE
+    }))
+  )(views);
+
   return R.pipe(
     R.values,
     R.chain(toConnectors), // chain === flatMap
     R.groupBy(position),
     R.values,
-    R.map(merge)
+    R.map(merge),
+    R.insert(GROUND_NODE, groundIDs)
   )(views);
 }
 

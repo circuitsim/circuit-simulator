@@ -90,6 +90,7 @@ ComponentSelector.propTypes = {
   theme: PropTypes.object.isRequired,
   style: PropTypes.object,
 
+  // TODO let's face it, this could be local state
   selectedButton: PropTypes.string.isRequired,
 
   onButtonClicked: PropTypes.func.isRequired

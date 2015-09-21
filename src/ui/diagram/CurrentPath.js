@@ -6,6 +6,8 @@ import Utils from '../utils/DrawingUtils.js';
 
 import { CURRENT } from './Constants.js';
 
+const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
+
 /**
  * Displays current flow along a path.
  */
@@ -27,14 +29,14 @@ const CurrentPath = (
             .moveTo(end1.x, end1.y)
             .lineTo(end2.x, end2.y),
 
-          fiddleCurrent = current / 10, // FIXME no magic fiddles
+          fiddleCurrent = current / 20, // FIXME no magic fiddles
 
-          offset = (fiddleCurrent * context.animContext.currentOffset) % CURRENT.DOT_DISTANCE,
+          offset = (fiddleCurrent * context.animContext.currentOffset + STANDING_OFFSET) % CURRENT.DOT_DISTANCE,
           startPos = current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE;
 
-    for (let position = startPos; position < d.length(); position += CURRENT.DOT_DISTANCE) {
+    for (let position = startPos; position <= d.length(); position += CURRENT.DOT_DISTANCE) {
       circles.push(
         React.createElement(Circle, {
           key: position,

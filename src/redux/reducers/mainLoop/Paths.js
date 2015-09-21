@@ -1,5 +1,6 @@
 import R from 'ramda';
 
+import { GROUND_NODE } from '../../../Constants.js';
 import { BaseData as Models } from '../../../ui/diagram/components/models/AllModels.js';
 
 const VOLT_SOURCE_TYPES = R.pipe(
@@ -149,7 +150,6 @@ function findConnectedNodes({nodes, models, numOfNodes}, nodeID) {
   }
 }
 
-const GROUND_NODE = 0;
 const HIGH_RESISTANCE = 10e6;
 
 // connect any disconnected circuits to ground using a high-value resistance

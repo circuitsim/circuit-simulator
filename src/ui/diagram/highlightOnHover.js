@@ -3,7 +3,7 @@ import React from 'react';
 import {getDisplayName} from './Utils.js';
 
 export default CircuitElement => {
-  const Highlighter = props=> {
+  const Highlighter = props => {
     const {hovered = false, theme} = props,
           COLORS = theme.COLORS,
           color = hovered ? COLORS.highlight : COLORS.base;

@@ -17,6 +17,10 @@ const utils = {
     return p1.subtract(p2);
   },
 
+  direction(from: Vector, to: Vector): Vector {
+    return utils.diff(to, from).normalize();
+  },
+
   relMouseCoords(event, node) {
     return evPos(event.nativeEvent || event, node);
   },

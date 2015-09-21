@@ -24,6 +24,8 @@ export default function setHover(state) {
   );
 
   const pickBest = R.reduce((currentBest, hoverInfo) => {
+    // TODO what if a big component completely covers a smaller one?
+    // - we should have a bias for smaller components
     // TODO ugh nested ternaries - not clear what's going on or why
     return currentBest.viewID
       ? currentBest.viewID === hoverInfo.viewID

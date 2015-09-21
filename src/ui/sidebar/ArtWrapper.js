@@ -23,6 +23,7 @@ const ArtWrapper = ({art: Art, color, theme}) => {
         <Group transform={scale} >
           <Art
             connectors={endPoints}
+            dragPoints={endPoints}
             id='nah'
             current={0}
             color={color}

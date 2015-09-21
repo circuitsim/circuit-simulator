@@ -14,6 +14,7 @@ const animate = new Animator(TIMESTEP);
 class CircuitDiagram extends React.Component {
 
   componentWillMount() {
+    // TODO make instance var rather than state
     this.setState({
       updater: new Updater(this.context.store)
     });
