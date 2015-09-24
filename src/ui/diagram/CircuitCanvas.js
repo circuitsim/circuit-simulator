@@ -3,6 +3,7 @@ import { Surface } from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
+import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
 import showDragPoints from './showDragPoints.js';
 
@@ -29,7 +30,7 @@ const lookUpComponent = component => {
 
 const addModifiers = ({CircuitComponent, props}) => {
   return {
-    CircuitComponent: handleHover(CircuitComponent),
+    CircuitComponent: handleHover(showConnectors(CircuitComponent)),
     CurrentPaths: CircuitComponent.getCurrentPaths(props),
     DragPoints: showDragPoints(CircuitComponent),
     props
