@@ -38,6 +38,7 @@ const styles = {
   side: {
     boxSizing: 'border-box',
     borderRight: `${COLORS.theme} 2px solid`,
+    padding: '10px 0px',
     position: 'absolute',
     width: sidebarWidthPx,
     top: '0px',

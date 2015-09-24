@@ -5,21 +5,29 @@ function styles({ TYPOGRAPHY, COLORS }) {
   const [ val, unit ] = parseunit(TYPOGRAPHY.lineHeight);
 
   return {
+    group: {
+      marginTop: '10px'
+    },
     title: {
       lineHeight: `${val * 1.5}${unit}`,
-      paddingLeft: '5px',
-      fontSize: 'larger',
-      color: COLORS.highlight
+      paddingLeft: '10px',
+      fontWeight: 'bold',
+      fontSize: 'smaller',
+      textTransform: 'uppercase',
+      color: COLORS.semiHighlight
     }
   };
 }
 
-const ButtonGroup = ({theme, name, children}) => (
-  <div>
-    <div style={styles(theme).title} >{name}</div>
-    {children}
-  </div>
-);
+const ButtonGroup = ({theme, name, children}) => {
+  const style = styles(theme);
+  return (
+    <div style={style.group} >
+      <div style={style.title} >{name}</div>
+      {children}
+    </div>
+  );
+};
 
 ButtonGroup.propTypes = {
   name: React.PropTypes.string,

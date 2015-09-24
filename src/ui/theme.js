@@ -16,6 +16,7 @@ const COLORS = {
   base: BASE_COLOR,
   transBase: trans(BASE_COLOR),
 
+  semiHighlight: '#eee',
   highlight: 'white',
 
   theme: ELECTRIC_BLUE,
@@ -24,7 +25,7 @@ const COLORS = {
 };
 
 const TYPOGRAPHY = {
-  'fontFamily': '\'Helvetica Neue\', Helvetica, Arial, sans-serif',
+  'fontFamily': 'Open Sans, Helvetica, Arial, sans-serif',
   'lineHeight': '1.5em',
   'fontSize': '12px'
 };
