@@ -60,7 +60,14 @@ export const initialState = {
   //     props: {
   //       id,
   //       dragPoints: [Vector], // 2 drag points
-  //       connectors: [Vector]
+  //       connectors: [Vector],
+  //
+  //       resistance|current|...
+  //
+  //       // added by circuit analysis code
+  //       // TODO consider splitting out?
+  //       currents,
+  //       voltages
   //     }
   //   }
   // }
