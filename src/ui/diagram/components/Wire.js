@@ -18,25 +18,17 @@ const MIN_LENGTH = GRID_SIZE;
 const BaseWireModel = BaseData.Wire;
 
 const Wire = ({
-    // voltages = [0, 0],
-    currents = [0],
     connectors,
     color: propColor,
     theme
   }) => {
   const color = propColor || theme.COLORS.base;
-
   return (
     <Group>
       <Line
         color={color}
         points={connectors}
         width={LINE_WIDTH}
-      />
-      <CurrentPath
-        connectors={connectors}
-        current={currents[0]}
-        theme={theme}
       />
     </Group>
   );
@@ -59,5 +51,14 @@ Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 Wire.typeID = BaseWireModel.typeID;
 
 Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
+Wire.getCurrentPaths = ({currents = [0], connectors, theme}) => {
+  return (
+    <CurrentPath
+      connectors={connectors}
+      current={currents[0]}
+      theme={theme}
+    />
+  );
+};
 
 export default Wire;

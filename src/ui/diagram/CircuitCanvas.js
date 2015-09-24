@@ -1,14 +1,12 @@
 import React from 'react';
-import ReactArt from 'react-art';
+import { Surface } from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
 import handleHover from './highlightOnHover.js';
 import showDragPoints from './showDragPoints.js';
 
-const Surface = ReactArt.Surface;
-
-const addProps = ({ handlers, hover, theme }) => component => {
+const addProps = ({ handlers, hover, theme, circuitError }) => component => {
   const hovered = component.props.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
@@ -17,7 +15,8 @@ const addProps = ({ handlers, hover, theme }) => component => {
     handlers: handlers.component,
     theme,
     hovered,
-    hoveredDragPointIndex
+    hoveredDragPointIndex,
+    circuitError
   }), component);
 };
 
@@ -28,22 +27,13 @@ const lookUpComponent = component => {
   };
 };
 
-const addModifiers = component => {
+const addModifiers = ({CircuitComponent, props}) => {
   return {
-    CircuitComponent: handleHover(component.CircuitComponent),
-    DragPoints: showDragPoints(component.CircuitComponent),
-    props: component.props
+    CircuitComponent: handleHover(CircuitComponent),
+    CurrentPaths: CircuitComponent.getCurrentPaths(props),
+    DragPoints: showDragPoints(CircuitComponent),
+    props
   };
-};
-
-const createCircuitComponents = component => {
-  const {CircuitComponent, props} = component;
-  return <CircuitComponent {...props} key={props.id} />;
-};
-
-const createDragPoints = component => {
-  const {DragPoints, props} = component;
-  return <DragPoints {...props} key={props.id} />;
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -77,14 +67,15 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const things = R.pipe(
+    const viewParts = R.pipe(
       R.map(addProps(this.props)),
       R.map(lookUpComponent),
       R.map(addModifiers)
     )(this.props.circuitComponents);
 
-    const circuitComponents = R.map(createCircuitComponents, things);
-    const dragPoints = R.map(createDragPoints, things);
+    const circuitComponents = R.map(({CircuitComponent, props}) => <CircuitComponent {...props} key={props.id} />, viewParts);
+    const currentDots = R.map(({CurrentPaths, props}) => React.cloneElement(CurrentPaths, {key: props.id}), viewParts);
+    const dragPoints = R.map(({DragPoints, props}) => <DragPoints {...props} key={props.id} />, viewParts);
 
     return (
       <div ref='canvas'
@@ -101,7 +92,9 @@ export default class CircuitCanvas extends React.Component {
           height={this.props.height}
           style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
         >
+          {/* The order is important here */}
           {circuitComponents}
+          {currentDots}
           {dragPoints}
         </Surface>
       </div>
@@ -152,5 +145,7 @@ CircuitCanvas.propTypes = {
       onMouseMove: React.PropTypes.func,
       onMouseUp: React.PropTypes.func
     }).isRequired
-  })
+  }),
+
+  circuitError: React.PropTypes.any
 };

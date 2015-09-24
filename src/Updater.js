@@ -33,11 +33,11 @@ function Updater(store) {
             onMouseMove: coords => store.dispatch(canvasMouseMove(coords)),
             onMouseUp: coords => store.dispatch(canvasMouseUp(coords))
           }
-        }
+        },
+        circuitError: state.error
       },
       context: {
-        currentOffset: state.currentOffset,
-        circuitError: state.error
+        currentOffset: state.currentOffset
       }
     };
   }

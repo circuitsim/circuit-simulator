@@ -29,23 +29,30 @@ const GROUND_LENGTH = (LINE_WIDTH * NUM_OF_LINES) + (GAP_SIZE * NUM_OF_GAPS);
 
 const Model = BaseData.Ground;
 
+const getShapeAttributes = dragPoints => {
+  const [connector, end] = dragPoints,
+        dir = direction(connector, end),
+        perpDir = dir.perpendicular(),
+        wire = dir.normalize(WIRE_LENTH),
+        // T represents the shape where the wire meets the ground lines
+        positionOfT = connector.add(wire);
+  return {
+    dir,
+    perpDir,
+    positionOfT
+  };
+};
+
 const Ground = ({
-    // voltages = [0, 0],
-    currents = [0],
-    // connectors,
     dragPoints,
     color: propColor,
     theme
   }) => {
   const color = propColor || theme.COLORS.base,
 
-        [connector, end] = dragPoints,
-        dir = direction(connector, end),
-        perpDir = dir.perpendicular(),
-        wire = dir.normalize(WIRE_LENTH),
-        // T represents the shape where the wire meets the ground lines
-        positionOfT = connector.add(wire),
-        lines = R.map(i => {
+        [connector] = dragPoints,
+        { dir, perpDir, positionOfT } = getShapeAttributes(dragPoints),
+        groundLines = R.map(i => {
           const offsetFromTLength: number = i * (GAP_SIZE + LINE_WIDTH),
                 offsetFromEndLength: number = GROUND_LENGTH - offsetFromTLength,
                 offsetFromT = dir.normalize(offsetFromTLength),
@@ -72,12 +79,7 @@ const Ground = ({
         points={[connector, positionOfT]}
         width={LINE_WIDTH}
       />
-      {lines}
-      <CurrentPath
-        connectors={[positionOfT, connector]}
-        current={currents[0]}
-        theme={theme}
-      />
+      {groundLines}
     </Group>
   );
 };
@@ -100,5 +102,21 @@ Ground.getConnectorPositions = getConnectorFromFirstDragPoint;
 Ground.typeID = Model.typeID;
 
 Ground.getBoundingBox = get2PointBoundingBox(GROUND_LENGTH);
+Ground.getCurrentPaths = ({
+    dragPoints,
+    currents = [0],
+    theme
+  }) => {
+  const [connector] = dragPoints,
+        { positionOfT } = getShapeAttributes(dragPoints);
+  return (
+    <CurrentPath
+      /* current goes in opposite direction of drag */
+      connectors={[positionOfT, connector]}
+      current={currents[0]}
+      theme={theme}
+    />
+  );
+};
 
 export default Ground;

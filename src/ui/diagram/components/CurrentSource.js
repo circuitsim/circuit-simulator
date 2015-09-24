@@ -21,13 +21,10 @@ const BaseCurrentSourceModel = BaseData.CurrentSource;
 
 const CurrentSource = (
     {
-      current = BaseCurrentSourceModel.current,
-      voltages = [0, 0],
       connectors,
       color: propColor,
       theme
-    },
-    context
+    }
   ) => {
 
   const [wireEnd1, wireEnd2] = connectors,
@@ -44,13 +41,7 @@ const CurrentSource = (
         circlePoints1 = [compEnd1, mid.subtract(circleOffset)],
         circlePoints2 = [mid.add(circleOffset), compEnd2],
 
-        error = context
-                && context.animContext
-                && context.animContext.circuitError, // :( makes me sad
-
         color = propColor || theme.COLORS.base;
-
-  current = error ? 0 : current;
 
   return (
     <Group>
@@ -78,11 +69,6 @@ const CurrentSource = (
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />
-      <CurrentPath
-        connectors={connectors}
-        current={current}
-        theme={theme}
-      />
     </Group>
   );
 };
@@ -95,13 +81,9 @@ CurrentSource.propTypes = {
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
   color: React.PropTypes.string,
-  theme: React.PropTypes.object.isRequired
-};
+  theme: React.PropTypes.object.isRequired,
 
-CurrentSource.contextTypes = {
-  animContext: React.PropTypes.shape({
-    circuitError: React.PropTypes.any
-  })
+  circuitError: React.PropTypes.any
 };
 
 CurrentSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
@@ -110,5 +92,20 @@ CurrentSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
+CurrentSource.getCurrentPaths = ({
+    current = BaseCurrentSourceModel.current,
+    connectors,
+    theme,
+    circuitError
+  }) => {
+  current = circuitError ? 0 : current;
+  return (
+    <CurrentPath
+      connectors={connectors}
+      current={current}
+      theme={theme}
+    />
+  );
+};
 
 export default CurrentSource;

@@ -18,8 +18,6 @@ const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 const BaseResistorModel = BaseData.Resistor;
 
 const Resistor = ({
-    resistance = BaseResistorModel.resistance,
-    voltages = [0, 0],
     connectors,
     color: propColor,
     theme
@@ -33,8 +31,6 @@ const Resistor = ({
         compEnd2 = mid.subtract(n),
 
         rectPath = getRectPathBetween(compEnd1, compEnd2, RESISTOR.WIDTH),
-
-        current = (voltages[0] - voltages[1]) / resistance,
 
         color = propColor || theme.COLORS.base;
 
@@ -55,11 +51,6 @@ const Resistor = ({
         color={color}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
-      />
-      <CurrentPath
-        connectors={connectors}
-        current={current}
-        theme={theme}
       />
     </Group>
   );
@@ -82,5 +73,20 @@ Resistor.getConnectorPositions = get2ConnectorsFromDragPoints;
 Resistor.typeID = BaseResistorModel.typeID;
 
 Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
+Resistor.getCurrentPaths = ({
+    resistance = BaseResistorModel.resistance,
+    voltages = [0, 0],
+    connectors,
+    theme
+  }) => {
+  const current = (voltages[0] - voltages[1]) / resistance;
+  return (
+    <CurrentPath
+      connectors={connectors}
+      current={current}
+      theme={theme}
+    />
+  );
+};
 
 export default Resistor;
