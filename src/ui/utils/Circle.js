@@ -7,7 +7,7 @@ const Circle = ({
     position,
     fillColor = 'rgba(0,0,0,0)',
     lineColor = 'rgba(0,0,0,0)',
-    lineWidth
+    lineWidth = 0
   }) => {
   const path = position.points
           ? drawCircle(...position.points)
@@ -16,7 +16,7 @@ const Circle = ({
   return (
     <Shape
       strokeWidth={lineWidth}
-      stroke={lineColor}
+      stroke={lineWidth > 0 ? lineColor : null}
       fill={fillColor}
       d={path}
     />
@@ -35,12 +35,7 @@ Circle.propTypes = {
   ]).isRequired,
   fillColor: React.PropTypes.string,
   lineColor: React.PropTypes.string,
-  lineWidth: React.PropTypes.number.isRequired
-};
-
-Circle.defaultProps = {
-  fillColor: 'rgba(0,0,0,0)',
-  lineColor: 'rgba(0,0,0,0)'
+  lineWidth: React.PropTypes.number
 };
 
 export default Circle;

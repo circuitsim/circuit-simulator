@@ -16,7 +16,6 @@ export default CircuitComponent => {
     let dragPointViews = null;
     if (hovered) {
       dragPointViews = dragPoints.map((dragPoint, i) => {
-
         return (
           <DragPoint
             position={dragPoint}
