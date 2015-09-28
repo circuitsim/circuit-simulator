@@ -34,8 +34,17 @@ function vendor(outDir) {
   };
 }
 
+function icons(outDir) {
+  return function() {
+    return gulp.src('public/icons/**')
+      .pipe(gulp.dest(outDir + '/icons'));
+  };
+}
+
+
 gulp.task('templates', templates(devBuildDir));
 gulp.task('vendor', vendor(devBuildDir));
+gulp.task('icons', icons(devBuildDir));
 
 function compile(opts) {
   var bundler = watchify(browserify('./public/main.js', { debug: true })
@@ -76,6 +85,7 @@ gulp.task('watch', function() {
 gulp.task('build', function() {
   templates(buildDir)();
   vendor(buildDir)();
+  icons(buildDir)();
   file('CNAME', 'circuits.im', { src: true })
     .pipe(gulp.dest(buildDir));
   return browserify('./public/main.js')
@@ -90,4 +100,4 @@ gulp.task('build', function() {
     .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('default', ['templates', 'vendor', 'connect', 'watch']);
+gulp.task('default', ['templates', 'vendor', 'icons', 'connect', 'watch']);
