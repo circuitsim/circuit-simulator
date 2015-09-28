@@ -6,11 +6,12 @@ function styles({ TYPOGRAPHY, COLORS }) {
 
   return {
     group: {
-      marginTop: '10px'
+      display: 'flex',
+      justifyContent: 'space-between'
     },
     title: {
       lineHeight: `${val * 1.5}${unit}`,
-      paddingLeft: '10px',
+      paddingLeft: '5px',
       fontWeight: 'bold',
       fontSize: 'smaller',
       textTransform: 'uppercase',
@@ -22,9 +23,11 @@ function styles({ TYPOGRAPHY, COLORS }) {
 const ButtonGroup = ({theme, name, children}) => {
   const style = styles(theme);
   return (
-    <div style={style.group} >
+    <div>
       <div style={style.title} >{name}</div>
-      {children}
+      <div style={style.group} >
+        {children}
+      </div>
     </div>
   );
 };

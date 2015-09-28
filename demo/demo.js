@@ -16,7 +16,7 @@ window.React = React;
 const COLORS = Theme.COLORS;
 const {lineHeight, fontSize, fontFamily} = Theme.TYPOGRAPHY;
 
-const sidebarWidth = 250;
+const sidebarWidth = 242; // FIXME fudged
 const sidebarWidthPx = `${sidebarWidth}px`;
 const styles = {
   global: {
@@ -38,12 +38,14 @@ const styles = {
   side: {
     boxSizing: 'border-box',
     borderRight: `${COLORS.theme} 2px solid`,
-    padding: '10px 0px',
+    padding: '10px 5px',
     position: 'absolute',
     width: sidebarWidthPx,
     top: '0px',
     left: '0px',
-    bottom: '0px'
+    bottom: '0px',
+    display: 'flex',
+    flexDirection: 'column'
   }
 };
 

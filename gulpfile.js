@@ -26,7 +26,15 @@ function templates(outDir) {
   };
 }
 
+function vendor(outDir) {
+  return function() {
+    return gulp.src('demo/vendor/**')
+      .pipe(gulp.dest(outDir + '/vendor'));
+  };
+}
+
 gulp.task('templates', templates(devBuildDir));
+gulp.task('vendor', vendor(devBuildDir));
 
 function compile(opts) {
   var bundler = watchify(browserify('./demo/demo.js', { debug: true })
@@ -66,6 +74,7 @@ gulp.task('watch', function() {
 
 gulp.task('build', function() {
   templates(buildDir)();
+  vendor(buildDir)();
   return browserify('./demo/demo.js')
     .transform(envify({
       NODE_ENV: 'production'
@@ -78,4 +87,4 @@ gulp.task('build', function() {
     .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('default', ['templates', 'connect', 'watch']);
+gulp.task('default', ['templates', 'vendor', 'connect', 'watch']);

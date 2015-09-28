@@ -5,22 +5,18 @@ import parseunit from 'parseunit';
 import ArtWrapper from './ArtWrapper.js';
 
 function styles({COLORS, TYPOGRAPHY}) {
-  const vars = {
-    imgSize: 50,
-    paddingH: 5,
-    paddingV: 1
-  };
+  const imgSize = 50;
   const [lhVal, lhUnits] = parseunit(TYPOGRAPHY.lineHeight);
   return {
     button: {
-      padding: `${vars.paddingV}px ${vars.paddingH}px`,
+      padding: 0,
       border: 'none',
-      width: (vars.imgSize + (2 * vars.paddingH)) + 'px',
+      width: imgSize + 'px',
       ':hover': {}
     },
     img: {
-      height: vars.imgSize + 'px',
-      width: vars.imgSize + 'px',
+      height: imgSize + 'px',
+      width: imgSize + 'px',
       marginLeft: 'auto',
       marginRight: 'auto'
     },

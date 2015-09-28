@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Style } from 'radium';
 
-import ComponentSelector from './ui/sidebar/ComponentSelector.js';
+import Sidebar from './ui/sidebar/Sidebar.js';
 import CircuitDiagram from './CircuitDiagram.js';
 
 import { componentSelectorButtonClicked } from './redux/actions.js';
@@ -20,7 +20,7 @@ const App = props => {
       <Style
         rules={ styles.global }
       />
-      <ComponentSelector
+      <Sidebar
         theme={ theme } // TODO put theme in context? or is this a silly idea?
         style={ styles.side }
         onButtonClicked={ onButtonClicked }

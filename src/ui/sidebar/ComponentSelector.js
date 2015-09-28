@@ -52,13 +52,14 @@ export default class ComponentSelector extends React.Component {
 
   toButtons(buttonIDs) {
     const { selectedButton, onButtonClicked, theme } = this.props;
-    return R.map(buttonID => {
+    const createButton = buttonID => {
       const props = R.pipe(
         R.assoc('id', buttonID),
         R.assoc('onClick', onButtonClicked)
       )(BUTTONS[buttonID]);
-      return <Button key={ props.id } {...props} theme={ theme } selected={ selectedButton === buttonID } />;
-    }, buttonIDs);
+      return <Button {...props} theme={ theme } selected={ selectedButton === buttonID } key={ buttonID }/>;
+    };
+    return R.map(createButton, buttonIDs);
   }
 
   toButtonGroups(groupProperties) {
