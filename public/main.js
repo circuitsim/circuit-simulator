@@ -28,24 +28,14 @@ const styles = {
       color: COLORS.base
     }
   },
-  main: {
-    position: 'absolute',
-    top: '0px',
-    left: sidebarWidthPx,
-    right: '0px',
-    bottom: '0px'
-  },
   side: {
     boxSizing: 'border-box',
     borderRight: `${COLORS.theme} 2px solid`,
     padding: '10px 5px',
-    position: 'absolute',
     width: sidebarWidthPx,
-    top: '0px',
-    left: '0px',
-    bottom: '0px',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    minHeight: '100vh'
   }
 };
 

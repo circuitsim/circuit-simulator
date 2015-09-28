@@ -16,7 +16,10 @@ const App = props => {
     componentSelectorButtonClicked: onButtonClicked
   } = props;
   return (
-    <div>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'row'
+    }}>
       <Style
         rules={ styles.global }
       />
@@ -27,7 +30,6 @@ const App = props => {
         selectedButton={ selectedButton } />
       <CircuitDiagram
         theme={ theme }
-        style={ styles.main }
         getDimensions={ getCanvasSize } />
     </div>
   );
@@ -36,7 +38,6 @@ const App = props => {
 App.propTypes = {
   styles: PropTypes.shape({
     global: PropTypes.object,
-    main: PropTypes.object,
     side: PropTypes.object
   }).isRequired,
   theme: PropTypes.object.isRequired,

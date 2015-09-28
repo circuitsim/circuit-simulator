@@ -87,7 +87,7 @@ export default class CircuitCanvas extends React.Component {
         onTouchMove={this.onMouse}
         onTouchEnd={this.onMouse}
         onTouchCancel={this.onMouse}
-        style={R.merge({padding: 0, margin: 0, border: 0}, this.props.style)}>
+        style={{padding: 0, margin: 0, border: 0}}>
         <Surface
           width={this.props.width}
           height={this.props.height}
