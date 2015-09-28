@@ -21,7 +21,7 @@ function handleError(err) {
 
 function templates(outDir) {
   return function() {
-    return gulp.src('demo/*.jade')
+    return gulp.src('public/*.jade')
       .pipe(jade())
       .pipe(gulp.dest(outDir));
   };
@@ -29,7 +29,7 @@ function templates(outDir) {
 
 function vendor(outDir) {
   return function() {
-    return gulp.src('demo/vendor/**')
+    return gulp.src('public/vendor/**')
       .pipe(gulp.dest(outDir + '/vendor'));
   };
 }
@@ -38,13 +38,13 @@ gulp.task('templates', templates(devBuildDir));
 gulp.task('vendor', vendor(devBuildDir));
 
 function compile(opts) {
-  var bundler = watchify(browserify('./demo/demo.js', { debug: true })
+  var bundler = watchify(browserify('./public/main.js', { debug: true })
     .transform(babel));
 
   function rebundle() {
     return bundler.bundle()
       .on('error', handleError)
-      .pipe(source('demo.js'))
+      .pipe(source('main.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
@@ -78,13 +78,13 @@ gulp.task('build', function() {
   vendor(buildDir)();
   file('CNAME', 'circuits.im', { src: true })
     .pipe(gulp.dest(buildDir));
-  return browserify('./demo/demo.js')
+  return browserify('./public/main.js')
     .transform(envify({
       NODE_ENV: 'production'
     }), {global: true})
     .transform(babel)
     .bundle().on('error', handleError)
-    .pipe(source('demo.js'))
+    .pipe(source('main.js'))
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest(buildDir));
