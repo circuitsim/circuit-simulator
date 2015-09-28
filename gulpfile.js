@@ -9,6 +9,7 @@ var jade = require('gulp-jade');
 var connect = require('gulp-connect');
 var uglify = require('gulp-uglify');
 var envify = require('envify/custom');
+var file = require('gulp-file');
 
 var buildDir = 'build';
 var devBuildDir = 'dev_build';
@@ -75,6 +76,8 @@ gulp.task('watch', function() {
 gulp.task('build', function() {
   templates(buildDir)();
   vendor(buildDir)();
+  file('CNAME', 'circuits.im', { src: true })
+    .pipe(gulp.dest(buildDir));
   return browserify('./demo/demo.js')
     .transform(envify({
       NODE_ENV: 'production'
