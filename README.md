@@ -5,6 +5,11 @@ Circuit Simulator
 [![David](https://img.shields.io/david/circuitsim/circuit-simulator.svg?style=flat-square)](https://david-dm.org/circuitsim/circuit-simulator)
 [![David](https://img.shields.io/david/dev/circuitsim/circuit-simulator.svg?style=flat-square)](https://david-dm.org/circuitsim/circuit-simulator#info=devDependencies)
 
+An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s excellent [circuit simulator](http://www.falstad.com/circuit/).
+
+### Vision
+*A visual, fully interactive circuit simulator in your browser.*
+
 Want to play around?
 
 ```bash
