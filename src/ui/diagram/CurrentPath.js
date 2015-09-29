@@ -35,11 +35,11 @@ const CurrentPath = (
           startPos = current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE;
-
+    let key = 0;
     for (let position = startPos; position <= d.length(); position += CURRENT.DOT_DISTANCE) {
       circles.push(
         React.createElement(Circle, {
-          key: position,
+          key: key++,
           radius: CURRENT.RADIUS,
           fill: theme.COLORS.current,
           transform: path.point(position)
