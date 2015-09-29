@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Credit to David Moody
+# https://davidxmoody.com/host-any-static-site-with-github-pages/
+
 set -e
 
 npm run build
