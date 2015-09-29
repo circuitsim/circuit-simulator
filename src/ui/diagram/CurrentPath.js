@@ -3,7 +3,6 @@ import {Group} from 'react-art';
 import Circle from 'react-art/shapes/circle';
 import MetricsPath from 'art/metrics/path';
 import Utils from '../utils/DrawingUtils.js';
-
 import { CURRENT } from './Constants.js';
 
 const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
@@ -39,12 +38,12 @@ const CurrentPath = (
     let key = 0;
     for (let position = startPos; position <= d.length(); position += CURRENT.DOT_DISTANCE) {
       circles.push(
-        React.createElement(Circle, {
-          key: key++,
-          radius: CURRENT.RADIUS,
-          fill: theme.COLORS.current,
-          transform: path.point(position)
-        })
+        <Circle
+          key={key++}
+          radius={CURRENT.RADIUS}
+          fill={theme.COLORS.current}
+          transform={path.point(position)}
+        />
       );
     }
   }
