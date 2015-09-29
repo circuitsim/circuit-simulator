@@ -16,7 +16,7 @@ window.React = React;
 const COLORS = Theme.COLORS;
 const {lineHeight, fontSize, fontFamily} = Theme.TYPOGRAPHY;
 
-const sidebarWidth = 242; // FIXME fudged
+const sidebarWidth = 240;
 const sidebarWidthPx = `${sidebarWidth}px`;
 const styles = {
   global: {
