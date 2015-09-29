@@ -5,6 +5,7 @@ import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import Circle from '../../utils/Circle.js';
 import { get2PointBoundingBox } from '../boundingBox.js';
+import Plus from '../../utils/Plus.js';
 
 import CurrentPath from '../CurrentPath.js';
 
@@ -12,7 +13,7 @@ import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, VOLTAGE_SOURCE, GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
-const { PropTypes, midPoint, diff } = DrawingUtils;
+const { PropTypes, midPoint, direction } = DrawingUtils;
 
 const BOUNDING_BOX_WIDTH = VOLTAGE_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = VOLTAGE_SOURCE.RADIUS * 2 + GRID_SIZE;
@@ -30,12 +31,15 @@ const VoltageSource = (
   const [wireEnd1, wireEnd2] = connectors,
 
         mid = midPoint(wireEnd1, wireEnd2),
-        n = diff(wireEnd1, wireEnd2).normalize(),
+        n = direction(wireEnd1, wireEnd2).normalize(),
 
         compOffset = n.multiply(VOLTAGE_SOURCE.RADIUS),
 
-        compEnd1 = mid.add(compOffset),
-        compEnd2 = mid.subtract(compOffset),
+        compEnd1 = mid.subtract(compOffset),
+        compEnd2 = mid.add(compOffset),
+
+        plusPos = mid.add(n.multiply(VOLTAGE_SOURCE.RADIUS / 2)),
+        // minusPos = mid.subract(n.multiply(VOLTAGE_SOURCE.RADIUS / 2)),
 
         color = propColor || theme.COLORS.base;
 
@@ -48,6 +52,10 @@ const VoltageSource = (
           center: mid,
           radius: VOLTAGE_SOURCE.RADIUS
         }}
+      />
+      <Plus
+        center={plusPos}
+        lineColor={color}
       />
       <Line
         color={color}

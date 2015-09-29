@@ -13,12 +13,12 @@ const utils = {
     return p1.subtract(p2);
   },
 
-  distance(p1: Vector, p2: Vector): Vector {
-    return p1.subtract(p2);
+  direction(p1: Vector, p2: Vector): Vector {
+    return p2.subtract(p1);
   },
 
-  direction(from: Vector, to: Vector): Vector {
-    return utils.diff(to, from).normalize();
+  distance(p1: Vector, p2: Vector): Vector {
+    return p1.subtract(p2);
   },
 
   relMouseCoords(event, node) {
