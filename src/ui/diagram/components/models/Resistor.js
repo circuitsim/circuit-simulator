@@ -6,9 +6,9 @@ export default {
     resistance: INITIAL_RESISTANCE
   },
   functions: {
-    stamp: (data, stamp) => {
+    stamp: (data, equation) => {
       const {resistance, nodes: [n1, n2]} = data;
-      stamp(resistance).ohms.between(n1, n2);
+      equation.stampResistor(resistance, n1, n2);
     }
   }
 };

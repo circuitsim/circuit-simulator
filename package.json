@@ -30,9 +30,9 @@
   },
   "dependencies": {
     "art": "^0.10.0",
-    "circuit-analysis": "^0.5",
+    "circuit-analysis": "^0.6",
     "color": "^0.10.1",
-    "ev-pos": "0.0.4",
+    "ev-pos": "^0.0.4",
     "immutable-vector2d": "^0",
     "keyboard-shortcuts": "^0",
     "node-uuid": "^1.4.3",

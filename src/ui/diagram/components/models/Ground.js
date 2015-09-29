@@ -6,9 +6,9 @@ export default {
     vSources: 1
   },
   functions: {
-    stamp: (data, stamp) => {
+    stamp: (data, equation) => {
       const {nodes: [node]} = data;
-      stamp(0).volts.from(GROUND_NODE).to(node);
+      equation.stampVoltageSource(0, GROUND_NODE, node);
     }
   }
 };

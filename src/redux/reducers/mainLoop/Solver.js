@@ -1,5 +1,5 @@
 import R from 'ramda';
-import Analyser from 'circuit-analysis';
+import createEquationBuilder from 'circuit-analysis';
 
 import { Functions } from '../../../ui/diagram/components/models/AllModels.js';
 
@@ -37,14 +37,14 @@ export function solveCircuit(circuit) {
       return anError(circuit, problem);
     }
 
-    const {solve, stamp: stamper} = Analyser.createEquationBuilder(circuit);
+    const equation = createEquationBuilder(circuit);
     R.forEach(model => {
-      stamp(model, stamper);
+      stamp(model, equation);
     }, R.values(circuit.models));
 
-    connectDisconnectedCircuits(circuit, stamper);
+    connectDisconnectedCircuits(circuit, equation);
 
-    const solution = R.flatten(solve()()); // flatten single column matrix into array
+    const solution = R.flatten(equation.solve()()); // flatten single column matrix into array
 
     if (R.any(isNaN, solution)) {
       return anError(circuit, 'Error: Solution contained NaNs');

@@ -153,7 +153,7 @@ function findConnectedNodes({nodes, models, numOfNodes}, nodeID) {
 const HIGH_RESISTANCE = 10e6;
 
 // connect any disconnected circuits to ground using a high-value resistance
-export function connectDisconnectedCircuits(circuit, stamp) {
+export function connectDisconnectedCircuits(circuit, equation) {
   let connected = R.repeat(false, circuit.numOfNodes);
 
   for (let nodeID = 0; nodeID < connected.length; nodeID++) {
@@ -164,7 +164,7 @@ export function connectDisconnectedCircuits(circuit, stamp) {
     const connectedToNodeID = findConnectedNodes(circuit, nodeID);
 
     if (nodeID !== GROUND_NODE) {
-      stamp(HIGH_RESISTANCE).ohms.between(nodeID, GROUND_NODE);
+      equation.stampResistor(HIGH_RESISTANCE, nodeID, GROUND_NODE);
     }
 
     connected = R.zipWith((n1, n2) => {

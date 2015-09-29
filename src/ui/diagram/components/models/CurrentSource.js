@@ -6,9 +6,9 @@ export default {
     current: INITIAL_CURRENT
   },
   functions: {
-    stamp: (data, stamp) => {
+    stamp: (data, equation) => {
       const {current, nodes: [n1, n2]} = data;
-      stamp(current).amps.from(n1).to(n2);
+      equation.stampCurrentSource(current, n1, n2);
     }
   }
 };
