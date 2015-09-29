@@ -105,6 +105,7 @@ Ground.getBoundingBox = get2PointBoundingBox(GROUND_LENGTH);
 Ground.getCurrentPaths = ({
     dragPoints,
     currents = [0],
+    currentOffset,
     theme
   }) => {
   const [connector] = dragPoints,
@@ -114,6 +115,7 @@ Ground.getCurrentPaths = ({
       /* current goes in opposite direction of drag */
       connectors={[positionOfT, connector]}
       current={currents[0]}
+      currentOffset={currentOffset}
       theme={theme}
     />
   );

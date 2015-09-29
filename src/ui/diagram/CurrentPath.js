@@ -14,6 +14,7 @@ const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
 const CurrentPath = (
     {
       current = 0,
+      currentOffset,
       connectors,
       theme
     },
@@ -31,7 +32,7 @@ const CurrentPath = (
 
           fiddleCurrent = current / 10, // FIXME no magic fiddles
 
-          offset = (fiddleCurrent * context.animContext.currentOffset + STANDING_OFFSET) % CURRENT.DOT_DISTANCE,
+          offset = (fiddleCurrent * currentOffset + STANDING_OFFSET) % CURRENT.DOT_DISTANCE,
           startPos = current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE;
@@ -57,13 +58,11 @@ const CurrentPath = (
 CurrentPath.propTypes = {
   connectors: React.PropTypes.arrayOf(Utils.PropTypes.Vector).isRequired,
   current: React.PropTypes.number,
+  currentOffset: React.PropTypes.number,
   theme: React.PropTypes.object.isRequired
 };
 
 CurrentPath.contextTypes = {
-  animContext: React.PropTypes.shape({
-    currentOffset: React.PropTypes.number
-  }),
   disableCurrent: React.PropTypes.bool // can't set defaultContext so defaults to falsy
 };
 

@@ -94,6 +94,7 @@ CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 CurrentSource.getCurrentPaths = ({
     current = BaseCurrentSourceModel.current,
+    currentOffset,
     connectors,
     theme,
     circuitError
@@ -103,6 +104,7 @@ CurrentSource.getCurrentPaths = ({
     <CurrentPath
       connectors={connectors}
       current={current}
+      currentOffset={currentOffset}
       theme={theme}
     />
   );

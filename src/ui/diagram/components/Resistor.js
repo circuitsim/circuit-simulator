@@ -77,6 +77,7 @@ Resistor.getCurrentPaths = ({
     resistance = BaseResistorModel.resistance,
     voltages = [0, 0],
     connectors,
+    currentOffset,
     theme
   }) => {
   const current = (voltages[0] - voltages[1]) / resistance;
@@ -84,6 +85,7 @@ Resistor.getCurrentPaths = ({
     <CurrentPath
       connectors={connectors}
       current={current}
+      currentOffset={currentOffset}
       theme={theme}
     />
   );

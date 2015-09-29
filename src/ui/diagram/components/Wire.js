@@ -51,11 +51,12 @@ Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 Wire.typeID = BaseWireModel.typeID;
 
 Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
-Wire.getCurrentPaths = ({currents = [0], connectors, theme}) => {
+Wire.getCurrentPaths = ({currents = [0], currentOffset, connectors, theme}) => {
   return (
     <CurrentPath
       connectors={connectors}
       current={currents[0]}
+      currentOffset={currentOffset}
       theme={theme}
     />
   );

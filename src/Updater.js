@@ -34,9 +34,7 @@ function Updater(store) {
             onMouseUp: coords => store.dispatch(canvasMouseUp(coords))
           }
         },
-        circuitError: state.error
-      },
-      context: {
+        circuitError: state.error,
         currentOffset: state.currentOffset
       }
     };

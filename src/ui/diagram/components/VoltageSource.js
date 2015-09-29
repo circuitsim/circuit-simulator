@@ -84,6 +84,7 @@ VoltageSource.typeID = BaseVoltageSourceModel.typeID;
 VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 VoltageSource.getCurrentPaths = ({
     currents,
+    currentOffset,
     connectors,
     theme
   }) => {
@@ -91,6 +92,7 @@ VoltageSource.getCurrentPaths = ({
     <CurrentPath
       connectors={connectors}
       current={currents[0]}
+      currentOffset={currentOffset}
       theme={theme}
     />
   );
