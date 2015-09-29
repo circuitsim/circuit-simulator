@@ -7,7 +7,8 @@ function styles({ TYPOGRAPHY, COLORS }) {
   return {
     group: {
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      flexWrap: 'wrap'
     },
     title: {
       lineHeight: `${val * 1.5}${unit}`,

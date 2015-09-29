@@ -29,7 +29,7 @@ const CurrentPath = (
             .moveTo(end1.x, end1.y)
             .lineTo(end2.x, end2.y),
 
-          fiddleCurrent = current / 20, // FIXME no magic fiddles
+          fiddleCurrent = current / 10, // FIXME no magic fiddles
 
           offset = (fiddleCurrent * context.animContext.currentOffset + STANDING_OFFSET) % CURRENT.DOT_DISTANCE,
           startPos = current >= 0

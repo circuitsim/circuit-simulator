@@ -1,4 +1,4 @@
-const INITIAL_CURRENT = 1;
+const INITIAL_CURRENT = 0.5;
 
 export default {
   data: {

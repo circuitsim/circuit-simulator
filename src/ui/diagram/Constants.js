@@ -12,6 +12,9 @@ const CONSTANTS = {
 
   CURRENT_SOURCE: {
     RADIUS: 18
+  },
+  VOLTAGE_SOURCE: {
+    RADIUS: 22
   }
 };
 

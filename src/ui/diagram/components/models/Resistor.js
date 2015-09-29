@@ -1,4 +1,4 @@
-const INITIAL_RESISTANCE = 1000;
+const INITIAL_RESISTANCE = 10;
 
 export default {
   data: {
