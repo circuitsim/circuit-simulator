@@ -30,43 +30,43 @@ function isPathBetween(
     types: null
   }) {
 
-    const visited = [],
-          q = [];
+  const visited = [],
+        q = [];
 
-    visited[startNode] = true;
-    q.push(startNode);
+  visited[startNode] = true;
+  q.push(startNode);
 
-    if (startNode === destNode) { return true; }
+  if (startNode === destNode) { return true; }
 
-    while (q.length !== 0) {
-      const n = q.shift();
-      const connectors = nodes[n];
+  while (q.length !== 0) {
+    const n = q.shift();
+    const connectors = nodes[n];
 
-      for (let i = 0; i < connectors.length; i++) {
-        const con = connectors[i];
-        const id = con.viewID;
+    for (let i = 0; i < connectors.length; i++) {
+      const con = connectors[i];
+      const id = con.viewID;
 
-        if (R.contains(id, exclude)) {
-          continue; // ignore paths through excluded models
-        } else if (types && !R.contains(models[id].typeID, types)) {
-          continue; // ignore paths that aren't through the given types
+      if (R.contains(id, exclude)) {
+        continue; // ignore paths through excluded models
+      } else if (types && !R.contains(models[id].typeID, types)) {
+        continue; // ignore paths that aren't through the given types
+      }
+      const connectedNodes = models[id].nodes;
+      for (let j = 0; j < connectedNodes.length; j++) {
+        const connectedNode = connectedNodes[j];
+        if (connectedNode === destNode) {
+          return true;
         }
-        const connectedNodes = models[id].nodes;
-        for (let j = 0; j < connectedNodes.length; j++) {
-          const connectedNode = connectedNodes[j];
-          if (connectedNode === destNode) {
-            return true;
-          }
 
-          if (!visited[connectedNode]) {
-            visited[connectedNode] = true;
-            q.push(connectedNode);
-          }
+        if (!visited[connectedNode]) {
+          visited[connectedNode] = true;
+          q.push(connectedNode);
         }
       }
     }
-    return false;
   }
+  return false;
+}
 
 function isType(types) {
   return function([model]) {

@@ -1,6 +1,6 @@
 import R from 'ramda';
 
-import analyser from 'circuit-analysis';
+import createEquationBuilder from 'circuit-analysis';
 import {BaseData, Functions} from '../AllModels.js';
 
 const {stamp} = Functions;
@@ -39,13 +39,13 @@ describe('Modelling a circuit', () => {
 
     const circuit = [c, r];
 
-    const {solve, stamp: stamper} = analyser.createEquationBuilder({numOfNodes: 2});
+    const equation = createEquationBuilder({numOfNodes: 2});
 
     circuit.forEach(comp => {
-      stamp(comp, stamper);
+      stamp(comp, equation);
     });
 
-    const solution = solve();
+    const solution = equation.solve();
 
     const v1 = c.current * r.resistance; // voltage at node 1 - V = IR
     expect(solution()).to.eql([[v1]]);
@@ -63,13 +63,13 @@ describe('Modelling a circuit', () => {
 
     const circuit = [c, r, w];
 
-    const {solve, stamp: stamper} = analyser.createEquationBuilder({numOfNodes: 3, numOfVSources: 1});
+    const equation = createEquationBuilder({numOfNodes: 3, numOfVSources: 1});
 
     circuit.forEach(comp => {
-      stamp(comp, stamper);
+      stamp(comp, equation);
     });
 
-    const solution = solve();
+    const solution = equation.solve();
 
     const v1 = c.current * r.resistance; // V = IR
     const v2 = v1;

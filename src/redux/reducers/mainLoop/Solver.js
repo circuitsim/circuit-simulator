@@ -20,7 +20,7 @@ export function getCircuitInfo({nodes, models}) {
 function blankSolution(circuit) {
   // just return a blank solution (zeros for voltages/currents)
   const n = Math.max(0, circuit.numOfNodes + circuit.numOfVSources - 1);
-  return Array.fill(new Array(n), 0);
+  return R.times(R.always(0), n);
 }
 
 function anError(circuit, error) {

@@ -3,7 +3,9 @@ import Vector from 'immutable-vector2d';
 export const BASIC_CIRCUIT = {
 
   nodes: [
-    [{viewID: 'CurrentSource1', index: 0},
+    [{viewID: 'Ground1', index: 1}],
+    [{viewID: 'Ground1', index: 0},
+     {viewID: 'CurrentSource1', index: 0},
      {viewID: 'Wire2', index: 1}],
     [{viewID: 'CurrentSource1', index: 1},
      {viewID: 'Wire1', index: 0}],
@@ -13,28 +15,38 @@ export const BASIC_CIRCUIT = {
      {viewID: 'Wire2', index: 0}]
   ],
   models: {
+    Ground1: {
+      typeID: 'Ground',
+      nodes: [1, 0],
+      vSources: 1
+    },
     CurrentSource1: {
       typeID: 'CurrentSource',
-      nodes: [0, 1],
+      nodes: [1, 2],
       current: 0.5
     },
     Wire1: {
       typeID: 'Wire',
-      nodes: [1, 2],
+      nodes: [2, 3],
       vSources: 1
     },
     Resistor1: {
       typeID: 'Resistor',
-      nodes: [2, 3],
+      nodes: [3, 4],
       resistance: 10
     },
     Wire2: {
       typeID: 'Wire',
-      nodes: [3, 0],
+      nodes: [4, 1],
       vSources: 1
     }
   },
   modelsNoNodes: {
+    Ground1: {
+      typeID: 'Ground',
+      nodes: [],
+      vSources: 1
+    },
     CurrentSource1: {
       typeID: 'CurrentSource',
       nodes: [],
@@ -57,6 +69,15 @@ export const BASIC_CIRCUIT = {
     }
   },
   views: {
+    Ground1: {
+      typeID: 'Ground',
+      props: {
+        id: 'Ground1',
+        connectors: [
+          new Vector(10, 20)
+        ]
+      }
+    },
     CurrentSource1: {
       typeID: 'CurrentSource',
       props: {
@@ -99,6 +120,22 @@ export const BASIC_CIRCUIT = {
     }
   },
   viewsSolution: {
+    Ground1: {
+      typeID: 'Ground',
+      props: {
+        id: 'Ground1',
+        connectors: [
+          new Vector(10, 20)
+        ],
+        voltages: [
+          0,
+          0
+        ],
+        currents: [
+          0
+        ]
+      }
+    },
     CurrentSource1: {
       typeID: 'CurrentSource',
       props: {
@@ -166,10 +203,10 @@ export const BASIC_CIRCUIT = {
 };
 
 export const NO_CURRENT_PATH = {
-  nodes: {
-    0: [{viewID: 'CurrentSource1'}],
-    1: [{viewID: 'CurrentSource1'}]
-  },
+  nodes: [
+    [{viewID: 'CurrentSource1'}],
+    [{viewID: 'CurrentSource1'}]
+  ],
   models: {
     'CurrentSource1': {
       nodes: [0, 1],
@@ -179,48 +216,50 @@ export const NO_CURRENT_PATH = {
 };
 
 export const VOLTAGE_SOURCE_LOOP = {
-  nodes: {
-    0: [{viewID: 'Wire1'},
-        {viewID: 'Wire2'}],
-    1: [{viewID: 'Wire2'},
-        {viewID: 'Wire1'}]
-  },
+  nodes: [
+    [],
+    [{viewID: 'Wire1'},
+      {viewID: 'Wire2'}],
+    [{viewID: 'Wire2'},
+      {viewID: 'Wire1'}]
+  ],
   models: {
     Wire1: {
       typeID: 'Wire',
-      nodes: [0, 1],
+      nodes: [1, 2],
       vSources: 1
     },
     Wire2: {
       typeID: 'Wire',
-      nodes: [1, 0],
+      nodes: [2, 1],
       vSources: 1
     }
   }
 };
 
 export const KCL_VIOLATION = {
-  nodes: {
-    0: [{viewID: 'CurrentSource2'},
-        {viewID: 'Wire1'}],
-    1: [{viewID: 'Wire1'},
-        {viewID: 'CurrentSource1'}],
-    2: [{viewID: 'CurrentSource1'},
-        {viewID: 'CurrentSource2'}]
-  },
+  nodes: [
+    [],
+    [{viewID: 'CurrentSource2'},
+      {viewID: 'Wire1'}],
+    [{viewID: 'Wire1'},
+      {viewID: 'CurrentSource1'}],
+    [{viewID: 'CurrentSource1'},
+      {viewID: 'CurrentSource2'}]
+  ],
   models: {
     Wire1: {
       typeID: 'Wire',
-      nodes: [0, 1],
+      nodes: [1, 2],
       vSources: 1
     },
     CurrentSource1: {
-      nodes: [1, 2],
+      nodes: [2, 3],
       typeID: 'CurrentSource',
       current: 0.5
     },
     CurrentSource2: {
-      nodes: [2, 0],
+      nodes: [3, 1],
       typeID: 'CurrentSource',
       current: 0.5
     }

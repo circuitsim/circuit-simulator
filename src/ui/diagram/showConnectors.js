@@ -14,6 +14,7 @@ export default CircuitComponent => {
             return (
               <Circle
                 lineColor={theme.COLORS.base}
+                fillColor={theme.COLORS.base}
                 lineWidth={LINE_WIDTH}
                 position={{
                   center: connector,
