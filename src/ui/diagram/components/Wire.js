@@ -20,13 +20,15 @@ const BaseWireModel = BaseData.Wire;
 const Wire = ({
     connectors,
     color: propColor,
-    theme
+    theme,
+    volts2RGB,
+    voltages
   }) => {
-  const color = propColor || theme.COLORS.base;
+  const vColor = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]);
   return (
     <Group>
       <Line
-        color={color}
+        color={vColor}
         points={connectors}
         width={LINE_WIDTH}
       />

@@ -97,10 +97,8 @@ export function setNodesInModels(models, nodes) {
 export function updateViews(circuitGraph, solution, views) {
   if (!solution) { return views; }
 
-  const flattened = R.prepend(0, solution); // add 0 volt ground node
-
-  const voltages = R.take(circuitGraph.numOfNodes, flattened);
-  let currents = R.drop(circuitGraph.numOfNodes, flattened);
+  const voltages = R.take(circuitGraph.numOfNodes, solution);
+  let currents = R.drop(circuitGraph.numOfNodes, solution);
 
   return R.mapObj(view => {
     const viewID = view.props.id;

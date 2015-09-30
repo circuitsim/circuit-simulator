@@ -21,7 +21,9 @@ const COLORS = {
 
   theme: ELECTRIC_BLUE,
 
-  current: trans(ELECTRIC_BLUE, 0.3)
+  current: trans(ELECTRIC_BLUE, 0.3),
+  positiveVoltage: '#45FF00',
+  negativeVoltage: '#0045FF'
 };
 
 const TYPOGRAPHY = {

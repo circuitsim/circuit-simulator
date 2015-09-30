@@ -12,7 +12,7 @@ import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
 import { BOUNDING_BOX_PADDING, CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
 import { LINE_WIDTH } from '../../Constants.js';
 
-const { PropTypes, midPoint, diff } = DrawingUtils;
+const { PropTypes, midPoint, direction } = DrawingUtils;
 
 const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CURRENT_SOURCE.RADIUS * 3 + GRID_SIZE;
@@ -21,51 +21,54 @@ const BaseCurrentSourceModel = BaseData.CurrentSource;
 
 const CurrentSource = (
     {
+      voltages,
       connectors,
       color: propColor,
-      theme
+      theme,
+      volts2RGB
     }
   ) => {
 
   const [wireEnd1, wireEnd2] = connectors,
 
         mid = midPoint(wireEnd1, wireEnd2),
-        n = diff(wireEnd1, wireEnd2).normalize(),
+        n = direction(wireEnd1, wireEnd2).normalize(),
 
         compOffset = n.multiply(CURRENT_SOURCE.RADIUS * 1.5),
         circleOffset = n.multiply(CURRENT_SOURCE.RADIUS / 2),
 
-        compEnd1 = mid.add(compOffset),
-        compEnd2 = mid.subtract(compOffset),
+        compEnd1 = mid.subtract(compOffset),
+        compEnd2 = mid.add(compOffset),
 
-        circlePoints1 = [compEnd1, mid.subtract(circleOffset)],
-        circlePoints2 = [mid.add(circleOffset), compEnd2],
+        circlePoints1 = [compEnd1, mid.add(circleOffset)],
+        circlePoints2 = [mid.subtract(circleOffset), compEnd2],
 
-        color = propColor || theme.COLORS.base;
+        vColor1 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]),
+        vColor2 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[1]);
 
   return (
     <Group>
       <Circle
-        lineColor={color}
+        lineColor={vColor1}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints1
         }}
       />
       <Circle
-        lineColor={color}
+        lineColor={vColor1}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints2
         }}
       />
       <Line
-        color={color}
+        color={vColor1}
         points={[wireEnd1, compEnd1]}
         width={LINE_WIDTH}
       />
       <Line
-        color={color}
+        color={vColor2}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />

@@ -7,7 +7,7 @@ import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
 import showDragPoints from './showDragPoints.js';
 
-const addProps = ({ handlers, hover, theme, circuitError, currentOffset }) => component => {
+const addProps = ({ handlers, hover, theme, circuitError, currentOffset, volts2RGB }) => component => {
   const hovered = component.props.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
@@ -18,7 +18,8 @@ const addProps = ({ handlers, hover, theme, circuitError, currentOffset }) => co
     hovered,
     hoveredDragPointIndex,
     circuitError,
-    currentOffset
+    currentOffset,
+    volts2RGB
   }), component);
 };
 
@@ -141,6 +142,7 @@ CircuitCanvas.propTypes = {
   }),
   circuitError: React.PropTypes.any,
   currentOffset: React.PropTypes.number,
+  volts2RGB: React.PropTypes.func,
 
   // action creators
   handlers: React.PropTypes.shape({

@@ -35,7 +35,8 @@ function Updater(store) {
           }
         },
         circuitError: state.error,
-        currentOffset: state.currentOffset
+        currentOffset: state.currentOffset,
+        volts2RGB: state.volts2RGB
       }
     };
   }

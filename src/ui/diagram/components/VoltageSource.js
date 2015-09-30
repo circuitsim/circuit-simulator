@@ -24,7 +24,9 @@ const VoltageSource = (
     {
       connectors,
       color: propColor,
-      theme
+      theme,
+      volts2RGB,
+      voltages
     }
   ) => {
 
@@ -39,14 +41,14 @@ const VoltageSource = (
         compEnd2 = mid.add(compOffset),
 
         plusPos = mid.add(n.multiply(VOLTAGE_SOURCE.RADIUS / 2)),
-        // minusPos = mid.subract(n.multiply(VOLTAGE_SOURCE.RADIUS / 2)),
 
-        color = propColor || theme.COLORS.base;
+        vColor1 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]),
+        vColor2 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[1]);
 
   return (
     <Group>
       <Circle
-        lineColor={color}
+        lineColor={vColor1}
         lineWidth={LINE_WIDTH}
         position={{
           center: mid,
@@ -55,15 +57,15 @@ const VoltageSource = (
       />
       <Plus
         center={plusPos}
-        lineColor={color}
+        lineColor={propColor ? propColor : theme.COLORS.base}
       />
       <Line
-        color={color}
+        color={vColor1}
         points={[wireEnd1, compEnd1]}
         width={LINE_WIDTH}
       />
       <Line
-        color={color}
+        color={vColor2}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />

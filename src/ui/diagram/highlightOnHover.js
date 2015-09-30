@@ -6,7 +6,7 @@ export default CircuitElement => {
   const Highlighter = props => {
     const {hovered = false, theme} = props,
           COLORS = theme.COLORS,
-          color = hovered ? COLORS.highlight : COLORS.base;
+          color = hovered ? COLORS.highlight : null;
 
     return (
       <CircuitElement
