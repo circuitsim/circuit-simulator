@@ -48,7 +48,7 @@ const VoltageSource = (
   return (
     <Group>
       <Circle
-        lineColor={vColor1}
+        lineColor={vColor2}
         lineWidth={LINE_WIDTH}
         position={{
           center: mid,

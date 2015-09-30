@@ -49,14 +49,14 @@ const CurrentSource = (
   return (
     <Group>
       <Circle
-        lineColor={vColor1}
+        lineColor={vColor2}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints1
         }}
       />
       <Circle
-        lineColor={vColor1}
+        lineColor={vColor2}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints2
