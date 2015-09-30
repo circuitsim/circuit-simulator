@@ -4,8 +4,16 @@ import Vector from 'immutable-vector2d';
 
 import CircuitComponents from './components/AllViews.js';
 import DragPoint from './DragPoint.js';
-import { BOUNDING_BOX_PADDING } from './Constants.js';
+import { BOUNDING_BOX_PADDING, DRAG_POINT_RADIUS } from './Constants.js';
 import { getRectPointsBetween } from '../utils/DrawingUtils.js';
+
+const MIN_WIDTH = DRAG_POINT_RADIUS * 2;
+const sanitise = width => {
+  width = width > MIN_WIDTH
+    ? width
+    : MIN_WIDTH;
+  return width + 2 * BOUNDING_BOX_PADDING;
+};
 
 // Bounding box stuff
 
@@ -15,7 +23,8 @@ import { getRectPointsBetween } from '../utils/DrawingUtils.js';
 
 export const get2PointBoundingBox = width => connectors => {
   const [p1, p2] = connectors;
-  const rectanglePoints = getRectPointsBetween(p1, p2, width + 2 * BOUNDING_BOX_PADDING);
+  const fullWidth = sanitise(width);
+  const rectanglePoints = getRectPointsBetween(p1, p2, fullWidth);
   return R.map(p => [p.x, p.y], rectanglePoints);
 };
 
