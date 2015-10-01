@@ -10,6 +10,15 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 ### Vision
 *A visual, fully interactive circuit simulator in your browser.*
 
+`// TODO`
+- Visible component values
+- Editable components values
+- Support for non-linear and AC circuits
+- More components
+- Oscilloscopes
+
+### Play
+
 Want to play around?
 
 ```bash
