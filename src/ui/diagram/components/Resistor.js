@@ -23,10 +23,7 @@ const BaseResistorModel = BaseData.Resistor;
 
 const Resistor = ({
     connectors,
-    color: propColor,
-    theme,
-    volts2RGB,
-    voltages
+    colors
   }) => {
 
   const [wireEnd1, wireEnd2] = connectors,
@@ -36,42 +33,39 @@ const Resistor = ({
         compEnd1 = mid.subtract(n),
         compEnd2 = mid.add(n),
 
-        points = R.map(Vector.fromObject, getRectPointsBetween(compEnd1, compEnd2, RESISTOR.WIDTH)),
-
-        vColor1 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]),
-        vColor2 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[1]);
+        points = R.map(Vector.fromObject, getRectPointsBetween(compEnd1, compEnd2, RESISTOR.WIDTH));
 
   return (
     <Group>
       <Line
         points={[points[0], points[1]]}
         width={LINE_WIDTH}
-        color={vColor1}
+        color={colors[0]}
       />
       <GradientLine
         points={[points[1], points[2]]}
         width={LINE_WIDTH}
-        colors={[vColor1, vColor2]}
+        colors={colors}
       />
       <GradientLine
         points={[points[0], points[3]]}
         width={LINE_WIDTH}
-        colors={[vColor1, vColor2]}
+        colors={colors}
       />
       <Line
         points={[points[2], points[3]]}
         width={LINE_WIDTH}
-        color={vColor2}
+        color={colors[1]}
       />
 
       {/* wires */}
       <Line
-        color={vColor1}
+        color={colors[0]}
         points={[wireEnd1, compEnd1]}
         width={LINE_WIDTH}
       />
       <Line
-        color={vColor2}
+        color={colors[1]}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />
@@ -80,16 +74,18 @@ const Resistor = ({
 };
 
 Resistor.propTypes = {
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
 
   resistance: React.PropTypes.number,
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  color: React.PropTypes.string,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
   theme: React.PropTypes.object.isRequired
 };
 
+Resistor.numOfVoltages = 2;
+Resistor.numOfConnectors = 2;
 Resistor.dragPoint = getDragFunctionFor(MIN_LENGTH);
 Resistor.getConnectorPositions = get2ConnectorsFromDragPoints;
 

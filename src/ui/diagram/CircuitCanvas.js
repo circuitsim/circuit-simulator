@@ -5,6 +5,7 @@ import Utils from '../utils/DrawingUtils.js';
 import CircuitComponents from '../diagram/components/AllViews.js';
 import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
+import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 
 const addProps = ({ handlers, hover, theme, circuitError, currentOffset, volts2RGB }) => component => {
@@ -32,7 +33,11 @@ const lookUpComponent = component => {
 
 const addModifiers = ({CircuitComponent, props}) => {
   return {
-    CircuitComponent: handleHover(showConnectors(CircuitComponent)),
+    CircuitComponent:
+      handleHover(
+        applyVoltageColor(
+          showConnectors(
+            CircuitComponent))),
     CurrentPaths: CircuitComponent.getCurrentPaths(props),
     DragPoints: showDragPoints(CircuitComponent),
     props

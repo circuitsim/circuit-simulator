@@ -45,12 +45,9 @@ const getShapeAttributes = dragPoints => {
 
 const Ground = ({
     dragPoints,
-    color: propColor,
-    theme
+    colors
   }) => {
-  const color = propColor || theme.COLORS.base,
-
-        [connector] = dragPoints,
+  const [connector] = dragPoints,
         { dir, perpDir, positionOfT } = getShapeAttributes(dragPoints),
         groundLines = R.map(i => {
           const offsetFromTLength: number = i * (GAP_SIZE + LINE_WIDTH),
@@ -66,7 +63,7 @@ const Ground = ({
           return (
             <Line
               key={i}
-              color={color}
+              color={colors[0]}
               points={endPoints}
               width={LINE_WIDTH}
             />
@@ -75,7 +72,7 @@ const Ground = ({
   return (
     <Group>
       <Line
-        color={color}
+        color={colors[0]}
         points={[connector, positionOfT]}
         width={LINE_WIDTH}
       />
@@ -85,17 +82,19 @@ const Ground = ({
 };
 
 Ground.propTypes = {
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
 
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   currents: React.PropTypes.arrayOf(React.PropTypes.number),
   // connectors: PropTypes.Vector.isRequired,
   dragPoints: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  color: React.PropTypes.string,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
   theme: React.PropTypes.object.isRequired
 };
 
+Ground.numOfVoltages = 2; // including implicit ground (always 0V)
+Ground.numOfConnectors = 1;
 Ground.dragPoint = getDragFunctionFor(MIN_LENGTH, MAX_LENGTH);
 Ground.getConnectorPositions = getConnectorFromFirstDragPoint;
 

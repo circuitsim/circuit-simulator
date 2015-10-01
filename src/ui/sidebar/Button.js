@@ -1,5 +1,6 @@
 import React from 'react';
 import radium from 'radium';
+import R from 'ramda';
 import parseunit from 'parseunit';
 
 import ArtWrapper from './ArtWrapper.js';
@@ -49,6 +50,7 @@ class Button extends React.Component {
   }
 
   render() {
+    const Art = this.props.art;
     const styled = styles(this.props.theme);
     const labelColor = radium.getState(this.state, 'button', ':hover')
         ? styled.hover
@@ -68,9 +70,9 @@ class Button extends React.Component {
 
         <div style={styled.img}>
           <ArtWrapper
-            art={this.props.art}
+            art={Art}
             theme={this.props.theme}
-            {...imgColor}
+            colors={R.repeat(imgColor.color, Art.numOfVoltages || 1)}
           />
         </div>
 

@@ -23,10 +23,7 @@ const BaseVoltageSourceModel = BaseData.VoltageSource;
 const VoltageSource = (
     {
       connectors,
-      color: propColor,
-      theme,
-      volts2RGB,
-      voltages
+      colors
     }
   ) => {
 
@@ -40,15 +37,12 @@ const VoltageSource = (
         compEnd1 = mid.subtract(compOffset),
         compEnd2 = mid.add(compOffset),
 
-        plusPos = mid.add(n.multiply(VOLTAGE_SOURCE.RADIUS / 2)),
-
-        vColor1 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]),
-        vColor2 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[1]);
+        plusPos = mid.add(n.multiply(VOLTAGE_SOURCE.RADIUS / 2));
 
   return (
     <Group>
       <Circle
-        lineColor={vColor2}
+        lineColor={colors[1]}
         lineWidth={LINE_WIDTH}
         position={{
           center: mid,
@@ -57,15 +51,15 @@ const VoltageSource = (
       />
       <Plus
         center={plusPos}
-        lineColor={propColor ? propColor : theme.COLORS.base}
+        lineColor={colors[1]}
       />
       <Line
-        color={vColor1}
+        color={colors[0]}
         points={[wireEnd1, compEnd1]}
         width={LINE_WIDTH}
       />
       <Line
-        color={vColor2}
+        color={colors[1]}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />
@@ -74,18 +68,20 @@ const VoltageSource = (
 };
 
 VoltageSource.propTypes = {
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
 
   voltage: React.PropTypes.number,
   currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  color: React.PropTypes.string,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
   theme: React.PropTypes.object.isRequired,
 
   circuitError: React.PropTypes.any
 };
 
+VoltageSource.numOfVoltages = 2;
+VoltageSource.numOfConnectors = 2;
 VoltageSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
 VoltageSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 

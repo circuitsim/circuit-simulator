@@ -1,14 +1,17 @@
 import React from 'react';
 import {Shape, Path} from 'react-art';
 import Vector from 'immutable-vector2d';
+
 import Utils from '../../utils/DrawingUtils.js';
 import { LINE_WIDTH } from '../../Constants.js';
+import { get2ConnectorsFromDragPoints } from '../../diagram/Utils.js';
+
 
 const STEM_SIZE = new Vector(6, 15);
 const ARROW_LENGTH = 42;
 const THING_LENGTH = 15;
 
-const Mouse = ({connectors, color}) => {
+const Mouse = ({connectors, colors}) => {
   const [tl, br] = connectors,
         tr = new Vector(br.x, tl.y),
 
@@ -35,7 +38,7 @@ const Mouse = ({connectors, color}) => {
   return (
     <Shape
       strokeWidth={LINE_WIDTH}
-      stroke={color}
+      stroke={colors[0]}
       strokeJoin='round'
       d={path}
     />
@@ -44,7 +47,9 @@ const Mouse = ({connectors, color}) => {
 
 Mouse.propTypes = {
   connectors: React.PropTypes.arrayOf(Utils.PropTypes.Vector).isRequired,
-  color: React.PropTypes.string.isRequired
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
+
+Mouse.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 export default Mouse;

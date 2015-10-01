@@ -19,16 +19,12 @@ const BaseWireModel = BaseData.Wire;
 
 const Wire = ({
     connectors,
-    color: propColor,
-    theme,
-    volts2RGB,
-    voltages
+    colors
   }) => {
-  const vColor = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]);
   return (
     <Group>
       <Line
-        color={vColor}
+        color={colors[0]}
         points={connectors}
         width={LINE_WIDTH}
       />
@@ -37,16 +33,18 @@ const Wire = ({
 };
 
 Wire.propTypes = {
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
 
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  color: React.PropTypes.string,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
   theme: React.PropTypes.object.isRequired
 };
 
+Wire.numOfVoltages = 2;
+Wire.numOfConnectors = 2;
 Wire.dragPoint = getDragFunctionFor(MIN_LENGTH);
 Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 

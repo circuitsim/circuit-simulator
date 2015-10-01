@@ -21,11 +21,8 @@ const BaseCurrentSourceModel = BaseData.CurrentSource;
 
 const CurrentSource = (
     {
-      voltages,
       connectors,
-      color: propColor,
-      theme,
-      volts2RGB
+      colors
     }
   ) => {
 
@@ -41,34 +38,31 @@ const CurrentSource = (
         compEnd2 = mid.add(compOffset),
 
         circlePoints1 = [compEnd1, mid.add(circleOffset)],
-        circlePoints2 = [mid.subtract(circleOffset), compEnd2],
-
-        vColor1 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[0]),
-        vColor2 = propColor ? propColor : volts2RGB(theme.COLORS)(voltages[1]);
+        circlePoints2 = [mid.subtract(circleOffset), compEnd2];
 
   return (
     <Group>
       <Circle
-        lineColor={vColor2}
+        lineColor={colors[1]}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints1
         }}
       />
       <Circle
-        lineColor={vColor2}
+        lineColor={colors[1]}
         lineWidth={LINE_WIDTH}
         position={{
           points: circlePoints2
         }}
       />
       <Line
-        color={vColor1}
+        color={colors[0]}
         points={[wireEnd1, compEnd1]}
         width={LINE_WIDTH}
       />
       <Line
-        color={vColor2}
+        color={colors[1]}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
       />
@@ -77,18 +71,20 @@ const CurrentSource = (
 };
 
 CurrentSource.propTypes = {
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
 
   current: React.PropTypes.number,
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  color: React.PropTypes.string,
+  colors: React.PropTypes.arrayOf(React.PropTypes.string),
   theme: React.PropTypes.object.isRequired,
 
   circuitError: React.PropTypes.any
 };
 
+CurrentSource.numOfVoltages = 2;
+CurrentSource.numOfConnectors = 2;
 CurrentSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
 CurrentSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 
