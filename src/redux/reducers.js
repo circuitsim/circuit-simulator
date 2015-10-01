@@ -5,7 +5,7 @@ import addingComponentReducer from './reducers/addingComponent.js';
 import moveComponentReducer from './reducers/moveComponent.js';
 import modesReducer from './reducers/modes.js';
 import mainLoopReducer from './reducers/mainLoop.js';
-import voltageConverter from '../utils/volts2RGB.js';
+import { createVolts2RGB } from '../utils/volts2RGB.js';
 
 import MODES from '../Modes.js';
 
@@ -79,7 +79,8 @@ export const initialState = {
   // }
   hover: {},
 
-  volts2RGB: voltageConverter(0),
+  // maxVoltage: 5, TODO
+  volts2RGB: createVolts2RGB(5),
 
   circuitChanged: false,
   error: false, // string | false

@@ -3,7 +3,7 @@ import R from 'ramda';
 import setHover from './hover.js';
 import { getCircuitInfo, solveCircuit } from './mainLoop/Solver.js';
 import { updateViews, setNodesInModels, toNodes, toModels } from './mainLoop/CircuitUpdater.js';
-import voltageConverter from '../../utils/volts2RGB.js';
+import { createVolts2RGB } from '../../utils/volts2RGB.js';
 
 import MODES from '../../Modes.js';
 import {
@@ -53,7 +53,7 @@ export default function mainLoopReducer(state, action) {
       const {solution, error} = solveCircuit(circuitGraph);
       if (error) { console.warn(error); } // eslint-disable-line no-console
 
-      const fullSolution = R.prepend(0, solution); // add 0 volt ground node
+      const fullSolution = [0, ...solution]; // add 0 volt ground node
 
       // update view with new circuitGraph state
       const updatedViews = updateViews(circuitGraph, fullSolution, views);
@@ -64,7 +64,7 @@ export default function mainLoopReducer(state, action) {
         R.map(Math.abs),
         R.reduce(R.max, 0)
       )(voltages);
-      const volts2RGB = voltageConverter(maxVoltage);
+      const volts2RGB = createVolts2RGB(maxVoltage);
 
       return R.pipe(
         R.assoc('volts2RGB', volts2RGB),
