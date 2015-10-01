@@ -41,6 +41,16 @@ const VoltageSource = (
 
   return (
     <Group>
+      <Line
+        color={colors[0]}
+        points={[wireEnd1, compEnd1]}
+        width={LINE_WIDTH}
+      />
+      <Line
+        color={colors[1]}
+        points={[wireEnd2, compEnd2]}
+        width={LINE_WIDTH}
+      />
       <Circle
         lineColor={colors[1]}
         lineWidth={LINE_WIDTH}
@@ -52,16 +62,6 @@ const VoltageSource = (
       <Plus
         center={plusPos}
         lineColor={colors[1]}
-      />
-      <Line
-        color={colors[0]}
-        points={[wireEnd1, compEnd1]}
-        width={LINE_WIDTH}
-      />
-      <Line
-        color={colors[1]}
-        points={[wireEnd2, compEnd2]}
-        width={LINE_WIDTH}
       />
     </Group>
   );

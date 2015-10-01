@@ -37,27 +37,6 @@ const Resistor = ({
 
   return (
     <Group>
-      <Line
-        points={[points[0], points[1]]}
-        width={LINE_WIDTH}
-        color={colors[0]}
-      />
-      <GradientLine
-        points={[points[1], points[2]]}
-        width={LINE_WIDTH}
-        colors={colors}
-      />
-      <GradientLine
-        points={[points[0], points[3]]}
-        width={LINE_WIDTH}
-        colors={colors}
-      />
-      <Line
-        points={[points[2], points[3]]}
-        width={LINE_WIDTH}
-        color={colors[1]}
-      />
-
       {/* wires */}
       <Line
         color={colors[0]}
@@ -68,6 +47,28 @@ const Resistor = ({
         color={colors[1]}
         points={[wireEnd2, compEnd2]}
         width={LINE_WIDTH}
+      />
+
+      {/* rectangle */}
+      <Line
+        points={[points[0], points[1]]}
+        width={LINE_WIDTH}
+        color={colors[0]}
+      />
+      <Line
+        points={[points[2], points[3]]}
+        width={LINE_WIDTH}
+        color={colors[1]}
+      />
+      <GradientLine
+        points={[points[1], points[2]]}
+        width={LINE_WIDTH}
+        colors={colors}
+      />
+      <GradientLine
+        points={[points[0], points[3]]}
+        width={LINE_WIDTH}
+        colors={colors}
       />
     </Group>
   );

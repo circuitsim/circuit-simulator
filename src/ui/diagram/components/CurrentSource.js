@@ -42,6 +42,16 @@ const CurrentSource = (
 
   return (
     <Group>
+      <Line
+        color={colors[0]}
+        points={[wireEnd1, compEnd1]}
+        width={LINE_WIDTH}
+      />
+      <Line
+        color={colors[1]}
+        points={[wireEnd2, compEnd2]}
+        width={LINE_WIDTH}
+      />
       <Circle
         lineColor={colors[1]}
         lineWidth={LINE_WIDTH}
@@ -55,16 +65,6 @@ const CurrentSource = (
         position={{
           points: circlePoints2
         }}
-      />
-      <Line
-        color={colors[0]}
-        points={[wireEnd1, compEnd1]}
-        width={LINE_WIDTH}
-      />
-      <Line
-        color={colors[1]}
-        points={[wireEnd2, compEnd2]}
-        width={LINE_WIDTH}
       />
     </Group>
   );
