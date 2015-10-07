@@ -16,6 +16,7 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 - Support for non-linear and AC circuits
 - More components
 - Oscilloscopes
+- Save, load and share circuits
 
 ### Play
 
