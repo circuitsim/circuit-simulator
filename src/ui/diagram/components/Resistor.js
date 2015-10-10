@@ -77,7 +77,7 @@ const Resistor = ({
 Resistor.propTypes = {
   id: React.PropTypes.string,
 
-  resistance: React.PropTypes.number,
+  value: React.PropTypes.number,
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
@@ -94,7 +94,7 @@ Resistor.typeID = BaseResistorModel.typeID;
 
 Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 Resistor.getCurrentPaths = ({
-    resistance = BaseResistorModel.resistance,
+    value: resistance = BaseResistorModel.value,
     voltages = [0, 0],
     connectors,
     currentOffset,

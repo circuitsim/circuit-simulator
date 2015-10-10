@@ -94,8 +94,8 @@ gulp.task('build', function() {
     }), {global: true})
     .transform(babel.configure({
       optional: [
-        'optimisation.react.inlineElements',
-        'optimisation.react.constantElements'
+        'optimisation.react.constantElements',
+        'optimisation.react.inlineElements'
       ]
     }))
     .bundle().on('error', handleError)

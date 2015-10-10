@@ -47,7 +47,7 @@ describe('Modelling a circuit', () => {
 
     const solution = equation.solve();
 
-    const v1 = c.current * r.resistance; // voltage at node 1 - V = IR
+    const v1 = c.value * r.value; // voltage at node 1 - V = IR
     expect(solution()).to.eql([[v1]]);
   });
 
@@ -71,9 +71,9 @@ describe('Modelling a circuit', () => {
 
     const solution = equation.solve();
 
-    const v1 = c.current * r.resistance; // V = IR
+    const v1 = c.value * r.value; // V = IR
     const v2 = v1;
-    const iv = c.current; // current through voltage source
+    const iv = c.value; // current through voltage source
 
     expect(solution()).to.eql([[v1],
                                [v2],

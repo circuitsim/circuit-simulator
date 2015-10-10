@@ -73,7 +73,7 @@ const CurrentSource = (
 CurrentSource.propTypes = {
   id: React.PropTypes.string,
 
-  current: React.PropTypes.number,
+  value: React.PropTypes.number,
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
@@ -83,6 +83,7 @@ CurrentSource.propTypes = {
   circuitError: React.PropTypes.any
 };
 
+CurrentSource.unit = 'A';
 CurrentSource.numOfVoltages = 2;
 CurrentSource.numOfConnectors = 2;
 CurrentSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
@@ -92,7 +93,7 @@ CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 CurrentSource.getCurrentPaths = ({
-    current = BaseCurrentSourceModel.current,
+    value: current = BaseCurrentSourceModel.value,
     currentOffset,
     connectors,
     theme,

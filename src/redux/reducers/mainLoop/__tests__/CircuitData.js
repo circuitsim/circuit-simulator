@@ -23,7 +23,7 @@ export const BASIC_CIRCUIT = {
     CurrentSource1: {
       typeID: 'CurrentSource',
       nodes: [1, 2],
-      current: 0.5
+      value: 0.5
     },
     Wire1: {
       typeID: 'Wire',
@@ -33,7 +33,7 @@ export const BASIC_CIRCUIT = {
     Resistor1: {
       typeID: 'Resistor',
       nodes: [3, 4],
-      resistance: 10
+      value: 10
     },
     Wire2: {
       typeID: 'Wire',
@@ -50,7 +50,7 @@ export const BASIC_CIRCUIT = {
     CurrentSource1: {
       typeID: 'CurrentSource',
       nodes: [],
-      current: 0.5
+      value: 0.5
     },
     Wire1: {
       typeID: 'Wire',
@@ -60,7 +60,7 @@ export const BASIC_CIRCUIT = {
     Resistor1: {
       typeID: 'Resistor',
       nodes: [],
-      resistance: 10
+      value: 10
     },
     Wire2: {
       typeID: 'Wire',
@@ -256,12 +256,12 @@ export const KCL_VIOLATION = {
     CurrentSource1: {
       nodes: [2, 3],
       typeID: 'CurrentSource',
-      current: 0.5
+      value: 0.5
     },
     CurrentSource2: {
       nodes: [3, 1],
       typeID: 'CurrentSource',
-      current: 0.5
+      value: 0.5
     }
   }
 };

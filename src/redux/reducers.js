@@ -63,7 +63,7 @@ export const initialState = {
   //       dragPoints: [Vector], // 2 drag points
   //       connectors: [Vector],
   //
-  //       resistance|current|...
+  //       value, // current|resistance etc.
   //
   //       // added by circuit analysis code
   //       // TODO consider splitting out?

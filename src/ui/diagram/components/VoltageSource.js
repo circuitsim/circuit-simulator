@@ -70,7 +70,7 @@ const VoltageSource = (
 VoltageSource.propTypes = {
   id: React.PropTypes.string,
 
-  voltage: React.PropTypes.number,
+  value: React.PropTypes.number,
   currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
