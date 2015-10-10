@@ -3,7 +3,7 @@ import { Group } from 'react-art';
 import R from 'ramda';
 import Vector from 'immutable-vector2d';
 
-import { BaseData } from './models/AllModels.js';
+import { BaseData } from './models';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import GradientLine from '../../utils/GradientLine.js';

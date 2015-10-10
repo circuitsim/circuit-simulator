@@ -1,7 +1,7 @@
 import R from 'ramda';
 import createEquationBuilder from 'circuit-analysis';
 
-import { Functions } from '../../../ui/diagram/components/models/AllModels.js';
+import { Functions } from '../../../ui/diagram/components/models';
 
 import { hasPathProblem, connectDisconnectedCircuits } from './Paths.js';
 

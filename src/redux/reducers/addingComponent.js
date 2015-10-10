@@ -2,7 +2,7 @@ import R from 'ramda';
 import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
-import Components from '../../ui/diagram/components/AllViews.js';
+import Components from '../../ui/diagram/components';
 
 import {
   ADDING_START,

@@ -1,3 +1,3 @@
 # Models
 
-All models should be imported using [AllModels.js](./AllModels.js) so they have a `typeID`.
+All models should be imported using [src/ui/diagram/components/models](.) so they have a `typeID`.

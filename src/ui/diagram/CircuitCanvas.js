@@ -2,7 +2,7 @@ import React from 'react';
 import { Surface } from 'react-art';
 import R from 'ramda';
 import Utils from '../utils/DrawingUtils.js';
-import CircuitComponents from '../diagram/components/AllViews.js';
+import CircuitComponents from '../diagram/components';
 import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
 import applyVoltageColor from './applyVoltageColor.js';

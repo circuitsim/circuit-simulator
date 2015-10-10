@@ -1,6 +1,6 @@
 import React from 'react';
 import { Group } from 'react-art';
-import { BaseData } from './models/AllModels.js';
+import { BaseData } from './models';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import Circle from '../../utils/Circle.js';

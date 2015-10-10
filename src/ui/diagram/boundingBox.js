@@ -2,7 +2,7 @@ import R from 'ramda';
 import inside from 'point-in-polygon';
 import Vector from 'immutable-vector2d';
 
-import CircuitComponents from './components/AllViews.js';
+import CircuitComponents from './components';
 import DragPoint from './DragPoint.js';
 import { BOUNDING_BOX_PADDING, DRAG_POINT_RADIUS } from './Constants.js';
 import { getRectPointsBetween } from '../utils/DrawingUtils.js';

@@ -1,6 +1,6 @@
 import R from 'ramda';
 
-import Components from '../../ui/diagram/components/AllViews.js';
+import Components from '../../ui/diagram/components';
 import DrawingUtils from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
 import {

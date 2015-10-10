@@ -1,7 +1,7 @@
 import R from 'ramda';
 
 import createEquationBuilder from 'circuit-analysis';
-import {BaseData, Functions} from '../AllModels.js';
+import {BaseData, Functions} from '..';
 
 const {stamp} = Functions;
 

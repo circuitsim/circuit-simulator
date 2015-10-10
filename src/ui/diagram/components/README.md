@@ -1,3 +1,3 @@
-# Elements
+# Views
 
-All elements should be imported using [AllViews.js](./AllViews.js) so they have a `typeID`.
+All views should be imported using [src/ui/diagram/components](.) so they have a `typeID`.
