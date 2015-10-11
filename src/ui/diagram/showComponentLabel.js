@@ -1,5 +1,5 @@
 import React from 'react';
-import { Group, Text, Transform } from 'react-art';
+import { Text, Transform } from 'react-art';
 import Vector from 'immutable-vector2d';
 
 import DrawingUtils from '../utils/DrawingUtils.js';
@@ -14,13 +14,13 @@ CONTEXT.font = FONT;
 
 export default CircuitComponent => {
   if (!CircuitComponent.defaultValue) {
-    return CircuitComponent;
+    return undefined;
   }
 
-  const ShowValue = props => {
+  const ShowLabel = props => {
     const { theme, dragPoints, value = CircuitComponent.defaultValue } = props;
 
-    const valueString = value + CircuitComponent.unit;
+    const label = value + CircuitComponent.unit;
 
     const mid = midPoint(...dragPoints),
           dir = direction(...dragPoints),
@@ -28,7 +28,7 @@ export default CircuitComponent => {
           offsetAngle = dir.angle(),
           offsetLength = CircuitComponent.width / 2,
 
-          textWidth = CONTEXT.measureText(valueString).width,
+          textWidth = CONTEXT.measureText(label).width,
 
           extraX = Math.sin(offsetAngle) * (textWidth / 2),
           extraY = -Math.cos(offsetAngle) * (FONT_SIZE / 2),
@@ -39,24 +39,19 @@ export default CircuitComponent => {
           t = new Transform().moveTo(textPos.x, textPos.y - FONT_SIZE / 2);
 
     return (
-      <Group>
-        <CircuitComponent
-          {...props}
-        />
-        <Text transform={t} fill={theme.COLORS.base} font={FONT} alignment='middle' >
-          {valueString}
-        </Text>
-      </Group>
+      <Text transform={t} fill={theme.COLORS.base} font={FONT} alignment='middle' >
+        {label}
+      </Text>
     );
   };
 
-  ShowValue.propTypes = {
+  ShowLabel.propTypes = {
     value: React.PropTypes.any,
     connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
     theme: React.PropTypes.object.isRequired
   };
 
-  ShowValue.displayName = `ShowValueFor(${getDisplayName(CircuitComponent)})`;
+  ShowLabel.displayName = `ShowLabelFor(${getDisplayName(CircuitComponent)})`;
 
-  return ShowValue;
+  return ShowLabel;
 };

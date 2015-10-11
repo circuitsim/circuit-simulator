@@ -7,7 +7,7 @@ import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
 import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
-import showValues from './showComponentValue.js';
+import showLabel from './showComponentLabel.js';
 
 const addProps = ({ handlers, hover, theme, circuitError, currentOffset, volts2RGB }) => component => {
   const hovered = component.props.id === hover.viewID;
@@ -32,18 +32,15 @@ const lookUpComponent = component => {
   };
 };
 
-const addModifiers = ({CircuitComponent, props}) => {
-  return {
-    CircuitComponent:
-      handleHover(
-        applyVoltageColor(
-          showConnectors(
-            showValues(
-              CircuitComponent)))),
-    CurrentPaths: CircuitComponent.getCurrentPaths(props),
-    DragPoints: showDragPoints(CircuitComponent),
-    props
+const wrapWith = (wrap, views) => {
+  const apply = ({CircuitComponent, props}) => {
+    const WrappedComponent = wrap(CircuitComponent);
+    if (!WrappedComponent) {
+      return undefined;
+    }
+    return <WrappedComponent {...props} key={props.id} />;
   };
+  return R.map(apply, views);
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -77,15 +74,27 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
-    const viewParts = R.pipe(
+    const components = R.pipe(
       R.map(addProps(this.props)),
-      R.map(lookUpComponent),
-      R.map(addModifiers)
+      R.map(lookUpComponent)
     )(this.props.circuitComponents);
 
-    const circuitComponents = R.map(({CircuitComponent, props}) => <CircuitComponent {...props} key={props.id} />, viewParts);
-    const currentDots = R.map(({CurrentPaths, props}) => React.cloneElement(CurrentPaths, {key: props.id}), viewParts);
-    const dragPoints = R.map(({DragPoints, props}) => <DragPoints {...props} key={props.id} />, viewParts);
+    const circuitComponents = R.map(({CircuitComponent, props}) => {
+      const Component =
+        handleHover(
+          applyVoltageColor(
+            showConnectors(
+              CircuitComponent)));
+      return <Component {...props} key={props.id} />;
+    }, components);
+
+    const currentDots = R.map(({CircuitComponent, props}) => {
+      const CurrentPaths = CircuitComponent.getCurrentPaths(props);
+      return React.cloneElement(CurrentPaths, {key: props.id});
+    }, components);
+
+    const labels = wrapWith(showLabel, components);
+    const dragPoints = wrapWith(showDragPoints, components);
 
     return (
       <div ref='canvas'
@@ -104,6 +113,7 @@ export default class CircuitCanvas extends React.Component {
         >
           {/* The order is important here */}
           {circuitComponents}
+          {labels}
           {currentDots}
           {dragPoints}
         </Surface>

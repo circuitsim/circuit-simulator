@@ -28,7 +28,7 @@ export default CircuitElement => {
     theme: React.PropTypes.object.isRequired,
     color: React.PropTypes.string,
     voltages: React.PropTypes.arrayOf(React.PropTypes.number),
-    volts2RGB: React.PropTypes.func
+    volts2RGB: React.PropTypes.func.isRequired
   };
 
   ApplyVoltageColor.displayName = `VoltageColorFor(${getDisplayName(CircuitElement)})`;

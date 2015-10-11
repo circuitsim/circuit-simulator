@@ -1,5 +1,4 @@
 import React from 'react';
-import { Group } from 'react-art';
 
 import { BaseData } from './models';
 import DrawingUtils from '../../utils/DrawingUtils.js';
@@ -22,13 +21,11 @@ const Wire = ({
     colors
   }) => {
   return (
-    <Group>
-      <Line
-        color={colors[0]}
-        points={connectors}
-        width={LINE_WIDTH}
-      />
-    </Group>
+    <Line
+      color={colors[0]}
+      points={connectors}
+      width={LINE_WIDTH}
+    />
   );
 };
 
