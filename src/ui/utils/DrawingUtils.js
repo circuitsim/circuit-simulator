@@ -14,7 +14,7 @@ const utils = {
   },
 
   direction(p1: Vector, p2: Vector): Vector {
-    return p2.subtract(p1);
+    return p2.subtract(p1).normalize();
   },
 
   distance(p1: Vector, p2: Vector): Vector {

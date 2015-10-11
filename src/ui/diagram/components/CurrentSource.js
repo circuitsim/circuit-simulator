@@ -29,7 +29,7 @@ const CurrentSource = (
   const [wireEnd1, wireEnd2] = connectors,
 
         mid = midPoint(wireEnd1, wireEnd2),
-        n = direction(wireEnd1, wireEnd2).normalize(),
+        n = direction(wireEnd1, wireEnd2),
 
         compOffset = n.multiply(CURRENT_SOURCE.RADIUS * 1.5),
         circleOffset = n.multiply(CURRENT_SOURCE.RADIUS / 2),
@@ -84,6 +84,8 @@ CurrentSource.propTypes = {
 };
 
 CurrentSource.unit = 'A';
+CurrentSource.defaultValue = BaseCurrentSourceModel.value;
+
 CurrentSource.numOfVoltages = 2;
 CurrentSource.numOfConnectors = 2;
 CurrentSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
@@ -91,6 +93,7 @@ CurrentSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 
+CurrentSource.width = BOUNDING_BOX_WIDTH;
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 CurrentSource.getCurrentPaths = ({
     value: current = BaseCurrentSourceModel.value,

@@ -28,7 +28,7 @@ const Resistor = ({
 
   const [wireEnd1, wireEnd2] = connectors,
 
-        n = direction(wireEnd1, wireEnd2).normalize().multiply(RESISTOR.LENGTH / 2),
+        n = direction(wireEnd1, wireEnd2).multiply(RESISTOR.LENGTH / 2),
         mid = midPoint(wireEnd1, wireEnd2),
         compEnd1 = mid.subtract(n),
         compEnd2 = mid.add(n),
@@ -85,6 +85,9 @@ Resistor.propTypes = {
   theme: React.PropTypes.object.isRequired
 };
 
+Resistor.unit = 'Ω';
+Resistor.defaultValue = BaseResistorModel.value;
+
 Resistor.numOfVoltages = 2;
 Resistor.numOfConnectors = 2;
 Resistor.dragPoint = getDragFunctionFor(MIN_LENGTH);
@@ -92,6 +95,7 @@ Resistor.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 Resistor.typeID = BaseResistorModel.typeID;
 
+Resistor.width = BOUNDING_BOX_WIDTH;
 Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 Resistor.getCurrentPaths = ({
     value: resistance = BaseResistorModel.value,

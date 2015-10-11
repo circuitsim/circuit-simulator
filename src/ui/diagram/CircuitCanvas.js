@@ -7,6 +7,7 @@ import showConnectors from './showConnectors.js';
 import handleHover from './highlightOnHover.js';
 import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
+import showValues from './showComponentValue.js';
 
 const addProps = ({ handlers, hover, theme, circuitError, currentOffset, volts2RGB }) => component => {
   const hovered = component.props.id === hover.viewID;
@@ -37,7 +38,8 @@ const addModifiers = ({CircuitComponent, props}) => {
       handleHover(
         applyVoltageColor(
           showConnectors(
-            CircuitComponent))),
+            showValues(
+              CircuitComponent)))),
     CurrentPaths: CircuitComponent.getCurrentPaths(props),
     DragPoints: showDragPoints(CircuitComponent),
     props

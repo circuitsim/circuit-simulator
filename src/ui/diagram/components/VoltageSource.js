@@ -30,7 +30,7 @@ const VoltageSource = (
   const [wireEnd1, wireEnd2] = connectors,
 
         mid = midPoint(wireEnd1, wireEnd2),
-        n = direction(wireEnd1, wireEnd2).normalize(),
+        n = direction(wireEnd1, wireEnd2),
 
         compOffset = n.multiply(VOLTAGE_SOURCE.RADIUS),
 
@@ -80,6 +80,9 @@ VoltageSource.propTypes = {
   circuitError: React.PropTypes.any
 };
 
+VoltageSource.unit = 'V';
+VoltageSource.defaultValue = BaseVoltageSourceModel.value;
+
 VoltageSource.numOfVoltages = 2;
 VoltageSource.numOfConnectors = 2;
 VoltageSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
@@ -87,6 +90,7 @@ VoltageSource.getConnectorPositions = get2ConnectorsFromDragPoints;
 
 VoltageSource.typeID = BaseVoltageSourceModel.typeID;
 
+VoltageSource.width = BOUNDING_BOX_WIDTH;
 VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 VoltageSource.getCurrentPaths = ({
     currents,

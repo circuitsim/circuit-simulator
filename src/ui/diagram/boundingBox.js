@@ -18,7 +18,7 @@ const sanitise = width => {
 // Bounding box stuff
 
 /*
- * A bounding box is represented e.g. [[1, 2], [3, 4], [5, 6]]
+ * A bounding box is represented e.g. [[1, 2], [3, 4], [5, 6], [7, 8]]
  */
 
 export const get2PointBoundingBox = width => connectors => {
@@ -28,7 +28,7 @@ export const get2PointBoundingBox = width => connectors => {
   return R.map(p => [p.x, p.y], rectanglePoints);
 };
 
-function isPointIn(p: Vector, polygon) {
+function isPointIn(p: Vector, polygon: Array<[number, number]>) {
   const point = [p.x, p.y];
   return inside(point, polygon);
 }
