@@ -11,12 +11,13 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 *A visual, fully interactive circuit simulator in your browser.*
 
 `// TODO`
-- Visible component values
-- Editable components values
-- Support for non-linear and AC circuits
-- More components
-- Oscilloscopes
-- Save, load and share circuits
+- [x] Visible component values
+- [ ] Deletable components
+- [ ] Editable components values
+- [ ] Support for non-linear and AC circuits
+- [ ] More components
+- [ ] Oscilloscopes
+- [ ] Save, load and share circuits
 
 ### Play
 
