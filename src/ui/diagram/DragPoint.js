@@ -5,7 +5,7 @@ import { DRAG_POINT_RADIUS } from './Constants.js';
 
 const { distance, PropTypes } = DrawingUtils;
 
-const DragPoint = ({ hovered, position, theme }) => {
+const DragPoint = ({ hovered, position }, { theme }) => {
   return (
     <Circle
       position={{
@@ -21,9 +21,11 @@ const DragPoint = ({ hovered, position, theme }) => {
 
 DragPoint.propTypes = {
   position: PropTypes.Vector.isRequired,
-  hovered: React.PropTypes.bool,
+  hovered: React.PropTypes.bool
+};
 
-  theme: React.PropTypes.object.isRequired
+DragPoint.contextTypes = {
+  theme: React.PropTypes.object
 };
 
 DragPoint.isPointIn = point => connectorPos => {

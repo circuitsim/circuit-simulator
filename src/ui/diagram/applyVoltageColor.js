@@ -9,8 +9,8 @@ import {getDisplayName} from './Utils.js';
  * If a parent component has already set a color, it uses that instead.
  */
 export default CircuitElement => {
-  const ApplyVoltageColor = props => {
-    const { theme, color, voltages, volts2RGB } = props;
+  const ApplyVoltageColor = (props, { theme }) => {
+    const { color, voltages, volts2RGB } = props;
 
     const colors = color
       ? R.repeat(color, voltages.length)
@@ -25,10 +25,13 @@ export default CircuitElement => {
   };
 
   ApplyVoltageColor.propTypes = {
-    theme: React.PropTypes.object.isRequired,
     color: React.PropTypes.string,
     voltages: React.PropTypes.arrayOf(React.PropTypes.number),
     volts2RGB: React.PropTypes.func.isRequired
+  };
+
+  ApplyVoltageColor.contextTypes = {
+    theme: React.PropTypes.object
   };
 
   ApplyVoltageColor.displayName = `VoltageColorFor(${getDisplayName(CircuitElement)})`;

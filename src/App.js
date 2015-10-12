@@ -7,30 +7,40 @@ import CircuitDiagram from './CircuitDiagram.js';
 
 import { componentSelectorButtonClicked } from './redux/actions.js';
 
-const App = props => {
-  const {
-    styles,
-    theme,
-    getCanvasSize,
-    componentSelectorButtonClicked: onButtonClicked
-  } = props;
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'row'
-    }}>
-      <Style
-        rules={ styles.global }
-      />
-      <Sidebar
-        theme={ theme } // TODO put theme in context? or is this a silly idea?
-        style={ styles.side }
-        onButtonClicked={ onButtonClicked } />
-      <CircuitDiagram
-        theme={ theme }
-        getDimensions={ getCanvasSize } />
-    </div>
-  );
+class App extends React.Component {
+
+  getChildContext() {
+    return {
+      theme: this.props.theme
+    };
+  }
+
+  render() {
+    const {
+      styles,
+      getCanvasSize,
+      componentSelectorButtonClicked: onButtonClicked
+    } = this.props;
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row'
+      }}>
+        <Style
+          rules={ styles.global }
+        />
+        <Sidebar
+          style={ styles.side }
+          onButtonClicked={ onButtonClicked } />
+        <CircuitDiagram
+          getDimensions={ getCanvasSize } />
+      </div>
+    );
+  }
+}
+
+App.childContextTypes = {
+  theme: React.PropTypes.object
 };
 
 App.propTypes = {

@@ -21,10 +21,9 @@ class CircuitDiagram extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const {width, height, theme} = this.props;
+    const {width, height} = this.props;
     return width !== nextProps.width
-      || height !== nextProps.height
-      || theme !== nextProps.theme;
+      || height !== nextProps.height;
   }
 
   render() {
@@ -41,8 +40,7 @@ class CircuitDiagram extends React.Component {
 
 CircuitDiagram.propTypes = {
   width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
-  theme: React.PropTypes.object.isRequired
+  height: React.PropTypes.number.isRequired
 };
 
 CircuitDiagram.contextTypes = {

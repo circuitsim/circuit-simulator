@@ -36,8 +36,7 @@ Wire.propTypes = {
   currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-  theme: React.PropTypes.object.isRequired
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 Wire.numOfVoltages = 2;
@@ -48,13 +47,16 @@ Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
 Wire.typeID = BaseWireModel.typeID;
 
 Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
-Wire.getCurrentPaths = ({currents = [0], currentOffset, connectors, theme}) => {
+Wire.getCurrentPaths = ({
+    currents = [0],
+    currentOffset,
+    connectors
+  }) => {
   return (
     <CurrentPath
       connectors={connectors}
       current={currents[0]}
       currentOffset={currentOffset}
-      theme={theme}
     />
   );
 };

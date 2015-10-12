@@ -9,7 +9,6 @@ const { PropTypes } = DrawingUtils;
 export default CircuitComponent => {
   const DragPoints = ({
     dragPoints,
-    theme,
     hovered = false,
     hoveredDragPointIndex
   }) => {
@@ -20,7 +19,6 @@ export default CircuitComponent => {
           <DragPoint
             position={dragPoint}
             hovered={hoveredDragPointIndex === i}
-            theme={theme}
             key={i}
           />
         );
@@ -35,7 +33,6 @@ export default CircuitComponent => {
 
   DragPoints.propTypes = {
     dragPoints: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-    theme: React.PropTypes.object.isRequired,
     hovered: React.PropTypes.bool,
     hoveredDragPointIndex: React.PropTypes.oneOfType([ // index of connector being hovered
       React.PropTypes.number,

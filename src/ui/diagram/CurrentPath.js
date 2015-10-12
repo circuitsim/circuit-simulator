@@ -14,13 +14,15 @@ const CurrentPath = (
     {
       current = 0,
       currentOffset,
-      connectors,
-      theme
+      connectors
     },
-    context
+    {
+      disableCurrent = false,
+      theme
+    }
   ) => {
   const circles = [],
-        showCurrent = !(context && context.disableCurrent);
+        showCurrent = !disableCurrent;
   if (showCurrent) {
     const [end1, end2] = connectors,
           d = Utils.diff(end1, end2),
@@ -57,12 +59,12 @@ const CurrentPath = (
 CurrentPath.propTypes = {
   connectors: React.PropTypes.arrayOf(Utils.PropTypes.Vector).isRequired,
   current: React.PropTypes.number,
-  currentOffset: React.PropTypes.number,
-  theme: React.PropTypes.object.isRequired
+  currentOffset: React.PropTypes.number
 };
 
 CurrentPath.contextTypes = {
-  disableCurrent: React.PropTypes.bool // can't set defaultContext so defaults to falsy
+  disableCurrent: React.PropTypes.bool, // can't set defaultContext so defaults to falsy
+  theme: React.PropTypes.object.isRequired
 };
 
 export default CurrentPath;

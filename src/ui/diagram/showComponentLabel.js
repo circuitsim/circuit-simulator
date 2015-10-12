@@ -17,8 +17,8 @@ export default CircuitComponent => {
     return undefined;
   }
 
-  const ShowLabel = props => {
-    const { theme, dragPoints, value = CircuitComponent.defaultValue } = props;
+  const ShowLabel = (props, { theme }) => {
+    const { dragPoints, value = CircuitComponent.defaultValue } = props;
 
     const label = value + CircuitComponent.unit;
 
@@ -47,8 +47,11 @@ export default CircuitComponent => {
 
   ShowLabel.propTypes = {
     value: React.PropTypes.any,
-    connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-    theme: React.PropTypes.object.isRequired
+    connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired
+  };
+
+  ShowLabel.contextTypes = {
+    theme: React.PropTypes.object
   };
 
   ShowLabel.displayName = `ShowLabelFor(${getDisplayName(CircuitComponent)})`;

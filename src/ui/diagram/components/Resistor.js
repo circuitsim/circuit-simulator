@@ -81,8 +81,7 @@ Resistor.propTypes = {
   voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-  theme: React.PropTypes.object.isRequired
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 Resistor.unit = 'Ω';
@@ -101,8 +100,7 @@ Resistor.getCurrentPaths = ({
     value: resistance = BaseResistorModel.value,
     voltages = [0, 0],
     connectors,
-    currentOffset,
-    theme
+    currentOffset
   }) => {
   const current = (voltages[0] - voltages[1]) / resistance;
   return (
@@ -110,7 +108,6 @@ Resistor.getCurrentPaths = ({
       connectors={connectors}
       current={current}
       currentOffset={currentOffset}
-      theme={theme}
     />
   );
 };

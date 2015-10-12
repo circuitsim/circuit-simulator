@@ -51,7 +51,7 @@ class Button extends React.Component {
 
   render() {
     const Art = this.props.art;
-    const styled = styles(this.props.theme);
+    const styled = styles(this.context.theme);
     const labelColor = radium.getState(this.state, 'button', ':hover')
         ? styled.hover
         : styled.base;
@@ -71,7 +71,6 @@ class Button extends React.Component {
         <div style={styled.img}>
           <ArtWrapper
             art={Art}
-            theme={this.props.theme}
             colors={R.repeat(imgColor.color, Art.numOfVoltages || 1)}
           />
         </div>
@@ -89,9 +88,12 @@ Button.propTypes = {
   name: React.PropTypes.string.isRequired,
   art: React.PropTypes.any.isRequired,
   selected: React.PropTypes.bool,
-  theme: React.PropTypes.object.isRequired,
 
   onClick: React.PropTypes.func.isRequired
+};
+
+Button.contextTypes = {
+  theme: React.PropTypes.object
 };
 
 Button.defaultProps = {

@@ -11,7 +11,7 @@ const scale = new Transform()
   .scale(S, S)
   .translate(-W / 2, -H / 2); // scale from center
 
-const ArtWrapper = ({art: Art, colors, theme}) => {
+const ArtWrapper = ({ art: Art, colors }) => {
   const dragPoints = [new Vector(0, 0), new Vector(W, H)];
   const connectors = Art.getConnectorPositions(dragPoints);
   return (
@@ -27,7 +27,6 @@ const ArtWrapper = ({art: Art, colors, theme}) => {
             dragPoints={dragPoints}
             current={0}
             colors={colors}
-            theme={theme}
           />
         </Group>
       </Surface>
@@ -37,8 +36,7 @@ const ArtWrapper = ({art: Art, colors, theme}) => {
 
 ArtWrapper.propTypes = {
   art: React.PropTypes.any.isRequired,
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-  theme: React.PropTypes.object.isRequired
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default ArtWrapper;

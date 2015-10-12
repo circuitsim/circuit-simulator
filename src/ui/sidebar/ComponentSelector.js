@@ -54,7 +54,7 @@ export default class ComponentSelector extends React.Component {
   }
 
   toButtons(buttonIDs) {
-    const { onButtonClicked, theme } = this.props;
+    const { onButtonClicked } = this.props;
     const { selectedButton } = this.state;
 
     const onButtonClick = buttonID => {
@@ -69,7 +69,7 @@ export default class ComponentSelector extends React.Component {
         R.assoc('id', buttonID),
         R.assoc('onClick', onButtonClick)
       )(BUTTONS[buttonID]);
-      return <Button {...props} theme={ theme } selected={ selectedButton === buttonID } key={ buttonID }/>;
+      return <Button {...props} selected={ selectedButton === buttonID } key={ buttonID }/>;
     };
     return R.map(createButton, buttonIDs);
   }
@@ -81,7 +81,6 @@ export default class ComponentSelector extends React.Component {
       <ButtonGroup
         key={ groupProperties.name }
         name={ groupProperties.name }
-        theme={ this.props.theme }
         >
         {buttons}
       </ButtonGroup>
@@ -100,7 +99,6 @@ export default class ComponentSelector extends React.Component {
 }
 
 ComponentSelector.propTypes = {
-  theme: PropTypes.object.isRequired,
   style: PropTypes.object,
 
   onButtonClicked: PropTypes.func.isRequired

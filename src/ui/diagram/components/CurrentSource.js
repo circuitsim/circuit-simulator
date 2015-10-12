@@ -78,7 +78,6 @@ CurrentSource.propTypes = {
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
   colors: React.PropTypes.arrayOf(React.PropTypes.string),
-  theme: React.PropTypes.object.isRequired,
 
   circuitError: React.PropTypes.any
 };
@@ -99,7 +98,6 @@ CurrentSource.getCurrentPaths = ({
     value: current = BaseCurrentSourceModel.value,
     currentOffset,
     connectors,
-    theme,
     circuitError
   }) => {
   current = circuitError ? 0 : current;
@@ -108,7 +106,6 @@ CurrentSource.getCurrentPaths = ({
       connectors={connectors}
       current={current}
       currentOffset={currentOffset}
-      theme={theme}
     />
   );
 };

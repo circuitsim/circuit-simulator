@@ -9,14 +9,13 @@ import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
-const addProps = ({ handlers, hover, theme, circuitError, currentOffset, volts2RGB }) => component => {
+const addProps = ({ handlers, hover, circuitError, currentOffset, volts2RGB }) => component => {
   const hovered = component.props.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
     : null;
   return R.assoc('props', R.merge(component.props, {
     handlers: handlers.component,
-    theme,
     hovered,
     hoveredDragPointIndex,
     circuitError,
@@ -74,6 +73,8 @@ export default class CircuitCanvas extends React.Component {
   }
 
   render() {
+    const { width, height } = this.props;
+
     const components = R.pipe(
       R.map(addProps(this.props)),
       R.map(lookUpComponent)
@@ -107,9 +108,9 @@ export default class CircuitCanvas extends React.Component {
         onTouchCancel={this.onMouse}
         style={{padding: 0, margin: 0, border: 0}}>
         <Surface
-          width={this.props.width}
-          height={this.props.height}
-          style={{display: 'block', backgroundColor: this.props.theme.COLORS.canvasBackground}}
+          width={width}
+          height={height}
+          style={{display: 'block', backgroundColor: this.context.theme.COLORS.canvasBackground}}
         >
           {/* The order is important here */}
           {circuitComponents}
@@ -143,7 +144,6 @@ CircuitCanvas.propTypes = {
   // appearence
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
-  theme: React.PropTypes.object.isRequired,
   style: React.PropTypes.object,
 
   //state
@@ -169,4 +169,8 @@ CircuitCanvas.propTypes = {
       onMouseUp: React.PropTypes.func
     }).isRequired
   })
+};
+
+CircuitCanvas.contextTypes = {
+  theme: React.PropTypes.object
 };

@@ -21,7 +21,7 @@ function styles({ TYPOGRAPHY, COLORS }) {
   };
 }
 
-const ButtonGroup = ({theme, name, children}) => {
+const ButtonGroup = ({ name, children }, { theme }) => {
   const style = styles(theme);
   return (
     <div>
@@ -35,8 +35,11 @@ const ButtonGroup = ({theme, name, children}) => {
 
 ButtonGroup.propTypes = {
   name: React.PropTypes.string,
-  theme: React.PropTypes.object.isRequired,
   children: React.PropTypes.array.isRequired
+};
+
+ButtonGroup.contextTypes = {
+  theme: React.PropTypes.object
 };
 
 export default ButtonGroup;

@@ -8,8 +8,8 @@ import { LINE_WIDTH } from '../Constants.js';
 const { PropTypes } = DrawingUtils;
 
 export default CircuitComponent => {
-  const Connectors = props => {
-    const { connectors, theme } = props,
+  const Connectors = (props, { theme }) => {
+    const { connectors } = props,
           connectorDots = connectors.map((connector, i) => {
             return (
               <Circle
@@ -35,8 +35,11 @@ export default CircuitComponent => {
   };
 
   Connectors.propTypes = {
-    connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-    theme: React.PropTypes.object.isRequired
+    connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired
+  };
+
+  Connectors.contextTypes = {
+    theme: React.PropTypes.object
   };
 
   Connectors.displayName = `ConnectorsFor(${getDisplayName(CircuitComponent)})`;

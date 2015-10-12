@@ -89,8 +89,7 @@ Ground.propTypes = {
   // connectors: PropTypes.Vector.isRequired,
   dragPoints: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
 
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-  theme: React.PropTypes.object.isRequired
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 Ground.numOfVoltages = 2; // including implicit ground (always 0V)
@@ -104,8 +103,7 @@ Ground.getBoundingBox = get2PointBoundingBox(GROUND_LENGTH);
 Ground.getCurrentPaths = ({
     dragPoints,
     currents = [0],
-    currentOffset,
-    theme
+    currentOffset
   }) => {
   const [connector] = dragPoints,
         { positionOfT } = getShapeAttributes(dragPoints);
@@ -115,7 +113,6 @@ Ground.getCurrentPaths = ({
       connectors={[positionOfT, connector]}
       current={currents[0]}
       currentOffset={currentOffset}
-      theme={theme}
     />
   );
 };
