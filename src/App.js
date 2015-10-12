@@ -12,7 +12,6 @@ const App = props => {
     styles,
     theme,
     getCanvasSize,
-    selectedButton,
     componentSelectorButtonClicked: onButtonClicked
   } = props;
   return (
@@ -26,8 +25,7 @@ const App = props => {
       <Sidebar
         theme={ theme } // TODO put theme in context? or is this a silly idea?
         style={ styles.side }
-        onButtonClicked={ onButtonClicked }
-        selectedButton={ selectedButton } />
+        onButtonClicked={ onButtonClicked } />
       <CircuitDiagram
         theme={ theme }
         getDimensions={ getCanvasSize } />
@@ -45,7 +43,7 @@ App.propTypes = {
 
   /* Injected by redux */
   // state
-  selectedButton: PropTypes.string.isRequired,
+  // ...
 
   // action creators
   componentSelectorButtonClicked: PropTypes.func.isRequired
@@ -53,10 +51,8 @@ App.propTypes = {
 
 // Which props do we want to inject, given the global state?
 // Note: use https://github.com/faassen/reselect for better performance.
-function mapStateToProps(state) {
-  return {
-    selectedButton: state.selectedButton
-  };
+function mapStateToProps(/*state*/) {
+  return {};
 }
 
 const mapDispatchToProps = {

@@ -42,6 +42,9 @@ export default class ComponentSelector extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      selectedButton: 'move'
+    };
     this.toButtonGroups = this.toButtonGroups.bind(this);
     this.toButtons = this.toButtons.bind(this);
   }
@@ -51,11 +54,20 @@ export default class ComponentSelector extends React.Component {
   }
 
   toButtons(buttonIDs) {
-    const { selectedButton, onButtonClicked, theme } = this.props;
+    const { onButtonClicked, theme } = this.props;
+    const { selectedButton } = this.state;
+
+    const onButtonClick = buttonID => {
+      this.setState({
+        selectedButton: buttonID
+      });
+      onButtonClicked(buttonID);
+    };
+
     const createButton = buttonID => {
       const props = R.pipe(
         R.assoc('id', buttonID),
-        R.assoc('onClick', onButtonClicked)
+        R.assoc('onClick', onButtonClick)
       )(BUTTONS[buttonID]);
       return <Button {...props} theme={ theme } selected={ selectedButton === buttonID } key={ buttonID }/>;
     };
@@ -91,14 +103,10 @@ ComponentSelector.propTypes = {
   theme: PropTypes.object.isRequired,
   style: PropTypes.object,
 
-  // TODO let's face it, this could be local state
-  selectedButton: PropTypes.string.isRequired,
-
   onButtonClicked: PropTypes.func.isRequired
 };
 
 ComponentSelector.defaultProps = {
-  selectedButton: 'move',
   onButtonClicked: (/* buttonID */) => {}
 };
 

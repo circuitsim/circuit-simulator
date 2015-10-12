@@ -22,8 +22,6 @@ export const LOOP_UPDATE = 'LOOP_UPDATE';
 
 export const KEY_PRESS = 'KEY_PRESS';
 
-export const SELECT_BUTTON = 'SELECT_BUTTON';
-
 export const MOUSE_MOVED = 'MOUSE_MOVED';
 
 // Action creators
@@ -137,10 +135,6 @@ export function componentSelectorButtonClicked(buttonID) {
   return function(dispatch) {
     dispatch({
       type: CHANGE_MODE_BUTTON_CLICK,
-      buttonID
-    });
-    dispatch({
-      type: SELECT_BUTTON,
       buttonID
     });
   };

@@ -27,8 +27,6 @@ import {
   LOOP_BEGIN,
   LOOP_UPDATE,
 
-  SELECT_BUTTON,
-
   MOUSE_MOVED
 } from './actions.js';
 
@@ -83,9 +81,7 @@ export const initialState = {
   volts2RGB: createVolts2RGB(5),
 
   circuitChanged: false,
-  error: false, // string | false
-
-  selectedButton: 'move'
+  error: false // string | false
 };
 
 export default function simulatorReducer(state = initialState, action) {
@@ -111,9 +107,6 @@ export default function simulatorReducer(state = initialState, action) {
   case LOOP_BEGIN:
   case LOOP_UPDATE:
     return mainLoopReducer(state, action);
-
-  case SELECT_BUTTON:
-    return R.assoc('selectedButton', action.buttonID, state);
 
   case MOUSE_MOVED:
     return R.assoc('mousePos', Vector.fromObject(action.coords), state);
