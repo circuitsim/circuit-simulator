@@ -2,9 +2,9 @@ import React from 'react';
 import {Shape, Path} from 'react-art';
 import Vector from 'immutable-vector2d';
 
-import Utils from '../../utils/DrawingUtils.js';
-import { LINE_WIDTH } from '../../Constants.js';
-import { get2ConnectorsFromDragPoints } from '../../diagram/Utils.js';
+import Utils from '../../../utils/DrawingUtils.js';
+import { LINE_WIDTH } from '../../../Constants.js';
+import { get2ConnectorsFromDragPoints } from '../../../diagram/Utils.js';
 
 
 const STEM_SIZE = new Vector(6, 15);
