@@ -71,8 +71,8 @@ export const BASIC_CIRCUIT = {
   views: {
     Ground1: {
       typeID: 'Ground',
+      id: 'Ground1',
       props: {
-        id: 'Ground1',
         connectors: [
           new Vector(10, 20)
         ]
@@ -80,8 +80,8 @@ export const BASIC_CIRCUIT = {
     },
     CurrentSource1: {
       typeID: 'CurrentSource',
+      id: 'CurrentSource1',
       props: {
-        id: 'CurrentSource1',
         connectors: [
           new Vector(10, 20),
           new Vector(10, 10)
@@ -90,8 +90,8 @@ export const BASIC_CIRCUIT = {
     },
     Wire1: {
       typeID: 'Wire',
+      id: 'Wire1',
       props: {
-        id: 'Wire1',
         connectors: [
           new Vector(10, 10),
           new Vector(20, 10)
@@ -100,8 +100,8 @@ export const BASIC_CIRCUIT = {
     },
     Resistor1: {
       typeID: 'Resistor',
+      id: 'Resistor1',
       props: {
-        id: 'Resistor1',
         connectors: [
           new Vector(20, 10),
           new Vector(20, 20)
@@ -110,8 +110,8 @@ export const BASIC_CIRCUIT = {
     },
     Wire2: {
       typeID: 'Wire',
+      id: 'Wire2',
       props: {
-        id: 'Wire2',
         connectors: [
           new Vector(20, 20),
           new Vector(10, 20)
@@ -122,8 +122,8 @@ export const BASIC_CIRCUIT = {
   viewsSolution: {
     Ground1: {
       typeID: 'Ground',
+      id: 'Ground1',
       props: {
-        id: 'Ground1',
         connectors: [
           new Vector(10, 20)
         ],
@@ -138,8 +138,8 @@ export const BASIC_CIRCUIT = {
     },
     CurrentSource1: {
       typeID: 'CurrentSource',
+      id: 'CurrentSource1',
       props: {
-        id: 'CurrentSource1',
         connectors: [
           new Vector(10, 20),
           new Vector(10, 10)
@@ -152,8 +152,8 @@ export const BASIC_CIRCUIT = {
     },
     Wire1: {
       typeID: 'Wire',
+      id: 'Wire1',
       props: {
-        id: 'Wire1',
         connectors: [
           new Vector(10, 10),
           new Vector(20, 10)
@@ -169,8 +169,8 @@ export const BASIC_CIRCUIT = {
     },
     Resistor1: {
       typeID: 'Resistor',
+      id: 'Resistor1',
       props: {
-        id: 'Resistor1',
         connectors: [
           new Vector(20, 10),
           new Vector(20, 20)
@@ -183,8 +183,8 @@ export const BASIC_CIRCUIT = {
     },
     Wire2: {
       typeID: 'Wire',
+      id: 'Wire2',
       props: {
-        id: 'Wire2',
         connectors: [
           new Vector(20, 20),
           new Vector(10, 20)

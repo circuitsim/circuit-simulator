@@ -71,15 +71,8 @@ const CurrentSource = (
 };
 
 CurrentSource.propTypes = {
-  id: React.PropTypes.string,
-
-  value: React.PropTypes.number,
-  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-
-  circuitError: React.PropTypes.any
+  colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 CurrentSource.unit = 'A';
@@ -98,7 +91,7 @@ CurrentSource.getCurrentPaths = ({
     value: current = BaseCurrentSourceModel.value,
     currentOffset,
     connectors,
-    circuitError
+    circuitError = false
   }) => {
   current = circuitError ? 0 : current;
   return (

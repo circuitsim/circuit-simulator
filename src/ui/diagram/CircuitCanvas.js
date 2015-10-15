@@ -10,7 +10,7 @@ import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
 const addProps = ({ handlers, hover, circuitError, currentOffset, volts2RGB }) => component => {
-  const hovered = component.props.id === hover.viewID;
+  const hovered = component.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
     : null;
@@ -27,19 +27,21 @@ const addProps = ({ handlers, hover, circuitError, currentOffset, volts2RGB }) =
 const lookUpComponent = component => {
   return {
     CircuitComponent: CircuitComponents[component.typeID],
+    id: component.id,
     props: component.props
   };
 };
 
 const wrapWith = (wrap, views) => {
-  const apply = ({CircuitComponent, props}) => {
+  const mapIndex = R.addIndex(R.map);
+  const apply = ({CircuitComponent, props}, i) => {
     const WrappedComponent = wrap(CircuitComponent);
     if (!WrappedComponent) {
       return undefined;
     }
-    return <WrappedComponent {...props} key={props.id} />;
+    return <WrappedComponent {...props} key={views[i].id} />;
   };
-  return R.map(apply, views);
+  return mapIndex(apply, views);
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -74,24 +76,25 @@ export default class CircuitCanvas extends React.Component {
 
   render() {
     const { width, height } = this.props;
+    const mapIndex = R.addIndex(R.map);
 
     const components = R.pipe(
       R.map(addProps(this.props)),
       R.map(lookUpComponent)
     )(this.props.circuitComponents);
 
-    const circuitComponents = R.map(({CircuitComponent, props}) => {
+    const circuitComponents = mapIndex(({CircuitComponent, props}, i) => {
       const Component =
         handleHover(
           applyVoltageColor(
             showConnectors(
               CircuitComponent)));
-      return <Component {...props} key={props.id} />;
+      return <Component {...props} key={components[i].id} />;
     }, components);
 
-    const currentDots = R.map(({CircuitComponent, props}) => {
+    const currentDots = mapIndex(({CircuitComponent, props}, i) => {
       const CurrentPaths = CircuitComponent.getCurrentPaths(props);
-      return React.cloneElement(CurrentPaths, {key: props.id});
+      return React.cloneElement(CurrentPaths, {key: components[i].id});
     }, components);
 
     const labels = wrapWith(showLabel, components);

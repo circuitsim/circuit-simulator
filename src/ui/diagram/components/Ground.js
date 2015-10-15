@@ -82,13 +82,7 @@ const Ground = ({
 };
 
 Ground.propTypes = {
-  id: React.PropTypes.string,
-
-  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
-  currents: React.PropTypes.arrayOf(React.PropTypes.number),
-  // connectors: PropTypes.Vector.isRequired,
   dragPoints: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-
   colors: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 

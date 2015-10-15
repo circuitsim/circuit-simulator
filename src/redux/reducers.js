@@ -56,8 +56,8 @@ export const initialState = {
   // views: {
   //   id: {
   //     typeID,
+  //     id,
   //     props: {
-  //       id,
   //       dragPoints: [Vector], // 2 drag points
   //       connectors: [Vector],
   //

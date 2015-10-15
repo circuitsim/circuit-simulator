@@ -27,8 +27,8 @@ function moveSingleDragPoint(state, action) {
     R.assoc('circuitChanged', true),
     R.assocPath(['views', id], {
       typeID: view.typeID,
+      id,
       props: {
-        id,
         dragPoints,
         connectors
       }
@@ -51,8 +51,8 @@ function moveWholeComponent(state, action) {
     R.assoc('circuitChanged', true),
     R.assocPath(['views', id], {
       typeID: view.typeID,
+      id,
       props: {
-        id,
         dragPoints,
         connectors
       }

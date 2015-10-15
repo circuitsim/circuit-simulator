@@ -39,6 +39,7 @@ const CurrentPath = (
             : offset + CURRENT.DOT_DISTANCE;
     let key = 0;
     for (let position = startPos; position <= d.length(); position += CURRENT.DOT_DISTANCE) {
+      // TODO pool Circle instances?
       circles.push(
         <Circle
           key={key++}

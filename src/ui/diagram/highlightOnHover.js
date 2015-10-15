@@ -3,14 +3,13 @@ import React from 'react';
 import {getDisplayName} from './Utils.js';
 
 export default CircuitElement => {
-  const Highlighter = (props, { theme }) => {
-    const { hovered = false } = props,
-          COLORS = theme.COLORS,
+  const Highlighter = ({ hovered, ...otherProps }, { theme }) => {
+    const COLORS = theme.COLORS,
           color = hovered ? COLORS.highlight : null;
 
     return (
       <CircuitElement
-        {...props}
+        {...otherProps}
         color={color}
       />
     );
@@ -18,6 +17,10 @@ export default CircuitElement => {
 
   Highlighter.propTypes = {
     hovered: React.PropTypes.bool
+  };
+
+  Highlighter.defaultProps = {
+    hovered: false
   };
 
   Highlighter.contextTypes = {

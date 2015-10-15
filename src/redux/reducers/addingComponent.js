@@ -41,8 +41,8 @@ export default function addingComponentReducer(state, action) {
       R.assoc('circuitChanged', true),
       R.assocPath(['views', id], {
         typeID,
+        id,
         props: {
-          id,
           dragPoints,
           connectors
         }

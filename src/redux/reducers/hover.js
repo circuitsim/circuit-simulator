@@ -10,7 +10,7 @@ export default function setHover(state) {
     const { typeID, props: { dragPoints }} = view;
     const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
     return {
-      viewID: view.props.id,
+      viewID: view.id,
       hovered,
       dragPointIndex
     };

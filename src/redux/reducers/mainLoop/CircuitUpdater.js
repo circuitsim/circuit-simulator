@@ -5,10 +5,12 @@ import { BaseData as Models } from '../../../ui/diagram/components/models';
 
 function toConnectors(view) {
   // IN:
-  // props: {
+  // [{
   //   id
-  //   connectors: [Vector]
-  // }
+  //   props: {
+  //     connectors: [Vector]
+  //   }
+  // }]
 
   // OUT:
   // [{
@@ -22,7 +24,7 @@ function toConnectors(view) {
   return R.addIndex(R.map)((vector, index) => ({
     pos: vector,
     id: {
-      viewID: props.id,
+      viewID: view.id,
       index: index
     }
   }), props.connectors);
@@ -41,8 +43,8 @@ export function toNodes(views) {
   // views: {
   //   id: {
   //     typeID: string,
+  //     id,
   //     props: {
-  //       id,
   //       connectors: [Vector]
   //     }
   //   }
@@ -60,7 +62,7 @@ export function toNodes(views) {
     R.values,
     R.filter(v => v.typeID === Models.Ground.typeID),
     R.map(v => ({
-      viewID: v.props.id,
+      viewID: v.id,
       index: 1 // implicit second connector connected to GROUND_NODE
     }))
   )(views);
@@ -101,7 +103,7 @@ export function updateViews(circuitGraph, solution, views) {
   let currents = R.drop(circuitGraph.numOfNodes, solution);
 
   return R.mapObj(view => {
-    const viewID = view.props.id;
+    const viewID = view.id;
     const model = circuitGraph.models[viewID];
     const nodeIDs = model.nodes;
 
