@@ -30,13 +30,8 @@ const Wire = ({
 };
 
 Wire.propTypes = {
-  id: React.PropTypes.string,
-
-  voltages: React.PropTypes.arrayOf(React.PropTypes.number),
-  currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-
-  colors: React.PropTypes.arrayOf(React.PropTypes.string)
+  colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 };
 
 Wire.numOfVoltages = 2;
@@ -50,13 +45,15 @@ Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
 Wire.getCurrentPaths = ({
     currents = [0],
     currentOffset,
-    connectors
+    connectors,
+    key
   }) => {
   return (
     <CurrentPath
-      connectors={connectors}
+      endPoints={connectors}
       current={currents[0]}
       currentOffset={currentOffset}
+      key={key}
     />
   );
 };

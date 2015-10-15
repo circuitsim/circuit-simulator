@@ -14,7 +14,7 @@ const CurrentPath = (
     {
       current = 0,
       currentOffset,
-      connectors
+      endPoints
     },
     {
       disableCurrent = false,
@@ -24,7 +24,7 @@ const CurrentPath = (
   const circles = [],
         showCurrent = !disableCurrent;
   if (showCurrent) {
-    const [end1, end2] = connectors,
+    const [end1, end2] = endPoints,
           d = Utils.diff(end1, end2),
 
           path = new MetricsPath()
@@ -58,7 +58,7 @@ const CurrentPath = (
 };
 
 CurrentPath.propTypes = {
-  connectors: React.PropTypes.arrayOf(Utils.PropTypes.Vector).isRequired,
+  endPoints: React.PropTypes.arrayOf(Utils.PropTypes.Vector).isRequired,
   current: React.PropTypes.number,
   currentOffset: React.PropTypes.number
 };

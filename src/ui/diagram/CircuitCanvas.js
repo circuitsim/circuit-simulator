@@ -9,7 +9,7 @@ import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
-const addProps = ({ handlers, hover, circuitError, currentOffset, volts2RGB }) => component => {
+const addProps = ({ handlers, hover, circuitError, volts2RGB }) => component => {
   const hovered = component.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
@@ -19,7 +19,6 @@ const addProps = ({ handlers, hover, circuitError, currentOffset, volts2RGB }) =
     hovered,
     hoveredDragPointIndex,
     circuitError,
-    currentOffset,
     volts2RGB
   }), component);
 };
@@ -92,9 +91,13 @@ export default class CircuitCanvas extends React.Component {
       return <Component {...props} key={components[i].id} />;
     }, components);
 
-    const currentDots = mapIndex(({CircuitComponent, props}, i) => {
-      const CurrentPaths = CircuitComponent.getCurrentPaths(props);
-      return React.cloneElement(CurrentPaths, {key: components[i].id});
+    const currentDots = mapIndex(({CircuitComponent, props: componentProps}, i) => {
+      const props = {
+        currentOffset: this.props.currentOffset,
+        key: components[i].id,
+        ...componentProps
+      };
+      return CircuitComponent.getCurrentPaths(props);
     }, components);
 
     const labels = wrapWith(showLabel, components);

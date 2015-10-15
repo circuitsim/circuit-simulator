@@ -8,26 +8,26 @@ import { LINE_WIDTH } from '../Constants.js';
 const { PropTypes } = DrawingUtils;
 
 export default CircuitComponent => {
-  const Connectors = (props, { theme }) => {
-    const { connectors } = props,
-          connectorDots = connectors.map((connector, i) => {
-            return (
-              <Circle
-                lineColor={theme.COLORS.base}
-                fillColor={theme.COLORS.base}
-                lineWidth={LINE_WIDTH}
-                position={{
-                  center: connector,
-                  radius: LINE_WIDTH
-                }}
-                key={i}
-              />
-            );
-          });
+  const Connectors = ({ connectors, ...otherProps }, { theme }) => {
+    const connectorDots = connectors.map((connector, i) => {
+      return (
+        <Circle
+          lineColor={theme.COLORS.base}
+          fillColor={theme.COLORS.base}
+          lineWidth={LINE_WIDTH}
+          position={{
+            center: connector,
+            radius: LINE_WIDTH
+          }}
+          key={i}
+        />
+      );
+    });
     return (
       <Group>
         <CircuitComponent
-          {...props}
+          connectors={connectors}
+          {...otherProps}
         />
         {connectorDots}
       </Group>

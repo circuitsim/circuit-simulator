@@ -68,15 +68,8 @@ const VoltageSource = (
 };
 
 VoltageSource.propTypes = {
-  id: React.PropTypes.string,
-
-  value: React.PropTypes.number,
-  currents: React.PropTypes.arrayOf(React.PropTypes.number),
   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-
-  colors: React.PropTypes.arrayOf(React.PropTypes.string),
-
-  circuitError: React.PropTypes.any
+  colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 };
 
 VoltageSource.unit = 'V';
@@ -94,13 +87,15 @@ VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 VoltageSource.getCurrentPaths = ({
     currents,
     currentOffset,
-    connectors
+    connectors,
+    key
   }) => {
   return (
     <CurrentPath
-      connectors={connectors}
+      endPoints={connectors}
       current={currents[0]}
       currentOffset={currentOffset}
+      key={key}
     />
   );
 };

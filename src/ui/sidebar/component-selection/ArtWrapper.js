@@ -13,7 +13,7 @@ const scale = new Transform()
 
 const ArtWrapper = ({ art: Art, colors }) => {
   const dragPoints = [new Vector(0, 0), new Vector(W, H)];
-  const connectors = Art.getConnectorPositions(dragPoints);
+  const connectorPoints = Art.getConnectorPositions(dragPoints);
   return (
     <div style={{padding: 0, margin: 0, border: 0}}>
       <Surface
@@ -23,7 +23,7 @@ const ArtWrapper = ({ art: Art, colors }) => {
       >
         <Group transform={scale} >
           <Art
-            connectors={connectors}
+            connectors={connectorPoints}
             dragPoints={dragPoints}
             current={0}
             colors={colors}
