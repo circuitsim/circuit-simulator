@@ -10,8 +10,8 @@ import Mouse from './art/Mouse.js';
 const { PropTypes } = React;
 
 const baseButtons = {
-  move: {
-    name: 'Move',
+  selectOrMove: {
+    name: 'Select & Move',
     art: Mouse
   }
 };
@@ -30,7 +30,7 @@ const BUTTONS = R.reduce((buttons, component) => {
 const GROUPS = {
   mouse: {
     name: 'Mouse',
-    buttons: ['move']
+    buttons: ['selectOrMove']
   },
   components: {
     name: 'Components',
@@ -43,7 +43,7 @@ export default class ComponentSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedButton: 'move'
+      selectedButton: 'selectOrMove'
     };
     this.toButtonGroups = this.toButtonGroups.bind(this);
     this.toButtons = this.toButtons.bind(this);

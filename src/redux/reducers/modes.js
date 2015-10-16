@@ -5,14 +5,14 @@ import MODES from '../../Modes.js';
 import {
   MODE_ADD,
   MODE_ADDING,
-  MODE_MOVE,
+  MODE_SELECT_MOVE,
   MODE_MOVING,
   CHANGE_MODE_BUTTON_CLICK
 } from '../actions.js';
 
 const buttonIdToModeMap = {
-  move: {
-    type: MODES.move
+  selectOrMove: {
+    type: MODES.selectOrMove
   }
 };
 
@@ -30,9 +30,9 @@ export default function modesReducer(state, action) {
       typeID: action.typeID
     }, state);
 
-  case MODE_MOVE:
+  case MODE_SELECT_MOVE:
     return R.assoc('mode', {
-      type: MODES.move
+      type: MODES.selectOrMove
     }, state);
 
   case MODE_MOVING:

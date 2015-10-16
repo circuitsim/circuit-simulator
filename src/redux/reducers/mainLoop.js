@@ -17,7 +17,7 @@ export default function mainLoopReducer(state, action) {
     let localState = state;
     const { views, mode } = localState;
 
-    localState = mode.type === MODES.move // only hover highlight in move mode
+    localState = mode.type === MODES.selectOrMove // only hover highlight in move mode
       ? setHover(localState)
       : state;
 

@@ -3,7 +3,7 @@ import R from 'ramda';
 const modeNames = [
   'add',
   'adding',
-  'move',
+  'selectOrMove',
   'moving'
 ];
 

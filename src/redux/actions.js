@@ -3,7 +3,7 @@ import Vector from 'immutable-vector2d';
 import MODES from '../Modes.js';
 
 // Action types
-export const MODE_MOVE = 'MODE_MOVE';
+export const MODE_SELECT_MOVE = 'MODE_SELECT_MOVE';
 export const MODE_MOVING = 'MODE_MOVING';
 export const MODE_ADD = 'MODE_ADD';
 export const MODE_ADDING = 'MODE_ADDING';
@@ -42,7 +42,7 @@ export function canvasMouseDown(coords) {
       });
       break;
 
-    case MODES.move:
+    case MODES.selectOrMove:
       if (hover.viewID) {
         dispatch({
           type: MODE_MOVING
@@ -100,7 +100,7 @@ export function canvasMouseUp(coords) {
 
     case MODES.moving:
       dispatch({
-        type: MODE_MOVE
+        type: MODE_SELECT_MOVE
       });
       dispatch({
         type: MOVING_FINISH,
