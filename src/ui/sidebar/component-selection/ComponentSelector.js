@@ -88,7 +88,7 @@ export default class ComponentSelector extends React.Component {
   }
 
   render() {
-    const groups = createFragment(R.mapObj(this.toButtonGroups, GROUPS));
+    const groups = createFragment(R.map(this.toButtonGroups, GROUPS));
 
     return (
       <div style={ this.props.style }>

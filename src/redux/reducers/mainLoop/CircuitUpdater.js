@@ -78,7 +78,7 @@ export function toNodes(views) {
 }
 
 export function toModels(views) {
-  return R.mapObj(view => Models[view.typeID], views);
+  return R.map(view => Models[view.typeID], views);
 }
 
 export function setNodesInModels(models, nodes) {
@@ -102,7 +102,7 @@ export function updateViews(circuitGraph, solution, views) {
   const voltages = R.take(circuitGraph.numOfNodes, solution);
   let currents = R.drop(circuitGraph.numOfNodes, solution);
 
-  return R.mapObj(view => {
+  return R.map(view => {
     const viewID = view.id;
     const model = circuitGraph.models[viewID];
     const nodeIDs = model.nodes;

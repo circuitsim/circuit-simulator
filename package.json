@@ -39,7 +39,7 @@
     "parseunit": "^0",
     "point-in-polygon": "^1.0.0",
     "radium": "^0.14.1",
-    "ramda": "^0.17",
+    "ramda": "^0.18",
     "react": "^0.14.0",
     "react-addons-create-fragment": "^0.14.0",
     "react-art": "^0.14",
