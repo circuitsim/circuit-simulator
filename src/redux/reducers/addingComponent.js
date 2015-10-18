@@ -43,6 +43,7 @@ export default function addingComponentReducer(state, action) {
         typeID,
         id,
         props: {
+          value: Component.defaultValue,
           dragPoints,
           connectors
         }

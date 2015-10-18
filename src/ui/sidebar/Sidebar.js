@@ -10,7 +10,7 @@ export default class Sidebar extends React.Component {
     return (
       <div style={ this.props.style }>
         <ComponentSelector {...this.props} style={{flexGrow: 1}} />
-        <ComponentInspector /* TODO */ />
+        <ComponentInspector {...this.props} />
         <div style={{alignSelf: 'center'}} >
           <span>
             Made by <a href='http://thomwright.co.uk'>Thom Wright</a> - <a href='https://github.com/circuitsim'><span className='octicon octicon-mark-github'></span></a>

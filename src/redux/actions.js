@@ -4,6 +4,9 @@ import MODES from '../Modes.js';
 
 // Action types
 export const MODE_SELECT_MOVE = 'MODE_SELECT_MOVE';
+export const SELECT_COMPONENT = 'SELECT_COMPONENT';
+
+export const MODE_SELECT_MODE_MOUSEDOWN = 'MODE_SELECT_MODE_MOUSEDOWN';
 export const MODE_MOVING = 'MODE_MOVING';
 export const MODE_ADD = 'MODE_ADD';
 export const MODE_ADDING = 'MODE_ADDING';
@@ -27,7 +30,7 @@ export const MOUSE_MOVED = 'MOUSE_MOVED';
 // Action creators
 export function canvasMouseDown(coords) {
   return function(dispatch, getState) {
-    const { mode, hover } = getState();
+    const { mode } = getState();
 
     switch (mode.type) {
     case MODES.add:
@@ -43,15 +46,9 @@ export function canvasMouseDown(coords) {
       break;
 
     case MODES.selectOrMove:
-      if (hover.viewID) {
-        dispatch({
-          type: MODE_MOVING
-        });
-        dispatch({
-          type: MOVING_START,
-          mouseVector: Vector.fromObject(coords)
-        });
-      }
+      dispatch({
+        type: MODE_SELECT_MODE_MOUSEDOWN
+      });
       break;
     }
   };
@@ -64,13 +61,25 @@ export function canvasMouseMove(coords) {
       coords
     });
 
-    const { mode } = getState();
+    const { mode, hover } = getState();
     switch (mode.type) {
     case MODES.adding:
       dispatch({
         type: ADDING_MOVE,
         coords
       });
+      break;
+
+    case MODES.selectOrMoveMouseDown:
+      if (hover.viewID) {
+        dispatch({
+          type: MODE_MOVING
+        });
+        dispatch({
+          type: MOVING_START,
+          mouseVector: Vector.fromObject(coords)
+        });
+      }
       break;
 
     case MODES.moving:
@@ -94,6 +103,16 @@ export function canvasMouseUp(coords) {
       });
       dispatch({
         type: ADDING_FINISH,
+        coords
+      });
+      break;
+
+    case MODES.selectOrMoveMouseDown:
+      dispatch({
+        type: MODE_SELECT_MOVE
+      });
+      dispatch({
+        type: SELECT_COMPONENT,
         coords
       });
       break;

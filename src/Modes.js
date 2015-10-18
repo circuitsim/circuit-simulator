@@ -4,6 +4,7 @@ const modeNames = [
   'add',
   'adding',
   'selectOrMove',
+  'selectOrMoveMouseDown',
   'moving'
 ];
 

@@ -5,6 +5,7 @@ import addingComponentReducer from './reducers/addingComponent.js';
 import moveComponentReducer from './reducers/moveComponent.js';
 import modesReducer from './reducers/modes.js';
 import mainLoopReducer from './reducers/mainLoop.js';
+import selectComponentReducer from './reducers/selectComponent.js';
 import { createVolts2RGB } from '../utils/volts2RGB.js';
 
 import MODES from '../Modes.js';
@@ -13,8 +14,11 @@ import {
   MODE_ADD,
   MODE_ADDING,
   MODE_SELECT_MOVE,
+  MODE_SELECT_MODE_MOUSEDOWN,
   MODE_MOVING,
   CHANGE_MODE_BUTTON_CLICK,
+
+  SELECT_COMPONENT,
 
   ADDING_START,
   ADDING_MOVE,
@@ -77,6 +81,9 @@ export const initialState = {
   // }
   hover: {},
 
+  // currently selected component
+  selected: undefined,
+
   // maxVoltage: 5, TODO
   volts2RGB: createVolts2RGB(5),
 
@@ -90,9 +97,13 @@ export default function simulatorReducer(state = initialState, action) {
   case MODE_ADD:
   case MODE_ADDING:
   case MODE_SELECT_MOVE:
+  case MODE_SELECT_MODE_MOUSEDOWN:
   case MODE_MOVING:
   case CHANGE_MODE_BUTTON_CLICK:
     return modesReducer(state, action);
+
+  case SELECT_COMPONENT:
+    return selectComponentReducer(state, action);
 
   case ADDING_START:
   case ADDING_MOVE:

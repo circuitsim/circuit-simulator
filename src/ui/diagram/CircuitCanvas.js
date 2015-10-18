@@ -54,7 +54,6 @@ export default class CircuitCanvas extends React.Component {
     event.preventDefault();
     const coords = Utils.relMouseCoords(event, this.refs.canvas);
     const handlers = this.props.handlers.canvas;
-
     switch (event.type) {
     case 'mousedown':
     case 'touchstart':

@@ -19,6 +19,7 @@ class App extends React.Component {
     const {
       styles,
       getCanvasSize,
+      selectedComponent,
       componentSelectorButtonClicked: onButtonClicked
     } = this.props;
     return (
@@ -31,7 +32,8 @@ class App extends React.Component {
         />
         <Sidebar
           style={ styles.side }
-          onButtonClicked={ onButtonClicked } />
+          onButtonClicked={ onButtonClicked }
+          selectedComponent={selectedComponent} />
         <CircuitDiagram
           getDimensions={ getCanvasSize } />
       </div>
@@ -53,7 +55,13 @@ App.propTypes = {
 
   /* Injected by redux */
   // state
-  // ...
+  selectedComponent: PropTypes.shape({
+    typeID: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    props: PropTypes.shape({
+      value: PropTypes.number
+    }).isRequired
+  }),
 
   // action creators
   componentSelectorButtonClicked: PropTypes.func.isRequired
@@ -61,8 +69,10 @@ App.propTypes = {
 
 // Which props do we want to inject, given the global state?
 // Note: use https://github.com/faassen/reselect for better performance.
-function mapStateToProps(/*state*/) {
-  return {};
+function mapStateToProps({ selected }) {
+  return {
+    selectedComponent: selected
+  };
 }
 
 const mapDispatchToProps = {
