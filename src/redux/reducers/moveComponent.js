@@ -29,6 +29,7 @@ function moveSingleDragPoint(state, action) {
       typeID: view.typeID,
       id,
       props: {
+        ...view.props,
         dragPoints,
         connectors
       }
@@ -53,6 +54,7 @@ function moveWholeComponent(state, action) {
       typeID: view.typeID,
       id,
       props: {
+        ...view.props,
         dragPoints,
         connectors
       }
