@@ -5,7 +5,10 @@ import { Style } from 'radium';
 import Sidebar from './ui/sidebar/Sidebar.js';
 import CircuitDiagram from './CircuitDiagram.js';
 
-import { componentSelectorButtonClicked } from './redux/actions.js';
+import {
+  selectMode,
+  deleteComponent
+} from './redux/actions.js';
 
 class App extends React.Component {
 
@@ -20,7 +23,8 @@ class App extends React.Component {
       styles,
       getCanvasSize,
       selectedComponent,
-      componentSelectorButtonClicked: onButtonClicked
+      selectMode: onSelectMode,
+      deleteComponent: onDelete
     } = this.props;
     return (
       <div style={{
@@ -28,12 +32,13 @@ class App extends React.Component {
         flexDirection: 'row'
       }}>
         <Style
-          rules={ styles.global }
+          rules={styles.global}
         />
         <Sidebar
-          style={ styles.side }
-          onButtonClicked={ onButtonClicked }
-          selectedComponent={selectedComponent} />
+          style={styles.side}
+          onSelectMode={onSelectMode}
+          selectedComponent={selectedComponent}
+          deleteComponent={onDelete} />
         <CircuitDiagram
           getDimensions={ getCanvasSize } />
       </div>
@@ -64,7 +69,8 @@ App.propTypes = {
   }),
 
   // action creators
-  componentSelectorButtonClicked: PropTypes.func.isRequired
+  selectMode: PropTypes.func.isRequired,
+  deleteComponent: PropTypes.func.isRequired
 };
 
 // Which props do we want to inject, given the global state?
@@ -76,7 +82,8 @@ function mapStateToProps({ selected }) {
 }
 
 const mapDispatchToProps = {
-  componentSelectorButtonClicked
+  selectMode,
+  deleteComponent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

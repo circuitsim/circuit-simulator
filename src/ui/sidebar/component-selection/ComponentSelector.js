@@ -100,12 +100,7 @@ export default class ComponentSelector extends React.Component {
 
 ComponentSelector.propTypes = {
   style: PropTypes.object,
-
   onButtonClicked: PropTypes.func.isRequired
-};
-
-ComponentSelector.defaultProps = {
-  onButtonClicked: (/* buttonID */) => {}
 };
 
 ComponentSelector.childContextTypes = {

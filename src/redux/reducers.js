@@ -6,6 +6,7 @@ import moveComponentReducer from './reducers/moveComponent.js';
 import modesReducer from './reducers/modes.js';
 import mainLoopReducer from './reducers/mainLoop.js';
 import selectComponentReducer from './reducers/selectComponent.js';
+import deleteComponentReducer from './reducers/deleteComponent.js';
 import { createVolts2RGB } from '../utils/volts2RGB.js';
 
 import MODES from '../Modes.js';
@@ -31,7 +32,9 @@ import {
   LOOP_BEGIN,
   LOOP_UPDATE,
 
-  MOUSE_MOVED
+  MOUSE_MOVED,
+
+  DELETE_COMPONENT
 } from './actions.js';
 
 export const initialState = {
@@ -121,6 +124,9 @@ export default function simulatorReducer(state = initialState, action) {
 
   case MOUSE_MOVED:
     return R.assoc('mousePos', Vector.fromObject(action.coords), state);
+
+  case DELETE_COMPONENT:
+    return deleteComponentReducer(state, action);
 
   default:
     return state;

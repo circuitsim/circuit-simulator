@@ -7,12 +7,12 @@ export default class ComponentInspector extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value: undefined
-    };
+    // this.state = {
+    //   value: undefined
+    // };
     // this.onValueChange = this.onValueChange.bind(this);
     // this.onValueKeyPress = this.onValueKeyPress.bind(this);
-    // this.onDelete = this.onDelete.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   // onValueChange(event) {
@@ -28,11 +28,11 @@ export default class ComponentInspector extends React.Component {
   //   console.log('onValueKeyPress', event.which);
   //   console.log(this.state.value || this.props.selectedComponent.props.value);
   // }
-  //
-  // onDelete() {
-  //   console.log('Delete');
-  //   this.props.deleteComponent(this.props.selectedComponent.id);
-  // }
+
+  onDelete() {
+    console.log('Delete', this.props.selectedComponent.id);
+    this.props.deleteComponent(this.props.selectedComponent.id);
+  }
 
   render() {
     const { selectedComponent } = this.props;
@@ -50,11 +50,11 @@ export default class ComponentInspector extends React.Component {
               <div>{value}{unit}</div>
             );
 
-            // <button type='button' onClick={this.onDelete}>Delete</button>
             return (
               <div>
                 <div>{typeID}</div>
                 {value ? showValue() : null}
+                <button type='button' onClick={this.onDelete}>Delete</button>
               </div>
             );
           } else {
@@ -76,9 +76,9 @@ ComponentInspector.propTypes = {
     props: PropTypes.shape({
       value: PropTypes.number
     }).isRequired
-  })
+  }),
 
   // action creators
   // changeComponentValue: PropTypes.func.isRequired,
-  // deleteComponent: PropTypes.func.isRequired
+  deleteComponent: PropTypes.func.isRequired
 };

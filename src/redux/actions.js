@@ -27,6 +27,8 @@ export const KEY_PRESS = 'KEY_PRESS';
 
 export const MOUSE_MOVED = 'MOUSE_MOVED';
 
+export const DELETE_COMPONENT = 'DELETE_COMPONENT';
+
 // Action creators
 export function canvasMouseDown(coords) {
   return function(dispatch, getState) {
@@ -150,11 +152,18 @@ export function keyPress(key) {
   };
 }
 
-export function componentSelectorButtonClicked(buttonID) {
+export function selectMode(buttonID) {
   return function(dispatch) {
     dispatch({
       type: CHANGE_MODE_BUTTON_CLICK,
       buttonID
     });
+  };
+}
+
+export function deleteComponent(id) {
+  return {
+    type: DELETE_COMPONENT,
+    id
   };
 }
