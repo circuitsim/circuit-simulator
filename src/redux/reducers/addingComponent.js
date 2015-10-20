@@ -1,5 +1,4 @@
 import R from 'ramda';
-import uuid from 'node-uuid';
 import Vector from 'immutable-vector2d';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
 import Components from '../../ui/diagram/components';
@@ -13,11 +12,11 @@ import {
 export default function addingComponentReducer(state, action) {
   switch (action.type) {
   case ADDING_START: {
-    const {coords, typeID} = action;
+    const {coords, typeID, id} = action;
     return R.assoc('addingComponent', {
-      id: uuid.v4(),
-      start: coords,
-      typeID
+      id,
+      typeID,
+      start: coords
     }, state);
   }
 

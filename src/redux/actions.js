@@ -1,4 +1,5 @@
 import Vector from 'immutable-vector2d';
+import uuid from 'node-uuid';
 
 import MODES from '../Modes.js';
 
@@ -43,6 +44,7 @@ export function canvasMouseDown(coords) {
       dispatch({
         type: ADDING_START,
         typeID: mode.typeID,
+        id: uuid.v4(),
         coords
       });
       break;
