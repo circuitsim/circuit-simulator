@@ -6,11 +6,16 @@ const { PropTypes } = React;
 
 export default class Sidebar extends React.Component {
   render() {
-    const { style, onSelectMode, selectedComponent, deleteComponent } = this.props;
+    const {
+      style,
+      selectedComponent,
+      onSelectMode: handleSelectMode,
+      onDeleteComponent: handleDelete
+    } = this.props;
     return (
       <div style={style}>
-        <ComponentSelector onButtonClicked={onSelectMode} style={{flexGrow: 1}} />
-        <ComponentInspector selectedComponent={selectedComponent} deleteComponent={deleteComponent} />
+        <ComponentSelector onButtonClicked={handleSelectMode} style={{flexGrow: 1}} />
+        <ComponentInspector selectedComponent={selectedComponent} onDeleteComponent={handleDelete} />
         <div style={{alignSelf: 'center'}} >
           <span>
             Made by <a href='http://thomwright.co.uk'>Thom Wright</a> - <a href='https://github.com/circuitsim'><span className='octicon octicon-mark-github'></span></a>
@@ -27,5 +32,5 @@ Sidebar.propTypes = {
   onSelectMode: PropTypes.func.isRequired,
 
   selectedComponent: PropTypes.object,
-  deleteComponent: PropTypes.func.isRequired
+  onDeleteComponent: PropTypes.func.isRequired
 };

@@ -23,8 +23,8 @@ class App extends React.Component {
       styles,
       getCanvasSize,
       selectedComponent,
-      selectMode: onSelectMode,
-      deleteComponent: onDelete
+      selectMode: handleSelectMode,
+      onDeleteComponent: handleDelete
     } = this.props;
     return (
       <div style={{
@@ -36,11 +36,13 @@ class App extends React.Component {
         />
         <Sidebar
           style={styles.side}
-          onSelectMode={onSelectMode}
+          onSelectMode={handleSelectMode}
           selectedComponent={selectedComponent}
-          deleteComponent={onDelete} />
+          onDeleteComponent={handleDelete}
+        />
         <CircuitDiagram
-          getDimensions={ getCanvasSize } />
+          getDimensions={ getCanvasSize }
+        />
       </div>
     );
   }
@@ -70,7 +72,7 @@ App.propTypes = {
 
   // action creators
   selectMode: PropTypes.func.isRequired,
-  deleteComponent: PropTypes.func.isRequired
+  onDeleteComponent: PropTypes.func.isRequired
 };
 
 // Which props do we want to inject, given the global state?
@@ -83,7 +85,7 @@ function mapStateToProps({ selected }) {
 
 const mapDispatchToProps = {
   selectMode,
-  deleteComponent
+  onDeleteComponent: deleteComponent
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -12,7 +12,7 @@ export default class ComponentInspector extends React.Component {
     // };
     // this.onValueChange = this.onValueChange.bind(this);
     // this.onValueKeyPress = this.onValueKeyPress.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   // onValueChange(event) {
@@ -29,9 +29,8 @@ export default class ComponentInspector extends React.Component {
   //   console.log(this.state.value || this.props.selectedComponent.props.value);
   // }
 
-  onDelete() {
-    console.log('Delete', this.props.selectedComponent.id);
-    this.props.deleteComponent(this.props.selectedComponent.id);
+  handleDelete() {
+    this.props.onDeleteComponent(this.props.selectedComponent.id);
   }
 
   render() {
@@ -54,7 +53,7 @@ export default class ComponentInspector extends React.Component {
               <div>
                 <div>{typeID}</div>
                 {value ? showValue() : null}
-                <button type='button' onClick={this.onDelete}>Delete</button>
+                <button type='button' onClick={this.handleDelete}>Delete</button>
               </div>
             );
           } else {
@@ -80,5 +79,5 @@ ComponentInspector.propTypes = {
 
   // action creators
   // changeComponentValue: PropTypes.func.isRequired,
-  deleteComponent: PropTypes.func.isRequired
+  onDeleteComponent: PropTypes.func.isRequired
 };

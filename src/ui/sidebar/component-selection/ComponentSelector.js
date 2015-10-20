@@ -81,7 +81,7 @@ export default class ComponentSelector extends React.Component {
       <ButtonGroup
         key={ groupProperties.name }
         name={ groupProperties.name }
-        >
+      >
         {buttons}
       </ButtonGroup>
     );
