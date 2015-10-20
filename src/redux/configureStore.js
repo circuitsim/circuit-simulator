@@ -14,7 +14,7 @@ import createLogger from 'redux-logger';
 
 const logger = createLogger({
   predicate: (getState, action) => {
-    return R.all(t => t !== action.type)([
+    return __DEV__ && R.all(t => t !== action.type)([
       LOOP_BEGIN,
       LOOP_UPDATE,
       ADDING_MOVE,

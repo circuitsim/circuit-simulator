@@ -47,8 +47,13 @@ gulp.task('vendor', vendor(devBuildDir));
 gulp.task('icons', icons(devBuildDir));
 
 function compile(opts) {
-  var bundler = watchify(browserify('./public/main.js', { debug: true })
-    .transform(babel));
+  var bundler = watchify(
+    browserify('./public/main.js', { debug: true })
+      .transform(babel)
+      .transform(envify({
+        NODE_ENV: 'development'
+      }), {global: true})
+  );
 
   function rebundle() {
     return bundler.bundle()

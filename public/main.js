@@ -10,8 +10,11 @@ import reducer from '../src/redux/reducers';
 
 import getWindowDimensions from '../src/utils/getWindowDimensions.js';
 
-// expose for devTools TODO only in dev
-window.React = React;
+global.__DEV__ = process.env.NODE_ENV === 'development';
+
+if (__DEV__) {
+  window.React = React;
+}
 
 const COLORS = Theme.COLORS;
 const {lineHeight, fontSize, fontFamily} = Theme.TYPOGRAPHY;
