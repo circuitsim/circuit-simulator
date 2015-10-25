@@ -1,7 +1,6 @@
 import React from 'react';
 import radium from 'radium';
 import R from 'ramda';
-import parseunit from 'parseunit';
 
 import ArtWrapper from './ArtWrapper.js';
 
