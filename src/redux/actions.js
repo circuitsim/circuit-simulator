@@ -5,13 +5,14 @@ import MODES from '../Modes.js';
 
 // Action types
 export const MODE_SELECT_MOVE = 'MODE_SELECT_MOVE';
-export const SELECT_COMPONENT = 'SELECT_COMPONENT';
-
 export const MODE_SELECT_MODE_MOUSEDOWN = 'MODE_SELECT_MODE_MOUSEDOWN';
 export const MODE_MOVING = 'MODE_MOVING';
 export const MODE_ADD = 'MODE_ADD';
 export const MODE_ADDING = 'MODE_ADDING';
 export const CHANGE_MODE_BUTTON_CLICK = 'CHANGE_MODE_BUTTON_CLICK';
+
+export const SELECT_HOVERED_COMPONENT = 'SELECT_HOVERED_COMPONENT';
+export const UNSELECT_COMPONENT = 'UNSELECT_COMPONENT';
 
 export const ADDING_START = 'ADDING_START';
 export const ADDING_MOVE = 'ADDING_MOVE';
@@ -116,7 +117,7 @@ export function canvasMouseUp(coords) {
         type: MODE_SELECT_MOVE
       });
       dispatch({
-        type: SELECT_COMPONENT,
+        type: SELECT_HOVERED_COMPONENT,
         coords
       });
       break;
@@ -164,8 +165,14 @@ export function selectMode(buttonID) {
 }
 
 export function deleteComponent(id) {
-  return {
-    type: DELETE_COMPONENT,
-    id
+  return function(dispatch) {
+    dispatch({
+      type: UNSELECT_COMPONENT,
+      id
+    });
+    dispatch({
+      type: DELETE_COMPONENT,
+      id
+    });
   };
 }

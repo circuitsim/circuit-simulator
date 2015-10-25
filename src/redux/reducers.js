@@ -19,7 +19,8 @@ import {
   MODE_MOVING,
   CHANGE_MODE_BUTTON_CLICK,
 
-  SELECT_COMPONENT,
+  SELECT_HOVERED_COMPONENT,
+  UNSELECT_COMPONENT,
 
   ADDING_START,
   ADDING_MOVE,
@@ -105,7 +106,8 @@ export default function simulatorReducer(state = initialState, action) {
   case CHANGE_MODE_BUTTON_CLICK:
     return modesReducer(state, action);
 
-  case SELECT_COMPONENT:
+  case UNSELECT_COMPONENT:
+  case SELECT_HOVERED_COMPONENT:
     return selectComponentReducer(state, action);
 
   case ADDING_START:
