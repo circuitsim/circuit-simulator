@@ -4,6 +4,19 @@ import ComponentInspector from './component-inspection/ComponentInspector.js';
 
 const { PropTypes } = React;
 
+const styles = {
+  selector: {
+    flexGrow: 4
+  },
+  inspector: {
+    minHeight: '5em'
+  },
+  footer: {
+    alignSelf: 'center',
+    paddingTop: '5px'
+  }
+};
+
 export default class Sidebar extends React.Component {
   render() {
     const {
@@ -14,9 +27,14 @@ export default class Sidebar extends React.Component {
     } = this.props;
     return (
       <div style={style}>
-        <ComponentSelector onButtonClicked={handleSelectMode} style={{flexGrow: 1}} />
-        <ComponentInspector selectedComponent={selectedComponent} onDeleteComponent={handleDelete} />
-        <div style={{alignSelf: 'center'}} >
+        <ComponentSelector style={styles.selector}
+          onButtonClicked={handleSelectMode}
+        />
+        <ComponentInspector style={styles.inspector}
+          selectedComponent={selectedComponent}
+          onDeleteComponent={handleDelete}
+        />
+        <div style={styles.footer} >
           <span>
             Made by <a href='http://thomwright.co.uk'>Thom Wright</a> - <a href='https://github.com/circuitsim'><span className='octicon octicon-mark-github'></span></a>
           </span>

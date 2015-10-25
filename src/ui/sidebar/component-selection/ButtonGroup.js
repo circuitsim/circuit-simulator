@@ -1,32 +1,27 @@
 import React from 'react';
-import parseunit from 'parseunit';
+import R from 'ramda';
 
-function styles({ TYPOGRAPHY, COLORS }) {
-  const [ val, unit ] = parseunit(TYPOGRAPHY.lineHeight);
-
+function styles({ STYLES }) {
   return {
     group: {
+      margin: '10px 0px'
+    },
+    buttons: {
       display: 'flex',
       justifyContent: 'space-between',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
+      alignItems: 'baseline'
     },
-    title: {
-      lineHeight: `${val * 1.5}${unit}`,
-      paddingLeft: '5px',
-      fontWeight: 'bold',
-      fontSize: 'smaller',
-      textTransform: 'uppercase',
-      color: COLORS.semiHighlight
-    }
+    title: R.merge(STYLES.title, {paddingLeft: '5px'})
   };
 }
 
 const ButtonGroup = ({ name, children }, { theme }) => {
   const style = styles(theme);
   return (
-    <div>
+    <div style={style.group} >
       <div style={style.title} >{name}</div>
-      <div style={style.group} >
+      <div style={style.buttons} >
         {children}
       </div>
     </div>

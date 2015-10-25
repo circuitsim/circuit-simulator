@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import R from 'ramda';
+
 import Theme from '../src/ui/theme.js';
 import App from '../src/App.js';
 
@@ -17,21 +19,23 @@ if (__DEV__) {
 }
 
 const COLORS = Theme.COLORS;
-const {lineHeight, fontSize, fontFamily} = Theme.TYPOGRAPHY;
+const {fontSize, fontFamily} = Theme.TYPOGRAPHY;
 
 const sidebarWidth = 240;
 const sidebarWidthPx = `${sidebarWidth}px`;
+const defaultStyles = {
+  fontSize,
+  fontFamily,
+  color: COLORS.base
+};
 const styles = {
   global: {
-    '*': {
-      lineHeight,
-      fontSize,
-      fontFamily,
-      backgroundColor: COLORS.background,
-      color: COLORS.base
-    }
+    html: defaultStyles,
+    a: defaultStyles,
+    button: defaultStyles
   },
   side: {
+    backgroundColor: COLORS.background,
     boxSizing: 'border-box',
     borderRight: `${COLORS.theme} 2px solid`,
     padding: '10px 5px',

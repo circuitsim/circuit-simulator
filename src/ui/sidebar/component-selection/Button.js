@@ -5,14 +5,14 @@ import parseunit from 'parseunit';
 
 import ArtWrapper from './ArtWrapper.js';
 
-function styles({COLORS, TYPOGRAPHY}) {
+function styles({COLORS}) {
   const imgSize = 50;
-  const [lhVal, lhUnits] = parseunit(TYPOGRAPHY.lineHeight);
   return {
     button: {
       padding: 0,
-      border: 'none',
       width: imgSize + 'px',
+      border: 'none',
+      backgroundColor: COLORS.background,
       ':hover': {}
     },
     img: {
@@ -22,7 +22,6 @@ function styles({COLORS, TYPOGRAPHY}) {
       marginRight: 'auto'
     },
     label: {
-      height: `${2 * lhVal}${lhUnits}`,
       display: 'inline-block',
       verticalAlign: 'top'
     },

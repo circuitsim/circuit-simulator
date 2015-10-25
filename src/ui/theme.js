@@ -10,11 +10,18 @@ const BASE_COLOR = '#aaa';
 const ELECTRIC_BLUE = '#7DF9FF';
 
 const COLORS = {
-  background: '#222',
+  background: '#282828',
   canvasBackground: '#333',
+  insetBackground: '#222',
+
+  buttonBackground1: '#444',
+  buttonBackground2: '#3D3D3D',
 
   base: BASE_COLOR,
   transBase: trans(BASE_COLOR),
+  baseShadow: '#3D3D3D',
+
+  boxShadow: '#555',
 
   semiHighlight: '#eee',
   highlight: 'white',
@@ -23,16 +30,29 @@ const COLORS = {
 
   current: trans(ELECTRIC_BLUE, 0.3),
   positiveVoltage: '#45FF00',
-  negativeVoltage: '#0045FF'
+  negativeVoltage: '#0045FF',
+
+  transparent: 'rgba(0,0,0,0)',
+  transBlack: 'rgba(0,0,0,0.75)'
 };
 
 const TYPOGRAPHY = {
   'fontFamily': 'Open Sans, Helvetica, Arial, sans-serif',
-  'lineHeight': '1.5em',
   'fontSize': '12px'
+};
+
+const STYLES = {
+  title: {
+    lineHeight: '1.5em',
+    fontWeight: 'bold',
+    fontSize: 'smaller',
+    textTransform: 'uppercase',
+    color: COLORS.semiHighlight
+  }
 };
 
 export default {
   COLORS,
-  TYPOGRAPHY
+  TYPOGRAPHY,
+  STYLES
 };

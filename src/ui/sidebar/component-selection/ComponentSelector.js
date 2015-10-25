@@ -7,6 +7,8 @@ import Button from './Button.js';
 import ButtonGroup from './ButtonGroup.js';
 import Mouse from './art/Mouse.js';
 
+import camelToSpace from '../../utils/camelToSpace.js';
+
 const { PropTypes } = React;
 
 const baseButtons = {
@@ -15,10 +17,6 @@ const baseButtons = {
     art: Mouse
   }
 };
-
-function camelToSpace(string) {
-  return R.replace(/([a-z\d])([A-Z])/g, '$1 $2', string);
-}
 
 const BUTTONS = R.reduce((buttons, component) => {
   return R.assoc(component.typeID, {
