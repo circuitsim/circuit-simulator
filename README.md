@@ -13,7 +13,7 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 `// TODO`
 - [x] Visible component values
 - [x] Deletable components
-- [ ] Editable components values
+- [x] Editable components values
 - [ ] Support for non-linear and AC circuits
 - [ ] More components
 - [ ] Oscilloscopes
