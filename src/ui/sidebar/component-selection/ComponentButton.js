@@ -36,7 +36,7 @@ function styles({COLORS}) {
   };
 }
 
-class Button extends React.Component {
+class ComponentButton extends React.Component {
 
   constructor(props) {
     super(props);
@@ -81,7 +81,7 @@ class Button extends React.Component {
   }
 }
 
-Button.propTypes = {
+ComponentButton.propTypes = {
   id: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   art: React.PropTypes.any.isRequired,
@@ -90,12 +90,12 @@ Button.propTypes = {
   onClick: React.PropTypes.func.isRequired
 };
 
-Button.contextTypes = {
+ComponentButton.contextTypes = {
   theme: React.PropTypes.object
 };
 
-Button.defaultProps = {
+ComponentButton.defaultProps = {
   selected: false
 };
 
-export default radium(Button);
+export default radium(ComponentButton);

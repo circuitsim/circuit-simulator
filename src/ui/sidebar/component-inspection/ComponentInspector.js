@@ -3,6 +3,8 @@ import radium from 'radium';
 import Color from 'color';
 import R from 'ramda';
 
+import Button from '../../components/Button.js';
+
 import Components from '../../diagram/components';
 import camelToSpace from '../../utils/camelToSpace.js';
 
@@ -44,44 +46,6 @@ const getStyles = ({COLORS, STYLES}) => ({
     },
     inner: {
       alignSelf: 'center'
-    }
-  },
-  button: {
-    border: 'none',
-    borderRadius: '2px',
-    background: `linear-gradient(${COLORS.buttonBackground1}, ${COLORS.buttonBackground2})`,
-    color: COLORS.base,
-    textShadow: `1px 1px 2px ${COLORS.baseShadow}`,
-    boxShadow: [
-      `1px 1px 1px 0px ${COLORS.transBlack}`,
-      `inset 2px 3px 2px -2px ${COLORS.boxShadow}`,
-      `inset -2px -3px 2px -2px ${COLORS.buttonBackground2}`
-    ].join(', '),
-    minWidth: '6em',
-    minHeight: '2em',
-    padding: '1px 5px 1px 5px',
-    verticalAlign: 'top',
-
-    ':focus': {
-      outline: 'none'
-    },
-    ':hover': {
-      boxShadow: [
-        `1px 1px 1px 0px ${COLORS.transBlack}`,
-        `inset 2px 3px 2px -2px ${lighten(COLORS.boxShadow)}`,
-        `inset -2px -3px 2px -2px ${lighten(COLORS.buttonBackground2)}`
-      ].join(', '),
-      color: lighten(COLORS.base),
-      background: `linear-gradient(${lighten(COLORS.buttonBackground1)}, ${lighten(COLORS.buttonBackground2)})`
-    },
-    ':active': {
-      boxShadow: [
-        `inset 2px 3px 2px -2px ${darken(COLORS.buttonBackground2)}`,
-        `inset -2px -3px 2px -2px ${lighten(COLORS.buttonBackground1)}`
-      ].join(', '),
-      background: `linear-gradient(${COLORS.buttonBackground2}, ${COLORS.buttonBackground1})`,
-      padding: '3px 4px 1px 6px',
-      color: COLORS.base
     }
   },
   title: STYLES.title
@@ -140,12 +104,11 @@ class ComponentInspector extends React.Component {
                   {camelToSpace(typeID)}
                 </div>
                 {value ? showValue() : null}
-                <button style={styles.button}
-                  type='button'
+                <Button style={styles.button}
                   onClick={this.handleDelete}
                 >
                   <span>Delete</span>
-                </button>
+                </Button>
               </div>
             );
           } else {

@@ -3,7 +3,7 @@ import createFragment from 'react-addons-create-fragment';
 import R from 'ramda';
 import CircuitComponents from '../../diagram/components';
 
-import Button from './Button.js';
+import ComponentButton from './ComponentButton.js';
 import ButtonGroup from './ButtonGroup.js';
 import Mouse from './art/Mouse.js';
 
@@ -67,7 +67,7 @@ export default class ComponentSelector extends React.Component {
         R.assoc('id', buttonID),
         R.assoc('onClick', onButtonClick)
       )(BUTTONS[buttonID]);
-      return <Button {...props} selected={ selectedButton === buttonID } key={ buttonID }/>;
+      return <ComponentButton {...props} selected={ selectedButton === buttonID } key={ buttonID }/>;
     };
     return R.map(createButton, buttonIDs);
   }
