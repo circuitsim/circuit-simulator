@@ -30,6 +30,7 @@ export const KEY_PRESS = 'KEY_PRESS';
 export const MOUSE_MOVED = 'MOUSE_MOVED';
 
 export const DELETE_COMPONENT = 'DELETE_COMPONENT';
+export const CHANGE_COMPONENT_VALUE = 'CHANGE_COMPONENT_VALUE';
 
 // Action creators
 export function canvasMouseDown(coords) {
@@ -174,5 +175,13 @@ export function deleteComponent(id) {
       type: DELETE_COMPONENT,
       id
     });
+  };
+}
+
+export function changeComponentValue(id, value) {
+  return {
+    type: CHANGE_COMPONENT_VALUE,
+    id,
+    value
   };
 }

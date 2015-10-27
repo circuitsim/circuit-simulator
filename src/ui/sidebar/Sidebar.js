@@ -23,7 +23,8 @@ export default class Sidebar extends React.Component {
       style,
       selectedComponent,
       onSelectMode: handleSelectMode,
-      onDeleteComponent: handleDelete
+      onDeleteComponent: handleDelete,
+      onChangeComponentValue: handleChangeComponentValue
     } = this.props;
     return (
       <div style={style}>
@@ -33,6 +34,7 @@ export default class Sidebar extends React.Component {
         <ComponentInspector style={styles.inspector}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
+          onChangeComponentValue={handleChangeComponentValue}
         />
         <div style={styles.footer} >
           <span>
@@ -50,5 +52,6 @@ Sidebar.propTypes = {
   onSelectMode: PropTypes.func.isRequired,
 
   selectedComponent: PropTypes.object,
-  onDeleteComponent: PropTypes.func.isRequired
+  onDeleteComponent: PropTypes.func.isRequired,
+  onChangeComponentValue: PropTypes.func.isRequired
 };

@@ -35,7 +35,9 @@ describe('Modelling a circuit', () => {
     const r = BaseData.Resistor;
 
     c.nodes = [0, 1];
+    c.value = 0.5;
     r.nodes = [1, 0];
+    r.value = 10;
 
     const circuit = [c, r];
 
@@ -58,8 +60,10 @@ describe('Modelling a circuit', () => {
     const r = BaseData.Resistor;
 
     c.nodes = [0, 1];
+    c.value = 0.5;
     w.nodes = [1, 2];
     r.nodes = [2, 0];
+    r.value = 10;
 
     const circuit = [c, r, w];
 

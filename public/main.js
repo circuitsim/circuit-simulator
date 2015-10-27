@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import R from 'ramda';
-
 import Theme from '../src/ui/theme.js';
 import App from '../src/App.js';
 

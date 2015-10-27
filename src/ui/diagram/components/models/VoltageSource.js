@@ -1,9 +1,6 @@
-const INITIAL_VOLTAGE = 5;
-
 export default {
   data: {
     nodes: [],
-    value: INITIAL_VOLTAGE,
     vSources: 1
   },
   functions: {

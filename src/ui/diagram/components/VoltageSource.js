@@ -72,8 +72,9 @@ VoltageSource.propTypes = {
   colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 };
 
+const DEFAULT_VOLTAGE = 5;
 VoltageSource.unit = 'V';
-VoltageSource.defaultValue = BaseVoltageSourceModel.value;
+VoltageSource.defaultValue = DEFAULT_VOLTAGE;
 
 VoltageSource.numOfVoltages = 2;
 VoltageSource.numOfConnectors = 2;

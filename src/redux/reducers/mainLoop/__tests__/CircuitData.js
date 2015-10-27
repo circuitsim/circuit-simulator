@@ -82,6 +82,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
       props: {
+        value: 0.5,
         connectors: [
           new Vector(10, 20),
           new Vector(10, 10)
@@ -102,6 +103,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'Resistor',
       id: 'Resistor1',
       props: {
+        value: 10,
         connectors: [
           new Vector(20, 10),
           new Vector(20, 20)
@@ -140,6 +142,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
       props: {
+        value: 0.5,
         connectors: [
           new Vector(10, 20),
           new Vector(10, 10)
@@ -171,6 +174,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'Resistor',
       id: 'Resistor1',
       props: {
+        value: 10,
         connectors: [
           new Vector(20, 10),
           new Vector(20, 20)

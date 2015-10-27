@@ -7,7 +7,8 @@ import CircuitDiagram from './CircuitDiagram.js';
 
 import {
   selectMode,
-  deleteComponent
+  deleteComponent,
+  changeComponentValue
 } from './redux/actions.js';
 
 class App extends React.Component {
@@ -24,7 +25,8 @@ class App extends React.Component {
       getCanvasSize,
       selectedComponent,
       selectMode: handleSelectMode,
-      onDeleteComponent: handleDelete
+      onDeleteComponent: handleDelete,
+      onChangeComponentValue: handleChangeComponentValue
     } = this.props;
     return (
       <div style={{
@@ -39,6 +41,7 @@ class App extends React.Component {
           onSelectMode={handleSelectMode}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
+          onChangeComponentValue={handleChangeComponentValue}
         />
         <CircuitDiagram
           getDimensions={ getCanvasSize }
@@ -72,7 +75,8 @@ App.propTypes = {
 
   // action creators
   selectMode: PropTypes.func.isRequired,
-  onDeleteComponent: PropTypes.func.isRequired
+  onDeleteComponent: PropTypes.func.isRequired,
+  onChangeComponentValue: PropTypes.func.isRequired
 };
 
 // Which props do we want to inject, given the global state?
@@ -85,7 +89,8 @@ function mapStateToProps({ selected }) {
 
 const mapDispatchToProps = {
   selectMode,
-  onDeleteComponent: deleteComponent
+  onDeleteComponent: deleteComponent,
+  onChangeComponentValue: changeComponentValue
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -79,8 +79,9 @@ Resistor.propTypes = {
   colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 };
 
+const DEFAULT_RESISTANCE = 10;
 Resistor.unit = 'Ω';
-Resistor.defaultValue = BaseResistorModel.value;
+Resistor.defaultValue = DEFAULT_RESISTANCE;
 
 Resistor.numOfVoltages = 2;
 Resistor.numOfConnectors = 2;
@@ -92,7 +93,7 @@ Resistor.typeID = BaseResistorModel.typeID;
 Resistor.width = BOUNDING_BOX_WIDTH;
 Resistor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 Resistor.getCurrentPaths = ({
-    value: resistance = BaseResistorModel.value,
+    value: resistance = DEFAULT_RESISTANCE,
     voltages = [0, 0],
     connectors,
     currentOffset,

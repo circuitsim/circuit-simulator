@@ -1,9 +1,16 @@
-import { toNodes, setNodesInModels, updateViews } from '../CircuitUpdater.js';
+import { toNodes, toModels, setNodesInModels, updateViews } from '../CircuitUpdater.js';
 import {BASIC_CIRCUIT} from './CircuitData.js';
 
 describe('toNodes()', () => {
   it('should return the correct list of nodes for a given list of views', () => {
     expect(toNodes(BASIC_CIRCUIT.views)).to.deep.equal(BASIC_CIRCUIT.nodes);
+  });
+});
+
+describe('toModels()', () => {
+  it('should something something ...', () => {
+    const models = toModels(BASIC_CIRCUIT.views);
+    expect(models).to.deep.equal(BASIC_CIRCUIT.modelsNoNodes);
   });
 });
 

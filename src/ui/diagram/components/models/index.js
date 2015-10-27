@@ -26,8 +26,8 @@ function setKeyAsTypeID(model, typeID) {
  */
 export const BaseData = R.mapObjIndexed(setKeyAsTypeID, MODELS);
 
-const ComponentFunctions = R.map((modelData) => {
-  return modelData.functions;
+const ComponentFunctions = R.map((model) => {
+  return model.functions;
 }, MODELS);
 
 const functionFor = fName => (modelData, ...args) => {

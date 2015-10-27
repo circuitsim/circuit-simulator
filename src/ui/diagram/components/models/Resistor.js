@@ -1,9 +1,6 @@
-const INITIAL_RESISTANCE = 10;
-
 export default {
   data: {
-    nodes: [],
-    value: INITIAL_RESISTANCE
+    nodes: []
   },
   functions: {
     stamp: (data, equation) => {

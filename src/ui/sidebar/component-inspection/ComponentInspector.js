@@ -51,34 +51,45 @@ const getStyles = ({COLORS, STYLES}) => ({
   title: STYLES.title
 });
 
+const isOkNumber = R.allPass([
+  R.is(Number),
+  R.compose(R.not, Number.isNaN)
+]);
+
 class ComponentInspector extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   value: undefined
-    // };
-    // this.onValueChange = this.onValueChange.bind(this);
-    // this.onValueKeyPress = this.onValueKeyPress.bind(this);
+    const { selectedComponent } = props;
+    this.state = {
+      value: selectedComponent ? selectedComponent.props.value : undefined
+    };
+    this.onValueChange = this.onValueChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  // onValueChange(event) {
-  //   const value = event.target.value;
-  //   this.setState({
-  //     value
-  //   });
-  //   console.log('onValueChange', value);
-  //   // TODO this.props.changeComponentValue(this.props.selectedComponent.id, value);
-  // }
-  //
-  // onValueKeyPress(event) {
-  //   console.log('onValueKeyPress', event.which);
-  //   console.log(this.state.value || this.props.selectedComponent.props.value);
-  // }
+  onValueChange(event) {
+    const value = event.target.value;
+    console.log('onValueChange', value, value || undefined);
+    this.setState({
+      value: value || ''
+    });
+    const numericVal = parseFloat(value);
+    console.log('numericVal', numericVal);
+    if (isOkNumber(numericVal)) {
+      this.props.onChangeComponentValue(this.props.selectedComponent.id, numericVal);
+    }
+  }
 
   handleDelete() {
     this.props.onDeleteComponent(this.props.selectedComponent.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { selectedComponent } = nextProps;
+    this.state = {
+      value: selectedComponent ? selectedComponent.props.value : undefined
+    };
   }
 
   render() {
@@ -88,14 +99,13 @@ class ComponentInspector extends React.Component {
       <div style={R.merge(style, styles.container)}>
         {(() => {
           if (selectedComponent) {
-            const {typeID, props: {value}} = selectedComponent;
+            const { typeID } = selectedComponent;
             const unit = Components[typeID].unit;
-
-            // <div>
-            //   <input type='number' name='value' min='1' max='1000000' value={value} onChange={this.onValueChange} onKeyPress={this.onValueKeyPress} />{unit}
-            // </div>
+            const value = this.state.value;
             const showValue = () => (
-              <div>{value}{unit}</div>
+              <div>
+                <input type='number' name='value' min='0' value={value} onChange={this.onValueChange} />{unit}
+              </div>
             );
 
             return (
@@ -103,7 +113,7 @@ class ComponentInspector extends React.Component {
                 <div style={styles.title}>
                   {camelToSpace(typeID)}
                 </div>
-                {value ? showValue() : null}
+                {value == null ? null : showValue()}
                 <Button style={styles.button}
                   onClick={this.handleDelete}
                 >
@@ -137,7 +147,7 @@ ComponentInspector.propTypes = {
   }),
 
   // action creators
-  // changeComponentValue: PropTypes.func.isRequired,
+  onChangeComponentValue: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired
 };
 

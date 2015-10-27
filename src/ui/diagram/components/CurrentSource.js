@@ -75,8 +75,9 @@ CurrentSource.propTypes = {
   colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 };
 
+const DEFAULT_CURRENT = 0.5;
 CurrentSource.unit = 'A';
-CurrentSource.defaultValue = BaseCurrentSourceModel.value;
+CurrentSource.defaultValue = DEFAULT_CURRENT;
 
 CurrentSource.numOfVoltages = 2;
 CurrentSource.numOfConnectors = 2;
@@ -88,7 +89,7 @@ CurrentSource.typeID = BaseCurrentSourceModel.typeID;
 CurrentSource.width = BOUNDING_BOX_WIDTH;
 CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 CurrentSource.getCurrentPaths = ({
-    value: current = BaseCurrentSourceModel.value,
+    value: current = DEFAULT_CURRENT,
     currentOffset,
     connectors,
     circuitError = false,
