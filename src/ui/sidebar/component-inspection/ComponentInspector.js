@@ -21,10 +21,10 @@ const getStyles = ({COLORS, STYLES}) => ({
     backgroundColor: COLORS.insetBackground,
     borderRadius: '4px',
     boxShadow: [
-      `inset 1px 1.5px 1px 0px ${darken(COLORS.insetBackground)}`,
-      `inset -1px -1.5px 1px 0px ${lighten(COLORS.insetBackground)}`,
-      `-0.5px -0.75px 1px 0px ${darken(COLORS.background)}`,
-      `0.5px 0.75px 1px 0px ${lighten(COLORS.background)}`
+      `inset 0.5px 0.5px 1px 0px ${darken(COLORS.insetBackground)}`,
+      `inset -0.5px -0.5px 1px 0px ${lighten(COLORS.insetBackground)}`,
+      `-0.5px -0.5px 1px 0px ${darken(COLORS.background)}`,
+      `0.5px 0.75px 0.75px 0px ${lighten(COLORS.background)}`
     ].join(', ')
   },
   outerBase: {
@@ -46,6 +46,25 @@ const getStyles = ({COLORS, STYLES}) => ({
     },
     inner: {
       alignSelf: 'center'
+    }
+  },
+  value: {
+    outer: {
+      padding: '10px 0px'
+    },
+    input: {
+      padding: '2px',
+      backgroundColor: COLORS.textInputBackground,
+      color: COLORS.base,
+      borderRadius: '2px',
+      border: '1px solid transparent',
+
+      ':focus': {
+        border: '1px solid transparent'
+      },
+      ':active': {
+        border: '1px solid transparent'
+      }
     }
   },
   title: STYLES.title
@@ -70,12 +89,11 @@ class ComponentInspector extends React.Component {
 
   onValueChange(event) {
     const value = event.target.value;
-    console.log('onValueChange', value, value || undefined);
     this.setState({
       value: value || ''
     });
+    // TODO use numeral.js
     const numericVal = parseFloat(value);
-    console.log('numericVal', numericVal);
     if (isOkNumber(numericVal)) {
       this.props.onChangeComponentValue(this.props.selectedComponent.id, numericVal);
     }
@@ -103,8 +121,16 @@ class ComponentInspector extends React.Component {
             const unit = Components[typeID].unit;
             const value = this.state.value;
             const showValue = () => (
-              <div>
-                <input type='number' name='value' min='0' value={value} onChange={this.onValueChange} />{unit}
+              <div style={styles.value.outer}>
+                <input style={styles.value.input}
+                  name='value'
+                  min='0'
+                  value={value}
+                  onChange={this.onValueChange}
+                />
+                <span style={{paddingLeft: '5px'}}>
+                  {unit}
+                </span>
               </div>
             );
 

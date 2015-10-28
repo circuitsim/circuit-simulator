@@ -16,6 +16,7 @@ const COLORS = {
 
   buttonBackground1: '#444',
   buttonBackground2: '#3D3D3D',
+  textInputBackground: '#3D3D3D',
 
   base: BASE_COLOR,
   transBase: trans(BASE_COLOR),
