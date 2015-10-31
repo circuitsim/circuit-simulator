@@ -60,7 +60,8 @@ const getStyles = ({COLORS, STYLES}) => ({
       border: '1px solid transparent',
 
       ':focus': {
-        border: '1px solid transparent'
+        border: '1px solid transparent',
+        color: COLORS.semiHighlight
       },
       ':active': {
         border: '1px solid transparent'
