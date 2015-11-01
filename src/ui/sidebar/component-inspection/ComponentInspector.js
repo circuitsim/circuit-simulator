@@ -2,6 +2,7 @@ import React from 'react';
 import radium from 'radium';
 import Color from 'color';
 import R from 'ramda';
+import {unformatSI} from 'format-si-prefix';
 
 import Button from '../../components/Button.js';
 
@@ -90,8 +91,7 @@ class ComponentInspector extends React.Component {
     this.setState({
       value: value || ''
     });
-    // TODO use numeral.js
-    const numericVal = parseFloat(value);
+    const numericVal = unformatSI(value);
     if (isOkNumber(numericVal)) {
       this.props.onChangeComponentValue(this.props.selectedComponent.id, numericVal);
     }

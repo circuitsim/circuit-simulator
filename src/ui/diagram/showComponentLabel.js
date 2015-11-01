@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, Transform } from 'react-art';
 import Vector from 'immutable-vector2d';
+import {formatSI} from 'format-si-prefix';
 
 import DrawingUtils from '../utils/DrawingUtils.js';
 import { getDisplayName } from './Utils.js';
@@ -20,7 +21,7 @@ export default CircuitComponent => {
   const ShowLabel = (props, { theme }) => {
     const { dragPoints, value = CircuitComponent.defaultValue } = props;
 
-    const label = value + CircuitComponent.unit;
+    const label = formatSI(value) + CircuitComponent.unit;
 
     const mid = midPoint(...dragPoints),
           dir = direction(...dragPoints),
