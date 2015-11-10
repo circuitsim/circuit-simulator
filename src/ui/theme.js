@@ -18,13 +18,15 @@ const COLORS = {
   buttonBackground2: '#3D3D3D',
   textInputBackground: '#3D3D3D',
 
+  canvasOverlayBackground: '#555',
+
   base: BASE_COLOR,
   transBase: trans(BASE_COLOR),
   baseShadow: '#3D3D3D',
 
   boxShadow: '#555',
 
-  semiHighlight: '#eee',
+  semiHighlight: '#ddd',
   highlight: 'white',
 
   theme: ELECTRIC_BLUE,
@@ -55,5 +57,6 @@ const STYLES = {
 export default {
   COLORS,
   TYPOGRAPHY,
-  STYLES
+  STYLES,
+  trans
 };
