@@ -2,14 +2,14 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Style } from 'radium';
 
-import Sidebar from './ui/sidebar/Sidebar.js';
-import CircuitDiagram from './CircuitDiagram.js';
+import Sidebar from './sidebar/Sidebar.js';
+import CircuitDiagram from './diagram';
 
 import {
   selectMode,
   deleteComponent,
   changeComponentValue
-} from './redux/actions.js';
+} from '../redux/actions.js';
 
 class App extends React.Component {
 

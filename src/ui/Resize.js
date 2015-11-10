@@ -1,6 +1,6 @@
 import React from 'react';
 import getWindowDimensions from './utils/getWindowDimensions.js';
-import { getDisplayName } from './ui/diagram/Utils.js';
+import { getDisplayName } from './diagram/Utils.js';
 
 export default function Resize(WrappedComponent) {
   class Resizer extends React.Component {

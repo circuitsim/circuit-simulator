@@ -1,9 +1,9 @@
 import React from 'react';
 import Animator from 'react-mainloop';
 
-import CircuitCanvas from './ui/diagram/CircuitCanvas.js';
-import Updater from './Updater.js';
-import resize from './Resize.js';
+import CircuitCanvas from './CircuitCanvas.js';
+import Updater from '../Updater.js';
+import resize from '../Resize.js';
 
 const FPS = 10;
 const TIMESTEP = 1000 / FPS;
