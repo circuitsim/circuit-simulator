@@ -6,8 +6,8 @@ import rootReducer from './reducers';
 import {
   LOOP_BEGIN,
   LOOP_UPDATE,
-  ADDING_MOVE,
-  MOVING_MOVE,
+  ADDING_MOVED,
+  MOVING_MOVED,
   MOUSE_MOVED
 } from './actions.js';
 import createLogger from 'redux-logger';
@@ -17,8 +17,8 @@ const logger = createLogger({
     return __DEV__ && R.all(t => t !== action.type)([
       LOOP_BEGIN,
       LOOP_UPDATE,
-      ADDING_MOVE,
-      MOVING_MOVE,
+      ADDING_MOVED,
+      MOVING_MOVED,
       MOUSE_MOVED
     ]);
   },

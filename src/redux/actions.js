@@ -15,11 +15,11 @@ export const SELECT_HOVERED_COMPONENT = 'SELECT_HOVERED_COMPONENT';
 export const UNSELECT_COMPONENT = 'UNSELECT_COMPONENT';
 
 export const ADDING_START = 'ADDING_START';
-export const ADDING_MOVE = 'ADDING_MOVE';
+export const ADDING_MOVED = 'ADDING_MOVED';
 export const ADDING_FINISH = 'ADDING_FINISH';
 
 export const MOVING_START = 'MOVING_START';
-export const MOVING_MOVE = 'MOVING_MOVE';
+export const MOVING_MOVED = 'MOVING_MOVED';
 export const MOVING_FINISH = 'MOVING_FINISH';
 
 export const LOOP_BEGIN = 'LOOP_BEGIN';
@@ -71,7 +71,7 @@ export function canvasMouseMove(coords) {
     switch (mode.type) {
     case MODES.adding:
       dispatch({
-        type: ADDING_MOVE,
+        type: ADDING_MOVED,
         coords
       });
       break;
@@ -90,7 +90,7 @@ export function canvasMouseMove(coords) {
 
     case MODES.moving:
       dispatch({
-        type: MOVING_MOVE,
+        type: MOVING_MOVED,
         mouseVector: Vector.fromObject(coords)
       });
       break;

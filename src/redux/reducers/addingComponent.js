@@ -5,7 +5,7 @@ import Components from '../../ui/diagram/components';
 
 import {
   ADDING_START,
-  ADDING_MOVE,
+  ADDING_MOVED,
   ADDING_FINISH
 } from '../actions.js';
 
@@ -20,7 +20,7 @@ export default function addingComponentReducer(state, action) {
     }, state);
   }
 
-  case ADDING_MOVE: {
+  case ADDING_MOVED: {
     const {start, id, typeID} = state.addingComponent,
 
           startPoint = snapToGrid(Vector.fromObject(start)),

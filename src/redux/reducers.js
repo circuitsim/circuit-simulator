@@ -24,11 +24,11 @@ import {
   UNSELECT_COMPONENT,
 
   ADDING_START,
-  ADDING_MOVE,
+  ADDING_MOVED,
   ADDING_FINISH,
 
   MOVING_START,
-  MOVING_MOVE,
+  MOVING_MOVED,
   MOVING_FINISH,
 
   LOOP_BEGIN,
@@ -113,12 +113,12 @@ export default function simulatorReducer(state = initialState, action) {
     return selectComponentReducer(state, action);
 
   case ADDING_START:
-  case ADDING_MOVE:
+  case ADDING_MOVED:
   case ADDING_FINISH:
     return addingComponentReducer(state, action);
 
   case MOVING_START:
-  case MOVING_MOVE:
+  case MOVING_MOVED:
   case MOVING_FINISH:
     return moveComponentReducer(state, action);
 

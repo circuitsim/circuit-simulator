@@ -5,7 +5,7 @@ import DrawingUtils from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
 import {
   MOVING_START,
-  MOVING_MOVE,
+  MOVING_MOVED,
   MOVING_FINISH
 } from '../actions.js';
 
@@ -74,7 +74,7 @@ export default function addingComponentReducer(state, action) {
     }, state);
   }
 
-  case MOVING_MOVE: {
+  case MOVING_MOVED: {
     const { hover: { dragPointIndex } } = state;
     if (R.is(Number, dragPointIndex) && dragPointIndex >= 0) {
       return moveSingleDragPoint(state, action);
