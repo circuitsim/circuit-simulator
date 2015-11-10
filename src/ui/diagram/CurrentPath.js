@@ -37,12 +37,12 @@ const CurrentPath = (
           startPos = current >= 0
             ? offset
             : offset + CURRENT.DOT_DISTANCE;
-    let key = 0;
-    for (let position = startPos; position <= d.length(); position += CURRENT.DOT_DISTANCE) {
+
+    for (let position = startPos, key = 0; position <= d.length(); position += CURRENT.DOT_DISTANCE, key++) {
       // TODO pool Circle instances?
       circles.push(
         <Circle
-          key={key++}
+          key={key}
           radius={CURRENT.RADIUS}
           fill={theme.COLORS.current}
           transform={path.point(position)}
