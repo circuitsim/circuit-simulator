@@ -4,12 +4,8 @@ import uuid from 'node-uuid';
 import MODES from '../Modes.js';
 
 // Action types
-export const MODE_SELECT_MOVE = 'MODE_SELECT_MOVE';
-export const MODE_SELECT_MODE_MOUSEDOWN = 'MODE_SELECT_MODE_MOUSEDOWN';
-export const MODE_MOVING = 'MODE_MOVING';
-export const MODE_ADD = 'MODE_ADD';
-export const MODE_ADDING = 'MODE_ADDING';
-export const CHANGE_MODE_BUTTON_CLICK = 'CHANGE_MODE_BUTTON_CLICK';
+export const CHANGE_MODE = 'CHANGE_MODE';
+export const CHANGE_MODE_BY_ID = 'CHANGE_MODE_BY_ID';
 
 export const SELECT_HOVERED_COMPONENT = 'SELECT_HOVERED_COMPONENT';
 export const UNSELECT_COMPONENT = 'UNSELECT_COMPONENT';
@@ -40,12 +36,13 @@ export function canvasMouseDown(coords) {
     switch (mode.type) {
     case MODES.add:
       dispatch({
-        type: MODE_ADDING,
-        typeID: mode.typeID
+        type: CHANGE_MODE,
+        name: MODES.adding,
+        meta: mode.meta
       });
       dispatch({
         type: ADDING_START,
-        typeID: mode.typeID,
+        typeID: mode.meta.typeID,
         id: uuid.v4(),
         coords
       });
@@ -53,7 +50,8 @@ export function canvasMouseDown(coords) {
 
     case MODES.selectOrMove:
       dispatch({
-        type: MODE_SELECT_MODE_MOUSEDOWN
+        type: CHANGE_MODE,
+        name: MODES.selectOrMoveMouseDown
       });
       break;
     }
@@ -79,7 +77,8 @@ export function canvasMouseMove(coords) {
     case MODES.selectOrMoveMouseDown:
       if (hover.viewID) {
         dispatch({
-          type: MODE_MOVING
+          type: CHANGE_MODE,
+          name: MODES.moving
         });
         dispatch({
           type: MOVING_START,
@@ -104,8 +103,9 @@ export function canvasMouseUp(coords) {
     switch (mode.type) {
     case MODES.adding:
       dispatch({
-        type: MODE_ADD,
-        typeID: mode.typeID
+        type: CHANGE_MODE,
+        name: MODES.add,
+        meta: mode.meta
       });
       dispatch({
         type: ADDING_FINISH,
@@ -115,7 +115,8 @@ export function canvasMouseUp(coords) {
 
     case MODES.selectOrMoveMouseDown:
       dispatch({
-        type: MODE_SELECT_MOVE
+        type: CHANGE_MODE,
+        name: MODES.selectOrMove
       });
       dispatch({
         type: SELECT_HOVERED_COMPONENT,
@@ -125,7 +126,8 @@ export function canvasMouseUp(coords) {
 
     case MODES.moving:
       dispatch({
-        type: MODE_SELECT_MOVE
+        type: CHANGE_MODE,
+        name: MODES.selectOrMove
       });
       dispatch({
         type: MOVING_FINISH,
@@ -159,8 +161,10 @@ export function keyPress(key) {
 export function selectMode(buttonID) {
   return function(dispatch) {
     dispatch({
-      type: CHANGE_MODE_BUTTON_CLICK,
-      buttonID
+      type: CHANGE_MODE_BY_ID,
+      meta: {
+        id: buttonID
+      }
     });
   };
 }

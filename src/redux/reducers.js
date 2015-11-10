@@ -13,12 +13,8 @@ import { createVolts2RGB } from '../utils/volts2RGB.js';
 import MODES from '../Modes.js';
 
 import {
-  MODE_ADD,
-  MODE_ADDING,
-  MODE_SELECT_MOVE,
-  MODE_SELECT_MODE_MOUSEDOWN,
-  MODE_MOVING,
-  CHANGE_MODE_BUTTON_CLICK,
+  CHANGE_MODE,
+  CHANGE_MODE_BY_ID,
 
   SELECT_HOVERED_COMPONENT,
   UNSELECT_COMPONENT,
@@ -42,7 +38,8 @@ import {
 
 export const initialState = {
   mode: {
-    type: MODES.selectOrMove
+    type: MODES.selectOrMove,
+    meta: {}
   },
 
   mousePos: {},
@@ -100,12 +97,8 @@ export const initialState = {
 export default function simulatorReducer(state = initialState, action) {
   switch (action.type) {
 
-  case MODE_ADD:
-  case MODE_ADDING:
-  case MODE_SELECT_MOVE:
-  case MODE_SELECT_MODE_MOUSEDOWN:
-  case MODE_MOVING:
-  case CHANGE_MODE_BUTTON_CLICK:
+  case CHANGE_MODE:
+  case CHANGE_MODE_BY_ID:
     return modesReducer(state, action);
 
   case UNSELECT_COMPONENT:
