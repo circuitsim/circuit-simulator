@@ -59,7 +59,7 @@ export default function mainLoopReducer(state, action) {
       const updatedViews = updateViews(circuitGraph, fullSolution, views);
 
       // TODO factor this out
-      const voltages = R.take(circuitGraph.numOfNodes, solution);
+      const voltages = R.take(circuitGraph.numOfNodes, fullSolution);
       const maxVoltage = R.pipe(
         R.map(Math.abs),
         R.reduce(R.max, 0)
