@@ -99,6 +99,7 @@ gulp.task('watch', function() {
 
 gulp.task('build', function() {
   templates(buildDir)();
+  styles(buildDir)();
   vendor(buildDir)();
   icons(buildDir)();
   file('CNAME', 'circuits.im', { src: true })
