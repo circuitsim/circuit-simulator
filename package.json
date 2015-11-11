@@ -42,6 +42,7 @@
     "ramda": "^0.18",
     "react": "^0.14.0",
     "react-addons-create-fragment": "^0.14.0",
+    "react-addons-css-transition-group": "^0.14.1",
     "react-art": "^0.14",
     "react-dom": "^0.14.0",
     "react-mainloop": "^0",

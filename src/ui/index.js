@@ -48,14 +48,9 @@ class App extends React.Component {
         <CircuitDiagram
           getDimensions={ getCanvasSize }
         />
-        {showAddToaster
-          ?
-          <Toaster>
-            {"Click and drag on the canvas to create a component"}
-          </Toaster>
-          :
-          null
-        }
+        <Toaster show={showAddToaster}>
+          {"Click and drag on the canvas to create a component"}
+        </Toaster>
       </div>
     );
   }

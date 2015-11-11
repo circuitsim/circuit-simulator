@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import radium from 'radium';
 
 const styles = ({COLORS}) => {
   return {
-    opacity: 0.7,
     background: COLORS.canvasOverlayBackground,
     color: COLORS.highlight,
     textShadow: `0px 0px 4px #222`,
@@ -22,14 +22,25 @@ class Toaster extends React.Component {
 
   render() {
     return (
-      <div style={styles(this.context.theme)}>
-        {this.props.children}
-      </div>
+      <ReactCSSTransitionGroup transitionName='toaster'
+        transitionEnterTimeout={100}
+        transitionLeaveTimeout={70}
+      >
+        { this.props.show
+          ?
+          <div style={styles(this.context.theme)} key={'toaster'} className='toaster'>
+            {this.props.children}
+          </div>
+          :
+          null
+        }
+      </ReactCSSTransitionGroup>
     );
   }
 }
 
 Toaster.propTypes = {
+  show: PropTypes.bool,
   children: PropTypes.string
 };
 
