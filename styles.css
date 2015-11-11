@@ -1,0 +1,27 @@
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.toaster {
+  opacity: 0.7;
+}
+
+.toaster-enter {
+  opacity: 0.01;
+}
+
+.toaster-enter.toaster-enter-active {
+  opacity: 0.7;
+  transition: opacity 100ms ease-in;
+}
+
+.toaster-leave {
+  opacity: 0.7;
+}
+
+.toaster-leave.toaster-leave-active {
+  opacity: 0.01;
+  transition: opacity 70ms ease-out;
+}
