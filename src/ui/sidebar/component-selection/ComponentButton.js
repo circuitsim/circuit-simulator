@@ -12,6 +12,7 @@ function styles({COLORS}) {
       width: imgSize + 'px',
       border: 'none',
       backgroundColor: COLORS.background,
+      cursor: 'pointer',
       ':hover': {}
     },
     img: {
@@ -22,7 +23,8 @@ function styles({COLORS}) {
     },
     label: {
       display: 'inline-block',
-      verticalAlign: 'top'
+      verticalAlign: 'top',
+      userSelect: 'none'
     },
     base: {
       color: COLORS.base
