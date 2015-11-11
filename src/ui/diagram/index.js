@@ -10,14 +10,11 @@ const TIMESTEP = 1000 / FPS;
 
 const animate = new Animator(TIMESTEP);
 
-// Uses `store` from context to manage its own state changes using Animator/Updater
+// Uses `store` from context to manage the diagram's props using Animator/Updater
 class CircuitDiagram extends React.Component {
 
   componentWillMount() {
-    // TODO make instance var rather than state
-    this.setState({
-      updater: new Updater(this.context.store)
-    });
+    this.updater = new Updater(this.context.store);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -27,8 +24,7 @@ class CircuitDiagram extends React.Component {
   }
 
   render() {
-    const updater = this.state.updater,
-          AnimatedDiagram = animate(CircuitCanvas, updater.update, updater.begin);
+    const AnimatedDiagram = animate(CircuitCanvas, this.updater.update, this.updater.begin);
 
     return (
       <AnimatedDiagram

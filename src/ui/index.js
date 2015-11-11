@@ -4,6 +4,7 @@ import { Style } from 'radium';
 
 import Sidebar from './sidebar/Sidebar.js';
 import CircuitDiagram from './diagram';
+import Toaster from './components/Toaster.js';
 
 import {
   selectMode,
@@ -24,6 +25,7 @@ class App extends React.Component {
       styles,
       getCanvasSize,
       selectedComponent,
+      showAddToaster,
       selectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
       onChangeComponentValue: handleChangeComponentValue
@@ -46,6 +48,14 @@ class App extends React.Component {
         <CircuitDiagram
           getDimensions={ getCanvasSize }
         />
+        {showAddToaster
+          ?
+          <Toaster>
+            {"Click and drag on the canvas to create a component"}
+          </Toaster>
+          :
+          null
+        }
       </div>
     );
   }
@@ -72,6 +82,7 @@ App.propTypes = {
       value: PropTypes.number
     }).isRequired
   }),
+  showAddToaster: PropTypes.bool,
 
   // action creators
   selectMode: PropTypes.func.isRequired,
@@ -81,8 +92,9 @@ App.propTypes = {
 
 // Which props do we want to inject, given the global state?
 // Note: use https://github.com/faassen/reselect for better performance.
-function mapStateToProps({ selected }) {
+function mapStateToProps({ showAddToaster, selected }) {
   return {
+    showAddToaster,
     selectedComponent: selected
   };
 }

@@ -51,7 +51,10 @@ export default function addingComponentReducer(state, action) {
   }
 
   case ADDING_FINISH: {
-    return R.assoc('addingComponent', {}, state);
+    return R.pipe(
+      R.assoc('addingComponent', {}),
+      R.assoc('showAddToaster', false)
+    )(state);
   }
 
   default:

@@ -8,6 +8,7 @@ import mainLoopReducer from './reducers/mainLoop.js';
 import selectComponentReducer from './reducers/selectComponent.js';
 import deleteComponentReducer from './reducers/deleteComponent.js';
 import mutateComponentReducer from './reducers/mutateComponent.js';
+import toasterReducer from './reducers/toaster.js';
 import { createVolts2RGB } from '../utils/volts2RGB.js';
 
 import MODES from '../Modes.js';
@@ -33,7 +34,10 @@ import {
   MOUSE_MOVED,
 
   DELETE_COMPONENT,
-  CHANGE_COMPONENT_VALUE
+  CHANGE_COMPONENT_VALUE,
+
+  SHOW_ADD_TOASTER,
+  HIDE_ADD_TOASTER
 } from './actions.js';
 
 export const initialState = {
@@ -41,6 +45,8 @@ export const initialState = {
     type: MODES.selectOrMove,
     meta: {}
   },
+
+  showAddToaster: false,
 
   mousePos: {},
 
@@ -127,6 +133,10 @@ export default function simulatorReducer(state = initialState, action) {
 
   case CHANGE_COMPONENT_VALUE:
     return mutateComponentReducer(state, action);
+
+  case SHOW_ADD_TOASTER:
+  case HIDE_ADD_TOASTER:
+    return toasterReducer(state, action);
 
   default:
     return state;

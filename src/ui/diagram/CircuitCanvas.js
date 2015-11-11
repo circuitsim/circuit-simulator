@@ -107,6 +107,8 @@ export default class CircuitCanvas extends React.Component {
         onMouseDown={this.onMouse}
         onMouseMove={this.onMouse}
         onMouseUp={this.onMouse}
+        onMouseEnter={this.props.handlers.canvas.onMouseEnter}
+        onMouseLeave={this.props.handlers.canvas.onMouseLeave}
         onTouchStart={this.onMouse}
         onTouchMove={this.onMouse}
         onTouchEnd={this.onMouse}
@@ -171,7 +173,9 @@ CircuitCanvas.propTypes = {
     canvas: React.PropTypes.shape({
       onMouseDown: React.PropTypes.func,
       onMouseMove: React.PropTypes.func,
-      onMouseUp: React.PropTypes.func
+      onMouseUp: React.PropTypes.func,
+      onMouseEnter: React.PropTypes.func,
+      onMouseLeave: React.PropTypes.func
     }).isRequired
   })
 };

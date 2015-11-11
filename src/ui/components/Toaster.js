@@ -1,15 +1,16 @@
 import React, {PropTypes} from 'react';
 import radium from 'radium';
 
-const styles = ({COLORS, trans}) => {
-  const background = trans(COLORS.canvasOverlayBackground);
-  const color = trans(COLORS.semiHighlight, 0.2);
+const styles = ({COLORS}) => {
   return {
-    background,
-    color,
+    opacity: 0.7,
+    background: COLORS.canvasOverlayBackground,
+    color: COLORS.highlight,
+    textShadow: `0px 0px 4px #222`,
+    fontSize: 'larger',
     position: 'absolute',
     right: '2em',
-    bottom: '2em',
+    top: '2em',
     padding: '10px',
     maxWidth: '10em',
     borderRadius: '5px',

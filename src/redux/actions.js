@@ -28,7 +28,38 @@ export const MOUSE_MOVED = 'MOUSE_MOVED';
 export const DELETE_COMPONENT = 'DELETE_COMPONENT';
 export const CHANGE_COMPONENT_VALUE = 'CHANGE_COMPONENT_VALUE';
 
+export const SHOW_ADD_TOASTER = 'SHOW_ADD_TOASTER';
+export const HIDE_ADD_TOASTER = 'HIDE_ADD_TOASTER';
+
 // Action creators
+export function canvasMouseEnter() {
+  return function(dispatch, getState) {
+    const { mode } = getState();
+
+    switch (mode.type) {
+    case MODES.add:
+      dispatch({
+        type: SHOW_ADD_TOASTER
+      });
+      break;
+    }
+  };
+}
+
+export function canvasMouseLeave() {
+  return function(dispatch, getState) {
+    const { mode } = getState();
+
+    switch (mode.type) {
+    case MODES.add:
+      dispatch({
+        type: HIDE_ADD_TOASTER
+      });
+      break;
+    }
+  };
+}
+
 export function canvasMouseDown(coords) {
   return function(dispatch, getState) {
     const { mode } = getState();

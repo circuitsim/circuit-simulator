@@ -3,6 +3,8 @@ import {
   canvasMouseDown,
   canvasMouseMove,
   canvasMouseUp,
+  canvasMouseEnter,
+  canvasMouseLeave,
 
   loopBegin,
   loopUpdate
@@ -31,7 +33,9 @@ function Updater(store) {
           canvas: {
             onMouseDown: coords => store.dispatch(canvasMouseDown(coords)),
             onMouseMove: coords => store.dispatch(canvasMouseMove(coords)),
-            onMouseUp: coords => store.dispatch(canvasMouseUp(coords))
+            onMouseUp: coords => store.dispatch(canvasMouseUp(coords)),
+            onMouseEnter: () => store.dispatch(canvasMouseEnter()),
+            onMouseLeave: () => store.dispatch(canvasMouseLeave())
           }
         },
         circuitError: state.error,
