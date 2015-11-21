@@ -111,13 +111,8 @@ export const BASIC_CIRCUIT = {
       ]
     }
   },
-  viewsSolution: {
+  analysisResult: {
     Ground1: {
-      typeID: 'Ground',
-      id: 'Ground1',
-      connectors: [
-        new Vector(10, 20)
-      ],
       voltages: [
         0,
         0
@@ -127,25 +122,12 @@ export const BASIC_CIRCUIT = {
       ]
     },
     CurrentSource1: {
-      typeID: 'CurrentSource',
-      id: 'CurrentSource1',
-      value: 0.5,
-      connectors: [
-        new Vector(10, 20),
-        new Vector(10, 10)
-      ],
       voltages: [
         0,
         5
       ]
     },
     Wire1: {
-      typeID: 'Wire',
-      id: 'Wire1',
-      connectors: [
-        new Vector(10, 10),
-        new Vector(20, 10)
-      ],
       currents: [
         0.5
       ],
@@ -155,25 +137,12 @@ export const BASIC_CIRCUIT = {
       ]
     },
     Resistor1: {
-      typeID: 'Resistor',
-      id: 'Resistor1',
-      value: 10,
-      connectors: [
-        new Vector(20, 10),
-        new Vector(20, 20)
-      ],
       voltages: [
         5,
         0
       ]
     },
     Wire2: {
-      typeID: 'Wire',
-      id: 'Wire2',
-      connectors: [
-        new Vector(20, 20),
-        new Vector(10, 20)
-      ],
       currents: [
         0.5
       ],

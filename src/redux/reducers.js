@@ -56,6 +56,7 @@ export const initialState = {
   //   typeID
   // }
   addingComponent: {},
+
   // movingComponent: {
   //   id,
   //   dragPointIndex: number|false,
@@ -68,21 +69,25 @@ export const initialState = {
 
   // views: {
   //   id: {
-  //     typeID,
   //     id,
+  //     typeID,
   //
   //     dragPoints: [Vector], // 2 drag points
   //     connectors: [Vector],
   //
   //     value, // current|resistance etc.
-  //
-  //     // added by circuit analysis code
-  //     // TODO consider splitting out?
-  //     currents,
-  //     voltages
   //   }
   // }
   views: {},
+
+  // circuitState: {
+  //  id: {
+  //    currrents
+  //    voltages
+  //  }
+  // }
+  circuitState: {},
+
   // hover: {
   //   viewID,
   //   dragPointIndex: number|false
@@ -92,7 +97,7 @@ export const initialState = {
   // currently selected component
   selected: undefined,
 
-  // maxVoltage: 5, TODO
+  // TODO maxVoltage: 5,
   volts2RGB: createVolts2RGB(5),
 
   circuitChanged: false,

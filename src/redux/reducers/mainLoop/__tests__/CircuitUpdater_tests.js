@@ -1,4 +1,5 @@
-import { toNodes, toModels, setNodesInModels, updateViews } from '../CircuitUpdater.js';
+import R from 'ramda';
+import { toNodes, toModels, setNodesInModels, getCircuitState } from '../CircuitUpdater.js';
 import {BASIC_CIRCUIT} from './CircuitData.js';
 
 describe('toNodes()', () => {
@@ -22,7 +23,7 @@ describe('setNodesInModels()', () => {
   });
 });
 
-describe('updateViews()', () => {
+describe('getCircuitState()', () => {
   it('should update views with new currents and voltages from solution', () => {
     const nodes = toNodes(BASIC_CIRCUIT.views);
     const models = setNodesInModels(BASIC_CIRCUIT.models, nodes);
@@ -38,7 +39,7 @@ describe('updateViews()', () => {
     };
 
     // update view with new circuit state
-    const views = updateViews(circuitGraph, fullSolution, BASIC_CIRCUIT.views);
-    expect(views).to.deep.equal(BASIC_CIRCUIT.viewsSolution);
+    const analysisResult = getCircuitState(circuitGraph, fullSolution, R.keys(BASIC_CIRCUIT.views));
+    expect(analysisResult).to.deep.equal(BASIC_CIRCUIT.analysisResult);
   });
 });

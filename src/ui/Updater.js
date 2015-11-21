@@ -28,6 +28,7 @@ function Updater(store) {
     return {
       props: {
         circuitComponents: R.values(state.views),
+        circuitState: state.circuitState,
         hover: state.hover,
         handlers: {
           canvas: {

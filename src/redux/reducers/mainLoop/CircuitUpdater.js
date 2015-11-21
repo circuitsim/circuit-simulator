@@ -92,29 +92,32 @@ export function setNodesInModels(models, nodes) {
   return ms;
 }
 
-export function updateViews(circuitGraph, solution, views) {
-  if (!solution) { return views; }
+export function getCircuitState(circuitGraph, solution, componentIDs) {
+  if (!solution) { return {}; }
 
   const voltages = R.take(circuitGraph.numOfNodes, solution);
   let currents = R.drop(circuitGraph.numOfNodes, solution);
 
-  return R.map(view => {
-    const viewID = view.id;
-    const model = circuitGraph.models[viewID];
-    const nodeIDs = model.nodes;
+  return R.pipe(
+    R.map(componentID => {
+      const state = {};
+      const model = circuitGraph.models[componentID];
+      const nodeIDs = model.nodes;
 
-    // set voltages
-    const vs = R.map(nodeID => voltages[nodeID], nodeIDs);
-    view = R.assoc(['voltages'], vs, view);
+      // set voltages
+      const vs = R.map(nodeID => voltages[nodeID], nodeIDs);
+      state.voltages = vs;
 
-    // set currents
-    const numOfVSources = model.vSources || 0;
-    if (numOfVSources > 0) {
-      const cs = R.take(numOfVSources, currents);
-      currents = R.drop(numOfVSources, currents);
-      view = R.assoc(['currents'], cs, view);
-    }
+      // set currents
+      const numOfVSources = model.vSources || 0;
+      if (numOfVSources > 0) {
+        const cs = R.take(numOfVSources, currents);
+        currents = R.drop(numOfVSources, currents);
+        state.currents = cs;
+      }
 
-    return view;
-  }, views);
+      return state;
+    }),
+    R.zipObj(componentIDs)
+  )(componentIDs);
 }

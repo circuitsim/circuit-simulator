@@ -9,7 +9,7 @@ import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
-const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB }) => component => {
+const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB, circuitState }) => component => {
   const hovered = component.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
@@ -22,7 +22,8 @@ const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB }) => co
       hovered,
       hoveredDragPointIndex,
       circuitError,
-      volts2RGB
+      volts2RGB,
+      ...circuitState[component.id]
     })
   };
 };
