@@ -7,9 +7,7 @@ function toConnectors(view) {
   // IN:
   // [{
   //   id
-  //   props: {
-  //     connectors: [Vector]
-  //   }
+  //   connectors: [Vector]
   // }]
 
   // OUT:
@@ -20,14 +18,14 @@ function toConnectors(view) {
   //     index
   //   }
   // }]
-  const props = view.props;
+  const {connectors} = view;
   return R.addIndex(R.map)((vector, index) => ({
     pos: vector,
     id: {
       viewID: view.id,
       index: index
     }
-  }), props.connectors);
+  }), connectors);
 }
 
 function merge(connectors) {
@@ -44,9 +42,7 @@ export function toNodes(views) {
   //   id: {
   //     typeID: string,
   //     id,
-  //     props: {
-  //       connectors: [Vector]
-  //     }
+  //     connectors: [Vector]
   //   }
   // }
 
@@ -78,7 +74,7 @@ export function toNodes(views) {
 }
 
 export function toModels(views) {
-  return R.map(view => R.merge(Models[view.typeID], R.pick(['value'], view.props)), views);
+  return R.map(view => R.merge(Models[view.typeID], R.pick(['value'], view)), views);
 }
 
 export function setNodesInModels(models, nodes) {
@@ -109,14 +105,14 @@ export function updateViews(circuitGraph, solution, views) {
 
     // set voltages
     const vs = R.map(nodeID => voltages[nodeID], nodeIDs);
-    view = R.assocPath(['props', 'voltages'], vs, view);
+    view = R.assoc(['voltages'], vs, view);
 
     // set currents
     const numOfVSources = model.vSources || 0;
     if (numOfVSources > 0) {
       const cs = R.take(numOfVSources, currents);
       currents = R.drop(numOfVSources, currents);
-      view = R.assocPath(['props', 'currents'], cs, view);
+      view = R.assoc(['currents'], cs, view);
     }
 
     return view;

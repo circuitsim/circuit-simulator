@@ -41,11 +41,9 @@ export default function addingComponentReducer(state, action) {
       R.assocPath(['views', id], {
         typeID,
         id,
-        props: {
-          value: Component.defaultValue,
-          dragPoints,
-          connectors
-        }
+        value: Component.defaultValue,
+        dragPoints,
+        connectors
       })
     )(state);
   }

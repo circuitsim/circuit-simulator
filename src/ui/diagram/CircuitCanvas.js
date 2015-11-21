@@ -9,38 +9,48 @@ import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
-const addProps = ({ handlers, hover, circuitError, volts2RGB }) => component => {
+const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB }) => component => {
   const hovered = component.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
     : null;
-  return R.assoc('props', R.merge(component.props, {
-    handlers: handlers.component,
-    hovered,
-    hoveredDragPointIndex,
-    circuitError,
-    volts2RGB
-  }), component);
-};
-
-const lookUpComponent = component => {
   return {
-    CircuitComponent: CircuitComponents[component.typeID],
     id: component.id,
-    props: component.props
+    CircuitComponent: CircuitComponents[component.typeID],
+    props: R.merge(component, {
+      handlers: handlers.component,
+      hovered,
+      hoveredDragPointIndex,
+      circuitError,
+      volts2RGB
+    })
   };
 };
 
-const wrapWith = (wrap, views) => {
-  const mapIndex = R.addIndex(R.map);
-  const apply = ({CircuitComponent, props}, i) => {
-    const WrappedComponent = wrap(CircuitComponent);
-    if (!WrappedComponent) {
-      return undefined;
-    }
-    return <WrappedComponent {...props} key={views[i].id} />;
+const wrap = wrapper => ({CircuitComponent, props, id}) => {
+  const WrappedComponent = wrapper(CircuitComponent);
+  if (!WrappedComponent) {
+    return undefined;
+  }
+  return <WrappedComponent {...props} key={id} />;
+};
+
+const createComponent = ({CircuitComponent, props, id}) => {
+  const Component =
+    handleHover(
+      applyVoltageColor(
+        showConnectors(
+          CircuitComponent)));
+  return <Component {...props} key={id} />;
+};
+
+const createCurrentDots = currentOffset => ({CircuitComponent, props: componentProps, id}) => {
+  const props = {
+    currentOffset,
+    key: id,
+    ...componentProps
   };
-  return mapIndex(apply, views);
+  return CircuitComponent.getCurrentPaths(props);
 };
 
 export default class CircuitCanvas extends React.Component {
@@ -74,33 +84,13 @@ export default class CircuitCanvas extends React.Component {
 
   render() {
     const { width, height } = this.props;
-    const mapIndex = R.addIndex(R.map);
 
-    const components = R.pipe(
-      R.map(addProps(this.props)),
-      R.map(lookUpComponent)
-    )(this.props.circuitComponents);
+    const components = R.map(createComponentInfo(this.props), this.props.circuitComponents);
 
-    const circuitComponents = mapIndex(({CircuitComponent, props}, i) => {
-      const Component =
-        handleHover(
-          applyVoltageColor(
-            showConnectors(
-              CircuitComponent)));
-      return <Component {...props} key={components[i].id} />;
-    }, components);
-
-    const currentDots = mapIndex(({CircuitComponent, props: componentProps}, i) => {
-      const props = {
-        currentOffset: this.props.currentOffset,
-        key: components[i].id,
-        ...componentProps
-      };
-      return CircuitComponent.getCurrentPaths(props);
-    }, components);
-
-    const labels = wrapWith(showLabel, components);
-    const dragPoints = wrapWith(showDragPoints, components);
+    const circuitComponents = R.map(createComponent, components);
+    const currentDots = R.map(createCurrentDots(this.props.currentOffset), components);
+    const labels = R.map(wrap(showLabel), components);
+    const dragPoints = R.map(wrap(showDragPoints), components);
 
     return (
       <div ref='canvas'
@@ -144,7 +134,8 @@ CircuitCanvas.defaultProps = {
 
 const CircuitComponent = React.PropTypes.shape({
   typeID: React.PropTypes.string,
-  props: React.PropTypes.object
+  id: React.PropTypes.string,
+  value: React.PropTypes.number
 });
 
 CircuitCanvas.propTypes = {

@@ -72,135 +72,115 @@ export const BASIC_CIRCUIT = {
     Ground1: {
       typeID: 'Ground',
       id: 'Ground1',
-      props: {
-        connectors: [
-          new Vector(10, 20)
-        ]
-      }
+      connectors: [
+        new Vector(10, 20)
+      ]
     },
     CurrentSource1: {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
-      props: {
-        value: 0.5,
-        connectors: [
-          new Vector(10, 20),
-          new Vector(10, 10)
-        ]
-      }
+      value: 0.5,
+      connectors: [
+        new Vector(10, 20),
+        new Vector(10, 10)
+      ]
     },
     Wire1: {
       typeID: 'Wire',
       id: 'Wire1',
-      props: {
-        connectors: [
-          new Vector(10, 10),
-          new Vector(20, 10)
-        ]
-      }
+      connectors: [
+        new Vector(10, 10),
+        new Vector(20, 10)
+      ]
     },
     Resistor1: {
       typeID: 'Resistor',
       id: 'Resistor1',
-      props: {
-        value: 10,
-        connectors: [
-          new Vector(20, 10),
-          new Vector(20, 20)
-        ]
-      }
+      value: 10,
+      connectors: [
+        new Vector(20, 10),
+        new Vector(20, 20)
+      ]
     },
     Wire2: {
       typeID: 'Wire',
       id: 'Wire2',
-      props: {
-        connectors: [
-          new Vector(20, 20),
-          new Vector(10, 20)
-        ]
-      }
+      connectors: [
+        new Vector(20, 20),
+        new Vector(10, 20)
+      ]
     }
   },
   viewsSolution: {
     Ground1: {
       typeID: 'Ground',
       id: 'Ground1',
-      props: {
-        connectors: [
-          new Vector(10, 20)
-        ],
-        voltages: [
-          0,
-          0
-        ],
-        currents: [
-          0
-        ]
-      }
+      connectors: [
+        new Vector(10, 20)
+      ],
+      voltages: [
+        0,
+        0
+      ],
+      currents: [
+        0
+      ]
     },
     CurrentSource1: {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
-      props: {
-        value: 0.5,
-        connectors: [
-          new Vector(10, 20),
-          new Vector(10, 10)
-        ],
-        voltages: [
-          0,
-          5
-        ]
-      }
+      value: 0.5,
+      connectors: [
+        new Vector(10, 20),
+        new Vector(10, 10)
+      ],
+      voltages: [
+        0,
+        5
+      ]
     },
     Wire1: {
       typeID: 'Wire',
       id: 'Wire1',
-      props: {
-        connectors: [
-          new Vector(10, 10),
-          new Vector(20, 10)
-        ],
-        currents: [
-          0.5
-        ],
-        voltages: [
-          5,
-          5
-        ]
-      }
+      connectors: [
+        new Vector(10, 10),
+        new Vector(20, 10)
+      ],
+      currents: [
+        0.5
+      ],
+      voltages: [
+        5,
+        5
+      ]
     },
     Resistor1: {
       typeID: 'Resistor',
       id: 'Resistor1',
-      props: {
-        value: 10,
-        connectors: [
-          new Vector(20, 10),
-          new Vector(20, 20)
-        ],
-        voltages: [
-          5,
-          0
-        ]
-      }
+      value: 10,
+      connectors: [
+        new Vector(20, 10),
+        new Vector(20, 20)
+      ],
+      voltages: [
+        5,
+        0
+      ]
     },
     Wire2: {
       typeID: 'Wire',
       id: 'Wire2',
-      props: {
-        connectors: [
-          new Vector(20, 20),
-          new Vector(10, 20)
-        ],
-        currents: [
-          0.5
-        ],
-        voltages: [
-          0,
-          0
-        ]
-      }
+      connectors: [
+        new Vector(20, 20),
+        new Vector(10, 20)
+      ],
+      currents: [
+        0.5
+      ],
+      voltages: [
+        0,
+        0
+      ]
     }
   }
 

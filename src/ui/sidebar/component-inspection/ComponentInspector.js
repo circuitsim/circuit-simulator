@@ -80,7 +80,7 @@ class ComponentInspector extends React.Component {
     super(props);
     const { selectedComponent } = props;
     this.state = {
-      value: selectedComponent ? selectedComponent.props.value : undefined
+      value: selectedComponent ? selectedComponent.value : undefined
     };
     this.onValueChange = this.onValueChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
@@ -104,7 +104,7 @@ class ComponentInspector extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { selectedComponent } = nextProps;
     this.state = {
-      value: selectedComponent ? selectedComponent.props.value : undefined
+      value: selectedComponent ? selectedComponent.value : undefined
     };
   }
 
@@ -165,9 +165,7 @@ ComponentInspector.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    props: PropTypes.shape({
-      value: PropTypes.number
-    }).isRequired
+    value: PropTypes.number
   }),
 
   // action creators

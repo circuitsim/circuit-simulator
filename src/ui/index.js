@@ -73,9 +73,7 @@ App.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    props: PropTypes.shape({
-      value: PropTypes.number
-    }).isRequired
+    value: PropTypes.number
   }),
   showAddToaster: PropTypes.bool,
 

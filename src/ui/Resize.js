@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import getWindowDimensions from './utils/getWindowDimensions.js';
 import { getDisplayName } from './diagram/Utils.js';

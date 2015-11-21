@@ -7,7 +7,7 @@ export default function setHover(state) {
 
   const getHoverInfo = hoverFor(mousePos);
   const addHoverInfo = view => {
-    const { typeID, props: { dragPoints }} = view;
+    const { typeID, dragPoints } = view;
     const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
     return {
       viewID: view.id,

@@ -26,13 +26,9 @@ function moveSingleDragPoint(state, action) {
   return R.pipe(
     R.assoc('circuitChanged', true),
     R.assocPath(['views', id], {
-      typeID: view.typeID,
-      id,
-      props: {
-        ...view.props,
-        dragPoints,
-        connectors
-      }
+      ...view,
+      dragPoints,
+      connectors
     })
   )(state);
 }
@@ -51,13 +47,9 @@ function moveWholeComponent(state, action) {
   return R.pipe(
     R.assoc('circuitChanged', true),
     R.assocPath(['views', id], {
-      typeID: view.typeID,
-      id,
-      props: {
-        ...view.props,
-        dragPoints,
-        connectors
-      }
+      ...view,
+      dragPoints,
+      connectors
     })
   )(state);
 }
@@ -69,7 +61,7 @@ export default function addingComponentReducer(state, action) {
     return R.assoc('movingComponent', {
       id: viewID,
       from: action.mouseVector,
-      origDragPoints: views[viewID].props.dragPoints,
+      origDragPoints: views[viewID].dragPoints,
       dragPointIndex
     }, state);
   }

@@ -9,7 +9,7 @@ export default function selectComponentReducer(state, action) {
   case CHANGE_COMPONENT_VALUE: {
     return R.pipe(
       R.assoc('circuitChanged', true),
-      R.assocPath(['views', action.id, 'props', 'value'], action.value)
+      R.assocPath(['views', action.id, 'value'], action.value)
     )(state);
   }
   default:
