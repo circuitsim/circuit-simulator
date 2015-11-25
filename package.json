@@ -39,7 +39,7 @@
     "keyboard-shortcuts": "^0",
     "node-uuid": "^1.4.3",
     "point-in-polygon": "^1.0.0",
-    "radium": "^0.14.3",
+    "radium": "^0.15.3",
     "ramda": "^0.18",
     "react": "^0.14.0",
     "react-addons-create-fragment": "^0.14.0",
