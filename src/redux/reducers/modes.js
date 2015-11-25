@@ -1,11 +1,11 @@
 import R from 'ramda';
 import CircuitComponents from '../../ui/diagram/components';
 
-import MODES from '../../Modes.js';
+import MODES from '../../Modes';
 import {
   CHANGE_MODE,
   CHANGE_MODE_BY_ID
-} from '../actions.js';
+} from '../actions';
 
 const buttonIdToModeMap = {
   selectOrMove: {
@@ -13,17 +13,23 @@ const buttonIdToModeMap = {
   }
 };
 
-export default function modesReducer(state, action) {
+export default function modesReducer(
+  mode = {
+    type: MODES.selectOrMove,
+    meta: {}
+  },
+  action
+) {
   switch (action.type) {
   case CHANGE_MODE:
-    return R.assoc('mode', {
+    return {
       type: action.name,
       meta: action.meta
-    }, state);
+    };
 
   case CHANGE_MODE_BY_ID: {
     const id = action.meta.id;
-    const mode = R.has(id, CircuitComponents)
+    const newMode = R.has(id, CircuitComponents)
       // if the id is a component type, then enter add mode
       ? {
         type: MODES.add,
@@ -33,10 +39,10 @@ export default function modesReducer(state, action) {
       }
       // else look up the mode in the map
       : buttonIdToModeMap[id];
-    return R.assoc('mode', mode, state);
+    return newMode;
   }
 
   default:
-    return state;
+    return mode;
   }
 }

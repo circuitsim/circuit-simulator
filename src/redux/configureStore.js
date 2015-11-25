@@ -8,7 +8,8 @@ import {
   LOOP_UPDATE,
   ADDING_MOVED,
   MOVING_MOVED,
-  MOUSE_MOVED
+  MOUSE_MOVED,
+  SET_HOVERED_COMPONENT
 } from './actions.js';
 import createLogger from 'redux-logger';
 
@@ -19,7 +20,8 @@ const logger = createLogger({
       LOOP_UPDATE,
       ADDING_MOVED,
       MOVING_MOVED,
-      MOUSE_MOVED
+      MOUSE_MOVED,
+      SET_HOVERED_COMPONENT
     ]);
   },
   collapsed: true

@@ -1,3 +1,4 @@
+import R from 'ramda';
 import Vector from 'immutable-vector2d';
 import uuid from 'node-uuid';
 
@@ -5,8 +6,8 @@ import MODES from '../Modes.js';
 
 // Action types
 export const CHANGE_MODE = 'CHANGE_MODE';
-export const CHANGE_MODE_BY_ID = 'CHANGE_MODE_BY_ID';
 
+export const SET_HOVERED_COMPONENT = 'SET_HOVERED_COMPONENT';
 export const SELECT_HOVERED_COMPONENT = 'SELECT_HOVERED_COMPONENT';
 export const UNSELECT_COMPONENT = 'UNSELECT_COMPONENT';
 
@@ -18,15 +19,7 @@ export const MOVING_START = 'MOVING_START';
 export const MOVING_MOVED = 'MOVING_MOVED';
 export const MOVING_FINISH = 'MOVING_FINISH';
 
-export const LOOP_BEGIN = 'LOOP_BEGIN';
-export const LOOP_UPDATE = 'LOOP_UPDATE';
-
-export const KEY_PRESS = 'KEY_PRESS';
-
 export const MOUSE_MOVED = 'MOUSE_MOVED';
-
-export const DELETE_COMPONENT = 'DELETE_COMPONENT';
-export const CHANGE_COMPONENT_VALUE = 'CHANGE_COMPONENT_VALUE';
 
 export const SHOW_ADD_TOASTER = 'SHOW_ADD_TOASTER';
 export const HIDE_ADD_TOASTER = 'HIDE_ADD_TOASTER';
@@ -34,29 +27,19 @@ export const HIDE_ADD_TOASTER = 'HIDE_ADD_TOASTER';
 // Action creators
 export function canvasMouseEnter() {
   return function(dispatch, getState) {
-    const { mode } = getState();
+    const { mode, views } = getState();
 
-    switch (mode.type) {
-    case MODES.add:
+    if (mode.type === MODES.add && R.isEmpty(views)) {
       dispatch({
         type: SHOW_ADD_TOASTER
       });
-      break;
     }
   };
 }
 
 export function canvasMouseLeave() {
-  return function(dispatch, getState) {
-    const { mode } = getState();
-
-    switch (mode.type) {
-    case MODES.add:
-      dispatch({
-        type: HIDE_ADD_TOASTER
-      });
-      break;
-    }
+  return {
+    type: HIDE_ADD_TOASTER
   };
 }
 
@@ -96,24 +79,34 @@ export function canvasMouseMove(coords) {
       coords
     });
 
-    const { mode, hover } = getState();
+    const {
+      mode,
+      views,
+      hover: hoveredComponent,
+      addingComponent,
+      movingComponent
+    } = getState();
+
     switch (mode.type) {
     case MODES.adding:
       dispatch({
         type: ADDING_MOVED,
-        coords
+        coords,
+        addingComponent
       });
       break;
 
     case MODES.selectOrMoveMouseDown:
-      if (hover.viewID) {
+      if (hoveredComponent.viewID) {
         dispatch({
           type: CHANGE_MODE,
           name: MODES.moving
         });
         dispatch({
           type: MOVING_START,
-          mouseVector: Vector.fromObject(coords)
+          mouseVector: Vector.fromObject(coords),
+          component: views[hoveredComponent.viewID],
+          dragPointIndex: hoveredComponent.dragPointIndex
         });
       }
       break;
@@ -121,7 +114,9 @@ export function canvasMouseMove(coords) {
     case MODES.moving:
       dispatch({
         type: MOVING_MOVED,
-        mouseVector: Vector.fromObject(coords)
+        mouseVector: Vector.fromObject(coords),
+        hoveredComponent,
+        movingComponent
       });
       break;
     }
@@ -130,7 +125,7 @@ export function canvasMouseMove(coords) {
 
 export function canvasMouseUp(coords) {
   return function(dispatch, getState) {
-    const { mode } = getState();
+    const { mode, views, hover } = getState();
     switch (mode.type) {
     case MODES.adding:
       dispatch({
@@ -142,6 +137,9 @@ export function canvasMouseUp(coords) {
         type: ADDING_FINISH,
         coords
       });
+      dispatch({
+        type: HIDE_ADD_TOASTER
+      });
       break;
 
     case MODES.selectOrMoveMouseDown:
@@ -151,7 +149,9 @@ export function canvasMouseUp(coords) {
       });
       dispatch({
         type: SELECT_HOVERED_COMPONENT,
-        coords
+        coords,
+        views,
+        hover
       });
       break;
 
@@ -169,12 +169,27 @@ export function canvasMouseUp(coords) {
   };
 }
 
+export const LOOP_BEGIN = 'LOOP_BEGIN';
 export function loopBegin() {
-  return {
-    type: LOOP_BEGIN
+  return function(dispatch, getState) {
+    const { views, mousePos, mode } = getState();
+    if (mode.type === MODES.selectOrMove) { // only hover highlight in move mode
+      dispatch({
+        type: SET_HOVERED_COMPONENT,
+        views,
+        mousePos,
+        mode
+      });
+    }
+    dispatch({
+      type: LOOP_BEGIN,
+      views,
+      mode
+    });
   };
 }
 
+export const LOOP_UPDATE = 'LOOP_UPDATE';
 export function loopUpdate(delta) {
   return {
     type: LOOP_UPDATE,
@@ -182,6 +197,7 @@ export function loopUpdate(delta) {
   };
 }
 
+export const KEY_PRESS = 'KEY_PRESS';
 export function keyPress(key) {
   return {
     type: KEY_PRESS,
@@ -189,6 +205,7 @@ export function keyPress(key) {
   };
 }
 
+export const CHANGE_MODE_BY_ID = 'CHANGE_MODE_BY_ID';
 export function selectMode(buttonID) {
   return function(dispatch) {
     dispatch({
@@ -200,11 +217,14 @@ export function selectMode(buttonID) {
   };
 }
 
+export const DELETE_COMPONENT = 'DELETE_COMPONENT';
 export function deleteComponent(id) {
-  return function(dispatch) {
+  return function(dispatch, getState) {
+    const { selected } = getState();
     dispatch({
       type: UNSELECT_COMPONENT,
-      id
+      id,
+      selected
     });
     dispatch({
       type: DELETE_COMPONENT,
@@ -213,6 +233,7 @@ export function deleteComponent(id) {
   };
 }
 
+export const CHANGE_COMPONENT_VALUE = 'CHANGE_COMPONENT_VALUE';
 export function changeComponentValue(id, value) {
   return {
     type: CHANGE_COMPONENT_VALUE,

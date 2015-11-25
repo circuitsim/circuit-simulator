@@ -1,27 +1,25 @@
-import R from 'ramda';
-
 import {
   SELECT_HOVERED_COMPONENT,
   UNSELECT_COMPONENT
 } from '../actions.js';
 
-export default function selectComponentReducer(state, action) {
+export default function selectComponentReducer(selected = null, action) {
   switch (action.type) {
   case SELECT_HOVERED_COMPONENT: {
-    const { hover: { viewID }, views } = state;
-    if (viewID) {
-      return R.assoc('selected', views[viewID], state);
+    const { hover, views } = action;
+    if (hover.viewID) {
+      return views[hover.viewID];
     } else {
-      return R.assoc('selected', undefined, state);
+      return null;
     }
   }
   case UNSELECT_COMPONENT: {
-    if (state.selected.id === action.id) {
-      return R.assoc('selected', undefined, state);
+    if (action.selected.id === action.id) {
+      return null;
     }
-    return state;
+    return selected;
   }
   default:
-    return state;
+    return selected;
   }
 }

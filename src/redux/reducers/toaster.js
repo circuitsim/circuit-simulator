@@ -1,22 +1,17 @@
-import R from 'ramda';
-
 import {
   SHOW_ADD_TOASTER,
   HIDE_ADD_TOASTER
 } from '../actions.js';
 
-export default function toasterReducer(state, action) {
+export default function toasterReducer(showToaster = false, action) {
   switch (action.type) {
   case SHOW_ADD_TOASTER:
-    if (R.isEmpty(state.views)) {
-      return R.assoc('showAddToaster', true, state);
-    }
-    return state;
+    return true;
 
   case HIDE_ADD_TOASTER:
-    return R.assoc('showAddToaster', false, state);
+    return false;
 
   default:
-    return state;
+    return showToaster;
   }
 }

@@ -1,27 +1,36 @@
 import R from 'ramda';
 
-import setHover from './hover.js';
 import { getCircuitInfo, solveCircuit } from './mainLoop/Solver.js';
 import { getCircuitState, setNodesInModels, toNodes, toModels } from './mainLoop/CircuitUpdater.js';
 import { createVolts2RGB } from '../../utils/volts2RGB.js';
 
-import MODES from '../../Modes.js';
 import {
   LOOP_BEGIN,
-  LOOP_UPDATE
+  LOOP_UPDATE,
+  CHANGE_COMPONENT_VALUE,
+  DELETE_COMPONENT,
+  ADDING_MOVED,
+  MOVING_MOVED
 } from '../actions.js';
 
-export default function mainLoopReducer(state, action) {
+const INITIAL_STATE = {
+  components: {},
+
+  currentOffset: 0,
+
+  // TODO maxVoltage: 5,
+  volts2RGB: createVolts2RGB(5),
+
+  circuitChanged: false,
+  error: false // string | false
+};
+
+export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
   switch (action.type) {
   case LOOP_BEGIN: {
-    let localState = state;
-    const { views, mode } = localState;
+    const { views } = action;
 
-    localState = mode.type === MODES.selectOrMove // only hover highlight in move mode
-      ? setHover(localState)
-      : state;
-
-    if (localState.circuitChanged) {
+    if (circuit.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
       const nodes = toNodes(views);
       const models = setNodesInModels(toModels(views), nodes);
@@ -66,20 +75,30 @@ export default function mainLoopReducer(state, action) {
       )(voltages);
       const volts2RGB = createVolts2RGB(maxVoltage);
 
-      return R.pipe(
-        R.assoc('volts2RGB', volts2RGB),
-        R.assoc('circuitState', circuitState),
-        R.assoc('circuitChanged', false),
-        R.assoc('error', error || false)
-      )(localState);
+      return {
+        ...circuit,
+        volts2RGB,
+        components: circuitState,
+        error: error || false,
+        circuitChanged: false
+      };
     }
-    return localState;
+    return circuit;
   }
 
   case LOOP_UPDATE:
-    return R.assoc('currentOffset', state.currentOffset += action.delta, state);
+    return R.assoc('currentOffset', circuit.currentOffset += action.delta, circuit);
+
+  case CHANGE_COMPONENT_VALUE:
+  case DELETE_COMPONENT:
+  case ADDING_MOVED:
+  case MOVING_MOVED:
+    return {
+      ...circuit,
+      circuitChanged: true
+    };
 
   default:
-    return state;
+    return circuit;
   }
 }

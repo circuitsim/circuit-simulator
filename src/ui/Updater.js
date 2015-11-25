@@ -28,7 +28,7 @@ function Updater(store) {
     return {
       props: {
         circuitComponents: R.values(state.views),
-        circuitState: state.circuitState,
+        circuitState: state.circuit.components,
         hover: state.hover,
         handlers: {
           canvas: {
@@ -39,9 +39,9 @@ function Updater(store) {
             onMouseLeave: () => store.dispatch(canvasMouseLeave())
           }
         },
-        circuitError: state.error,
-        currentOffset: state.currentOffset,
-        volts2RGB: state.volts2RGB
+        circuitError: state.circuit.error,
+        currentOffset: state.circuit.currentOffset,
+        volts2RGB: state.circuit.volts2RGB
       }
     };
   }
