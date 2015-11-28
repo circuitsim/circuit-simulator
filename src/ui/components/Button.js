@@ -4,47 +4,45 @@ import Color from 'color';
 
 const { PropTypes } = React;
 
-const lighten = s => new Color(s).lighten(0.2).rgbString();
-const darken = s => new Color(s).darken(0.2).rgbString();
+const lighten = (s, by = 0.1) => new Color(s).lighten(by).rgbString();
+const darken = (s, by = 0.1) => new Color(s).darken(by).rgbString();
 
-function styles({COLORS}) {
+const backgroundColors = COLORS => ({
+  normal: [
+    COLORS.buttonBackground1,
+    COLORS.buttonBackground2
+  ],
+  danger: [
+    COLORS.danger,
+    COLORS.danger
+  ]
+});
+
+function styles({COLORS}, danger = false) {
+  const bg = backgroundColors(COLORS)[danger ? 'danger' : 'normal'];
+  const color = danger ? COLORS.highlight : COLORS.base;
   return {
     button: {
       border: 'none',
-      borderRadius: '2px',
-      background: `linear-gradient(${COLORS.buttonBackground1}, ${COLORS.buttonBackground2})`,
-      color: COLORS.base,
-      textShadow: `1px 1px 2px ${COLORS.baseShadow}`,
-      boxShadow: [
-        `1px 1px 1px 0px ${COLORS.transBlack}`,
-        `inset 2px 3px 2px -2px ${COLORS.boxShadow}`,
-        `inset -2px -3px 2px -2px ${COLORS.buttonBackground2}`
-      ].join(', '),
+      borderRadius: '4px',
+      background: `linear-gradient(${bg[0]}, ${bg[1]})`,
+      color,
+      boxShadow: `0 3px ${lighten(bg[0], 0.3)}`,
       minWidth: '6em',
       minHeight: '2em',
-      padding: '1px 5px 1px 5px',
+      padding: '1px 5px',
       verticalAlign: 'top',
 
       ':focus': {
         outline: 'none'
       },
       ':hover': {
-        boxShadow: [
-          `1px 1px 1px 0px ${COLORS.transBlack}`,
-          `inset 2px 3px 2px -2px ${lighten(COLORS.boxShadow)}`,
-          `inset -2px -3px 2px -2px ${lighten(COLORS.buttonBackground2)}`
-        ].join(', '),
-        color: lighten(COLORS.base),
-        background: `linear-gradient(${lighten(COLORS.buttonBackground1)}, ${lighten(COLORS.buttonBackground2)})`
+        background: `linear-gradient(${darken(bg[0])}, ${darken(bg[1])})`,
+        boxShadow: `0 3px ${lighten(bg[0], 0.1)}`
       },
       ':active': {
-        boxShadow: [
-          `inset 2px 3px 2px -2px ${darken(COLORS.buttonBackground2)}`,
-          `inset -2px -3px 2px -2px ${lighten(COLORS.buttonBackground1)}`
-        ].join(', '),
-        background: `linear-gradient(${COLORS.buttonBackground2}, ${COLORS.buttonBackground1})`,
-        padding: '3px 4px 1px 6px',
-        color: COLORS.base
+        boxShadow: `0 2px ${lighten(bg[0], 0.1)}`,
+        transform: 'translateY(1px)'
       }
     }
   };
@@ -52,10 +50,11 @@ function styles({COLORS}) {
 
 class ComponentButton extends React.Component {
   render() {
-    const { onClick, children } = this.props;
+    const { onClick, children, danger } = this.props;
     const { theme } = this.context;
+    const style = styles(theme, danger);
     return (
-      <button style={styles(theme).button}
+      <button style={[style.button, this.props.style]}
         type='button'
         onClick={onClick}
       >
@@ -67,7 +66,10 @@ class ComponentButton extends React.Component {
 
 ComponentButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
+  danger: PropTypes.bool,
+
+  style: PropTypes.object
 };
 
 ComponentButton.contextTypes = {

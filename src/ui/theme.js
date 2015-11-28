@@ -18,6 +18,8 @@ const COLORS = {
   buttonBackground2: '#3D3D3D',
   textInputBackground: '#3D3D3D',
 
+  danger: '#B33A3A',
+
   canvasOverlayBackground: '#555',
 
   base: BASE_COLOR,

@@ -140,6 +140,7 @@ class ComponentInspector extends React.Component {
                 {value == null ? null : showValue()}
                 <Button style={styles.button}
                   onClick={this.handleDelete}
+                  danger
                 >
                   <span>Delete</span>
                 </Button>
