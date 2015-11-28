@@ -25,3 +25,7 @@ body {
   opacity: 0.01;
   transition: opacity 70ms ease-out;
 }
+
+button:active:hover {
+  transform: translateY(1px);
+}
