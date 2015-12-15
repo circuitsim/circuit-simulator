@@ -5,10 +5,11 @@ import CircuitCanvas from './CircuitCanvas.js';
 import Updater from '../Updater.js';
 import resize from '../Resize.js';
 
-const FPS = 10;
-const TIMESTEP = 1000 / FPS;
+// simulate as if running @60FPS, but only render 1 in 10 frames
+const MAX_FPS = 10;
+const TIMESTEP = 1000 * (1 / 60);
 
-const animate = new Animator(TIMESTEP);
+const animate = new Animator(TIMESTEP, MAX_FPS);
 
 // Uses `store` from context to manage the diagram's props using Animator/Updater
 class CircuitDiagram extends React.Component {
