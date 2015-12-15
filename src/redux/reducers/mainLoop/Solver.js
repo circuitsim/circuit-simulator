@@ -5,7 +5,7 @@ import { Functions } from '../../../ui/diagram/components/models';
 
 import { hasPathProblem, connectDisconnectedCircuits } from './Paths.js';
 
-const { stamp } = Functions;
+const { stamp, stampDynamic } = Functions;
 
 export function getCircuitInfo({nodes, models}) {
   function addVSources(n, m) {
@@ -50,6 +50,16 @@ export function stampStaticEquation(circuit) {
 
   connectDisconnectedCircuits(circuit, equation);
 
+  return equation;
+}
+
+// Takes the static partial equation and stamps the time-varying parts of the circuit
+// FIXME this mutates equation
+export function stampDynamicEquation(circuit, equation, timestep, previousCircuitState) {
+  R.forEach(model => {
+    const previousModelState = previousCircuitState[model.id];
+    stampDynamic(model, equation, previousModelState, timestep);
+  }, R.values(circuit.models));
   return equation;
 }
 

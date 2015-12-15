@@ -15,6 +15,45 @@ const MODELS = {
   Wire
 };
 
+const commonFunctionNames = [
+  /*
+   * Stamp the static parts of a component that don't change.
+   *
+   * Components that change over time, (e.g. sine wave sources,
+   * capacitors), or need linearization (e.g. diodes) don't
+   * stamp here.
+   *
+   * Called whenever the circuit is modified.
+   *
+   * (data, equation) => ()
+   */
+  'stamp',
+
+  /*
+   * Stamp the parts of a component that vary over time.
+   *
+   * Components such as capacitors depend on:
+   * - time since last update (timestep)
+   * - their previously analysed voltage/current (previousState)
+   *
+   * Called before the Newton-Raphson linearization steps
+   * on every update.
+   *
+   * (data, equation, previousState, timestep) => ()
+   */
+  'stampDynamic',
+
+  /*
+   * Stamp linearized versions of non-linear components based
+   * on previously analysed state and a new guessed state.
+   *
+   * Called every iteration of the Newton-Raphson loop.
+   *
+   * (data, equation, previousState, guessedNewState) => ()
+   */
+  'stampLinearized'
+];
+
 function setKeyAsTypeID(model, typeID) {
   const modelData = model.data;
   modelData.typeID = typeID;
@@ -30,22 +69,19 @@ const ComponentFunctions = R.map((model) => {
   return model.functions;
 }, MODELS);
 
-const functionFor = fName => (modelData, ...args) => {
-  const component = ComponentFunctions[modelData.typeID];
-  const componentFunction = component[fName];
-  return componentFunction(modelData, ...args);
+const functionFor = funcName => (modelData, ...args) => {
+  const componentFunction = ComponentFunctions[modelData.typeID][funcName];
+  return componentFunction
+    ? componentFunction(modelData, ...args)
+    : undefined;
 };
-
-const commonFunctionNames = [
-  'stamp'
-];
 
 /**
  * Common functions that can be called on the data.
  * Example:
- * Functions.stamp(modelData, stamper);
+ * Functions.stamp(modelData, equation);
  */
 export const Functions = R.pipe(
-  R.map(fName => [fName, functionFor(fName)]),
+  R.map(funcName => [funcName, functionFor(funcName)]),
   R.fromPairs
 )(commonFunctionNames);
