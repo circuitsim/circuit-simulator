@@ -17,37 +17,48 @@ export function getCircuitInfo({nodes, models}) {
   };
 }
 
-function blankSolution(circuit) {
+function blankSolution(equation) {
   // just return a blank solution (zeros for voltages/currents)
-  const n = Math.max(0, circuit.numOfNodes + circuit.numOfVSources - 1);
+  const n = equation.getEquation().inputs().length;
   return R.repeat(0, n);
 }
 
-function anError(circuit, error) {
+function anError(equation, error) {
   return {
-    solution: blankSolution(circuit),
+    solution: blankSolution(equation),
     error
   };
 }
 
-export function solveCircuit(circuit) {
+export function checkForProblems(circuit) {
+  if (circuit.numOfNodes < 2) {
+    return 'Not enough nodes for a circuit';
+  }
+  const problem = hasPathProblem(circuit);
+  if (problem) {
+    return problem;
+  }
+  return false;
+}
+
+// Creates a partial equation with all the static parts of the circuit stamped
+export function stampStaticEquation(circuit) {
+  const equation = createEquationBuilder(circuit);
+  R.forEach(model => {
+    stamp(model, equation);
+  }, R.values(circuit.models));
+
+  connectDisconnectedCircuits(circuit, equation);
+
+  return equation;
+}
+
+export function solveEquation(equation) {
   try {
-    const problem = hasPathProblem(circuit);
-    if (problem) {
-      return anError(circuit, problem);
-    }
-
-    const equation = createEquationBuilder(circuit);
-    R.forEach(model => {
-      stamp(model, equation);
-    }, R.values(circuit.models));
-
-    connectDisconnectedCircuits(circuit, equation);
-
     const solution = R.flatten(equation.solve()()); // flatten single column matrix into array
 
     if (R.any(isNaN, solution)) {
-      return anError(circuit, 'Error: Solution contained NaNs');
+      return anError(equation, 'Error: Solution contained NaNs');
     }
 
     return {
@@ -56,6 +67,6 @@ export function solveCircuit(circuit) {
     };
   } catch(e) {
     // if we can't solve, there's probably something wrong with the circuit
-    return anError(circuit, e);
+    return anError(equation, e);
   }
 }
