@@ -4,10 +4,11 @@ import {
   getCircuitInfo,
   checkForProblems,
   stampStaticEquation,
-  // stampDynamicEquation,
+  stampDynamicEquation,
   solveEquation,
   blankSolutionForCircuit
 } from '../../circuit/Solver';
+import { clone } from '../../circuit/equation';
 import { connectDisconnectedCircuits } from '../../circuit/Paths';
 import { getCircuitState, setNodesInModels, toNodes, toModels } from '../../circuit/CircuitUpdater';
 import { createVolts2RGB } from '../../utils/volts2RGB.js';
@@ -63,11 +64,24 @@ const INITIAL_STATE = {
   volts2RGB: createVolts2RGB(5),
 
   circuitChanged: false,
-  error: false // string | false
+  error: false, // string | false
+
+  // TODO doc
+  remainingDelta: 0,
+
+  timestep: 5e-6,
+  simTimePerSec: 1 / 1000 // Run the simulation 1000x slower than reality
 };
 
-
-// const CIRCUIT_TIMESTEP = 5e-6;
+// Decouple real timestep (delta) from stuff like:
+// - simulation timestep (time simulated per analysis)
+// - simuation speed (time simulated per frame (or update))
+// - current speed
+//
+// Simulation timestep defaults to 5μs and should rarely need to be changed
+//  (except possibly in response to stablity issues)
+// Time to be simulated per second should be user-controllable to view high- or low-frequency circuits
+// Current timestep should be user-controllable to view high- or low-current circuits
 
 export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
   switch (action.type) {
@@ -128,36 +142,47 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       };
     }
 
-    // TODO Decouple real timestep (delta) from stuff like:
-    // - simulation timestep (time simulated per analysis)
-    // - simuation speed (time simulated per frame (or update))
-    // - current speed
-    //
-    // Simulation timestep defaults to 5μs and should rarely need to be changed
-    //  (except possibly in response to stablity issues)
-    // Time to be simulated per frame should be user-controllable to view high- or low-frequency circuits
-    // Current timestep should be user-controllable to view high- or low-current circuits
+    const {
+      staticEquation,
+      circuitGraph,
+      components: previousCircuitState,
+      remainingDelta,
+      timestep,
+      simTimePerSec
+    } = circuit;
 
+    let {
+      delta
+    } = action;
 
-    // TODO loop until we have simulated adjusted delta time at 5μs per analysis
-    // where adjusted delta time defines the simulation speed
+    delta /= 1000; // convert from milliseconds to seconds
 
-    // TODO previousCircuitState won't have any info on a newly added component
+    /* eslint-disable indent */
+    let fullSolution, err,
+        circuitState = previousCircuitState,
+        timeToSimulate = (delta * simTimePerSec) + remainingDelta;
+    /* eslint-enable indent */
+    for (
+      ;
+      timeToSimulate >= timestep;
+      timeToSimulate -= timestep
+    ) {
+      const fullEquation = clone(staticEquation);
+      stampDynamicEquation(circuitGraph, fullEquation, timestep, circuitState);
 
-    // const { delta } = action;
-    const { staticEquation, circuitGraph /*components: previousCircuitState*/ } = circuit;
+      // solve the circuit
+      const {solution, error} = solveEquation(fullEquation);
+      fullSolution = [0, ...solution]; // add 0 volt ground node
 
-    // const eq = clone(staticEquation)
-    // stampDynamicEquation(circuit, eq, delta, previousCircuitState);
+      // update view with new circuitGraph state
+      circuitState = getCircuitState(circuitGraph, fullSolution);
 
-    // solve the circuit
-    const {solution, error} = solveEquation(staticEquation);
-    if (error) { console.warn(error); } // eslint-disable-line no-console
-
-    const fullSolution = [0, ...solution]; // add 0 volt ground node
-
-    // update view with new circuitGraph state
-    const circuitState = getCircuitState(circuitGraph, fullSolution);
+      if (error) {
+        err = error;
+        console.warn(error); // eslint-disable-line no-console
+        break;
+      }
+    }
 
     // TODO factor this out
     const voltages = R.take(circuitGraph.numOfNodes, fullSolution);
@@ -170,9 +195,10 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     return {
       ...circuit,
       volts2RGB,
-      error,
+      error: err,
       components: circuitState,
-      currentOffset: circuit.currentOffset += action.delta
+      currentOffset: circuit.currentOffset += action.delta,
+      remainingDelta: timeToSimulate
     };
   }
 

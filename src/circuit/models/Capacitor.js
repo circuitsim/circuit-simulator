@@ -5,15 +5,14 @@ const COMPANION_MODEL_TYPE = {
   // Current source in parallel with a resistor
   // Better for small time steps where Δt→0
   NORTON: {
-    vSources: 0,
-    internalNodes: 0 // NOTE we don't support internal nodes yet
+    vSources: 0
   },
 
   // Voltage source in series with a resistor
   // Better for DC steady state analysis where Δt→∞
   THEVENIN: {
     vSources: 1,
-    internalNodes: 1
+    internalNodes: 1 // NOTE we don't support internal nodes yet
   }
 };
 
@@ -21,9 +20,16 @@ const INTEGRATION_METHOD = {
   // More accurate than FE or BE
   // Less stable than BE, more stable than FE
   TRAPEZOIDAL: {
-    stampDynamic(data, equation, previousState, timestep) {
-      const {value: capacitance, nodes: [n1, n2]} = data;
-      const {current: oldCurrent, voltages: [v1, v2]} = previousState;
+    stampDynamic(data, equation, previousState = {}, timestep) {
+      const {
+        value: capacitance,
+        nodes: [n1, n2]
+      } = data;
+
+      const {
+        current: oldCurrent = 0,
+        voltages: [v1, v2] = [0, 0]
+      } = previousState;
 
       const resistance = timestep / (2 * capacitance);
       stampResistor(equation)(resistance, n1, n2);

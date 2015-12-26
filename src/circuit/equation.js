@@ -18,7 +18,9 @@ export const createBlankEquation = ({numOfNodes, numOfVSources}) => {
 
 export const clone = equation => {
   return {
-    ... equation,
+    numOfVSourcesStamped: equation.numOfVSourcesStamped,
+    numOfVSources: equation.numOfVSources,
+    numOfNodes: equation.numOfNodes,
     nodalAdmittances: Matrixy.copy(equation.nodalAdmittances),
     inputs: Matrixy.copy(equation.inputs)
   };

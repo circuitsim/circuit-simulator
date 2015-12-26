@@ -74,7 +74,7 @@ export function toNodes(views) {
 }
 
 export function toModels(views) {
-  return R.map(view => R.merge(Models[view.typeID], R.pick(['value'], view)), views);
+  return R.map(view => R.mergeAll([Models[view.typeID], R.pick(['value'], view), {id: view.id}]), views);
 }
 
 export function setNodesInModels(models, nodes) {
@@ -98,12 +98,11 @@ export function getCircuitState(circuitGraph, solution) {
   const voltages = R.take(circuitGraph.numOfNodes, solution);
   let currents = R.drop(circuitGraph.numOfNodes, solution);
 
-  const toState = componentID => {
+  const toState = model => {
     const state = {
       // currents
       // voltages
     };
-    const model = circuitGraph.models[componentID];
     const nodeIDs = model.nodes;
 
     // set voltages
@@ -113,17 +112,15 @@ export function getCircuitState(circuitGraph, solution) {
     // set currents
     const numOfVSources = model.vSources || 0;
     if (numOfVSources > 0) {
-      const cs = R.take(numOfVSources, currents);
-      currents = R.drop(numOfVSources, currents);
+      // Equivalent:
+      // const cs = R.take(numOfVSources, currents);
+      // currents = R.drop(numOfVSources, currents);
+      const cs = currents.splice(0, numOfVSources);
       state.currents = cs;
     }
 
     return state;
   };
 
-  const componentIDs = R.keys(circuitGraph.models);
-  return R.pipe(
-    R.map(toState),
-    R.zipObj(componentIDs)
-  )(componentIDs);
+  return R.map(toState, circuitGraph.models);
 }

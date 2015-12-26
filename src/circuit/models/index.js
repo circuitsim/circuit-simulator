@@ -4,6 +4,7 @@ import CurrentSource from './CurrentSource.js';
 import VoltageSource from './VoltageSource.js';
 import Ground from './Ground.js';
 import Resistor from './Resistor.js';
+import Capacitor from './Capacitor.js';
 import Wire from './Wire.js';
 
 // These keys are used to identify the typeID for each component model
@@ -12,6 +13,7 @@ const MODELS = {
   VoltageSource,
   Ground,
   Resistor,
+  Capacitor,
   Wire
 };
 
