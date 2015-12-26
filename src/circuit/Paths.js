@@ -2,6 +2,7 @@ import R from 'ramda';
 
 import { GROUND_NODE } from '../Constants.js';
 import { BaseData as Models } from './models';
+import { stampResistor } from './equation';
 
 const VOLT_SOURCE_TYPES = R.pipe(
   R.values,
@@ -163,7 +164,7 @@ export function connectDisconnectedCircuits(circuit, equation) {
     }
 
     const nodesConnectedToNodeID = findConnectedNodes(circuit, nodeID);
-    equation.stampResistor(HIGH_RESISTANCE, nodeID, GROUND_NODE);
+    stampResistor(equation)(HIGH_RESISTANCE, nodeID, GROUND_NODE);
 
     connectedNodes = R.zipWith((n1, n2) => {
       return n1 || n2;

@@ -1,9 +1,9 @@
 import R from 'ramda';
-import createEquationBuilder from 'circuit-analysis';
 
+import { createBlankEquation, solve } from './equation';
 import { Functions } from './models';
 
-import { hasPathProblem, connectDisconnectedCircuits } from './Paths.js';
+import { hasPathProblem } from './Paths.js';
 
 const { stamp, stampDynamic } = Functions;
 
@@ -17,9 +17,14 @@ export function getCircuitInfo({nodes, models}) {
   };
 }
 
+export function blankSolutionForCircuit(circuitInfo) {
+  const n = circuitInfo.numOfNodes + circuitInfo.numOfVSources;
+  return R.repeat(0, n);
+}
+
 function blankSolution(equation) {
   // just return a blank solution (zeros for voltages/currents)
-  const n = equation.getEquation().inputs().length;
+  const n = equation.inputs.length;
   return R.repeat(0, n);
 }
 
@@ -43,29 +48,25 @@ export function checkForProblems(circuit) {
 
 // Creates a partial equation with all the static parts of the circuit stamped
 export function stampStaticEquation(circuit) {
-  const equation = createEquationBuilder(circuit);
+  const { models, numOfNodes, numOfVSources } = circuit;
+  const equation = createBlankEquation({numOfNodes, numOfVSources});
   R.forEach(model => {
     stamp(model, equation);
-  }, R.values(circuit.models));
-
-  connectDisconnectedCircuits(circuit, equation);
-
+  }, R.values(models));
   return equation;
 }
 
 // Takes the static partial equation and stamps the time-varying parts of the circuit
-// FIXME this mutates equation
 export function stampDynamicEquation(circuit, equation, timestep, previousCircuitState) {
   R.forEach(model => {
     const previousModelState = previousCircuitState[model.id];
     stampDynamic(model, equation, previousModelState, timestep);
   }, R.values(circuit.models));
-  return equation;
 }
 
 export function solveEquation(equation) {
   try {
-    const solution = R.flatten(equation.solve()()); // flatten single column matrix into array
+    const solution = R.flatten(solve(equation)); // flatten single column matrix into array
 
     if (R.any(isNaN, solution)) {
       return anError(equation, 'Error: Solution contained NaNs');

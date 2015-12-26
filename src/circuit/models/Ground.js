@@ -1,4 +1,5 @@
 import { GROUND_NODE } from '../../Constants.js';
+import { stampVoltageSource } from '../equation';
 
 export default {
   data: {
@@ -8,7 +9,7 @@ export default {
   functions: {
     stamp: (data, equation) => {
       const {nodes: [node]} = data;
-      equation.stampVoltageSource(0, GROUND_NODE, node);
+      stampVoltageSource(equation)(0, GROUND_NODE, node);
     }
   }
 };

@@ -1,4 +1,5 @@
 import R from 'ramda';
+import {stampResistor, stampCurrentSource} from '../equation';
 
 const COMPANION_MODEL_TYPE = {
   // Current source in parallel with a resistor
@@ -25,10 +26,10 @@ const INTEGRATION_METHOD = {
       const {current: oldCurrent, voltages: [v1, v2]} = previousState;
 
       const resistance = timestep / (2 * capacitance);
-      equation.stampResistor(resistance, n1, n2);
+      stampResistor(equation)(resistance, n1, n2);
 
       const current = -(v1 - v2) / resistance - oldCurrent;
-      equation.stampCurrentSource(current, n1, n2);
+      stampCurrentSource(equation)(current, n1, n2);
     }
   },
 

@@ -1,7 +1,8 @@
 import R from 'ramda';
 
-import createEquationBuilder from 'circuit-analysis';
-import {BaseData, Functions} from '..';
+import {createBlankEquation, solve} from '../../equation';
+
+import {BaseData, Functions} from '../index';
 
 const {stamp} = Functions;
 
@@ -41,16 +42,16 @@ describe('Modelling a circuit', () => {
 
     const circuit = [c, r];
 
-    const equation = createEquationBuilder({numOfNodes: 2});
+    const equation = createBlankEquation({numOfNodes: 2, numOfVSources: 0});
 
     circuit.forEach(comp => {
       stamp(comp, equation);
     });
 
-    const solution = equation.solve();
+    const solution = solve(equation);
 
     const v1 = c.value * r.value; // voltage at node 1 - V = IR
-    expect(solution()).to.eql([[v1]]);
+    expect(solution).to.eql([[v1]]);
   });
 
   it('should be able to model and solve a simple circuit with a voltage source', () => {
@@ -67,21 +68,21 @@ describe('Modelling a circuit', () => {
 
     const circuit = [c, r, w];
 
-    const equation = createEquationBuilder({numOfNodes: 3, numOfVSources: 1});
+    const equation = createBlankEquation({numOfNodes: 3, numOfVSources: 1});
 
     circuit.forEach(comp => {
       stamp(comp, equation);
     });
 
-    const solution = equation.solve();
+    const solution = solve(equation);
 
     const v1 = c.value * r.value; // V = IR
     const v2 = v1;
     const iv = c.value; // current through voltage source
 
-    expect(solution()).to.eql([[v1],
-                               [v2],
-                               [iv]]);
+    expect(solution).to.eql([[v1],
+                             [v2],
+                             [iv]]);
 
   });
 });

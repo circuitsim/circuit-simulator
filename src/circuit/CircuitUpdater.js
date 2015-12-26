@@ -92,14 +92,17 @@ export function setNodesInModels(models, nodes) {
   return ms;
 }
 
-export function getCircuitState(circuitGraph, solution, componentIDs) {
+export function getCircuitState(circuitGraph, solution) {
   if (!solution) { return {}; }
 
   const voltages = R.take(circuitGraph.numOfNodes, solution);
   let currents = R.drop(circuitGraph.numOfNodes, solution);
 
   const toState = componentID => {
-    const state = {};
+    const state = {
+      // currents
+      // voltages
+    };
     const model = circuitGraph.models[componentID];
     const nodeIDs = model.nodes;
 
@@ -118,6 +121,7 @@ export function getCircuitState(circuitGraph, solution, componentIDs) {
     return state;
   };
 
+  const componentIDs = R.keys(circuitGraph.models);
   return R.pipe(
     R.map(toState),
     R.zipObj(componentIDs)

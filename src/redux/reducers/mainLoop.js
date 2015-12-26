@@ -5,8 +5,10 @@ import {
   checkForProblems,
   stampStaticEquation,
   // stampDynamicEquation,
-  solveEquation
+  solveEquation,
+  blankSolutionForCircuit
 } from '../../circuit/Solver';
+import { connectDisconnectedCircuits } from '../../circuit/Paths';
 import { getCircuitState, setNodesInModels, toNodes, toModels } from '../../circuit/CircuitUpdater';
 import { createVolts2RGB } from '../../utils/volts2RGB.js';
 
@@ -72,14 +74,25 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
   case LOOP_BEGIN: {
     const { views } = action;
 
+    if (R.isEmpty(views)) {
+      return {
+        ...circuit,
+        circuitGraph: INITIAL_STATE.circuitGraph,
+        staticEquation: INITIAL_STATE.staticEquation,
+        circuitChanged: false,
+        error: 'No circuit'
+      };
+    }
+
     if (circuit.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
       const nodes = toNodes(views);
       const models = setNodesInModels(toModels(views), nodes);
+      const circuitMeta = getCircuitInfo({models, nodes});
       const circuitGraph = {
         models,
         nodes,
-        ...getCircuitInfo({models, nodes})
+        ...circuitMeta
       };
 
       const error = checkForProblems(circuitGraph);
@@ -88,6 +101,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       let staticEquation = null;
       if (!error) {
         staticEquation = stampStaticEquation(circuitGraph);
+        connectDisconnectedCircuits(circuitGraph, staticEquation);
       }
 
       return {
@@ -98,13 +112,22 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
         error
       };
     }
+
     return circuit;
   }
 
   case LOOP_UPDATE: {
-    if (!circuit.staticEquation) {
-      return circuit;
+    if (circuit.error) {
+      const { circuitGraph } = circuit;
+      const solution = blankSolutionForCircuit(circuitGraph);
+      const blankCircuitState = getCircuitState(circuitGraph, solution);
+
+      return {
+        ...circuit,
+        components: blankCircuitState
+      };
     }
+
     // TODO Decouple real timestep (delta) from stuff like:
     // - simulation timestep (time simulated per analysis)
     // - simuation speed (time simulated per frame (or update))
@@ -124,7 +147,8 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     // const { delta } = action;
     const { staticEquation, circuitGraph /*components: previousCircuitState*/ } = circuit;
 
-    // const fullEquation = stampDynamicEquation(circuit, staticEquation, delta, previousCircuitState); // FIXME mutates equation
+    // const eq = clone(staticEquation)
+    // stampDynamicEquation(circuit, eq, delta, previousCircuitState);
 
     // solve the circuit
     const {solution, error} = solveEquation(staticEquation);
@@ -133,8 +157,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     const fullSolution = [0, ...solution]; // add 0 volt ground node
 
     // update view with new circuitGraph state
-    const modelIDs = R.keys(circuitGraph.models);
-    const circuitState = getCircuitState(circuitGraph, fullSolution, modelIDs);
+    const circuitState = getCircuitState(circuitGraph, fullSolution);
 
     // TODO factor this out
     const voltages = R.take(circuitGraph.numOfNodes, fullSolution);

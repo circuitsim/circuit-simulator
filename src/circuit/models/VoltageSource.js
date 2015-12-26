@@ -1,3 +1,5 @@
+import {stampVoltageSource} from '../equation';
+
 export default {
   data: {
     nodes: [],
@@ -6,7 +8,7 @@ export default {
   functions: {
     stamp: (data, equation) => {
       const {value: voltage, nodes: [n1, n2]} = data;
-      equation.stampVoltageSource(voltage, n1, n2);
+      stampVoltageSource(equation)(voltage, n1, n2);
     }
   }
 };

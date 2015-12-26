@@ -1,3 +1,5 @@
+import {stampCurrentSource} from '../equation';
+
 export default {
   data: {
     nodes: []
@@ -5,7 +7,7 @@ export default {
   functions: {
     stamp: (data, equation) => {
       const {value: current, nodes: [n1, n2]} = data;
-      equation.stampCurrentSource(current, n1, n2);
+      stampCurrentSource(equation)(current, n1, n2);
     }
   }
 };
