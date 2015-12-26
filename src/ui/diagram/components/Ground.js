@@ -2,7 +2,7 @@ import React from 'react';
 import { Group } from 'react-art';
 import R from 'ramda';
 
-import { BaseData } from './models';
+import { BaseData } from '../../../circuit/models';
 import DrawingUtils from '../../utils/DrawingUtils.js';
 import Line from '../../utils/Line.js';
 import CurrentPath from '../CurrentPath.js';

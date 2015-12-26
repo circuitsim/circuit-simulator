@@ -1,4 +1,4 @@
-import { GROUND_NODE } from '../../../../Constants.js';
+import { GROUND_NODE } from '../../Constants.js';
 
 export default {
   data: {

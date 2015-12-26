@@ -1,7 +1,7 @@
 import R from 'ramda';
 
-import { GROUND_NODE } from '../../../Constants.js';
-import { BaseData as Models } from '../../../ui/diagram/components/models';
+import { GROUND_NODE } from '../Constants';
+import { BaseData as Models } from './models';
 
 function toConnectors(view) {
   // IN:

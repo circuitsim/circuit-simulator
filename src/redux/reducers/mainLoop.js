@@ -6,8 +6,8 @@ import {
   stampStaticEquation,
   // stampDynamicEquation,
   solveEquation
-} from './mainLoop/Solver.js';
-import { getCircuitState, setNodesInModels, toNodes, toModels } from './mainLoop/CircuitUpdater.js';
+} from '../../circuit/Solver';
+import { getCircuitState, setNodesInModels, toNodes, toModels } from '../../circuit/CircuitUpdater';
 import { createVolts2RGB } from '../../utils/volts2RGB.js';
 
 import {
