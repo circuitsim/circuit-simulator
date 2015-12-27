@@ -73,6 +73,19 @@ const INITIAL_STATE = {
   simTimePerSec: 1 / 1000 // Run the simulation 1000x slower than reality
 };
 
+const zeroed = (circuit, error) => {
+  const { circuitGraph } = circuit;
+  const solution = blankSolutionForCircuit(circuitGraph);
+  const blankCircuitState = getCircuitState(circuitGraph, solution);
+
+  return {
+    ...circuit,
+    components: blankCircuitState,
+    remainingDelta: 0,
+    error: error || circuit.error
+  };
+};
+
 // Decouple real timestep (delta) from stuff like:
 // - simulation timestep (time simulated per analysis)
 // - simuation speed (time simulated per frame (or update))
@@ -132,20 +145,14 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
 
   case LOOP_UPDATE: {
     if (circuit.error) {
-      const { circuitGraph } = circuit;
-      const solution = blankSolutionForCircuit(circuitGraph);
-      const blankCircuitState = getCircuitState(circuitGraph, solution);
-
-      return {
-        ...circuit,
-        components: blankCircuitState
-      };
+      return zeroed(circuit);
     }
 
     const {
       staticEquation,
       circuitGraph,
       components: previousCircuitState,
+
       remainingDelta,
       timestep,
       simTimePerSec
@@ -160,31 +167,31 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     /* eslint-disable indent */
     let fullSolution = [],
         currentCalculators = {},
-        err = false,
         circuitState = previousCircuitState,
         timeToSimulate = (delta * simTimePerSec) + remainingDelta;
     /* eslint-enable indent */
+
     if (timeToSimulate < timestep) {
       return { ...circuit, remainingDelta: timeToSimulate };
     }
-    for (
-      ;
-      timeToSimulate >= timestep;
-      timeToSimulate -= timestep
-    ) {
-      const fullEquation = clone(staticEquation);
-      currentCalculators = stampDynamicEquation(circuitGraph, fullEquation, timestep, circuitState);
 
-      const {solution, error} = solveEquation(fullEquation);
-      fullSolution = [0, ...solution]; // add 0 volt ground node
+    try {
+      for (
+        ;
+        timeToSimulate >= timestep;
+        timeToSimulate -= timestep
+      ) {
+        const fullEquation = clone(staticEquation);
+        currentCalculators = stampDynamicEquation(circuitGraph, fullEquation, timestep, circuitState);
 
-      circuitState = getCircuitState(circuitGraph, fullSolution, currentCalculators);
+        const solution = solveEquation(fullEquation);
+        fullSolution = [0, ...solution]; // add 0 volt ground node
 
-      if (error) {
-        err = error;
-        console.warn(error); // eslint-disable-line no-console
-        break;
+        circuitState = getCircuitState(circuitGraph, fullSolution, currentCalculators);
       }
+    } catch (e) {
+      console.warn(e); // eslint-disable-line no-console
+      return zeroed(circuit, e);
     }
 
     // TODO factor this out
@@ -198,7 +205,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     return {
       ...circuit,
       volts2RGB,
-      error: err,
+      error: false,
       components: circuitState,
       currentOffset: circuit.currentOffset += action.delta,
       remainingDelta: timeToSimulate

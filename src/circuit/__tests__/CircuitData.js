@@ -200,6 +200,20 @@ export const VOLTAGE_SOURCE_LOOP = {
   }
 };
 
+export const ZERO_RESISTANCE = {
+  nodes: [
+    [{viewID: 'Resistor1'}],
+    [{viewID: 'Resistor1'}]
+  ],
+  models: {
+    'Resistor1': {
+      nodes: [0, 1],
+      typeID: 'Resistor',
+      value: 0
+    }
+  }
+};
+
 export const KCL_VIOLATION = {
   nodes: [
     [],

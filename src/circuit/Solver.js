@@ -1,7 +1,7 @@
 import R from 'ramda';
 
 import { createBlankEquation, solve } from './equation';
-import { Functions } from './models';
+import { BaseData as Models, Functions } from './models';
 
 import { hasPathProblem } from './Paths.js';
 
@@ -22,22 +22,20 @@ export function blankSolutionForCircuit(circuitInfo) {
   return R.repeat(0, n);
 }
 
-function blankSolution(equation) {
-  // just return a blank solution (zeros for voltages/currents)
-  const n = equation.inputs.length;
-  return R.repeat(0, n);
-}
-
-function anError(equation, error) {
-  return {
-    solution: blankSolution(equation),
-    error
-  };
-}
+const isResistor = model => model.typeID === Models.Resistor.typeID;
+const hasValLT0 = model => model.value <= 0;
+const anyZeroResistances = R.pipe(
+  R.values,
+  R.filter(isResistor),
+  R.any(hasValLT0)
+);
 
 export function checkForProblems(circuit) {
   if (circuit.numOfNodes < 2) {
     return 'Not enough nodes for a circuit';
+  }
+  if (anyZeroResistances(circuit.models)) {
+    return 'Zero-valued resistance';
   }
   const problem = hasPathProblem(circuit);
   if (problem) {
@@ -69,19 +67,11 @@ export function stampDynamicEquation(circuit, equation, timestep, previousCircui
 }
 
 export function solveEquation(equation) {
-  try {
-    const solution = R.flatten(solve(equation)); // flatten single column matrix into array
+  const solution = R.flatten(solve(equation)); // flatten single column matrix into array
 
-    if (R.any(isNaN, solution)) {
-      return anError(equation, 'Error: Solution contained NaNs');
-    }
-
-    return {
-      solution: solution,
-      error: false
-    };
-  } catch(e) {
-    // if we can't solve, there's probably something wrong with the circuit
-    return anError(equation, e);
+  if (R.any(isNaN, solution)) {
+    throw new Error('Solution contained NaNs');
   }
+
+  return solution;
 }
