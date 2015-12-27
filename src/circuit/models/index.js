@@ -41,7 +41,10 @@ const commonFunctionNames = [
    * Called before the Newton-Raphson linearization steps
    * on every update.
    *
-   * (data, equation, previousState, timestep) => ()
+   * Returns a function which calculates the current, given
+   * the solution voltages.
+   *
+   * (data, equation, previousState, timestep) => ([volts] => [currents])
    */
   'stampDynamic',
 

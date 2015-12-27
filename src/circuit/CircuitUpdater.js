@@ -92,7 +92,9 @@ export function setNodesInModels(models, nodes) {
   return ms;
 }
 
-export function getCircuitState(circuitGraph, solution) {
+// TODO document
+// FIXME test currentCalculators
+export function getCircuitState(circuitGraph, solution, currentCalculators = {}) {
   if (!solution) { return {}; }
 
   const voltages = R.take(circuitGraph.numOfNodes, solution);
@@ -111,12 +113,17 @@ export function getCircuitState(circuitGraph, solution) {
 
     // set currents
     const numOfVSources = model.vSources || 0;
+    const calculateCurrent = currentCalculators[model.id];
     if (numOfVSources > 0) {
       // Equivalent:
       // const cs = R.take(numOfVSources, currents);
       // currents = R.drop(numOfVSources, currents);
       const cs = currents.splice(0, numOfVSources);
       state.currents = cs;
+    } else if (calculateCurrent) {
+      // FIXME support components with voltage sources which need
+      // current calculating?
+      state.currents = calculateCurrent(vs);
     }
 
     return state;

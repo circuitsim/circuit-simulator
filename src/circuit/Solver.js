@@ -58,10 +58,14 @@ export function stampStaticEquation(circuit) {
 
 // Takes the static partial equation and stamps the time-varying parts of the circuit
 export function stampDynamicEquation(circuit, equation, timestep, previousCircuitState) {
-  R.forEach(model => {
-    const previousModelState = previousCircuitState[model.id];
-    stampDynamic(model, equation, previousModelState, timestep);
-  }, R.values(circuit.models));
+  const currentCalculators = {};
+  R.forEach(modelID => {
+    const model = circuit.models[modelID];
+    const previousModelState = previousCircuitState[modelID];
+    const calcCurrent = stampDynamic(model, equation, previousModelState, timestep);
+    currentCalculators[modelID] = calcCurrent;
+  }, R.keys(circuit.models));
+  return currentCalculators;
 }
 
 export function solveEquation(equation) {

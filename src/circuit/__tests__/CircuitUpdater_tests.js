@@ -8,7 +8,7 @@ describe('toNodes()', () => {
 });
 
 describe('toModels()', () => {
-  it('should something something ...', () => {
+  it('should should turn views into models', () => {
     const models = toModels(BASIC_CIRCUIT.views);
     expect(models).to.deep.equal(BASIC_CIRCUIT.modelsNoNodes);
   });

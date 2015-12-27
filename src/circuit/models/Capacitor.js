@@ -27,15 +27,20 @@ const INTEGRATION_METHOD = {
       } = data;
 
       const {
-        current: oldCurrent = 0,
-        voltages: [v1, v2] = [0, 0]
+        currents: [curr] = [0],
+        voltages: [v0, v1] = [0, 0]
       } = previousState;
 
       const resistance = timestep / (2 * capacitance);
       stampResistor(equation)(resistance, n1, n2);
 
-      const current = -(v1 - v2) / resistance - oldCurrent;
-      stampCurrentSource(equation)(current, n1, n2);
+      const currentSourceValue = -(v0 - v1) / resistance - curr;
+      stampCurrentSource(equation)(currentSourceValue, n1, n2);
+
+      return voltages => {
+        const vs = voltages;
+        return [(vs[0] - vs[1]) / resistance + currentSourceValue];
+      };
     }
   },
 

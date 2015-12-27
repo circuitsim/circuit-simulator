@@ -57,7 +57,3 @@ describe('solving static circuits', () => {
     expect(solution).to.deep.equal([ 0, 0, 0, 0 ]);
   });
 });
-
-describe('solving a dynamic circuit', () => {
-  it('should solve a basic circuit with a capacitor');
-});

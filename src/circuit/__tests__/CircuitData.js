@@ -16,26 +16,31 @@ export const BASIC_CIRCUIT = {
   ],
   models: {
     Ground1: {
+      id: 'Ground1',
       typeID: 'Ground',
       nodes: [1, 0],
       vSources: 1
     },
     CurrentSource1: {
+      id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [1, 2],
       value: 0.5
     },
     Wire1: {
+      id: 'Wire1',
       typeID: 'Wire',
       nodes: [2, 3],
       vSources: 1
     },
     Resistor1: {
+      id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [3, 4],
       value: 10
     },
     Wire2: {
+      id: 'Wire2',
       typeID: 'Wire',
       nodes: [4, 1],
       vSources: 1
@@ -43,26 +48,31 @@ export const BASIC_CIRCUIT = {
   },
   modelsNoNodes: {
     Ground1: {
+      id: 'Ground1',
       typeID: 'Ground',
       nodes: [],
       vSources: 1
     },
     CurrentSource1: {
+      id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [],
       value: 0.5
     },
     Wire1: {
+      id: 'Wire1',
       typeID: 'Wire',
       nodes: [],
       vSources: 1
     },
     Resistor1: {
+      id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [],
       value: 10
     },
     Wire2: {
+      id: 'Wire2',
       typeID: 'Wire',
       nodes: [],
       vSources: 1
