@@ -14,10 +14,12 @@ export default combineReducers({
   mode,
   mousePos,
   showAddToaster,
-  views,
   addingComponent,
   movingComponent,
-  hover,
   selected,
+
+  // used to render canvas
+  views,
+  hover,
   circuit
 });
