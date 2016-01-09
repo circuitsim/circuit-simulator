@@ -37,6 +37,7 @@
     "format-si-prefix": "^0",
     "immutable-vector2d": "^0",
     "keyboard-shortcuts": "^0",
+    "mainloop.js": "^1.0.1",
     "matrixy": "^1.1.0",
     "node-uuid": "^1.4.3",
     "point-in-polygon": "^1.0.0",

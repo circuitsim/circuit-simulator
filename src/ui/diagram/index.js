@@ -1,22 +1,33 @@
 import React from 'react';
-import Animator from 'react-mainloop';
 
-import CircuitCanvas from './CircuitCanvas.js';
-import Updater from '../Updater.js';
+import {
+  canvasMouseDown,
+  canvasMouseMove,
+  canvasMouseUp,
+  canvasMouseEnter,
+  canvasMouseLeave,
+
+  loopBegin,
+  loopUpdate
+  } from '../redux/actions.js';
 import resize from '../Resize.js';
+import Utils from '../utils/DrawingUtils.js';
+import createLoop from './loop';
+import createRender from './render';
 
-// simulate as if running @60FPS, but only render 1 in 10 frames
-const MAX_FPS = 10;
-const TIMESTEP = 1000 * (1 / 60);
+const setupLoop = (store, ctx, theme) => {
+  const begin = () => {
+    store.dispatch(loopBegin());
+  };
+  const update = (delta) => {
+    store.dispatch(loopUpdate(delta));
+  };
+  const draw = createRender(store, ctx, theme);
 
-const animate = new Animator(TIMESTEP, MAX_FPS);
+  return createLoop(begin, update, draw);
+};
 
-// Uses `store` from context to manage the diagram's props using Animator/Updater
 class CircuitDiagram extends React.Component {
-
-  componentWillMount() {
-    this.updater = new Updater(this.context.store);
-  }
 
   shouldComponentUpdate(nextProps) {
     const {width, height} = this.props;
@@ -24,12 +35,56 @@ class CircuitDiagram extends React.Component {
       || height !== nextProps.height;
   }
 
-  render() {
-    const AnimatedDiagram = animate(CircuitCanvas, this.updater.update, this.updater.begin);
+  componentDidMount() {
+    this.loop = setupLoop(this.context.store, this.canvas.getContext('2d'), this.context.theme);
+    this.loop.start();
+  }
 
+  componentWillUnmount() {
+    this.loop.stop();
+  }
+
+  onMouse(event) {
+    event.preventDefault();
+    const { store } = this.context;
+    const coords = Utils.relMouseCoords(event, this.canvas);
+    switch (event.type) {
+    case 'mousedown':
+    case 'touchstart':
+      store.dispatch(canvasMouseDown(coords));
+      break;
+    case 'mousemove':
+    case 'touchmove':
+      store.dispatch(canvasMouseMove(coords));
+      break;
+    case 'mouseup':
+    case 'touchend':
+    case 'touchcancel': // TODO ??
+      store.dispatch(canvasMouseUp(coords));
+      break;
+    }
+  }
+
+  render() {
+    const { width, height } = this.props;
+    const { store } = this.context;
     return (
-      <AnimatedDiagram
-        {...this.props}
+      <canvas
+        ref={c => this.canvas = c}
+
+        width={width}
+        height={height}
+        style={{padding: 0, margin: 0, border: 0}}
+
+        onMouseDown={this.onMouse}
+        onMouseMove={this.onMouse}
+        onMouseUp={this.onMouse}
+        onMouseEnter={() => store.dispatch(canvasMouseEnter())}
+        onMouseLeave={() => store.dispatch(canvasMouseLeave())}
+        onTouchStart={this.onMouse}
+        onTouchMove={this.onMouse}
+        onTouchEnd={this.onMouse}
+        onTouchCancel={this.onMouse}
       />
     );
   }
@@ -44,7 +99,8 @@ CircuitDiagram.contextTypes = {
   store: React.PropTypes.shape({
     getState: React.PropTypes.func.isRequired,
     dispatch: React.PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  theme: React.PropTypes.object.isRequired
 };
 
 export default resize(CircuitDiagram);
