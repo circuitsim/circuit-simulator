@@ -24,7 +24,7 @@ function moveSingleDragPoint(views, action) {
         newDragPoint = Component.dragPoint(action.mouseVector, {fixed: origDragPoints[fixedPointIndex]}),
         dragPoints = R.update(dragPointIndex, newDragPoint, origDragPoints),
 
-        connectors = Component.getConnectorPositions(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -45,7 +45,7 @@ function moveWholeComponent(views, action) {
         diffVector = diff(from, action.mouseVector),
         dragPoints = R.map(v => snapToGrid(v.subtract(diffVector)), origDragPoints),
 
-        connectors = Component.getConnectorPositions(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -73,7 +73,7 @@ export default function viewsReducer(views = {}, action) {
           dragPoint = Component.dragPoint(mousePos, {fixed: startPoint}),
           dragPoints = [startPoint, dragPoint];
 
-    const connectors = Component.getConnectorPositions(dragPoints);
+    const connectors = Component.transform.getConnectors(dragPoints);
 
     return {
       ...views,

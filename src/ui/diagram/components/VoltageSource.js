@@ -1,104 +1,75 @@
-import React from 'react';
-import { Group } from 'react-art';
 import { BaseData } from '../../../circuit/models';
-import DrawingUtils from '../../utils/DrawingUtils.js';
-import Line from '../../utils/Line.js';
-import Circle from '../../utils/Circle.js';
-import { get2PointBoundingBox } from '../boundingBox.js';
-import Plus from '../../utils/Plus.js';
+import transforms from '../render/transforms';
+import { LINE_WIDTH } from '../render';
 
-import CurrentPath from '../CurrentPath.js';
+// import { get2PointBoundingBox } from '../boundingBox.js';
 
-import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
-import { BOUNDING_BOX_PADDING, VOLTAGE_SOURCE, GRID_SIZE } from '../Constants.js';
-import { LINE_WIDTH } from '../../Constants.js';
+import { getDragFunctionFor } from '../Utils.js';
+import { VOLTAGE_SOURCE, GRID_SIZE } from '../Constants.js';
 
-const { PropTypes, midPoint, direction } = DrawingUtils;
-
-const BOUNDING_BOX_WIDTH = VOLTAGE_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
-const MIN_LENGTH = VOLTAGE_SOURCE.RADIUS * 2 + GRID_SIZE;
+const PLUS_LENGTH = LINE_WIDTH * 2;
+const { RADIUS } = VOLTAGE_SOURCE;
+// const BOUNDING_BOX_WIDTH = VOLTAGE_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
+const MIN_LENGTH = RADIUS * 2 + GRID_SIZE;
 
 const BaseVoltageSourceModel = BaseData.VoltageSource;
 
-const VoltageSource = (
-    {
-      connectors,
-      colors
-    }
-  ) => {
-
-  const [wireEnd1, wireEnd2] = connectors,
-
-        mid = midPoint(wireEnd1, wireEnd2),
-        n = direction(wireEnd1, wireEnd2),
-
-        compOffset = n.multiply(VOLTAGE_SOURCE.RADIUS),
-
-        compEnd1 = mid.subtract(compOffset),
-        compEnd2 = mid.add(compOffset),
-
-        plusPos = mid.add(n.multiply(VOLTAGE_SOURCE.RADIUS / 2));
-
-  return (
-    <Group>
-      <Line
-        color={colors[0]}
-        points={[wireEnd1, compEnd1]}
-        width={LINE_WIDTH}
-      />
-      <Line
-        color={colors[1]}
-        points={[wireEnd2, compEnd2]}
-        width={LINE_WIDTH}
-      />
-      <Circle
-        lineColor={colors[1]}
-        lineWidth={LINE_WIDTH}
-        position={{
-          center: mid,
-          radius: VOLTAGE_SOURCE.RADIUS
-        }}
-      />
-      <Plus
-        center={plusPos}
-        lineColor={colors[1]}
-      />
-    </Group>
-  );
-};
-
-VoltageSource.propTypes = {
-  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-  colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-};
-
 const DEFAULT_VOLTAGE = 5;
-VoltageSource.unit = 'V';
-VoltageSource.defaultValue = DEFAULT_VOLTAGE;
+const NUM_OF_CONNECTORS = 2;
+export default {
+  typeID: BaseVoltageSourceModel.typeID,
 
-VoltageSource.numOfVoltages = 2;
-VoltageSource.numOfConnectors = 2;
-VoltageSource.dragPoint = getDragFunctionFor(MIN_LENGTH);
-VoltageSource.getConnectorPositions = get2ConnectorsFromDragPoints;
+  numOfVoltages: 2,
+  numOfConnectors: NUM_OF_CONNECTORS,
 
-VoltageSource.typeID = BaseVoltageSourceModel.typeID;
+  defaultValue: DEFAULT_VOLTAGE,
+  unit: 'V',
 
-VoltageSource.width = BOUNDING_BOX_WIDTH;
-VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
-VoltageSource.getCurrentPaths = ({
-    currents,
-    currentOffset,
-    connectors,
-    key
+  dragPoint: getDragFunctionFor(MIN_LENGTH),
+  transform: transforms[NUM_OF_CONNECTORS],
+
+  render: ctx => ({
+    connectors
+    // colors
   }) => {
-  return (
-    <CurrentPath
-      endPoints={connectors}
-      current={currents[0]}
-      currentOffset={currentOffset}
-      key={key}
-    />
-  );
+    const [c1, c2] = connectors;
+
+    ctx.beginPath();
+    ctx.moveTo(c1.x, 0);
+    ctx.lineTo(-RADIUS, 0);
+
+    ctx.arc(0, 0, RADIUS, Math.PI, -Math.PI);
+
+    ctx.moveTo(c2.x, 0);
+    ctx.lineTo(RADIUS, 0);
+
+    // plus
+    ctx.translate(RADIUS / 2, 0);
+    ctx.moveTo(PLUS_LENGTH, 0);
+    ctx.lineTo(-PLUS_LENGTH, 0);
+    ctx.moveTo(0, PLUS_LENGTH);
+    ctx.lineTo(0, -PLUS_LENGTH);
+
+    ctx.stroke();
+  }
 };
 
-export default VoltageSource;
+// VoltageSource.width = BOUNDING_BOX_WIDTH;
+// VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
+// VoltageSource.getCurrentPaths = ({
+//     currents,
+//     currentOffset,
+//     connectors,
+//     key
+//   }) => {
+//   return (
+//     <CurrentPath
+//       endPoints={connectors}
+//       current={currents[0]}
+//       currentOffset={currentOffset}
+//       key={key}
+//     />
+//   );
+// };
+//
+// export default VoltageSource;

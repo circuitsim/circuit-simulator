@@ -9,7 +9,7 @@ import {
 
   loopBegin,
   loopUpdate
-  } from '../redux/actions.js';
+} from '../../redux/actions.js';
 import resize from '../Resize.js';
 import Utils from '../utils/DrawingUtils.js';
 import createLoop from './loop';
@@ -28,6 +28,10 @@ const setupLoop = (store, ctx, theme) => {
 };
 
 class CircuitDiagram extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onMouse = this.onMouse.bind(this);
+  }
 
   shouldComponentUpdate(nextProps) {
     const {width, height} = this.props;
@@ -74,7 +78,13 @@ class CircuitDiagram extends React.Component {
 
         width={width}
         height={height}
-        style={{padding: 0, margin: 0, border: 0}}
+        style={{
+          padding: 0,
+          margin: 0,
+          border: 0,
+          display: 'block',
+          backgroundColor: this.context.theme.COLORS.canvasBackground
+        }}
 
         onMouseDown={this.onMouse}
         onMouseMove={this.onMouse}

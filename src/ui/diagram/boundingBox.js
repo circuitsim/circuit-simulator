@@ -21,8 +21,8 @@ const sanitise = width => {
  * A bounding box is represented e.g. [[1, 2], [3, 4], [5, 6], [7, 8]]
  */
 
-export const get2PointBoundingBox = width => connectors => {
-  const [p1, p2] = connectors;
+export const get2PointBoundingBox = width => dragPoints => {
+  const [p1, p2] = dragPoints;
   const fullWidth = sanitise(width);
   const rectanglePoints = getRectPointsBetween(p1, p2, fullWidth);
   return R.map(p => [p.x, p.y], rectanglePoints);

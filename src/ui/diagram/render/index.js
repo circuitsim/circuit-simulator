@@ -1,8 +1,34 @@
+import R from 'ramda';
+import CircuitComponents from '../components';
+
+export const LINE_WIDTH = 2;
 
 const clearCanvas = ctx => {
   const width = ctx.canvas.width;
   const height = ctx.canvas.height;
   ctx.clearRect(0, 0, width, height);
+};
+
+export const initCanvas = (ctx, theme) => {
+  ctx.fillStyle = theme.COLORS.base;
+  ctx.strokeStyle = theme.COLORS.base;
+  ctx.lineWidth = LINE_WIDTH;
+  ctx.lineJoin = 'round';
+  ctx.save();
+};
+
+export const renderComponent = ctx => (Component, props) => {
+  const transform = Component.transform.transformCanvas(ctx);
+  const render = transform(Component.render(ctx));
+  render(props);
+};
+
+const renderComponents = (ctx, views) => {
+  const render = renderComponent(ctx);
+  R.forEach(viewProps => {
+    const Component = CircuitComponents[viewProps.typeID];
+    render(Component, viewProps);
+  }, R.values(views));
 };
 
 export default (store, ctx, theme) => {
@@ -21,17 +47,14 @@ export default (store, ctx, theme) => {
     clearCanvas(ctx);
 
     // TODO
-    // renderComponents(ctx, )
+    renderComponents(ctx, views);
     // render labels
     // render currentDots
     // render dragPoints
 
   };
 
-  // Save initial canvas state
-  ctx.fillStyle = theme.COLORS.base;
-  ctx.strokeStyle = theme.COLORS.base;
-  ctx.save();
+  initCanvas(ctx, theme);
 
   return render;
 };
