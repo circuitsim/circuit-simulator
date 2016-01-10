@@ -20,7 +20,7 @@ const moreThanOne = R.pipe(
   R.length,
   R.gt(R.__, 1)
 );
-const overwriteWith = R.merge(R.__);
+const overwriteWith = R.partial(R.merge, [R.__]);
 
 const isHovered = component => component.hovered;
 
@@ -165,7 +165,6 @@ export default function viewsReducer(views = {}, action) {
       ), views);
   }
 
-  default:
-    return views;
+  default: return views;
   }
 }
