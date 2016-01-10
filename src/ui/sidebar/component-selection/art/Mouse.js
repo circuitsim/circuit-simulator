@@ -32,7 +32,7 @@ MOUSE_PATH.closePath();
 export default {
   transform: transforms.identity,
 
-  render: ctx => () => {
+  render: ctx => {
     ctx.stroke(MOUSE_PATH);
   }
 };

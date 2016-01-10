@@ -27,7 +27,7 @@ export default {
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
-  render: ctx => ({
+  render: (ctx, {
     connectors
     // colors
   }) => {

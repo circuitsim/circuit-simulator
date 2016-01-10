@@ -1,5 +1,6 @@
 import R from 'ramda';
 import CircuitComponents from '../components';
+import highlightOnHover from './highlightOnHover';
 
 export const LINE_WIDTH = 2;
 
@@ -17,21 +18,44 @@ export const initCanvas = (ctx, theme) => {
   ctx.save();
 };
 
-export const renderComponent = ctx => (Component, props) => {
-  const transform = Component.transform.transformCanvas(ctx);
-  const render = transform(Component.render(ctx));
-  render(props);
+const composeList = R.apply(R.compose);
+
+export const createComponentRenderer = (ctx, modifiers = []) => (Component, props) => {
+  // MODIFIER :: (ctx, props) => next => () => void
+  const modConstructors = [
+    Component.transform.transformCanvas,
+    ...modifiers
+  ];
+  const createRenderer = create => create(ctx, props);
+
+  const wrap = R.pipe(
+    R.map(createRenderer),
+    composeList,
+  )(modConstructors);
+
+  const renderComponent = () => Component.render(ctx, props);
+  const render = wrap(renderComponent);
+
+  render();
 };
 
-const renderComponents = (ctx, views) => {
-  const render = renderComponent(ctx);
-  R.forEach(viewProps => {
-    const Component = CircuitComponents[viewProps.typeID];
-    render(Component, viewProps);
-  }, R.values(views));
-};
+const lookupComponent = viewProps => CircuitComponents[viewProps.typeID];
 
 export default (store, ctx, theme) => {
+  const modifiers = [
+    highlightOnHover
+  ];
+  const renderComponent = R.converge(
+    createComponentRenderer(ctx, modifiers),
+    [ lookupComponent,
+      R.merge({theme})
+    ]
+  );
+  const renderComponents = R.pipe(
+    R.values,
+    R.forEach(renderComponent)
+  );
+
   const render = () => {
     const {
       views,
@@ -40,14 +64,13 @@ export default (store, ctx, theme) => {
         error,
         currentOffset,
         volts2RGB
-      },
-      hover
+      }
     } = store.getState();
 
     clearCanvas(ctx);
 
+    renderComponents(views);
     // TODO
-    renderComponents(ctx, views);
     // render labels
     // render currentDots
     // render dragPoints

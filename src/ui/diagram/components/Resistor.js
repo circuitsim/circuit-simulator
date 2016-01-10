@@ -32,7 +32,7 @@ export default {
   width: BOUNDING_BOX_WIDTH, // for label positioning
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
-  render: ctx => ({
+  render: (ctx, {
     connectors
     // colors
   }) => {

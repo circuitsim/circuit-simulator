@@ -20,7 +20,7 @@ export default {
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
-  render: ctx => ({ connectors }) => {
+  render: (ctx, { connectors }) => {
     const [c1, c2] = connectors;
     ctx.beginPath();
     ctx.moveTo(c1.x, 0);
