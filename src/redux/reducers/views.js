@@ -4,15 +4,25 @@ import Vector from 'immutable-vector2d';
 import Components from '../../ui/diagram/components';
 import DrawingUtils from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
+import { hoverFor } from '../../ui/diagram/boundingBox';
 
 import {
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
-  CHANGE_COMPONENT_VALUE
+  CHANGE_COMPONENT_VALUE,
+  SET_HOVERED_COMPONENT
 } from '../actions.js';
 
 const { diff } = DrawingUtils;
+
+const moreThanOne = R.pipe(
+  R.length,
+  R.gt(R.__, 1)
+);
+const overwriteWith = R.merge(R.__);
+
+const isHovered = component => component.hovered;
 
 function moveSingleDragPoint(views, action) {
   const { id, dragPointIndex, origDragPoints } = action.movingComponent; // FIXME REDUCERES
@@ -110,6 +120,51 @@ export default function viewsReducer(views = {}, action) {
       }
     };
   }
+
+  case SET_HOVERED_COMPONENT: {
+    const { mousePos } = action;
+
+    const getHoverInfo = hoverFor(mousePos);
+    const toHoverInfo = view => {
+      const { typeID, dragPoints } = view;
+      const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
+      return {
+        id: view.id,
+        hovered,
+        dragPointIndex
+      };
+    };
+
+    const pickBest = R.reduce((currentBest, hoverInfo) => {
+      // TODO what if a big component completely covers a smaller one?
+      // - we should have a bias for smaller components
+      // TODO ugh nested ternaries - not clear what's going on or why
+      return currentBest.id
+        ? currentBest.id === hoverInfo.id
+          ? hoverInfo
+          : currentBest
+        : hoverInfo;
+    }, R.find(isHovered, views)); // prefer currently hovered view
+
+    const hoveredComponentInfo = R.pipe(
+      R.map(toHoverInfo),
+      R.filter(isHovered),
+      R.ifElse(moreThanOne,
+        pickBest,
+        R.head
+      )
+    )(R.values(views));
+
+    const isHoveredComponent = view => hoveredComponentInfo && view.id === hoveredComponentInfo.id;
+    const unhover = overwriteWith({hovered: false, dragPointIndex: null});
+
+    return R.map(
+      R.ifElse(isHoveredComponent,
+        overwriteWith(hoveredComponentInfo),
+        unhover
+      ), views);
+  }
+
   default:
     return views;
   }
