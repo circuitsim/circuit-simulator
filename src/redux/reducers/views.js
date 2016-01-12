@@ -4,15 +4,25 @@ import Vector from 'immutable-vector2d';
 import Components from '../../ui/diagram/components';
 import DrawingUtils from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
+import { hoverFor } from '../../ui/diagram/boundingBox';
 
 import {
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
-  CHANGE_COMPONENT_VALUE
+  CHANGE_COMPONENT_VALUE,
+  SET_HOVERED_COMPONENT
 } from '../actions.js';
 
 const { diff } = DrawingUtils;
+
+const moreThanOne = R.pipe(
+  R.length,
+  R.gt(R.__, 1)
+);
+const overwriteWith = R.partial(R.merge, [R.__]);
+
+const isHovered = component => component.hovered;
 
 function moveSingleDragPoint(views, action) {
   const { id, dragPointIndex, origDragPoints } = action.movingComponent; // FIXME REDUCERES
@@ -24,7 +34,7 @@ function moveSingleDragPoint(views, action) {
         newDragPoint = Component.dragPoint(action.mouseVector, {fixed: origDragPoints[fixedPointIndex]}),
         dragPoints = R.update(dragPointIndex, newDragPoint, origDragPoints),
 
-        connectors = Component.getConnectorPositions(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -45,7 +55,7 @@ function moveWholeComponent(views, action) {
         diffVector = diff(from, action.mouseVector),
         dragPoints = R.map(v => snapToGrid(v.subtract(diffVector)), origDragPoints),
 
-        connectors = Component.getConnectorPositions(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -73,7 +83,7 @@ export default function viewsReducer(views = {}, action) {
           dragPoint = Component.dragPoint(mousePos, {fixed: startPoint}),
           dragPoints = [startPoint, dragPoint];
 
-    const connectors = Component.getConnectorPositions(dragPoints);
+    const connectors = Component.transform.getConnectors(dragPoints);
 
     return {
       ...views,
@@ -110,7 +120,51 @@ export default function viewsReducer(views = {}, action) {
       }
     };
   }
-  default:
-    return views;
+
+  case SET_HOVERED_COMPONENT: {
+    const { mousePos } = action;
+
+    const getHoverInfo = hoverFor(mousePos);
+    const toHoverInfo = view => {
+      const { typeID, dragPoints } = view;
+      const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
+      return {
+        id: view.id,
+        hovered,
+        dragPointIndex
+      };
+    };
+
+    const pickBest = R.reduce((currentBest, hoverInfo) => {
+      // TODO what if a big component completely covers a smaller one?
+      // - we should have a bias for smaller components
+      // TODO ugh nested ternaries - not clear what's going on or why
+      return currentBest.id
+        ? currentBest.id === hoverInfo.id
+          ? hoverInfo
+          : currentBest
+        : hoverInfo;
+    }, R.find(isHovered, views)); // prefer currently hovered view
+
+    const hoveredComponentInfo = R.pipe(
+      R.map(toHoverInfo),
+      R.filter(isHovered),
+      R.ifElse(moreThanOne,
+        pickBest,
+        R.head
+      )
+    )(R.values(views));
+
+    const isHoveredComponent = view => hoveredComponentInfo && view.id === hoveredComponentInfo.id;
+    const unhover = overwriteWith({hovered: false, dragPointIndex: null});
+
+    return R.map(
+      R.ifElse(isHoveredComponent,
+        overwriteWith(hoveredComponentInfo),
+        unhover
+      ), views);
+  }
+
+  default: return views;
   }
 }

@@ -36,14 +36,6 @@ export function getDragFunctionFor(minLength: number = 0, maxLength: number = In
   };
 }
 
-export function getConnectorFromFirstDragPoint(dragPoints) {
-  return [dragPoints[0]];
-}
-
-export function get2ConnectorsFromDragPoints(dragPoints) {
-  return dragPoints;
-}
-
 export function getDisplayName(Component) {
   return Component.displayName || Component.name || 'Component';
 }

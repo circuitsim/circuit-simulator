@@ -4,7 +4,6 @@ import addingComponent from './reducers/addingComponent';
 import movingComponent from './reducers/moveComponent';
 import mode from './reducers/modes';
 import mousePos from './reducers/mousePosition';
-import hover from './reducers/hover';
 import selected from './reducers/selectComponent';
 import circuit from './reducers/mainLoop';
 import showAddToaster from './reducers/toaster';
@@ -20,6 +19,5 @@ export default combineReducers({
 
   // used to render canvas
   views,
-  hover,
   circuit
 });

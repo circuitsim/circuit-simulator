@@ -1,61 +1,49 @@
-import React from 'react';
-
 import { BaseData } from '../../../circuit/models';
-import DrawingUtils from '../../utils/DrawingUtils.js';
-import Line from '../../utils/Line.js';
-import CurrentPath from '../CurrentPath.js';
-import { get2PointBoundingBox } from '../boundingBox.js';
+import transforms from '../render/transforms';
 
-import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
+// import { get2PointBoundingBox } from '../boundingBox.js';
+
+import { getDragFunctionFor } from '../Utils.js';
 import { GRID_SIZE } from '../Constants.js';
-import { LINE_WIDTH } from '../../Constants.js';
-
-const { PropTypes } = DrawingUtils;
 
 const MIN_LENGTH = GRID_SIZE;
 
 const BaseWireModel = BaseData.Wire;
 
-const Wire = ({
-    connectors,
-    colors
-  }) => {
-  return (
-    <Line
-      color={colors[0]}
-      points={connectors}
-      width={LINE_WIDTH}
-    />
-  );
+const NUM_OF_CONNECTORS = 2;
+export default {
+  typeID: BaseWireModel.typeID,
+
+  numOfVoltages: 2,
+  numOfConnectors: NUM_OF_CONNECTORS,
+
+  dragPoint: getDragFunctionFor(MIN_LENGTH),
+  transform: transforms[NUM_OF_CONNECTORS],
+
+  render: (ctx, { connectors }) => {
+    const [c1, c2] = connectors;
+    ctx.beginPath();
+    ctx.moveTo(c1.x, 0);
+    ctx.lineTo(c2.x, 0);
+    ctx.stroke();
+  }
 };
 
-Wire.propTypes = {
-  connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-  colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-};
-
-Wire.numOfVoltages = 2;
-Wire.numOfConnectors = 2;
-Wire.dragPoint = getDragFunctionFor(MIN_LENGTH);
-Wire.getConnectorPositions = get2ConnectorsFromDragPoints;
-
-Wire.typeID = BaseWireModel.typeID;
-
-Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
-Wire.getCurrentPaths = ({
-    currents = [0],
-    currentOffset,
-    connectors,
-    key
-  }) => {
-  return (
-    <CurrentPath
-      endPoints={connectors}
-      current={currents[0]}
-      currentOffset={currentOffset}
-      key={key}
-    />
-  );
-};
-
-export default Wire;
+// Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
+// Wire.getCurrentPaths = ({
+//     currents = [0],
+//     currentOffset,
+//     connectors,
+//     key
+//   }) => {
+//   return (
+//     <CurrentPath
+//       endPoints={connectors}
+//       current={currents[0]}
+//       currentOffset={currentOffset}
+//       key={key}
+//     />
+//   );
+// };
+//
+// export default Wire;

@@ -9,7 +9,7 @@ import applyVoltageColor from './applyVoltageColor.js';
 import showDragPoints from './showDragPoints.js';
 import showLabel from './showComponentLabel.js';
 
-const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB, circuitState }) => component => {
+const createComponentInfo = ({ hover, circuitError, volts2RGB, circuitState }) => component => {
   const hovered = component.id === hover.viewID;
   const hoveredDragPointIndex = hovered
     ? hover.dragPointIndex
@@ -18,7 +18,6 @@ const createComponentInfo = ({ handlers, hover, circuitError, volts2RGB, circuit
     id: component.id,
     CircuitComponent: CircuitComponents[component.typeID],
     props: R.merge(component, {
-      handlers: handlers.component,
       hovered,
       hoveredDragPointIndex,
       circuitError,
