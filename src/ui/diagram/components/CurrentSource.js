@@ -1,14 +1,18 @@
 import { BaseData } from '../../../circuit/models';
 import transforms from '../render/transforms';
 
-// import { get2PointBoundingBox } from '../boundingBox.js';
+import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { getDragFunctionFor } from '../Utils.js';
-import { CURRENT_SOURCE, GRID_SIZE } from '../Constants.js';
+import {
+  BOUNDING_BOX_PADDING,
+  CURRENT_SOURCE,
+  GRID_SIZE
+} from '../Constants.js';
 
 const { RADIUS } = CURRENT_SOURCE;
 const RAD_ONE_HALF = RADIUS * 1.5;
-// const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
+const BOUNDING_BOX_WIDTH = CURRENT_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RADIUS * 3 + GRID_SIZE;
 
 const BaseCurrentSourceModel = BaseData.CurrentSource;
@@ -26,6 +30,9 @@ export default {
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
+
+  width: BOUNDING_BOX_WIDTH,
+  getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {
     connectors
@@ -48,8 +55,6 @@ export default {
   }
 };
 
-// CurrentSource.width = BOUNDING_BOX_WIDTH;
-// CurrentSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 // CurrentSource.getCurrentPaths = ({
 //     value: current = DEFAULT_CURRENT,
 //     currentOffset,

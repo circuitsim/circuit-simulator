@@ -1,10 +1,11 @@
 import { BaseData } from '../../../circuit/models';
 import transforms from '../render/transforms';
 
-// import { get2PointBoundingBox } from '../boundingBox.js';
+import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { getDragFunctionFor } from '../Utils.js';
 import { GRID_SIZE } from '../Constants.js';
+import { LINE_WIDTH } from '../render';
 
 const MIN_LENGTH = GRID_SIZE;
 
@@ -20,6 +21,8 @@ export default {
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
+  getBoundingBox: get2PointBoundingBox(LINE_WIDTH * 2),
+
   render: (ctx, { connectors }) => {
     const [c1, c2] = connectors;
     ctx.beginPath();
@@ -29,7 +32,6 @@ export default {
   }
 };
 
-// Wire.getBoundingBox = get2PointBoundingBox(LINE_WIDTH * 2);
 // Wire.getCurrentPaths = ({
 //     currents = [0],
 //     currentOffset,

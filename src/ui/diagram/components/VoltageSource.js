@@ -2,14 +2,18 @@ import { BaseData } from '../../../circuit/models';
 import transforms from '../render/transforms';
 import { LINE_WIDTH } from '../render';
 
-// import { get2PointBoundingBox } from '../boundingBox.js';
+import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { getDragFunctionFor } from '../Utils.js';
-import { VOLTAGE_SOURCE, GRID_SIZE } from '../Constants.js';
+import {
+  BOUNDING_BOX_PADDING,
+  VOLTAGE_SOURCE,
+  GRID_SIZE
+} from '../Constants.js';
 
 const PLUS_LENGTH = LINE_WIDTH * 2;
 const { RADIUS } = VOLTAGE_SOURCE;
-// const BOUNDING_BOX_WIDTH = VOLTAGE_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
+const BOUNDING_BOX_WIDTH = VOLTAGE_SOURCE.RADIUS * 2 + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = RADIUS * 2 + GRID_SIZE;
 
 const BaseVoltageSourceModel = BaseData.VoltageSource;
@@ -27,6 +31,9 @@ export default {
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
+
+  width: BOUNDING_BOX_WIDTH,
+  getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {
     connectors
@@ -54,8 +61,6 @@ export default {
   }
 };
 
-// VoltageSource.width = BOUNDING_BOX_WIDTH;
-// VoltageSource.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
 // VoltageSource.getCurrentPaths = ({
 //     currents,
 //     currentOffset,
