@@ -6,12 +6,12 @@ import {
 export default function moveComponentReducer(movingComponent = {}, action) {
   switch (action.type) {
   case MOVING_START: {
-    const { component, dragPointIndex, mouseVector } = action;
+    const { component, mouseVector } = action;
     return {
       id: component.id,
       from: mouseVector,
       origDragPoints: component.dragPoints,
-      dragPointIndex
+      dragPointIndex: component.dragPointIndex
     };
   }
 

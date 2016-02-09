@@ -82,10 +82,11 @@ export function canvasMouseMove(coords) {
     const {
       mode,
       views,
-      hover: hoveredComponent,
       addingComponent,
       movingComponent
     } = getState();
+
+    const hoveredComponent = R.find(c => c.hovered, R.values(views));
 
     switch (mode.type) {
     case MODES.adding:
@@ -97,7 +98,7 @@ export function canvasMouseMove(coords) {
       break;
 
     case MODES.selectOrMoveMouseDown:
-      if (hoveredComponent.viewID) {
+      if (hoveredComponent) {
         dispatch({
           type: CHANGE_MODE,
           name: MODES.moving
@@ -105,8 +106,7 @@ export function canvasMouseMove(coords) {
         dispatch({
           type: MOVING_START,
           mouseVector: Vector.fromObject(coords),
-          component: views[hoveredComponent.viewID],
-          dragPointIndex: hoveredComponent.dragPointIndex
+          component: hoveredComponent
         });
       }
       break;
@@ -125,7 +125,10 @@ export function canvasMouseMove(coords) {
 
 export function canvasMouseUp(coords) {
   return function(dispatch, getState) {
-    const { mode, views, hover } = getState();
+    const {
+      mode,
+      views
+    } = getState();
     switch (mode.type) {
     case MODES.adding:
       dispatch({
@@ -150,8 +153,7 @@ export function canvasMouseUp(coords) {
       dispatch({
         type: SELECT_HOVERED_COMPONENT,
         coords,
-        views,
-        hover
+        views
       });
       break;
 

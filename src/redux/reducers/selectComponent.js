@@ -1,3 +1,4 @@
+import R from 'ramda';
 import {
   SELECT_HOVERED_COMPONENT,
   UNSELECT_COMPONENT
@@ -6,9 +7,10 @@ import {
 export default function selectComponentReducer(selected = null, action) {
   switch (action.type) {
   case SELECT_HOVERED_COMPONENT: {
-    const { hover, views } = action;
-    if (hover.viewID) {
-      return views[hover.viewID];
+    const { views } = action;
+    const hoveredComponent = R.find(c => c.hovered, R.values(views));
+    if (hoveredComponent) {
+      return hoveredComponent;
     } else {
       return null;
     }
