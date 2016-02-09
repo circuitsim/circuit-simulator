@@ -20,7 +20,7 @@ const moreThanOne = R.pipe(
   R.length,
   R.gt(R.__, 1)
 );
-const overwriteWith = R.partial(R.merge, [R.__]);
+const mergeOverWith = R.partial(R.merge, [R.__]);
 
 const isHovered = component => component.hovered;
 
@@ -123,6 +123,7 @@ export default function viewsReducer(views = {}, action) {
 
   case SET_HOVERED_COMPONENT: {
     const { mousePos } = action;
+    const viewsList = R.values(views);
 
     const getHoverInfo = hoverFor(mousePos);
     const toHoverInfo = view => {
@@ -139,12 +140,12 @@ export default function viewsReducer(views = {}, action) {
       // TODO what if a big component completely covers a smaller one?
       // - we should have a bias for smaller components
       // TODO ugh nested ternaries - not clear what's going on or why
-      return currentBest.id
+      return currentBest && currentBest.id
         ? currentBest.id === hoverInfo.id
           ? hoverInfo
           : currentBest
         : hoverInfo;
-    }, R.find(isHovered, views)); // prefer currently hovered view
+    }, R.find(isHovered, viewsList)); // prefer currently hovered view
 
     const hoveredComponentInfo = R.pipe(
       R.map(toHoverInfo),
@@ -153,14 +154,14 @@ export default function viewsReducer(views = {}, action) {
         pickBest,
         R.head
       )
-    )(R.values(views));
+    )(viewsList);
 
     const isHoveredComponent = view => hoveredComponentInfo && view.id === hoveredComponentInfo.id;
-    const unhover = overwriteWith({hovered: false, dragPointIndex: null});
+    const unhover = mergeOverWith({hovered: false, dragPointIndex: null});
 
     return R.map(
       R.ifElse(isHoveredComponent,
-        overwriteWith(hoveredComponentInfo),
+        mergeOverWith(hoveredComponentInfo),
         unhover
       ), views);
   }
