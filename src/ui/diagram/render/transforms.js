@@ -66,18 +66,25 @@ export default {
     transformCanvas: centerFirstDP,
     getConnectors() {
       return [{x: 0, y: 0}];
+    },
+    getRealConnectors(dragPoints) {
+      return [dragPoints[0]];
     }
   },
   2: {
     transformCanvas: centerMid,
     getConnectors(dragPoints) {
       let half = length(dragPoints) / 2;
-      half = Math.round(half); // better to give the Canvas interger coords
+      half = Math.round(half); // better to give the Canvas integer coords
       return [{x: -half, y: 0}, {x: half, y: 0}];
+    },
+    getRealConnectors(dragPoints) {
+      return dragPoints;
     }
   },
   identity: {
     transformCanvas: () => render => props => { render(props); },
-    getConnectors: R.identity
+    getConnectors: R.identity,
+    getRealConnectors: R.identity
   }
 };

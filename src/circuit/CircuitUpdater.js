@@ -7,7 +7,7 @@ function toConnectors(view) {
   // IN:
   // [{
   //   id
-  //   connectors: [Vector]
+  //   realConnectors: [Vector]
   // }]
 
   // OUT:
@@ -18,20 +18,20 @@ function toConnectors(view) {
   //     index
   //   }
   // }]
-  const {connectors} = view;
+  const {realConnectors} = view;
   return R.addIndex(R.map)((vector, index) => ({
     pos: vector,
     id: {
       viewID: view.id,
       index: index
     }
-  }), connectors);
+  }), realConnectors);
 }
 
-function merge(connectors) {
+function merge(realConnectors) {
   return R.reduce((nodeIDs, connector) => {
     return R.append(connector.id, nodeIDs);
-  }, [], connectors);
+  }, [], realConnectors);
 }
 
 function position(connector) { return connector.pos.toString(); }
@@ -42,7 +42,7 @@ export function toNodes(views) {
   //   id: {
   //     typeID: string,
   //     id,
-  //     connectors: [Vector]
+  //     realConnectors: [Vector]
   //   }
   // }
 

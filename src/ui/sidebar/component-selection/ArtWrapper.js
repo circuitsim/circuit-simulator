@@ -1,5 +1,4 @@
 import React from 'react';
-// import {Surface, Group, Transform} from 'react-art';
 import {initCanvas, createComponentRenderer} from '../../diagram/render';
 import Vector from 'immutable-vector2d';
 

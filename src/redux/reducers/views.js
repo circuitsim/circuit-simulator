@@ -84,6 +84,7 @@ export default function viewsReducer(views = {}, action) {
           dragPoints = [startPoint, dragPoint];
 
     const connectors = Component.transform.getConnectors(dragPoints);
+    const realConnectors = Component.transform.getRealConnectors(dragPoints);
 
     return {
       ...views,
@@ -91,8 +92,11 @@ export default function viewsReducer(views = {}, action) {
         typeID,
         id,
         value: Component.defaultValue,
-        dragPoints,
-        connectors
+        dragPoints, // real coordinates of the drag points
+
+        // TODO name these better
+        connectors, // coordinates of the connectors in the transformed canvas - used for rendering
+        realConnectors
       }
     };
   }
