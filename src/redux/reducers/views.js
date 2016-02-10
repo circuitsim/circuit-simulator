@@ -34,14 +34,16 @@ function moveSingleDragPoint(views, action) {
         newDragPoint = Component.dragPoint(action.mouseVector, {fixed: origDragPoints[fixedPointIndex]}),
         dragPoints = R.update(dragPointIndex, newDragPoint, origDragPoints),
 
-        connectors = Component.transform.getConnectors(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints),
+        realConnectors = Component.transform.getRealConnectors(dragPoints);
 
   return {
     ...views,
     [id]: {
       ...view,
       dragPoints,
-      connectors
+      connectors,
+      realConnectors
     }
   };
 }
@@ -55,14 +57,16 @@ function moveWholeComponent(views, action) {
         diffVector = diff(from, action.mouseVector),
         dragPoints = R.map(v => snapToGrid(v.subtract(diffVector)), origDragPoints),
 
-        connectors = Component.transform.getConnectors(dragPoints);
+        connectors = Component.transform.getConnectors(dragPoints),
+        realConnectors = Component.transform.getRealConnectors(dragPoints);
 
   return {
     ...views,
     [id]: {
       ...view,
       dragPoints,
-      connectors
+      connectors,
+      realConnectors
     }
   };
 }

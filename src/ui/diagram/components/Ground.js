@@ -47,7 +47,8 @@ export default {
 
   getBoundingBox: get2PointBoundingBox(GROUND_LENGTH),
 
-  render: (ctx) => {
+  render: (ctx, {colors}) => {
+    ctx.strokeStyle = colors[0];
     ctx.stroke(GROUND_PATH);
   }
 };

@@ -164,7 +164,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
 
     delta /= 1000; // convert from milliseconds to seconds
 
-    /* eslint-disable indent */
+    /* eslint-disable indent */ // SIGH need to deal with this shit
     let fullSolution = [],
         currentCalculators = {},
         circuitState = previousCircuitState,
@@ -182,7 +182,12 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
         timeToSimulate -= timestep
       ) {
         const fullEquation = clone(staticEquation);
-        currentCalculators = stampDynamicEquation(circuitGraph, fullEquation, timestep, circuitState);
+        currentCalculators = stampDynamicEquation(
+          circuitGraph,
+          fullEquation, // this gets mutated!
+          timestep,
+          circuitState
+        );
 
         const solution = solveEquation(fullEquation);
         fullSolution = [0, ...solution]; // add 0 volt ground node

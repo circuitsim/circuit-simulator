@@ -32,22 +32,32 @@ export default {
   width: BOUNDING_BOX_WIDTH, // for label positioning
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
-  render: (ctx, {
-    connectors
-    // colors
-  }) => {
+  render: (ctx, props) => {
+    const {
+      connectors,
+      colors
+    } = props;
+
     const [c1, c2] = connectors;
 
-    ctx.beginPath();
 
+    ctx.beginPath();
+    ctx.strokeStyle = colors[0];
     ctx.moveTo(c1.x, 0);
     ctx.lineTo(-RESISTOR.LENGTH / 2, 0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = colors[1];
     ctx.moveTo(c2.x, 0);
     ctx.lineTo(RESISTOR.LENGTH / 2, 0);
-
-    ctx.rect(-RESISTOR.LENGTH / 2, -RESISTOR.WIDTH / 2, RESISTOR.LENGTH, RESISTOR.WIDTH);
-
     ctx.stroke();
+
+    const gradient = ctx.createLinearGradient(-RESISTOR.LENGTH / 2, 0, RESISTOR.LENGTH / 2, 0);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(1, colors[1]);
+    ctx.strokeStyle = gradient;
+    ctx.strokeRect(-RESISTOR.LENGTH / 2, -RESISTOR.WIDTH / 2, RESISTOR.LENGTH, RESISTOR.WIDTH);
   }
 };
 

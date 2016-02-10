@@ -1,10 +1,9 @@
 import R from 'ramda';
 import CircuitComponents from '../components';
-import highlightOnHover from './highlightOnHover';
 
 export const LINE_WIDTH = 2;
 
-const clearCanvas = ctx => {
+export const clearCanvas = ctx => {
   const width = ctx.canvas.width;
   const height = ctx.canvas.height;
   ctx.clearRect(0, 0, width, height);
@@ -15,6 +14,7 @@ export const initCanvas = (ctx, theme) => {
   ctx.strokeStyle = theme.COLORS.base;
   ctx.lineWidth = LINE_WIDTH;
   ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
   ctx.save();
 };
 
@@ -42,19 +42,23 @@ export const createComponentRenderer = (ctx, modifiers = []) => (Component, prop
 const lookupComponent = viewProps => CircuitComponents[viewProps.typeID];
 
 export default (store, ctx, theme) => {
-  const modifiers = [
-    highlightOnHover
-  ];
-  const renderComponent = R.converge(
-    createComponentRenderer(ctx, modifiers),
-    [ lookupComponent,
-      R.merge({theme})
-    ]
-  );
-  const renderComponents = R.pipe(
-    R.values,
-    R.forEach(renderComponent)
-  );
+  const modifiers = [];
+  const renderComponent = createComponentRenderer(ctx, modifiers);
+
+  const renderWithProps = ({volts2RGB, circuitState}) => (component) => {
+    const ComponentType = lookupComponent(component);
+
+    const toRGB = volts2RGB(theme.COLORS);
+    const voltages = circuitState[component.id].voltages;
+    const colors = component.hovered
+      ? R.repeat(theme.COLORS.highlight, ComponentType.numOfVoltages || 1)
+      : R.map(toRGB, voltages);
+
+    renderComponent(ComponentType, {
+      ...component,
+      colors
+    });
+  };
 
   const render = () => {
     const {
@@ -69,7 +73,9 @@ export default (store, ctx, theme) => {
 
     clearCanvas(ctx);
 
-    renderComponents(views);
+    const renderView = renderWithProps({volts2RGB, circuitState});
+    R.values(views).forEach(renderView);
+
     // TODO
     // render labels
     // render currentDots

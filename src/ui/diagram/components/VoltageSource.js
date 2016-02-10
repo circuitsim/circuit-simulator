@@ -36,14 +36,19 @@ export default {
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {
-    connectors
-    // colors
+    connectors,
+    colors
   }) => {
     const [c1, c2] = connectors;
 
     ctx.beginPath();
+    ctx.strokeStyle = colors[0];
     ctx.moveTo(c1.x, 0);
     ctx.lineTo(-RADIUS, 0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = colors[1];
 
     ctx.arc(0, 0, RADIUS, Math.PI, -Math.PI);
 

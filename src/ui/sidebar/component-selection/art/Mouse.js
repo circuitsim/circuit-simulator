@@ -32,7 +32,8 @@ MOUSE_PATH.closePath();
 export default {
   transform: transforms.identity,
 
-  render: ctx => {
+  render: (ctx, {colors}) => {
+    ctx.strokeStyle = colors[0];
     ctx.stroke(MOUSE_PATH);
   }
 };

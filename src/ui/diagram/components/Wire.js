@@ -23,7 +23,14 @@ export default {
 
   getBoundingBox: get2PointBoundingBox(LINE_WIDTH * 2),
 
-  render: (ctx, { connectors }) => {
+  render: (ctx, props) => {
+    const {
+      connectors,
+      colors
+    } = props;
+
+    ctx.strokeStyle = colors[0];
+
     const [c1, c2] = connectors;
     ctx.beginPath();
     ctx.moveTo(c1.x, 0);
