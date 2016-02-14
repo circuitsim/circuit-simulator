@@ -1,5 +1,5 @@
 import React from 'react';
-import {initCanvas, clearCanvas, createComponentRenderer} from '../../diagram/render';
+import {initCanvas, clearCanvas} from '../../diagram/render';
 import Vector from 'immutable-vector2d';
 
 const W = 50,
@@ -24,8 +24,9 @@ class ArtWrapper extends React.Component {
     const {art: Art} = this.props;
     const dragPoints = [new Vector(0, 0), new Vector(W, H)];
     const connectors = Art.transform.getConnectors(dragPoints);
-    const render = createComponentRenderer(ctx);
-    render(Art, {dragPoints, connectors, colors: this.props.colors});
+    const props = {dragPoints, connectors, colors: this.props.colors};
+    Art.transform.transformCanvas(ctx, props,
+      () => Art.render(ctx, props));
 
     ctx.restore();
   }

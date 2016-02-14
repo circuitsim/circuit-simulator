@@ -18,33 +18,9 @@ export const initCanvas = (ctx, theme) => {
   ctx.save();
 };
 
-const composeList = R.apply(R.compose);
-
-export const createComponentRenderer = (ctx, modifiers = []) => (Component, props) => {
-  // MODIFIER :: (ctx, props) => next => () => void
-  const modConstructors = [
-    Component.transform.transformCanvas,
-    ...modifiers
-  ];
-  const createRenderer = create => create(ctx, props);
-
-  const wrap = R.pipe(
-    R.map(createRenderer),
-    composeList,
-  )(modConstructors);
-
-  const renderComponent = () => Component.render(ctx, props);
-  const render = wrap(renderComponent);
-
-  render();
-};
-
 const lookupComponent = viewProps => CircuitComponents[viewProps.typeID];
 
 export default (store, ctx, theme) => {
-  const modifiers = [];
-  const renderComponent = createComponentRenderer(ctx, modifiers);
-
   const renderWithProps = ({volts2RGB, circuitState}) => (component) => {
     const ComponentType = lookupComponent(component);
 
@@ -54,10 +30,13 @@ export default (store, ctx, theme) => {
       ? R.repeat(theme.COLORS.highlight, ComponentType.numOfVoltages || 1)
       : R.map(toRGB, voltages);
 
-    renderComponent(ComponentType, {
+    const props = {
       ...component,
       colors
-    });
+    };
+
+    ComponentType.transform.transformCanvas(ctx, props,
+      () => ComponentType.render(ctx, props));
   };
 
   const render = () => {

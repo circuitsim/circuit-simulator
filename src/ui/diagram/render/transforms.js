@@ -1,5 +1,5 @@
 import DrawingUtils from '../../utils/DrawingUtils.js';
-import R from "ramda";
+import R from 'ramda';
 
 const { midPoint } = DrawingUtils;
 
@@ -12,7 +12,7 @@ const length = dps => {
  * between the two drag points, and the drag points are on the
  * x-axis, left-to-right.
  */
-const centerMid = (ctx, props) => next => () => {
+const centerMid = (ctx, props, next) => {
   const { dragPoints: [dp1, dp2] } = props;
 
   const mid = midPoint(dp1, dp2);
@@ -33,7 +33,7 @@ const centerMid = (ctx, props) => next => () => {
  * (0, 0) and the second drag point is on the positive x-axis.
  */
 
-const centerFirstDP = (ctx, props) => next => () => {
+const centerFirstDP = (ctx, props, next) => {
   const { dragPoints: [dp1, dp2] } = props;
 
   const s = dp2.subtract(dp1);
@@ -83,7 +83,7 @@ export default {
     }
   },
   identity: {
-    transformCanvas: () => render => props => { render(props); },
+    transformCanvas: (ctx, props, render) => { render(props); },
     getConnectors: R.identity,
     getRealConnectors: R.identity
   }
