@@ -6,7 +6,7 @@ export default (ctx, props) => {
 
   connectors.forEach((c) => {
     ctx.beginPath();
-    ctx.arc(c.x, c.y, 2, 0, TWO_PI);
+    ctx.arc(c.x, c.y, 3, 0, TWO_PI);
     ctx.fill();
   });
 };

@@ -52,7 +52,7 @@ export default (store, ctx, theme) => {
 
   const renderDragPoint = (dragPoint) => {
     ctx.beginPath();
-    ctx.arc(dragPoint.x, dragPoint.y, 4, 0, TWO_PI);
+    ctx.arc(dragPoint.x, dragPoint.y, 5, 0, TWO_PI);
     ctx.fill();
   };
 
