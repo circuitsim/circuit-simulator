@@ -2,6 +2,7 @@ import R from 'ramda';
 import CircuitComponents from '../components';
 import drawConnectors from './connectors';
 
+const TWO_PI = 2 * Math.PI;
 export const LINE_WIDTH = 2;
 
 export const clearCanvas = ctx => {
@@ -49,6 +50,40 @@ export default (store, ctx, theme) => {
     );
   };
 
+  const renderDragPoint = (dragPoint) => {
+    ctx.beginPath();
+    ctx.arc(dragPoint.x, dragPoint.y, 4, 0, TWO_PI);
+    ctx.fill();
+  };
+
+  const renderDragPoints = (viewsList) => {
+    const hoveredComponents = R.filter(c => c.hovered, viewsList);
+    hoveredComponents.forEach((comp) => {
+      ctx.fillStyle = theme.COLORS.transBase;
+      comp.dragPoints.forEach(renderDragPoint);
+    });
+
+    const comp = R.find(c => c.dragPointIndex !== false, hoveredComponents);
+    if (comp) {
+      const dragPoint = comp.dragPoints[comp.dragPointIndex];
+
+      ctx.fillStyle = theme.COLORS.highlight;
+      renderDragPoint(dragPoint);
+    }
+  };
+
+  const renderAllConnectors = (viewsList) => {
+    ctx.save();
+    ctx.fillStyle = theme.COLORS.base;
+    viewsList.forEach(renderConnectors);
+
+    ctx.fillStyle = theme.COLORS.highlight;
+    const hoveredComponents = R.filter(c => c.hovered, viewsList);
+    hoveredComponents.forEach(renderConnectors);
+
+    ctx.restore();
+  };
+
   const render = () => {
     const {
       views,
@@ -67,20 +102,13 @@ export default (store, ctx, theme) => {
     const renderView = renderWithProps({volts2RGB, circuitState});
     viewsList.forEach(renderView);
 
-    ctx.save();
-    ctx.fillStyle = theme.COLORS.base;
-    viewsList.forEach(renderConnectors);
+    renderAllConnectors(viewsList);
 
-    ctx.fillStyle = theme.COLORS.highlight;
-    const hoveredComponents = R.filter(c => c.hovered, viewsList);
-    hoveredComponents.forEach(renderConnectors);
-    ctx.restore();
+    renderDragPoints(viewsList);
 
     // TODO
     // render labels
     // render currentDots
-    // render dragPoints
-
   };
 
   initCanvas(ctx, theme);

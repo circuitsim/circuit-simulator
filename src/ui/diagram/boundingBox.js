@@ -3,9 +3,8 @@ import inside from 'point-in-polygon';
 import Vector from 'immutable-vector2d';
 
 import CircuitComponents from './components';
-import DragPoint from './DragPoint.js';
 import { BOUNDING_BOX_PADDING, DRAG_POINT_RADIUS } from './Constants.js';
-import { getRectPointsBetween } from '../utils/DrawingUtils.js';
+import { getRectPointsBetween, distance } from '../utils/DrawingUtils.js';
 
 const MIN_WIDTH = DRAG_POINT_RADIUS * 2;
 const sanitise = width => {
@@ -33,10 +32,14 @@ function isPointIn(p: Vector, polygon: Array<[number, number]>) {
   return inside(point, polygon);
 }
 
+const isPointInDragPoint = point => connectorPos => {
+  return distance(point, connectorPos).length() < DRAG_POINT_RADIUS;
+};
+
 export const hoverFor = (mousePos: Vector) => (typeID, dragPoints) => {
   const CircuitComp = CircuitComponents[typeID];
 
-  const hoveredDragPointIndex = R.findIndex(DragPoint.isPointIn(mousePos), dragPoints);
+  const hoveredDragPointIndex = R.findIndex(isPointInDragPoint(mousePos), dragPoints);
   const isIndex = R.is(Number, hoveredDragPointIndex) && hoveredDragPointIndex >= 0;
   return {
     hovered: isPointIn(mousePos, CircuitComp.getBoundingBox(dragPoints)) || isIndex,
