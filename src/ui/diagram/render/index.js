@@ -1,5 +1,6 @@
 import R from 'ramda';
 import CircuitComponents from '../components';
+import drawConnectors from './connectors';
 
 export const LINE_WIDTH = 2;
 
@@ -36,7 +37,16 @@ export default (store, ctx, theme) => {
     };
 
     ComponentType.transform.transformCanvas(ctx, props,
-      () => ComponentType.render(ctx, props));
+      () => ComponentType.render(ctx, props)
+    );
+  };
+
+  const renderConnectors = (component) => {
+    const ComponentType = lookupComponent(component);
+
+    ComponentType.transform.transformCanvas(ctx, component,
+      () => drawConnectors(ctx, component)
+    );
   };
 
   const render = () => {
@@ -52,8 +62,19 @@ export default (store, ctx, theme) => {
 
     clearCanvas(ctx);
 
+    const viewsList = R.values(views);
+    // TODO colors = calculateColors()
     const renderView = renderWithProps({volts2RGB, circuitState});
-    R.values(views).forEach(renderView);
+    viewsList.forEach(renderView);
+
+    ctx.save();
+    ctx.fillStyle = theme.COLORS.base;
+    viewsList.forEach(renderConnectors);
+
+    ctx.fillStyle = theme.COLORS.highlight;
+    const hoveredComponents = R.filter(c => c.hovered, viewsList);
+    hoveredComponents.forEach(renderConnectors);
+    ctx.restore();
 
     // TODO
     // render labels
