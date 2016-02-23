@@ -1,6 +1,5 @@
 import R from 'ramda';
 import CircuitComponents from '../components';
-import drawConnectors from './connectors';
 
 const TWO_PI = 2 * Math.PI;
 export const LINE_WIDTH = 2;
@@ -44,9 +43,16 @@ export default (store, ctx, theme) => {
 
   const renderConnectors = (component) => {
     const ComponentType = lookupComponent(component);
+    const { connectors } = component;
 
     ComponentType.transform.transformCanvas(ctx, component,
-      () => drawConnectors(ctx, component)
+      () => {
+        connectors.forEach((c) => {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 3, 0, TWO_PI);
+          ctx.fill();
+        });
+      }
     );
   };
 
