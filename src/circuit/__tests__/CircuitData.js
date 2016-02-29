@@ -82,7 +82,7 @@ export const BASIC_CIRCUIT = {
     Ground1: {
       typeID: 'Ground',
       id: 'Ground1',
-      connectors: [
+      realConnectors: [
         new Vector(10, 20)
       ]
     },
@@ -90,7 +90,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
       value: 0.5,
-      connectors: [
+      realConnectors: [
         new Vector(10, 20),
         new Vector(10, 10)
       ]
@@ -98,7 +98,7 @@ export const BASIC_CIRCUIT = {
     Wire1: {
       typeID: 'Wire',
       id: 'Wire1',
-      connectors: [
+      realConnectors: [
         new Vector(10, 10),
         new Vector(20, 10)
       ]
@@ -107,7 +107,7 @@ export const BASIC_CIRCUIT = {
       typeID: 'Resistor',
       id: 'Resistor1',
       value: 10,
-      connectors: [
+      realConnectors: [
         new Vector(20, 10),
         new Vector(20, 20)
       ]
@@ -115,7 +115,7 @@ export const BASIC_CIRCUIT = {
     Wire2: {
       typeID: 'Wire',
       id: 'Wire2',
-      connectors: [
+      realConnectors: [
         new Vector(20, 20),
         new Vector(10, 20)
       ]

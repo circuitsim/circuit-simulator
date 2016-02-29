@@ -147,8 +147,8 @@ function findConnectedNodes({nodes, models, numOfNodes}, nodeID) {
         }
       }
     }
-    return connected;
   }
+  return connected;
 }
 
 const HIGH_RESISTANCE = 10e9;

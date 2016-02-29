@@ -6,7 +6,7 @@ const styles = ({COLORS}) => {
   return {
     background: COLORS.canvasOverlayBackground,
     color: COLORS.highlight,
-    textShadow: `0px 0px 4px #222`,
+    textShadow: '0px 0px 4px #222',
     fontSize: 'larger',
     position: 'absolute',
     right: '2em',

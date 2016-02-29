@@ -47,7 +47,7 @@ class ArtWrapper extends React.Component {
   render() {
     return (
       <canvas
-        ref={c => this.canvas = c}
+        ref={c => (this.canvas = c)}
 
         width={W}
         height={H}

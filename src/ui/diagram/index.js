@@ -74,7 +74,7 @@ class CircuitDiagram extends React.Component {
     const { store } = this.context;
     return (
       <canvas
-        ref={c => this.canvas = c}
+        ref={c => (this.canvas = c)}
 
         width={width}
         height={height}
