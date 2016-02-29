@@ -1,6 +1,6 @@
 import { BaseData } from '../../../circuit/models';
 import transforms from '../render/transforms';
-import { LINE_WIDTH } from '../render';
+import { LINE_WIDTH } from '../Constants';
 
 import { get2PointBoundingBox } from '../boundingBox.js';
 
@@ -26,13 +26,13 @@ export default {
   numOfVoltages: 2,
   numOfConnectors: NUM_OF_CONNECTORS,
 
+  width: BOUNDING_BOX_WIDTH,
   defaultValue: DEFAULT_VOLTAGE,
   unit: 'V',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
-  width: BOUNDING_BOX_WIDTH,
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {

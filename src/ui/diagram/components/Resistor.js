@@ -23,13 +23,13 @@ export default {
   numOfVoltages: 2,
   numOfConnectors: NUM_OF_CONNECTORS,
 
+  width: BOUNDING_BOX_WIDTH, // for label positioning
   defaultValue: DEFAULT_RESISTANCE,
   unit: 'Ω',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
-  width: BOUNDING_BOX_WIDTH, // for label positioning
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, props) => {

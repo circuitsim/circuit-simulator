@@ -4,8 +4,7 @@ import transforms from '../render/transforms';
 import { get2PointBoundingBox } from '../boundingBox.js';
 
 import { getDragFunctionFor } from '../Utils.js';
-import { GRID_SIZE } from '../Constants.js';
-import { LINE_WIDTH } from '../render';
+import { GRID_SIZE, LINE_WIDTH } from '../Constants.js';
 
 const MIN_LENGTH = GRID_SIZE * 3;
 const MAX_LENGTH = MIN_LENGTH;

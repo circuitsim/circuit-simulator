@@ -5,7 +5,7 @@ import renderConnectors from './connectors';
 import renderDragPoints from './dragPoints';
 import renderLabels from './labels';
 
-export const LINE_WIDTH = 2;
+import {LINE_WIDTH} from '../Constants';
 
 export const clearCanvas = ctx => {
   const width = ctx.canvas.width;

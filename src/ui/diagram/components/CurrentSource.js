@@ -28,10 +28,10 @@ export default {
   defaultValue: DEFAULT_CURRENT,
   unit: 'A',
 
+  width: BOUNDING_BOX_WIDTH,
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
 
-  width: BOUNDING_BOX_WIDTH,
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {

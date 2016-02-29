@@ -1,4 +1,6 @@
 const CONSTANTS = {
+  LINE_WIDTH: 2,
+
   GRID_SIZE: 20,
 
   DRAG_POINT_RADIUS: 8,
