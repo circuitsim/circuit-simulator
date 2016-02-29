@@ -3,6 +3,7 @@ import R from 'ramda';
 import renderViews from './components';
 import renderConnectors from './connectors';
 import renderDragPoints from './dragPoints';
+import renderLabels from './labels';
 
 export const LINE_WIDTH = 2;
 
@@ -42,9 +43,8 @@ export default (store, ctx, theme) => {
     renderViews({ctx, theme, volts2RGB, circuitState, components: viewsList});
     renderConnectors({ctx, theme, components: viewsList});
     renderDragPoints({ctx, theme, components: viewsList});
-
+    renderLabels({ctx, theme, components: viewsList});
     // TODO
-    // render labels
     // render currentDots
   };
 
