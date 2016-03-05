@@ -4,6 +4,7 @@ import renderViews from './components';
 import renderConnectors from './connectors';
 import renderDragPoints from './dragPoints';
 import renderLabels from './labels';
+import renderCurrent from './current';
 
 import {LINE_WIDTH} from '../Constants';
 
@@ -44,8 +45,7 @@ export default (store, ctx, theme) => {
     renderConnectors({ctx, theme, components: viewsList});
     renderDragPoints({ctx, theme, components: viewsList});
     renderLabels({ctx, theme, components: viewsList});
-    // TODO
-    // render currentDots
+    renderCurrent({ctx, theme, currentOffset, circuitState, components: viewsList});
   };
 
   initCanvas(ctx, theme);

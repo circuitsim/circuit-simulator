@@ -57,25 +57,15 @@ export default {
     ctx.lineTo(RAD_ONE_HALF, 0);
 
     ctx.stroke();
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors,
+      value: current = DEFAULT_CURRENT
+    } = props;
+    const [c1, c2] = connectors;
+
+    renderBetween(c1, c2, current);
   }
 };
-
-// CurrentSource.getCurrentPaths = ({
-//     value: current = DEFAULT_CURRENT,
-//     currentOffset,
-//     connectors,
-//     circuitError = false,
-//     key
-//   }) => {
-//   current = circuitError ? 0 : current;
-//   return (
-//     <CurrentPath
-//       endPoints={connectors}
-//       current={current}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };
-//
-// export default CurrentSource;

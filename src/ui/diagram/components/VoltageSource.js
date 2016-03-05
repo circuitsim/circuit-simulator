@@ -63,23 +63,18 @@ export default {
     ctx.lineTo(0, -PLUS_LENGTH);
 
     ctx.stroke();
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors
+    } = props;
+    const [c1, c2] = connectors;
+
+    const {
+      currents = [0]
+    } = state;
+
+    renderBetween(c1, c2, currents[0]);
   }
 };
-
-// VoltageSource.getCurrentPaths = ({
-//     currents,
-//     currentOffset,
-//     connectors,
-//     key
-//   }) => {
-//   return (
-//     <CurrentPath
-//       endPoints={connectors}
-//       current={currents[0]}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };
-//
-// export default VoltageSource;

@@ -40,7 +40,6 @@ export default {
 
     const [c1, c2] = connectors;
 
-
     ctx.beginPath();
     ctx.strokeStyle = colors[0];
     ctx.moveTo(c1.x, 0);
@@ -58,25 +57,20 @@ export default {
     gradient.addColorStop(1, colors[1]);
     ctx.strokeStyle = gradient;
     ctx.strokeRect(-RESISTOR.LENGTH / 2, -RESISTOR.WIDTH / 2, RESISTOR.LENGTH, RESISTOR.WIDTH);
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors,
+      value: resistance = DEFAULT_RESISTANCE
+    } = props;
+    const [c1, c2] = connectors;
+
+    const {
+      voltages = [0, 0]
+    } = state;
+    const current = (voltages[0] - voltages[1]) / resistance;
+
+    renderBetween(c1, c2, current);
   }
 };
-
-// TODO below
-
-// Resistor.getCurrentPaths = ({
-//     value: resistance = DEFAULT_RESISTANCE,
-//     voltages = [0, 0],
-//     connectors,
-//     currentOffset,
-//     key
-//   }) => {
-//   const current = (voltages[0] - voltages[1]) / resistance;
-//   return (
-//     <CurrentPath
-//       endPoints={connectors}
-//       current={current}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };

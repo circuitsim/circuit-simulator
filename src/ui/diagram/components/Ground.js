@@ -49,26 +49,19 @@ export default {
   render: (ctx, {colors}) => {
     ctx.strokeStyle = colors[0];
     ctx.stroke(GROUND_PATH);
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors
+    } = props;
+    const [c] = connectors;
+
+    const {
+      currents = [0]
+    } = state;
+
+    // positive current goes in opposite direction of drag
+    renderBetween({x: WIRE_LENTH, y: 0}, c, currents[0]);
   }
 };
-
-// Ground.getCurrentPaths = ({
-//     dragPoints,
-//     currents = [0],
-//     currentOffset,
-//     key
-//   }) => {
-//   const [connector] = dragPoints,
-//         { positionOfT } = getShapeAttributes(dragPoints);
-//   return (
-//     <CurrentPath
-//       /* current goes in opposite direction of drag */
-//       endPoints={[positionOfT, connector]}
-//       current={currents[0]}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };
-
-// export default Ground;

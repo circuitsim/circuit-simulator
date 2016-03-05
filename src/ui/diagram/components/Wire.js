@@ -35,23 +35,18 @@ export default {
     ctx.moveTo(c1.x, 0);
     ctx.lineTo(c2.x, 0);
     ctx.stroke();
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors
+    } = props;
+    const [c1, c2] = connectors;
+
+    const {
+      currents = [0]
+    } = state;
+
+    renderBetween(c1, c2, currents[0]);
   }
 };
-
-// Wire.getCurrentPaths = ({
-//     currents = [0],
-//     currentOffset,
-//     connectors,
-//     key
-//   }) => {
-//   return (
-//     <CurrentPath
-//       endPoints={connectors}
-//       current={currents[0]}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };
-//
-// export default Wire;
