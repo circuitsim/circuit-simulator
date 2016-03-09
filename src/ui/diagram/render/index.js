@@ -30,7 +30,7 @@ export default (store, ctx, theme) => {
       views,
       circuit: {
         components: circuitState,
-        error,
+        // error,
         currentOffset,
         volts2RGB
       }
