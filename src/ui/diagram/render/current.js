@@ -20,7 +20,7 @@ const getOffset = (currentOffset, current) => {
   const fiddleCurrent = current / 10; // FIXME no magic fiddles
 
   let offset = (fiddleCurrent * currentOffset + STANDING_OFFSET) % CURRENT.DOT_DISTANCE;
-  offset = current >= 0
+  offset = offset >= 0
     ? offset
     : offset + CURRENT.DOT_DISTANCE;
 
