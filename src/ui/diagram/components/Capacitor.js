@@ -1,68 +1,76 @@
-// import React from 'react';
-// import { Group } from 'react-art';
-// import R from 'ramda';
-// import Vector from 'immutable-vector2d';
-//
-// import { BaseData } from '../../../circuit/models';
-// import DrawingUtils from '../../utils/DrawingUtils.js';
-// import Line from '../../utils/Line.js';
-// import GradientLine from '../../utils/GradientLine.js';
-// import CurrentPath from '../CurrentPath.js';
-// import { get2PointBoundingBox } from '../boundingBox.js';
-//
-// import { getDragFunctionFor, get2ConnectorsFromDragPoints } from '../Utils.js';
-// import { BOUNDING_BOX_PADDING, RESISTOR, GRID_SIZE } from '../Constants.js';
-// import { LINE_WIDTH } from '../../Constants.js';
-//
-// const { getRectPointsBetween, PropTypes, midPoint, direction } = DrawingUtils;
-//
-// const BOUNDING_BOX_WIDTH = RESISTOR.WIDTH + BOUNDING_BOX_PADDING * 2;
-// const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
-//
-// const BaseCapacitorModel = BaseData.Capacitor;
-//
-// const Capacitor = ({
-//     connectors,
-//     colors
-//   }) => {
-//
-//   return ();
-// };
-//
-// Capacitor.propTypes = {
-//   connectors: React.PropTypes.arrayOf(PropTypes.Vector).isRequired,
-//   colors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-// };
-//
-// const DEFAULT_CAPACITANCE = 1e-6;
-// Capacitor.unit = 'F';
-// Capacitor.defaultValue = DEFAULT_CAPACITANCE;
-//
-// Capacitor.numOfVoltages = 2;
-// Capacitor.numOfConnectors = 2;
-// Capacitor.dragPoint = getDragFunctionFor(MIN_LENGTH);
-// Capacitor.getConnectorPositions = get2ConnectorsFromDragPoints;
-//
-// Capacitor.typeID = BaseCapacitorModel.typeID;
-//
-// Capacitor.width = BOUNDING_BOX_WIDTH;
-// Capacitor.getBoundingBox = get2PointBoundingBox(BOUNDING_BOX_WIDTH);
-// Capacitor.getCurrentPaths = ({
-//     value: resistance = DEFAULT_CAPACITANCE,
-//     voltages = [0, 0],
-//     connectors,
-//     currentOffset,
-//     key
-//   }) => {
-//   const current = (voltages[0] - voltages[1]) / resistance;
-//   return (
-//     <CurrentPath
-//       endPoints={connectors}
-//       current={current}
-//       currentOffset={currentOffset}
-//       key={key}
-//     />
-//   );
-// };
-//
-// export default Capacitor;
+import { BaseData } from '../../../circuit/models';
+import { get2PointBoundingBox } from '../boundingBox.js';
+
+import transforms from '../render/transforms';
+import { getDragFunctionFor } from '../Utils.js';
+import {
+  BOUNDING_BOX_PADDING,
+  CAPACITOR,
+  GRID_SIZE
+} from '../Constants.js';
+
+const BOUNDING_BOX_WIDTH = CAPACITOR.WIDTH + BOUNDING_BOX_PADDING * 2;
+const MIN_LENGTH = CAPACITOR.LENGTH + GRID_SIZE;
+
+const BaseCapacitorModel = BaseData.Capacitor;
+
+const DEFAULT_CAPACITANCE = 10e-6;
+const NUM_OF_CONNECTORS = 2;
+export default {
+  typeID: BaseCapacitorModel.typeID,
+
+  numOfVoltages: 2,
+  numOfConnectors: NUM_OF_CONNECTORS,
+
+  width: BOUNDING_BOX_WIDTH, // for label positioning
+  defaultValue: DEFAULT_CAPACITANCE,
+  unit: 'F',
+
+  dragPoint: getDragFunctionFor(MIN_LENGTH),
+  transform: transforms[NUM_OF_CONNECTORS],
+
+  getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
+
+  render: (ctx, props) => {
+    const {
+      connectors,
+      colors
+    } = props;
+
+    const [c1, c2] = connectors;
+
+    ctx.beginPath();
+    ctx.strokeStyle = colors[0];
+    ctx.moveTo(c1.x, 0);
+    ctx.lineTo(-CAPACITOR.GAP / 2, 0);
+    ctx.stroke();
+
+    ctx.moveTo(-CAPACITOR.GAP / 2, -CAPACITOR.WIDTH / 2);
+    ctx.lineTo(-CAPACITOR.GAP / 2, CAPACITOR.WIDTH / 2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = colors[1];
+    ctx.moveTo(c2.x, 0);
+    ctx.lineTo(CAPACITOR.GAP / 2, 0);
+    ctx.stroke();
+
+    ctx.moveTo(CAPACITOR.GAP / 2, -CAPACITOR.WIDTH / 2);
+    ctx.lineTo(CAPACITOR.GAP / 2, CAPACITOR.WIDTH / 2);
+    ctx.stroke();
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors
+    } = props;
+    const [c1, c2] = connectors;
+
+    const {
+      currents = [0]
+    } = state;
+
+    renderBetween(c1, {x: -CAPACITOR.GAP / 2, y: 0}, currents[0]);
+    renderBetween({x: CAPACITOR.GAP / 2, y: 0}, c2, currents[0]);
+  }
+};

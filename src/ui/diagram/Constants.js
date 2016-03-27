@@ -12,6 +12,11 @@ const CONSTANTS = {
     LENGTH: 40
   },
 
+  CAPACITOR: {
+    WIDTH: 26,
+    GAP: 6
+  },
+
   CURRENT_SOURCE: {
     RADIUS: 18
   },
