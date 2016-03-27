@@ -8,6 +8,8 @@ function styles({COLORS}) {
   const imgSize = 50;
   return {
     button: {
+      marginLeft: '3px',
+      marginRight: '3px',
       padding: 0,
       width: imgSize + 'px',
       border: 'none',

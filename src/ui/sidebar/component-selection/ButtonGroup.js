@@ -8,7 +8,7 @@ function styles({ STYLES }) {
     },
     buttons: {
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       flexWrap: 'wrap',
       alignItems: 'baseline'
     },

@@ -8,10 +8,10 @@ import Resistor from './Resistor';
 import Wire from './Wire';
 
 const VIEWS = [
-  Capacitor,
   CurrentSource,
   VoltageSource,
   Ground,
+  Capacitor,
   Resistor,
   Wire
 ];
