@@ -153,13 +153,13 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       circuitGraph,
       components: previousCircuitState,
 
-      remainingDelta,
-      timestep,
+      remainingDelta, // seconds
+      timestep, // seconds
       simTimePerSec
     } = circuit;
 
     let {
-      delta
+      delta // milliseconds
     } = action;
 
     delta /= 1000; // convert from milliseconds to seconds

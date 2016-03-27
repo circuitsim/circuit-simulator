@@ -1,5 +1,4 @@
-import R from 'ramda';
-import {stampResistor, stampCurrentSource} from '../equation';
+import {stampConductance, stampCurrentSource} from '../equation';
 
 const COMPANION_MODEL_TYPE = {
   // Current source in parallel with a resistor
@@ -23,23 +22,25 @@ const INTEGRATION_METHOD = {
     stampDynamic(data, equation, previousState = {}, timestep) {
       const {
         value: capacitance,
-        nodes: [n1, n2]
+        nodes: [n0, n1]
       } = data;
 
       const {
-        currents: [curr] = [0],
-        voltages: [v0, v1] = [0, 0]
+        currents: [previousCurrent] = [0],
+        voltages: [pv0, pv1] = [0, 0]
       } = previousState;
 
-      const resistance = timestep / (2 * capacitance);
-      stampResistor(equation)(resistance, n1, n2);
+      const conductance = (2 * capacitance) / timestep;
+      stampConductance(equation)(conductance, n0, n1);
 
-      const currentSourceValue = -(v0 - v1) / resistance - curr;
-      stampCurrentSource(equation)(currentSourceValue, n1, n2);
+      const previousVoltage = pv0 - pv1;
+      const currentSourceValue = previousCurrent + (conductance * previousVoltage);
+      stampCurrentSource(equation)(currentSourceValue, n1, n0);
 
       return voltages => {
-        const vs = voltages;
-        return [(vs[0] - vs[1]) / resistance + currentSourceValue];
+        const [v0, v1] = voltages;
+        const resistorCurrent = (v0 - v1) * conductance;
+        return [resistorCurrent - currentSourceValue];
       };
     }
   },
@@ -50,9 +51,10 @@ const INTEGRATION_METHOD = {
 };
 
 export default {
-  data: R.merge({
-    nodes: []
-  }, COMPANION_MODEL_TYPE.NORTON),
+  data: {
+    nodes: [],
+    ...COMPANION_MODEL_TYPE.NORTON
+  },
   functions: {
     ...INTEGRATION_METHOD.TRAPEZOIDAL
   }

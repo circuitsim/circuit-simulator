@@ -45,7 +45,7 @@ const stampInputVector = equation => (row, x) => {
   }
 };
 
-const stampConductance = equation => (conductance, node1, node2) => {
+export const stampConductance = equation => (conductance, node1, node2) => {
   stampNodalAdmittanceMatrix(equation)(node1, node1, conductance);
   stampNodalAdmittanceMatrix(equation)(node2, node2, conductance);
   stampNodalAdmittanceMatrix(equation)(node1, node2, -conductance);

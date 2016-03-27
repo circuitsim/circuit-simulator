@@ -14,8 +14,7 @@ const MIN_LENGTH = RESISTOR.LENGTH + GRID_SIZE;
 
 const BaseResistorModel = BaseData.Resistor;
 
-
-const DEFAULT_RESISTANCE = 10;
+const DEFAULT_RESISTANCE = 1e3;
 const NUM_OF_CONNECTORS = 2;
 export default {
   typeID: BaseResistorModel.typeID,
@@ -67,10 +66,9 @@ export default {
     const [c1, c2] = connectors;
 
     const {
-      voltages = [0, 0]
+      voltages: [v0, v1] = [0, 0]
     } = state;
-    const current = (voltages[0] - voltages[1]) / resistance;
-
+    const current = (v0 - v1) / resistance;
     renderBetween(c1, c2, current);
   }
 };

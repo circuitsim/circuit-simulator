@@ -1,12 +1,14 @@
 import R from 'ramda';
 
-import CurrentSource from './CurrentSource.js';
-import VoltageSource from './VoltageSource.js';
-import Ground from './Ground.js';
-import Resistor from './Resistor.js';
-import Wire from './Wire.js';
+import Capacitor from './Capacitor';
+import CurrentSource from './CurrentSource';
+import VoltageSource from './VoltageSource';
+import Ground from './Ground';
+import Resistor from './Resistor';
+import Wire from './Wire';
 
 const VIEWS = [
+  Capacitor,
   CurrentSource,
   VoltageSource,
   Ground,

@@ -28,7 +28,7 @@ const UPDATE_ACTION = {
 describe('Solving an RC circuit over time where: t = time constant', () => {
 
   let state;
-  beforeEach(() => {
+  before(() => {
     const initialState = mainLoopReducer(undefined, {});
     const modState = merge(initialState, {
       circuitChanged: true,
@@ -40,8 +40,8 @@ describe('Solving an RC circuit over time where: t = time constant', () => {
 
   it('should model the charging current through the resistor', () => {
     const {components} = state;
-    const res = components.Resistor.voltages;
-    const resistorCurrent = (res[0] - res[1]) / R;
+    const [v0, v1] = components.Resistor.voltages;
+    const resistorCurrent = (v0 - v1) / R;
 
     const TWO_PERCENT = Ir * 0.02;
     expect(resistorCurrent).to.be.within(Ir - TWO_PERCENT, Ir + TWO_PERCENT);
