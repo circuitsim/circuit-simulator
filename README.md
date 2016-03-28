@@ -14,10 +14,15 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 - [x] Visible component values
 - [x] Deletable components
 - [x] Editable components values
-- [ ] Support for non-linear and AC circuits
-- [ ] More components
+- [x] Transient analysis
+- [x] Capacitors
+- [ ] Inductors
+- [ ] Default circuit on startup
 - [ ] Oscilloscopes
+- [ ] Non-linear analysis
+- [ ] Diodes, transistors & valves
 - [ ] Save, load and share circuits
+- [ ] AC analysis
 
 ### Play
 
