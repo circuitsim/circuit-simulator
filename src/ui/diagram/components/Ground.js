@@ -39,6 +39,7 @@ export default {
   typeID: Model.typeID,
 
   numOfVoltages: 2, // including implicit ground (always 0V)
+  numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
   dragPoint: getDragFunctionFor(MIN_LENGTH, MAX_LENGTH),
@@ -51,17 +52,21 @@ export default {
     ctx.stroke(GROUND_PATH);
   },
 
-  renderCurrent: (props, state, renderBetween) => {
-    const {
-      connectors
-    } = props;
-    const [c] = connectors;
-
+  getCurrents: (props, state) => {
     const {
       currents = [0]
     } = state;
 
+    return currents;
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors: [c],
+      currentOffsets: [offset]
+    } = props;
+
     // positive current goes in opposite direction of drag
-    renderBetween({x: WIRE_LENTH, y: 0}, c, currents[0]);
+    renderBetween({x: WIRE_LENTH, y: 0}, c, offset);
   }
 };

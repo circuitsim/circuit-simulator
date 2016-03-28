@@ -5,14 +5,18 @@ import Components from '../../ui/diagram/components';
 import DrawingUtils from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
 import { hoverFor } from '../../ui/diagram/boundingBox';
+import { CURRENT } from '../../ui/diagram/Constants';
 
 import {
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
   CHANGE_COMPONENT_VALUE,
-  SET_HOVERED_COMPONENT
+  SET_HOVERED_COMPONENT,
+  UPDATE_CURRENT_OFFSETS
 } from '../actions.js';
+
+const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
 
 const { diff } = DrawingUtils;
 
@@ -71,6 +75,18 @@ function moveWholeComponent(views, action) {
   };
 }
 
+/*
+ * views = {
+ *  typeID - type of view e.g. Resistor
+ *  id - UID
+ *  value - e.g. 5Ω (TODO extend to support multi-value components)
+ *  dragPoints - real coordinates of the two drag points
+ *  connectors - coordinates of the connectors in the transformed canvas (used for rendering)
+ *  realConnectors - coordinates of the connectors in the real canvas
+ *
+ *  currentOffsets - keeps track of current flow
+ * }
+ */
 export default function viewsReducer(views = {}, action) {
   switch (action.type) {
   case ADDING_MOVED: {
@@ -96,11 +112,10 @@ export default function viewsReducer(views = {}, action) {
         typeID,
         id,
         value: Component.defaultValue,
-        dragPoints, // real coordinates of the drag points
-
-        // TODO name these better
-        connectors, // coordinates of the connectors in the transformed canvas - used for rendering
-        realConnectors
+        dragPoints,
+        connectors,
+        realConnectors,
+        currentOffsets: R.repeat(STANDING_OFFSET, Component.numOfCurrentPaths)
       }
     };
   }
@@ -172,6 +187,39 @@ export default function viewsReducer(views = {}, action) {
         mergeOverWith(hoveredComponentInfo),
         unhover
       ), views);
+  }
+
+  case UPDATE_CURRENT_OFFSETS: {
+    const {
+      delta, // milliseconds
+      currentSpeed,
+      componentStates
+    } = action;
+
+    // Shamelessly stolen from Paul Falstad. I really wish I knew where these numbers came from.
+    const currentMultiplier = 1.7 * delta * Math.exp(currentSpeed / 3.5 - 14.2);
+
+    const updateOffsets = view => {
+      const toOffset = ([current, prevOffset]) => {
+        const extraOffset = (current * currentMultiplier) % (CURRENT.DOT_DISTANCE / 2);
+        let offset = (prevOffset + extraOffset) % CURRENT.DOT_DISTANCE;
+        if (offset < 0) {
+          offset += CURRENT.DOT_DISTANCE;
+        }
+        return offset;
+      };
+
+      const Type = Components[view.typeID];
+      const componentState = componentStates[view.id];
+      const currents = Type.getCurrents(view, componentState);
+      const currentsAndOffsets = R.zip(currents, view.currentOffsets);
+
+      return {
+        ...view,
+        currentOffsets: R.map(toOffset, currentsAndOffsets)
+      };
+    };
+    return R.map(updateOffsets, views);
   }
 
   default: return views;

@@ -8,7 +8,9 @@ import {
   canvasMouseLeave,
 
   loopBegin,
-  loopUpdate
+  loopUpdate,
+
+  updateCurrentOffsets
 } from '../../redux/actions.js';
 import resize from '../Resize.js';
 import Utils from '../utils/DrawingUtils.js';
@@ -21,6 +23,7 @@ const setupLoop = (store, ctx, theme) => {
   };
   const update = (delta) => {
     store.dispatch(loopUpdate(delta));
+    store.dispatch(updateCurrentOffsets(delta));
   };
   const draw = createRender(store, ctx, theme);
 

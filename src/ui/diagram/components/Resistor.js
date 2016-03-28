@@ -20,6 +20,7 @@ export default {
   typeID: BaseResistorModel.typeID,
 
   numOfVoltages: 2,
+  numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
@@ -58,17 +59,24 @@ export default {
     ctx.strokeRect(-RESISTOR.LENGTH / 2, -RESISTOR.WIDTH / 2, RESISTOR.LENGTH, RESISTOR.WIDTH);
   },
 
-  renderCurrent: (props, state, renderBetween) => {
+  getCurrents: (props, state) => {
     const {
-      connectors,
       value: resistance = DEFAULT_RESISTANCE
     } = props;
-    const [c1, c2] = connectors;
 
     const {
       voltages: [v0, v1] = [0, 0]
     } = state;
-    const current = (v0 - v1) / resistance;
-    renderBetween(c1, c2, current);
+
+    return [(v0 - v1) / resistance];
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors: [c1, c2],
+      currentOffsets: [offset]
+    } = props;
+
+    renderBetween(c1, c2, offset);
   }
 };

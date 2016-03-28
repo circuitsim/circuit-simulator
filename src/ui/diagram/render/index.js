@@ -31,7 +31,6 @@ export default (store, ctx, theme) => {
       circuit: {
         components: circuitState,
         // error,
-        currentOffset,
         volts2RGB
       }
     } = store.getState();
@@ -45,7 +44,7 @@ export default (store, ctx, theme) => {
     renderConnectors({ctx, theme, components: viewsList});
     renderDragPoints({ctx, theme, components: viewsList});
     renderLabels({ctx, theme, components: viewsList});
-    renderCurrent({ctx, theme, currentOffset, circuitState, components: viewsList});
+    renderCurrent({ctx, theme, circuitState, components: viewsList});
   };
 
   initCanvas(ctx, theme);

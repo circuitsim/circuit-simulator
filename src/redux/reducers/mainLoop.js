@@ -58,8 +58,6 @@ const INITIAL_STATE = {
 
   staticEquation: null,
 
-  currentOffset: 0,
-
   // TODO maxVoltage: 5,
   volts2RGB: createVolts2RGB(5),
 
@@ -212,7 +210,6 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       volts2RGB,
       error: false,
       components: circuitState,
-      currentOffset: circuit.currentOffset += action.delta,
       remainingDelta: timeToSimulate
     };
   }

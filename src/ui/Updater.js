@@ -40,7 +40,6 @@ function Updater(store) {
           }
         },
         circuitError: state.circuit.error,
-        currentOffset: state.circuit.currentOffset,
         volts2RGB: state.circuit.volts2RGB
       }
     };

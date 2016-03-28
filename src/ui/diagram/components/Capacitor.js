@@ -20,6 +20,7 @@ export default {
   typeID: BaseCapacitorModel.typeID,
 
   numOfVoltages: 2,
+  numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
@@ -60,17 +61,21 @@ export default {
     ctx.stroke();
   },
 
-  renderCurrent: (props, state, renderBetween) => {
-    const {
-      connectors
-    } = props;
-    const [c1, c2] = connectors;
-
+  getCurrents: (props, state) => {
     const {
       currents = [0]
     } = state;
 
-    renderBetween(c1, {x: -CAPACITOR.GAP / 2, y: 0}, currents[0]);
-    renderBetween({x: CAPACITOR.GAP / 2, y: 0}, c2, currents[0]);
+    return currents;
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors: [c1, c2],
+      currentOffsets: [offset]
+    } = props;
+
+    renderBetween(c1, {x: -CAPACITOR.GAP / 2, y: 0}, offset);
+    renderBetween({x: CAPACITOR.GAP / 2, y: 0}, c2, offset);
   }
 };

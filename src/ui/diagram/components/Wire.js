@@ -15,6 +15,7 @@ export default {
   typeID: BaseWireModel.typeID,
 
   numOfVoltages: 2,
+  numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
@@ -37,16 +38,20 @@ export default {
     ctx.stroke();
   },
 
-  renderCurrent: (props, state, renderBetween) => {
-    const {
-      connectors
-    } = props;
-    const [c1, c2] = connectors;
-
+  getCurrents: (props, state) => {
     const {
       currents = [0]
     } = state;
 
-    renderBetween(c1, c2, currents[0]);
+    return currents;
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors: [c1, c2],
+      currentOffsets: [offset]
+    } = props;
+
+    renderBetween(c1, c2, offset);
   }
 };

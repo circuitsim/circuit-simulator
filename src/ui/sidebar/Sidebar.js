@@ -1,6 +1,7 @@
 import React from 'react';
 import ComponentSelector from './component-selection/ComponentSelector.js';
 import ComponentInspector from './component-inspection/ComponentInspector.js';
+import CurrentSpeed from './CurrentSpeed';
 
 const { PropTypes } = React;
 
@@ -22,15 +23,18 @@ export default class Sidebar extends React.Component {
     const {
       style,
       selectedComponent,
+      currentSpeed,
       onSelectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
-      onChangeComponentValue: handleChangeComponentValue
+      onChangeComponentValue: handleChangeComponentValue,
+      onChangeCurrentSpeed: handleChangeCurrentSpeed
     } = this.props;
     return (
       <div style={style}>
         <ComponentSelector style={styles.selector}
           onButtonClicked={handleSelectMode}
         />
+        <CurrentSpeed value={currentSpeed} onChange={handleChangeCurrentSpeed} />
         <ComponentInspector style={styles.inspector}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
@@ -51,7 +55,10 @@ Sidebar.propTypes = {
 
   onSelectMode: PropTypes.func.isRequired,
 
+  currentSpeed: PropTypes.number.isRequired,
+
   selectedComponent: PropTypes.object,
   onDeleteComponent: PropTypes.func.isRequired,
-  onChangeComponentValue: PropTypes.func.isRequired
+  onChangeComponentValue: PropTypes.func.isRequired,
+  onChangeCurrentSpeed: PropTypes.func.isRequired
 };

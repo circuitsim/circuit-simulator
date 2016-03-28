@@ -23,6 +23,7 @@ export default {
   typeID: BaseCurrentSourceModel.typeID,
 
   numOfVoltages: 2,
+  numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
   defaultValue: DEFAULT_CURRENT,
@@ -59,13 +60,20 @@ export default {
     ctx.stroke();
   },
 
-  renderCurrent: (props, state, renderBetween) => {
+  getCurrents: (props) => {
     const {
-      connectors,
       value: current = DEFAULT_CURRENT
     } = props;
-    const [c1, c2] = connectors;
 
-    renderBetween(c1, c2, current);
+    return [current];
+  },
+
+  renderCurrent: (props, state, renderBetween) => {
+    const {
+      connectors: [c1, c2],
+      currentOffsets: [offset]
+    } = props;
+
+    renderBetween(c1, c2, offset);
   }
 };

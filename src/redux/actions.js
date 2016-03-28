@@ -243,3 +243,26 @@ export function changeComponentValue(id, value) {
     value
   };
 }
+
+export const CHANGE_CURRENT_SPEED = 'CHANGE_CURRENT_SPEED';
+export function changeCurrentSpeed(speed) {
+  return {
+    type: CHANGE_CURRENT_SPEED,
+    speed
+  };
+}
+
+export const UPDATE_CURRENT_OFFSETS = 'UPDATE_CURRENT_OFFSETS';
+export function updateCurrentOffsets(delta) {
+
+  return function(dispatch, getState) {
+    const { currentSpeed, circuit } = getState();
+
+    dispatch({
+      type: UPDATE_CURRENT_OFFSETS,
+      delta,
+      currentSpeed,
+      componentStates: circuit.components
+    });
+  };
+}
