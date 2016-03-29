@@ -5,6 +5,7 @@
 
 set -e
 
+# TODO exit if this fails
 npm run build
 
 # Check for uncommitted changes or untracked files
