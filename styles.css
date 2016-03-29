@@ -29,3 +29,90 @@ body {
 button:active:hover {
   transform: translateY(1px);
 }
+
+/* Slider */
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 10px 0;
+
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 0px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #7DF9FF;
+  cursor: pointer;
+  margin-top: -4px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-moz-range-thumb {
+  border: 0px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #7DF9FF;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-thumb {
+  border: 0px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: #7DF9FF;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: #555;
+  border-radius: 1px;
+  margin: 5px 0;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: #555;
+  border-radius: 1px;
+  margin: 5px 0;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  background: #555;
+  border-radius: 1px;
+  margin: 5px 0;
+}
