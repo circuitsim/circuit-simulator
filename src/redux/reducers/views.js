@@ -13,13 +13,15 @@ import {
   DELETE_COMPONENT,
   CHANGE_COMPONENT_VALUE,
   SET_HOVERED_COMPONENT,
-  UPDATE_CURRENT_OFFSETS
+  UPDATE_CURRENT_OFFSETS,
+  RATIONALISE_CURRENT_OFFSETS
 } from '../actions.js';
 
 const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
 
 const { diff } = DrawingUtils;
 
+const zip3 = (a, b, c) => R.zipWith(R.prepend, a, R.zip(b, c));
 const moreThanOne = R.pipe(
   R.length,
   R.gt(R.__, 1)
@@ -85,6 +87,7 @@ function moveWholeComponent(views, action) {
  *  realConnectors - coordinates of the connectors in the real canvas
  *
  *  currentOffsets - keeps track of current flow
+ *  extraOffsets - to be added to currentOffsets next render
  * }
  */
 export default function viewsReducer(views = {}, action) {
@@ -115,7 +118,8 @@ export default function viewsReducer(views = {}, action) {
         dragPoints,
         connectors,
         realConnectors,
-        currentOffsets: R.repeat(STANDING_OFFSET, Component.numOfCurrentPaths)
+        currentOffsets: R.repeat(STANDING_OFFSET, Component.numOfCurrentPaths),
+        extraOffsets: R.repeat(0, Component.numOfCurrentPaths)
       }
     };
   }
@@ -199,10 +203,40 @@ export default function viewsReducer(views = {}, action) {
     // Shamelessly stolen from Paul Falstad. I really wish I knew where these numbers came from.
     const currentMultiplier = 1.7 * delta * Math.exp(currentSpeed / 3.5 - 14.2);
 
+    const updateExtraOffsets = view => {
+      const addExtra = (current, prevExtra) => (current * currentMultiplier) + prevExtra;
+
+      const Type = Components[view.typeID];
+      const componentState = componentStates[view.id];
+      const currents = Type.getCurrents(view, componentState);
+      const extraOffsets = R.zipWith(addExtra, currents, view.extraOffsets);
+
+      return {
+        ...view,
+        extraOffsets
+      };
+    };
+    return R.map(updateExtraOffsets, views);
+  }
+
+  case RATIONALISE_CURRENT_OFFSETS: {
+    const {
+      componentStates
+    } = action;
+
     const updateOffsets = view => {
-      const toOffset = ([current, prevOffset]) => {
-        const extraOffset = (current * currentMultiplier) % (CURRENT.DOT_DISTANCE / 2);
-        let offset = (prevOffset + extraOffset) % CURRENT.DOT_DISTANCE;
+      const addOffsets = ([current, prevOffset, additionalOffset]) => {
+        if (current !== 0 && Math.abs(additionalOffset) <= .05) {
+          // TODO fade out or get smaller as currents get slower than this
+          // move slowly
+          additionalOffset = Math.sign(additionalOffset) * .05;
+        }
+        else if (Math.abs(additionalOffset) > CURRENT.DOT_DISTANCE / 2) {
+          // cap max offset so we don't get 'spinning wheel' problem
+          additionalOffset = Math.sign(additionalOffset) * CURRENT.DOT_DISTANCE / 2;
+        }
+
+        let offset = (prevOffset + additionalOffset) % CURRENT.DOT_DISTANCE;
         if (offset < 0) {
           offset += CURRENT.DOT_DISTANCE;
         }
@@ -212,11 +246,14 @@ export default function viewsReducer(views = {}, action) {
       const Type = Components[view.typeID];
       const componentState = componentStates[view.id];
       const currents = Type.getCurrents(view, componentState);
-      const currentsAndOffsets = R.zip(currents, view.currentOffsets);
+
+      const thing = zip3(currents, view.currentOffsets, view.extraOffsets);
+      const offsets = R.map(addOffsets, thing);
 
       return {
         ...view,
-        currentOffsets: R.map(toOffset, currentsAndOffsets)
+        currentOffsets: offsets,
+        extraOffsets: R.repeat(0, Type.numOfCurrentPaths)
       };
     };
     return R.map(updateOffsets, views);

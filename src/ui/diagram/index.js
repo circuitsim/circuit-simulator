@@ -10,7 +10,8 @@ import {
   loopBegin,
   loopUpdate,
 
-  updateCurrentOffsets
+  updateCurrentOffsets,
+  rationaliseCurrentOffsets
 } from '../../redux/actions.js';
 import resize from '../Resize.js';
 import Utils from '../utils/DrawingUtils.js';
@@ -25,7 +26,11 @@ const setupLoop = (store, ctx, theme) => {
     store.dispatch(loopUpdate(delta));
     store.dispatch(updateCurrentOffsets(delta));
   };
-  const draw = createRender(store, ctx, theme);
+  const render = createRender(store, ctx, theme);
+  const draw = () => {
+    store.dispatch(rationaliseCurrentOffsets());
+    render();
+  };
 
   return createLoop(begin, update, draw);
 };

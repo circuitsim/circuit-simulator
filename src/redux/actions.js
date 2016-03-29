@@ -254,14 +254,23 @@ export function changeCurrentSpeed(speed) {
 
 export const UPDATE_CURRENT_OFFSETS = 'UPDATE_CURRENT_OFFSETS';
 export function updateCurrentOffsets(delta) {
-
   return function(dispatch, getState) {
     const { currentSpeed, circuit } = getState();
-
     dispatch({
       type: UPDATE_CURRENT_OFFSETS,
       delta,
       currentSpeed,
+      componentStates: circuit.components
+    });
+  };
+}
+
+export const RATIONALISE_CURRENT_OFFSETS = 'RATIONALISE_CURRENT_OFFSETS';
+export function rationaliseCurrentOffsets() {
+  return function(dispatch, getState) {
+    const { circuit } = getState();
+    dispatch({
+      type: RATIONALISE_CURRENT_OFFSETS,
       componentStates: circuit.components
     });
   };
