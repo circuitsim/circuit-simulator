@@ -17,7 +17,7 @@ const MIN_LENGTH = RADIUS * 3 + GRID_SIZE;
 
 const BaseCurrentSourceModel = BaseData.CurrentSource;
 
-const DEFAULT_CURRENT = 0.5;
+const DEFAULT_CURRENT = 0.01;
 const NUM_OF_CONNECTORS = 2;
 export default {
   typeID: BaseCurrentSourceModel.typeID,
@@ -53,10 +53,11 @@ export default {
     ctx.arc(-RADIUS / 2, 0, RADIUS, Math.PI, -Math.PI);
     ctx.moveTo(RAD_ONE_HALF, 0);
     ctx.arc(RADIUS / 2, 0, RADIUS, 0, 2 * Math.PI);
+    ctx.stroke();
 
+    ctx.beginPath();
     ctx.moveTo(c2.x, 0);
     ctx.lineTo(RAD_ONE_HALF, 0);
-
     ctx.stroke();
   },
 

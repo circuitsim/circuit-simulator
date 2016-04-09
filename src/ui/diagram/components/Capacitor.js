@@ -11,7 +11,7 @@ import {
 } from '../Constants.js';
 
 const BOUNDING_BOX_WIDTH = CAPACITOR.WIDTH + BOUNDING_BOX_PADDING * 2;
-const MIN_LENGTH = CAPACITOR.LENGTH + GRID_SIZE;
+const MIN_LENGTH = CAPACITOR.GAP + GRID_SIZE;
 const ORIGIN_TO_PLATE = CAPACITOR.GAP / 2;
 
 const BaseCapacitorModel = BaseData.Capacitor;
