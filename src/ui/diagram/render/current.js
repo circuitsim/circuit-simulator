@@ -15,22 +15,22 @@ const distance = (v1, v2) => {
 
 const lerp = (n1, n2, d) => ((1 - d) * n1) + (d * n2);
 
+const renderBetween = (ctx) => (p1, p2, startPos) => {
+  const length = distance(p1, p2);
+  for (let position = startPos; position <= length; position += CURRENT.DOT_DISTANCE) {
+    const d = position / length;
+    const x = lerp(p1.x, p2.x, d);
+    const y = lerp(p1.y, p2.y, d);
+
+    ctx.beginPath();
+    ctx.arc(x, y, CURRENT.RADIUS, 0, TWO_PI);
+    ctx.fill();
+  }
+};
+
 const renderCurrent = (ctx, circuitState) => (component) => {
-  const renderBetween = (p1, p2, startPos) => {
-    const length = distance(p1, p2);
-    for (let position = startPos; position <= length; position += CURRENT.DOT_DISTANCE) {
-      const d = position / length;
-      const x = lerp(p1.x, p2.x, d);
-      const y = lerp(p1.y, p2.y, d);
-
-      ctx.beginPath();
-      ctx.arc(x, y, CURRENT.RADIUS, 0, TWO_PI);
-      ctx.fill();
-    }
-  };
-
   const ComponentType = lookupComponent(component);
-  ComponentType.renderCurrent(component, circuitState[component.id], renderBetween);
+  ComponentType.renderCurrent(component, circuitState[component.id], renderBetween(ctx));
 };
 
 export default function ({ctx, theme, circuitState, components}) {
