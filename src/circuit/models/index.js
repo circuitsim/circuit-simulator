@@ -1,6 +1,7 @@
 import R from 'ramda';
 
 import Capacitor from './Capacitor';
+import Inductor from './Inductor';
 import CurrentSource from './CurrentSource';
 import VoltageSource from './VoltageSource';
 import Ground from './Ground';
@@ -10,6 +11,7 @@ import Wire from './Wire';
 // These keys are used to identify the typeID for each component model
 const MODELS = {
   Capacitor,
+  Inductor,
   CurrentSource,
   VoltageSource,
   Ground,

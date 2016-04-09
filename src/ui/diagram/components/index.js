@@ -1,17 +1,21 @@
 import R from 'ramda';
 
-import Capacitor from './Capacitor';
 import CurrentSource from './CurrentSource';
 import VoltageSource from './VoltageSource';
 import Ground from './Ground';
-import Resistor from './Resistor';
+
 import Wire from './Wire';
+
+import Resistor from './Resistor';
+import Capacitor from './Capacitor';
+import Inductor from './Inductor';
 
 const VIEWS = [
   CurrentSource,
   VoltageSource,
   Ground,
   Capacitor,
+  Inductor,
   Resistor,
   Wire
 ];

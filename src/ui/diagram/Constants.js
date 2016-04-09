@@ -8,13 +8,18 @@ const CONSTANTS = {
   BOUNDING_BOX_PADDING: 4,
 
   RESISTOR: {
-    WIDTH: 12,
-    LENGTH: 40
+    LENGTH: 40,
+    WIDTH: 12
   },
 
   CAPACITOR: {
     WIDTH: 26,
     GAP: 10
+  },
+
+  INDUCTOR: {
+    WIDTH: 12,
+    RADIUS: 8
   },
 
   CURRENT_SOURCE: {
