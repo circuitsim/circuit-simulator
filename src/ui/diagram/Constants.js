@@ -14,7 +14,7 @@ const CONSTANTS = {
 
   CAPACITOR: {
     WIDTH: 26,
-    GAP: 6
+    GAP: 10
   },
 
   CURRENT_SOURCE: {

@@ -6,11 +6,13 @@ import { getDragFunctionFor } from '../Utils.js';
 import {
   BOUNDING_BOX_PADDING,
   CAPACITOR,
+  CURRENT,
   GRID_SIZE
 } from '../Constants.js';
 
 const BOUNDING_BOX_WIDTH = CAPACITOR.WIDTH + BOUNDING_BOX_PADDING * 2;
 const MIN_LENGTH = CAPACITOR.LENGTH + GRID_SIZE;
+const ORIGIN_TO_PLATE = CAPACITOR.GAP / 2;
 
 const BaseCapacitorModel = BaseData.Capacitor;
 
@@ -75,7 +77,11 @@ export default {
       currentOffsets: [offset]
     } = props;
 
-    renderBetween(c1, {x: -CAPACITOR.GAP / 2, y: 0}, offset);
-    renderBetween({x: CAPACITOR.GAP / 2, y: 0}, c2, offset);
+    const c1ToSecondPlate = Math.abs(c1.x) + ORIGIN_TO_PLATE;
+    const offsetAtZero = CURRENT.DOT_DISTANCE - (c1ToSecondPlate % CURRENT.DOT_DISTANCE);
+    const offsetFrom2ndPlate = (offset + offsetAtZero) % CURRENT.DOT_DISTANCE;
+
+    renderBetween(c1, {x: -ORIGIN_TO_PLATE, y: 0}, offset);
+    renderBetween({x: ORIGIN_TO_PLATE, y: 0}, c2, offsetFrom2ndPlate);
   }
 };
