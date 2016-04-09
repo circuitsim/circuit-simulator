@@ -16,7 +16,7 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 - [x] Editable components values
 - [x] Transient analysis
 - [x] Capacitors
-- [ ] Inductors
+- [x] Inductors
 - [ ] Default circuit on startup
 - [ ] Oscilloscopes
 - [ ] Non-linear analysis
