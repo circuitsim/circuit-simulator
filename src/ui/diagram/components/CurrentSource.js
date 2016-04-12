@@ -26,8 +26,14 @@ export default {
   numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
-  defaultValue: DEFAULT_CURRENT,
-  unit: 'A',
+  defaultOptions: {
+    current: {
+      value: DEFAULT_CURRENT,
+      type: 'number',
+      unit: 'A'
+    }
+  },
+  labelOption: 'current',
 
   width: BOUNDING_BOX_WIDTH,
   dragPoint: getDragFunctionFor(MIN_LENGTH),

@@ -28,8 +28,14 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH,
-  defaultValue: DEFAULT_VOLTAGE,
-  unit: 'V',
+  defaultOptions: {
+    voltage: {
+      value: DEFAULT_VOLTAGE,
+      type: 'number',
+      unit: 'V'
+    }
+  },
+  labelOption: 'voltage',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

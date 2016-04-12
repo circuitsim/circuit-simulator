@@ -7,7 +7,14 @@ export default {
   },
   functions: {
     stamp: (data, equation) => {
-      const {value: voltage, nodes: [n1, n2]} = data;
+      const {
+        options: {
+          voltage: {
+            value: voltage
+          }
+        },
+        nodes: [n1, n2]
+      } = data;
       stampVoltageSource(equation)(voltage, n1, n2);
     }
   }

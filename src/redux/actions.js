@@ -235,11 +235,12 @@ export function deleteComponent(id) {
   };
 }
 
-export const CHANGE_COMPONENT_VALUE = 'CHANGE_COMPONENT_VALUE';
-export function changeComponentValue(id, value) {
+export const CHANGE_COMPONENT_OPTION = 'CHANGE_COMPONENT_OPTION';
+export function changeComponentOption(id, option, value) {
   return {
-    type: CHANGE_COMPONENT_VALUE,
+    type: CHANGE_COMPONENT_OPTION,
     id,
+    option,
     value
   };
 }

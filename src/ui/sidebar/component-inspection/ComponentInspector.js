@@ -2,12 +2,11 @@ import React from 'react';
 import radium from 'radium';
 import Color from 'color';
 import R from 'ramda';
-import {unformatSI} from 'format-si-prefix';
 
-import Button from '../../components/Button.js';
+import EditNumeric from './option-types/Number';
+import Button from '../../components/Button';
 
-import Components from '../../diagram/components';
-import camelToSpace from '../../utils/camelToSpace.js';
+import camelToSpace from '../../utils/camelToSpace';
 
 const { PropTypes } = React;
 
@@ -49,95 +48,70 @@ const getStyles = ({COLORS, STYLES}) => ({
       alignSelf: 'center'
     }
   },
-  value: {
-    outer: {
-      padding: '10px 0px'
-    },
-    input: {
-      padding: '2px',
-      backgroundColor: COLORS.textInputBackground,
-      color: COLORS.base,
-      borderRadius: '2px',
-      border: '1px solid transparent',
-
-      ':focus': {
-        border: '1px solid transparent',
-        color: COLORS.semiHighlight
-      }
-    }
-  },
   title: STYLES.title
 });
-
-const isOkNumber = R.allPass([
-  R.is(Number),
-  R.compose(R.not, Number.isNaN)
-]);
 
 class ComponentInspector extends React.Component {
 
   constructor(props) {
     super(props);
-    const { selectedComponent } = props;
-    this.state = {
-      value: selectedComponent ? selectedComponent.value : undefined
-    };
-    this.onValueChange = this.onValueChange.bind(this);
+    this.onOptionChange = this.onOptionChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  onValueChange(event) {
-    const value = event.target.value;
-    this.setState({
-      value: value || ''
-    });
-    const numericVal = unformatSI(value);
-    if (isOkNumber(numericVal)) {
-      this.props.onChangeComponentValue(this.props.selectedComponent.id, numericVal);
-    }
+  onOptionChange(option, value) {
+    const {id} = this.props.selectedComponent;
+    this.props.onChangeComponentOption(id, option, value);
   }
 
   handleDelete() {
     this.props.onDeleteComponent(this.props.selectedComponent.id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { selectedComponent } = nextProps;
-    this.state = {
-      value: selectedComponent ? selectedComponent.value : undefined
-    };
-  }
-
   render() {
-    const { selectedComponent, style } = this.props;
+    const {
+      selectedComponent,
+      style
+    } = this.props;
     const styles = getStyles(this.context.theme);
+
     return (
       <div style={R.merge(style, styles.container)}>
         {(() => {
           if (selectedComponent) {
-            const { typeID } = selectedComponent;
-            const unit = Components[typeID].unit;
-            const value = this.state.value;
-            const showValue = () => (
-              <div style={styles.value.outer}>
-                <input style={styles.value.input}
-                  name='value'
-                  min='0'
-                  value={value}
-                  onChange={this.onValueChange}
+            const { typeID, options } = selectedComponent;
+            const optionKeys = R.keys(options);
+
+            const editComponents = optionKeys.map(key => {
+              let EditComponent;
+              switch (options[key].type) {
+              case 'number':
+                EditComponent = EditNumeric;
+                break;
+              default:
+                return null;
+              }
+
+              return (
+                <EditComponent
+                  key={key}
+                  option={key}
+                  value={options[key].value}
+                  componentId={selectedComponent.id}
+                  unit={options[key].unit}
+                  onChangeValue={this.onOptionChange}
                 />
-                <span style={{paddingLeft: '5px'}}>
-                  {unit}
-                </span>
-              </div>
-            );
+              );
+            });
 
             return (
               <div style={R.merge(styles.outerBase, styles.content.outer)}>
                 <div style={styles.title}>
                   {camelToSpace(typeID)}
                 </div>
-                {value == null ? null : showValue()}
+
+                {editComponents}
+
                 <Button style={styles.button}
                   onClick={this.handleDelete}
                   danger
@@ -166,11 +140,11 @@ ComponentInspector.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    value: PropTypes.number
+    options: PropTypes.object
   }),
 
   // action creators
-  onChangeComponentValue: PropTypes.func.isRequired,
+  onChangeComponentOption: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired
 };
 

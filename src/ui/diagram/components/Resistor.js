@@ -24,8 +24,14 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultValue: DEFAULT_RESISTANCE,
-  unit: 'Ω',
+  defaultOptions: {
+    resistance: {
+      value: DEFAULT_RESISTANCE,
+      type: 'number',
+      unit: 'Ω'
+    }
+  },
+  labelOption: 'resistance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
@@ -61,7 +67,11 @@ export default {
 
   getCurrents: (props, state) => {
     const {
-      value: resistance = DEFAULT_RESISTANCE
+      options: {
+        resistance: {
+          value: resistance = DEFAULT_RESISTANCE
+        }
+      }
     } = props;
 
     const {

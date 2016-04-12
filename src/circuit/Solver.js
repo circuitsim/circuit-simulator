@@ -23,11 +23,11 @@ export function blankSolutionForCircuit(circuitInfo) {
 }
 
 const isResistor = model => model.typeID === Models.Resistor.typeID;
-const hasValLT0 = model => model.value <= 0;
+const invalidResistance = model => model.options.resistance.value <= 0;
 const anyZeroResistances = R.pipe(
   R.values,
   R.filter(isResistor),
-  R.any(hasValLT0)
+  R.any(invalidResistance)
 );
 
 export function checkForProblems(circuit) {

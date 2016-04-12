@@ -24,8 +24,14 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultValue: DEFAULT_INDUCTANCE,
-  unit: 'H',
+  defaultOptions: {
+    inductance: {
+      value: DEFAULT_INDUCTANCE,
+      type: 'number',
+      unit: 'H'
+    }
+  },
+  labelOption: 'inductance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

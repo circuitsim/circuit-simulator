@@ -9,7 +9,7 @@ import Toaster from './components/Toaster.js';
 import {
   selectMode,
   deleteComponent,
-  changeComponentValue,
+  changeComponentOption,
   changeCurrentSpeed
 } from '../redux/actions.js';
 
@@ -30,7 +30,7 @@ class App extends React.Component {
       currentSpeed,
       selectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
-      onChangeComponentValue: handleChangeComponentValue,
+      onChangeComponentOption: handleChangeComponentOption,
       onChangeCurrentSpeed: handleChangeCurrentSpeed
     } = this.props;
     return (
@@ -47,7 +47,7 @@ class App extends React.Component {
           currentSpeed={currentSpeed}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
-          onChangeComponentValue={handleChangeComponentValue}
+          onChangeComponentOption={handleChangeComponentOption}
           onChangeCurrentSpeed={handleChangeCurrentSpeed}
         />
         <CircuitDiagram
@@ -86,7 +86,7 @@ App.propTypes = {
   // action creators
   selectMode: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired,
-  onChangeComponentValue: PropTypes.func.isRequired,
+  onChangeComponentOption: PropTypes.func.isRequired,
   onChangeCurrentSpeed: PropTypes.func.isRequired
 };
 
@@ -103,7 +103,7 @@ function mapStateToProps({ showAddToaster, selected, currentSpeed }) {
 const mapDispatchToProps = {
   selectMode,
   onDeleteComponent: deleteComponent,
-  onChangeComponentValue: changeComponentValue,
+  onChangeComponentOption: changeComponentOption,
   onChangeCurrentSpeed: changeCurrentSpeed
 };
 

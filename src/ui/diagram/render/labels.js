@@ -14,9 +14,17 @@ const FONT = `${FONT_SIZE}px "Arial"`;
 
 const renderLabel = (ctx) => (component) => {
   const CircuitComponent = lookupComponent(component);
-  const { dragPoints, value = CircuitComponent.defaultValue } = component;
+  const {
+    dragPoints,
+    options = CircuitComponent.defaultOptions
+  } = component;
 
-  const label = formatSI(value) + CircuitComponent.unit;
+  if (!CircuitComponent.labelOption) {
+    return;
+  }
+
+  const option = options[CircuitComponent.labelOption];
+  const label = formatSI(option.value) + (option.unit || '');
 
   const mid = midPoint(...dragPoints),
         dir = direction(...dragPoints),

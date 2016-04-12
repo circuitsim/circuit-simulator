@@ -21,7 +21,11 @@ const INTEGRATION_METHOD = {
   TRAPEZOIDAL: {
     stampDynamic(data, equation, previousState = {}, timestep) {
       const {
-        value: inductance,
+        options: {
+          inductance: {
+            value: inductance
+          }
+        },
         nodes: [n0, n1]
       } = data;
 

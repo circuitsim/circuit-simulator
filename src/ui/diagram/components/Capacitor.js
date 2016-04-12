@@ -26,8 +26,14 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultValue: DEFAULT_CAPACITANCE,
-  unit: 'F',
+  defaultOptions: {
+    capacitance: {
+      value: DEFAULT_CAPACITANCE,
+      type: 'number',
+      unit: 'F'
+    }
+  },
+  labelOption: 'capacitance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

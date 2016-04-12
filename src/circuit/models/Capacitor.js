@@ -22,7 +22,11 @@ const INTEGRATION_METHOD = {
   TRAPEZOIDAL: {
     stampDynamic(data, equation, previousState = {}, timestep) {
       const {
-        value: capacitance,
+        options: {
+          capacitance: {
+            value: capacitance
+          }
+        },
         nodes: [n0, n1]
       } = data;
 

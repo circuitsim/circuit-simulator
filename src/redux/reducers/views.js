@@ -11,7 +11,7 @@ import {
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
-  CHANGE_COMPONENT_VALUE,
+  CHANGE_COMPONENT_OPTION,
   SET_HOVERED_COMPONENT,
   UPDATE_CURRENT_OFFSETS,
   RATIONALISE_CURRENT_OFFSETS
@@ -114,7 +114,7 @@ export default function viewsReducer(views = {}, action) {
       [id]: {
         typeID,
         id,
-        value: Component.defaultValue,
+        options: Component.defaultOptions,
         dragPoints,
         connectors,
         realConnectors,
@@ -138,13 +138,12 @@ export default function viewsReducer(views = {}, action) {
     return R.dissoc(action.id, views);
   }
 
-  case CHANGE_COMPONENT_VALUE: {
+  case CHANGE_COMPONENT_OPTION: { // TODO
+    const {id, option, value} = action;
+    const view = views[id];
     return {
       ...views,
-      [action.id]: {
-        ...views[action.id],
-        value: action.value
-      }
+      [action.id]: R.assocPath(['options', option, 'value'], value, view)
     };
   }
 

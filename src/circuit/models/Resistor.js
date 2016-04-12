@@ -6,7 +6,14 @@ export default {
   },
   functions: {
     stamp: (data, equation) => {
-      const {value: resistance, nodes: [n1, n2]} = data;
+      const {
+        options: {
+          resistance: {
+            value: resistance
+          }
+        },
+        nodes: [n1, n2]
+      } = data;
       stampResistor(equation)(resistance, n1, n2);
     }
   }
