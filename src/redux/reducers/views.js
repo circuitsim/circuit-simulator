@@ -81,7 +81,7 @@ function moveWholeComponent(views, action) {
  * views = {
  *  typeID - type of view e.g. Resistor
  *  id - UID
- *  value - e.g. 5Ω (TODO extend to support multi-value components)
+ *  options - e.g. {voltage: {value: 5Ω}}
  *  dragPoints - real coordinates of the two drag points
  *  connectors - coordinates of the connectors in the transformed canvas (used for rendering)
  *  realConnectors - coordinates of the connectors in the real canvas
@@ -138,12 +138,12 @@ export default function viewsReducer(views = {}, action) {
     return R.dissoc(action.id, views);
   }
 
-  case CHANGE_COMPONENT_OPTION: { // TODO
+  case CHANGE_COMPONENT_OPTION: {
     const {id, option, value} = action;
     const view = views[id];
     return {
       ...views,
-      [action.id]: R.assocPath(['options', option, 'value'], value, view)
+      [id]: R.assocPath(['options', option, 'value'], value, view)
     };
   }
 
@@ -153,6 +153,9 @@ export default function viewsReducer(views = {}, action) {
 
     const getHoverInfo = hoverFor(mousePos);
     const toHoverInfo = view => {
+      if (!view) {
+        return null;
+      }
       const { typeID, dragPoints } = view;
       const { hovered, dragPointIndex } = getHoverInfo(typeID, dragPoints);
       return {
@@ -162,16 +165,14 @@ export default function viewsReducer(views = {}, action) {
       };
     };
 
-    const pickBest = R.reduce((currentBest, hoverInfo) => {
+    const pickBest = R.reduce((currentBest, contender) => {
       // TODO what if a big component completely covers a smaller one?
       // - we should have a bias for smaller components
-      // TODO ugh nested ternaries - not clear what's going on or why
-      return currentBest && currentBest.id
-        ? currentBest.id === hoverInfo.id
-          ? hoverInfo
-          : currentBest
-        : hoverInfo;
-    }, R.find(isHovered, viewsList)); // prefer currently hovered view
+      if (!currentBest) {
+        return contender;
+      }
+      return currentBest;
+    }, toHoverInfo(R.find(isHovered, viewsList))); // prefer currently hovered view
 
     const hoveredComponentInfo = R.pipe(
       R.map(toHoverInfo),
