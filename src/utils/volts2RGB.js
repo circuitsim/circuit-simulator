@@ -1,8 +1,15 @@
 import Color from 'color';
 
-
-export const decayMaxVoltage = () => {
-  // TODO
+const TT = 0.99;
+const decayMaxVoltage = (max, prevMax) => {
+  // console.log(prevMax, max);
+  if (prevMax < max) {
+    return max;
+  }
+  if (TT * prevMax < max) {
+    return max;
+  }
+  return TT * prevMax;
 };
 
 /**
@@ -13,22 +20,29 @@ export const decayMaxVoltage = () => {
  * For DC circuits, the 'max voltage' will be the maximum absolute voltage
  * currently present in the circuit.
  *
- * For AC circuits, the 'max voltage' will be a recent maximum absolute
- * voltage, decayed slowly over time. TODO
+ * For AC circuits, the 'max voltage' is be a recent maximum absolute
+ * voltage, decayed slowly over time.
  */
-export const createVolts2RGB = (maxVoltage) => ({
-  // colors
-  positiveVoltage: pos,
-  negativeVoltage: neg,
-  base: ground
-}) => v => {
-  const g = new Color(ground);
+export const createVolts2RGB = (maxVoltage, prevVoltageRange) => {
+  const voltageRange = decayMaxVoltage(maxVoltage, prevVoltageRange);
+  const volts2RGB = ({
+    // colors
+    positiveVoltage: pos,
+    negativeVoltage: neg,
+    base: ground
+  }) => v => {
+    const g = new Color(ground);
 
-  const proportion = maxVoltage === 0
-    ? 0
-    : Math.abs(v) / Math.abs(maxVoltage);
+    const proportion = voltageRange === 0
+      ? 0
+      : Math.abs(v) / Math.abs(voltageRange);
 
-  return (v >= 0
-    ? g.mix(new Color(pos), 1 - proportion)
-    : g.mix(new Color(neg), 1 - proportion)).rgbString();
+    return (v >= 0
+      ? g.mix(new Color(pos), 1 - proportion)
+      : g.mix(new Color(neg), 1 - proportion)).rgbString();
+  };
+  return {
+    voltageRange,
+    volts2RGB
+  };
 };

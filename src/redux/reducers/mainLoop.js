@@ -11,7 +11,7 @@ import {
 import { clone } from '../../circuit/equation';
 import { connectDisconnectedCircuits } from '../../circuit/Paths';
 import { getCircuitState, setNodesInModels, toNodes, toModels } from '../../circuit/CircuitUpdater';
-import { createVolts2RGB } from '../../utils/volts2RGB.js';
+import { createVolts2RGB, decayMaxVoltage } from '../../utils/volts2RGB.js';
 
 import {
   LOOP_BEGIN,
@@ -58,7 +58,7 @@ const INITIAL_STATE = {
 
   staticEquation: null,
 
-  // TODO maxVoltage: 5,
+  voltageRange: 5,
   volts2RGB: createVolts2RGB(5),
 
   circuitChanged: false,
@@ -153,7 +153,9 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
 
       remainingDelta, // seconds
       timestep, // seconds
-      simTimePerSec
+      simTimePerSec,
+
+      voltageRange: prevVoltageRange
     } = circuit;
 
     let {
@@ -201,16 +203,21 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     const voltages = R.take(circuitGraph.numOfNodes, fullSolution);
     const maxVoltage = R.pipe(
       R.map(Math.abs),
-      R.reduce(R.max, 0)
+      R.reduce(R.max, 0),
     )(voltages);
-    const volts2RGB = createVolts2RGB(maxVoltage);
+    const {
+      voltageRange,
+      volts2RGB
+    } = createVolts2RGB(maxVoltage, prevVoltageRange);
 
     return {
       ...circuit,
-      volts2RGB,
       error: false,
       components: circuitState,
-      remainingDelta: timeToSimulate
+      remainingDelta: timeToSimulate,
+
+      volts2RGB,
+      voltageRange
     };
   }
 
