@@ -30,6 +30,8 @@ const isOkNumber = R.allPass([
   R.compose(R.not, Number.isNaN)
 ]);
 
+const within = ({lower = -Infinity, upper = Infinity}) => (val) => val >= lower && val <= upper;
+
 class NumericValueEditor extends React.Component {
 
   constructor(props) {
@@ -42,14 +44,14 @@ class NumericValueEditor extends React.Component {
   }
 
   onValueChange(event) {
-    const { option } = this.props;
+    const { option, bounds = {} } = this.props;
 
     const value = event.target.value;
     this.setState({
       value: value || ''
     });
     const numericVal = unformatSI(value);
-    if (isOkNumber(numericVal)) {
+    if (isOkNumber(numericVal) && within(bounds)(numericVal)) {
       this.props.onChangeValue(option, value);
     }
   }
@@ -85,6 +87,10 @@ NumericValueEditor.propTypes = {
   option: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   unit: PropTypes.string,
+  bounds: PropTypes.shape({
+    lower: PropTypes.number,
+    upper: PropTypes.number
+  }),
 
   onChangeValue: PropTypes.func.isRequired
 };

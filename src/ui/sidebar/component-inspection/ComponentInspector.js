@@ -99,6 +99,7 @@ class ComponentInspector extends React.Component {
                   value={options[key].value}
                   componentId={selectedComponent.id}
                   unit={options[key].unit}
+                  bounds={options[key].bounds}
                   onChangeValue={this.onOptionChange}
                 />
               );
