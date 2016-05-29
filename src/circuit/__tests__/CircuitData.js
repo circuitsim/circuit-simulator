@@ -19,31 +19,38 @@ export const BASIC_CIRCUIT = {
       id: 'Ground1',
       typeID: 'Ground',
       nodes: [1, 0],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [0]
     },
     CurrentSource1: {
       id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [1, 2],
-      value: 0.5
+      options: {
+        current: {value: 0.5}
+      }
     },
     Wire1: {
       id: 'Wire1',
       typeID: 'Wire',
       nodes: [2, 3],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [1]
     },
     Resistor1: {
       id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [3, 4],
-      value: 10
+      options: {
+        resistance: {value: 10}
+      }
     },
     Wire2: {
       id: 'Wire2',
       typeID: 'Wire',
       nodes: [4, 1],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [2]
     }
   },
   modelsNoNodes: {
@@ -51,31 +58,38 @@ export const BASIC_CIRCUIT = {
       id: 'Ground1',
       typeID: 'Ground',
       nodes: [],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: []
     },
     CurrentSource1: {
       id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [],
-      value: 0.5
+      options: {
+        current: {value: 0.5}
+      }
     },
     Wire1: {
       id: 'Wire1',
       typeID: 'Wire',
       nodes: [],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: []
     },
     Resistor1: {
       id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [],
-      value: 10
+      options: {
+        resistance: {value: 10}
+      }
     },
     Wire2: {
       id: 'Wire2',
       typeID: 'Wire',
       nodes: [],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: []
     }
   },
   views: {
@@ -89,7 +103,9 @@ export const BASIC_CIRCUIT = {
     CurrentSource1: {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
-      value: 0.5,
+      options: {
+        current: {value: 0.5}
+      },
       connectors: [
         new Vector(10, 20),
         new Vector(10, 10)
@@ -106,7 +122,9 @@ export const BASIC_CIRCUIT = {
     Resistor1: {
       typeID: 'Resistor',
       id: 'Resistor1',
-      value: 10,
+      options: {
+        resistance: {value: 10}
+      },
       connectors: [
         new Vector(20, 10),
         new Vector(20, 20)
@@ -190,12 +208,14 @@ export const VOLTAGE_SOURCE_LOOP = {
     Wire1: {
       typeID: 'Wire',
       nodes: [1, 2],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [0]
     },
     Wire2: {
       typeID: 'Wire',
       nodes: [2, 1],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [1]
     }
   }
 };
@@ -209,7 +229,9 @@ export const ZERO_RESISTANCE = {
     'Resistor1': {
       nodes: [0, 1],
       typeID: 'Resistor',
-      value: 0
+      options: {
+        resistance: {value: 0}
+      }
     }
   }
 };
@@ -228,17 +250,22 @@ export const KCL_VIOLATION = {
     Wire1: {
       typeID: 'Wire',
       nodes: [1, 2],
-      numVoltSources: 1
+      numVoltSources: 1,
+      vSourceNums: [0]
     },
     CurrentSource1: {
       nodes: [2, 3],
       typeID: 'CurrentSource',
-      value: 0.5
+      options: {
+        current: {value: 0.5}
+      }
     },
     CurrentSource2: {
       nodes: [3, 1],
       typeID: 'CurrentSource',
-      value: 0.5
+      options: {
+        current: {value: 0.5}
+      }
     }
   }
 };

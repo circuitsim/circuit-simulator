@@ -1,4 +1,4 @@
-import { toNodes, toModels, setNodesInModels, getCircuitState } from '../CircuitUpdater.js';
+import { toNodes, toModels, setNodesInModels, setVoltSrcNums, getCircuitState } from '../CircuitUpdater.js';
 import {BASIC_CIRCUIT} from './CircuitData.js';
 
 describe('toNodes()', () => {
@@ -17,7 +17,7 @@ describe('toModels()', () => {
 describe('setNodesInModels()', () => {
   it('should return the models with the nodes they\'re connected to', () => {
     const nodes = toNodes(BASIC_CIRCUIT.views);
-    const models = setNodesInModels(BASIC_CIRCUIT.modelsNoNodes, nodes);
+    const models = setVoltSrcNums(setNodesInModels(BASIC_CIRCUIT.modelsNoNodes, nodes));
     expect(models).to.deep.equal(BASIC_CIRCUIT.models);
   });
 });
@@ -25,7 +25,7 @@ describe('setNodesInModels()', () => {
 describe('getCircuitState()', () => {
   it('should update views with new currents and voltages from solution', () => {
     const nodes = toNodes(BASIC_CIRCUIT.views);
-    const models = setNodesInModels(BASIC_CIRCUIT.models, nodes);
+    const models = setVoltSrcNums(setNodesInModels(BASIC_CIRCUIT.models, nodes));
 
     // solve the circuit
     const circuitMeta = { numOfNodes: 5, numOfVSources: 3 };

@@ -5,9 +5,9 @@ import {merge} from 'ramda';
 
 const { views } = RC_CIRCUIT;
 const {VoltageSource, Resistor, Capacitor} = views;
-const V = VoltageSource.value;
-const R = Resistor.value;
-const C = Capacitor.value;
+const V = VoltageSource.options.voltage.value;
+const R = Resistor.options.resistance.value;
+const C = Capacitor.options.capacitance.value;
 const TIME_CONSTANT = R * C;
 const t = TIME_CONSTANT;
 

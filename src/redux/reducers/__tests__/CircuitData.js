@@ -44,7 +44,11 @@ export const RC_CIRCUIT = {
     VoltageSource: {
       typeID: 'VoltageSource',
       id: 'VoltageSource',
-      value: 5,
+      options: {
+        type: {value: 'DC'},
+        voltage: {value: 5},
+        frequency: {value: 500}
+      },
       connectors: [
         new Vector(10, 20),
         new Vector(10, 10)
@@ -53,7 +57,9 @@ export const RC_CIRCUIT = {
     Resistor: {
       typeID: 'Resistor',
       id: 'Resistor',
-      value: 100,
+      options: {
+        resistance: {value: 100}
+      },
       connectors: [
         new Vector(10, 10),
         new Vector(20, 20)
@@ -62,7 +68,9 @@ export const RC_CIRCUIT = {
     Capacitor: {
       typeID: 'Capacitor',
       id: 'Capacitor',
-      value: 5e-6,
+      options: {
+        capacitance: {value: 5e-6}
+      },
       connectors: [
         new Vector(20, 20),
         new Vector(10, 20)

@@ -73,7 +73,14 @@ export function toNodes(views) {
 }
 
 export function toModels(views) {
-  return R.map(view => R.mergeAll([Models[view.typeID], R.pick(['options'], view), {id: view.id}]), views);
+  const toModel = (view) => {
+    return R.mergeAll([
+      Models[view.typeID],
+      R.pick(['options'], view),
+      { id: view.id }
+    ]);
+  };
+  return R.map(toModel, views);
 }
 
 export function setNodesInModels(models, nodes) {

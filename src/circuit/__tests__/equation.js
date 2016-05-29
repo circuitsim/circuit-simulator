@@ -77,7 +77,7 @@ describe('Stamping:', function() {
         numOfNodes: 3,
         numOfVSources: 1
       });
-      stampVoltageSource(equation)(5, 1, 2);
+      stampVoltageSource(equation)(5, 1, 2, 0);
       expect(equation.inputs).to.eql([[0],
                                       [0],
                                       [5]]);
@@ -88,7 +88,7 @@ describe('Stamping:', function() {
         numOfNodes: 3,
         numOfVSources: 1
       });
-      stampVoltageSource(equation)(5, 1, 2);
+      stampVoltageSource(equation)(5, 1, 2, 0);
       expect(equation.nodalAdmittances).to.eql([[0, 0, 1],
                                                 [0, 0, -1],
                                                 [-1, 1, 0]]);
@@ -99,9 +99,9 @@ describe('Stamping:', function() {
         numOfNodes: 3,
         numOfVSources: 1
       });
-      stampVoltageSource(equation)(5, 0, 1);
+      stampVoltageSource(equation)(5, 0, 1, 0);
       expect(() => {
-        stampVoltageSource(equation)(5, 0, 1);
+        stampVoltageSource(equation)(5, 0, 1, 1);
       }).to.throw(/.*number of voltage sources.*/);
     });
   });
@@ -138,7 +138,7 @@ describe('solve', function() {
       numOfNodes: 2,
       numOfVSources: 1
     });
-    stampVoltageSource(equation)(10, 0, 1); // wire
+    stampVoltageSource(equation)(10, 0, 1, 0); // wire
     stampResistor(equation)(10, 1, 0);
     const solution = solve(equation);
     expect(solution).to.eql([[10],
@@ -151,7 +151,7 @@ describe('solve', function() {
       numOfVSources: 1
     });
     stampCurrentSource(equation)(1, 0, 1);
-    stampVoltageSource(equation)(0, 1, 2); // wire
+    stampVoltageSource(equation)(0, 1, 2, 0); // wire
     stampResistor(equation)(100, 2, 0);
     const solution = solve(equation);
     expect(solution).to.eql([[100],

@@ -24,7 +24,7 @@ export default function Resize(WrappedComponent) {
     }
 
     render() {
-      const {getDimensions, ...childProps} = this.props; //eslint-disable-line no-use-before-define
+      const {getDimensions, ...childProps} = this.props; //eslint-disable-line no-unused-vars
       const props = {
         ...childProps,
         ...this.state

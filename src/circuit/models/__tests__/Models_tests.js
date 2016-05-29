@@ -31,14 +31,20 @@ describe('Type IDs', () => {
 
 describe('Modelling a circuit', () => {
   it('should be able to model and solve a simple circuit with no wires (voltage sources)', () => {
-
-    const c = BaseData.CurrentSource;
-    const r = BaseData.Resistor;
-
-    c.nodes = [0, 1];
-    c.value = 0.5;
-    r.nodes = [1, 0];
-    r.value = 10;
+    const c = {
+      ...BaseData.CurrentSource,
+      nodes: [0, 1],
+      options: {
+        current: {value: 0.5}
+      }
+    };
+    const r = {
+      ...BaseData.Resistor,
+      nodes: [1, 0],
+      options: {
+        resistance: {value: 10}
+      }
+    };
 
     const circuit = [c, r];
 
@@ -50,21 +56,31 @@ describe('Modelling a circuit', () => {
 
     const solution = solve(equation);
 
-    const v1 = c.value * r.value; // voltage at node 1 - V = IR
+    const v1 = c.options.current.value * r.options.resistance.value;
     expect(solution).to.eql([[v1]]);
   });
 
   it('should be able to model and solve a simple circuit with a voltage source', () => {
-
-    const c = BaseData.CurrentSource;
-    const w = BaseData.Wire;
-    const r = BaseData.Resistor;
-
-    c.nodes = [0, 1];
-    c.value = 0.5;
-    w.nodes = [1, 2];
-    r.nodes = [2, 0];
-    r.value = 10;
+    const c = {
+      ...BaseData.CurrentSource,
+      nodes: [0, 1],
+      options: {
+        current: {value: 0.5}
+      }
+    };
+    const w = {
+      ...BaseData.Wire,
+      nodes: [1, 2],
+      numVoltSources: 1,
+      vSourceNums: [0]
+    };
+    const r = {
+      ...BaseData.Resistor,
+      nodes: [2, 0],
+      options: {
+        resistance: {value: 10}
+      }
+    };
 
     const circuit = [c, r, w];
 
@@ -76,9 +92,9 @@ describe('Modelling a circuit', () => {
 
     const solution = solve(equation);
 
-    const v1 = c.value * r.value; // V = IR
+    const v1 = c.options.current.value * r.options.resistance.value;
     const v2 = v1;
-    const iv = c.value; // current through voltage source
+    const iv = c.options.current.value; // current through voltage source
 
     expect(solution).to.eql([[v1],
                              [v2],
