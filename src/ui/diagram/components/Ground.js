@@ -62,7 +62,7 @@ export default {
 
   renderCurrent: (props, state, renderBetween) => {
     const {
-      connectors: [c],
+      tConnectors: [c],
       currentOffsets: [offset]
     } = props;
 

@@ -41,10 +41,10 @@ function isPathBetween(
 
   while (q.length !== 0) {
     const n = q.shift();
-    const connectors = nodes[n];
+    const tConnectors = nodes[n];
 
-    for (let i = 0; i < connectors.length; i++) {
-      const con = connectors[i];
+    for (let i = 0; i < tConnectors.length; i++) {
+      const con = tConnectors[i];
       const id = con.viewID;
 
       if (R.contains(id, exclude)) {
@@ -133,10 +133,10 @@ function findConnectedNodes({nodes, models, numOfNodes}, nodeID) {
 
   while (q.length !== 0) {
     const currNodeID = q.shift(),
-          connectors = nodes[currNodeID];
+          tConnectors = nodes[currNodeID];
 
-    for (let i = 0; i < connectors.length; i++) {
-      const modelID = connectors[i].viewID,
+    for (let i = 0; i < tConnectors.length; i++) {
+      const modelID = tConnectors[i].viewID,
             connectedNodes = models[modelID].nodes;
 
       for (let j = 0; j < connectedNodes.length; j++) {

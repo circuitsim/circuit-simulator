@@ -57,10 +57,10 @@ export default {
   getBoundingBox: get2PointBoundingBox(BOUNDING_BOX_WIDTH),
 
   render: (ctx, {
-    connectors,
+    tConnectors,
     colors
   }) => {
-    const [c1, c2] = connectors;
+    const [c1, c2] = tConnectors;
 
     ctx.beginPath();
     ctx.strokeStyle = colors[0];
@@ -96,7 +96,7 @@ export default {
 
   renderCurrent: (props, state, renderBetween) => {
     const {
-      connectors: [c1, c2],
+      tConnectors: [c1, c2],
       currentOffsets: [offset]
     } = props;
 

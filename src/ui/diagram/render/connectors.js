@@ -7,11 +7,11 @@ const TWO_PI = 2 * Math.PI;
 
 const renderConnectors = (ctx) => (component) => {
   const ComponentType = lookupComponent(component);
-  const { connectors } = component;
+  const { tConnectors } = component;
 
   ComponentType.transform.transformCanvas(ctx, component,
     () => {
-      connectors.forEach((c) => {
+      tConnectors.forEach((c) => {
         ctx.beginPath();
         ctx.arc(c.x, c.y, 3, 0, TWO_PI);
         ctx.fill();

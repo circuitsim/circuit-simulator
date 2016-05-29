@@ -25,13 +25,13 @@ export default {
 
   render: (ctx, props) => {
     const {
-      connectors,
+      tConnectors,
       colors
     } = props;
 
     ctx.strokeStyle = colors[0];
 
-    const [c1, c2] = connectors;
+    const [c1, c2] = tConnectors;
     ctx.beginPath();
     ctx.moveTo(c1.x, 0);
     ctx.lineTo(c2.x, 0);
@@ -48,7 +48,7 @@ export default {
 
   renderCurrent: (props, state, renderBetween) => {
     const {
-      connectors: [c1, c2],
+      tConnectors: [c1, c2],
       currentOffsets: [offset]
     } = props;
 

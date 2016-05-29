@@ -37,7 +37,7 @@ export const RC_CIRCUIT = {
     Ground: {
       typeID: 'Ground',
       id: 'Ground',
-      realConnectors: [
+      connectors: [
         new Vector(10, 20)
       ]
     },
@@ -45,7 +45,7 @@ export const RC_CIRCUIT = {
       typeID: 'VoltageSource',
       id: 'VoltageSource',
       value: 5,
-      realConnectors: [
+      connectors: [
         new Vector(10, 20),
         new Vector(10, 10)
       ]
@@ -54,7 +54,7 @@ export const RC_CIRCUIT = {
       typeID: 'Resistor',
       id: 'Resistor',
       value: 100,
-      realConnectors: [
+      connectors: [
         new Vector(10, 10),
         new Vector(20, 20)
       ]
@@ -63,7 +63,7 @@ export const RC_CIRCUIT = {
       typeID: 'Capacitor',
       id: 'Capacitor',
       value: 5e-6,
-      realConnectors: [
+      connectors: [
         new Vector(20, 20),
         new Vector(10, 20)
       ]

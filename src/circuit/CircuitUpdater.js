@@ -6,7 +6,7 @@ import { BaseData as Models } from './models';
 // IN:
 // [{
 //   id
-//   realConnectors: [Vector]
+//   connectors: [Vector]
 // }]
 
 // OUT:
@@ -18,20 +18,20 @@ import { BaseData as Models } from './models';
 //   }
 // }]
 function toConnectors(view) {
-  const {realConnectors} = view;
+  const {connectors} = view;
   return R.addIndex(R.map)((vector, index) => ({
     pos: vector,
     id: {
       viewID: view.id,
       index: index
     }
-  }), realConnectors);
+  }), connectors);
 }
 
-function merge(realConnectors) {
+function merge(connectors) {
   return R.reduce((nodeIDs, connector) => {
     return R.append(connector.id, nodeIDs);
-  }, [], realConnectors);
+  }, [], connectors);
 }
 
 function position(connector) { return connector.pos.toString(); }
@@ -41,7 +41,7 @@ function position(connector) { return connector.pos.toString(); }
 //   id: {
 //     typeID: string,
 //     id,
-//     realConnectors: [Vector]
+//     connectors: [Vector]
 //   }
 // }
 

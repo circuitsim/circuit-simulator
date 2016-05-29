@@ -41,16 +41,16 @@ function moveSingleDragPoint(views, action) {
         newDragPoint = Component.dragPoint(action.mouseVector, {fixed: origDragPoints[fixedPointIndex]}),
         dragPoints = R.update(dragPointIndex, newDragPoint, origDragPoints),
 
-        connectors = Component.transform.getConnectors(dragPoints),
-        realConnectors = Component.transform.getRealConnectors(dragPoints);
+        tConnectors = Component.transform.getConnectors(dragPoints),
+        connectors = Component.transform.getRealConnectors(dragPoints);
 
   return {
     ...views,
     [id]: {
       ...view,
       dragPoints,
-      connectors,
-      realConnectors
+      tConnectors,
+      connectors
     }
   };
 }
@@ -64,16 +64,16 @@ function moveWholeComponent(views, action) {
         diffVector = diff(from, action.mouseVector),
         dragPoints = R.map(v => snapToGrid(v.subtract(diffVector)), origDragPoints),
 
-        connectors = Component.transform.getConnectors(dragPoints),
-        realConnectors = Component.transform.getRealConnectors(dragPoints);
+        tConnectors = Component.transform.getConnectors(dragPoints),
+        connectors = Component.transform.getRealConnectors(dragPoints);
 
   return {
     ...views,
     [id]: {
       ...view,
       dragPoints,
-      connectors,
-      realConnectors
+      tConnectors,
+      connectors
     }
   };
 }
@@ -84,8 +84,8 @@ function moveWholeComponent(views, action) {
  *  id - UID
  *  options - e.g. {voltage: {value: 5Ω}}
  *  dragPoints - real coordinates of the two drag points
- *  connectors - coordinates of the connectors in the transformed canvas (used for rendering)
- *  realConnectors - coordinates of the connectors in the real canvas
+ *  tConnectors - coordinates of the connectors in the transformed canvas (used for rendering)
+ *  connectors - coordinates of the connectors in the real canvas
  *
  *  currentOffsets - keeps track of current flow
  *  extraOffsets - to be added to currentOffsets next render
@@ -107,8 +107,8 @@ export default function viewsReducer(views = {}, action) {
           dragPoint = Component.dragPoint(mousePos, {fixed: startPoint}),
           dragPoints = [startPoint, dragPoint];
 
-    const connectors = Component.transform.getConnectors(dragPoints);
-    const realConnectors = Component.transform.getRealConnectors(dragPoints);
+    const tConnectors = Component.transform.getConnectors(dragPoints);
+    const connectors = Component.transform.getRealConnectors(dragPoints);
 
     return {
       ...views,
@@ -117,8 +117,8 @@ export default function viewsReducer(views = {}, action) {
         id,
         options: Component.defaultOptions, // TODO rename to editables
         dragPoints,
+        tConnectors,
         connectors,
-        realConnectors,
         currentOffsets: R.repeat(STANDING_OFFSET, Component.numOfCurrentPaths),
         extraOffsets: R.repeat(0, Component.numOfCurrentPaths)
       }
