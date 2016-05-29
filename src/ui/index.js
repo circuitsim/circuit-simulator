@@ -1,3 +1,4 @@
+import R from 'ramda';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Style } from 'radium';
@@ -78,7 +79,7 @@ App.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    value: PropTypes.number
+    options: PropTypes.object
   }),
   showAddToaster: PropTypes.bool,
   currentSpeed: PropTypes.number,
@@ -92,10 +93,14 @@ App.propTypes = {
 
 // Which props do we want to inject, given the global state?
 // Note: use https://github.com/faassen/reselect for better performance.
-function mapStateToProps({ showAddToaster, selected, currentSpeed }) {
+function mapStateToProps({ showAddToaster, selected, currentSpeed, views }) {
+  const fullSelectedComponent = views[selected];
+  const selectedComponent = fullSelectedComponent
+    ? R.pick(['typeID', 'id', 'options'], fullSelectedComponent)
+    : null;
   return {
     showAddToaster,
-    selectedComponent: selected,
+    selectedComponent,
     currentSpeed
   };
 }

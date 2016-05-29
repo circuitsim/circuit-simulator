@@ -19,7 +19,7 @@ export const BASIC_CIRCUIT = {
       id: 'Ground1',
       typeID: 'Ground',
       nodes: [1, 0],
-      vSources: 1
+      numVoltSources: 1
     },
     CurrentSource1: {
       id: 'CurrentSource1',
@@ -31,7 +31,7 @@ export const BASIC_CIRCUIT = {
       id: 'Wire1',
       typeID: 'Wire',
       nodes: [2, 3],
-      vSources: 1
+      numVoltSources: 1
     },
     Resistor1: {
       id: 'Resistor1',
@@ -43,7 +43,7 @@ export const BASIC_CIRCUIT = {
       id: 'Wire2',
       typeID: 'Wire',
       nodes: [4, 1],
-      vSources: 1
+      numVoltSources: 1
     }
   },
   modelsNoNodes: {
@@ -51,7 +51,7 @@ export const BASIC_CIRCUIT = {
       id: 'Ground1',
       typeID: 'Ground',
       nodes: [],
-      vSources: 1
+      numVoltSources: 1
     },
     CurrentSource1: {
       id: 'CurrentSource1',
@@ -63,7 +63,7 @@ export const BASIC_CIRCUIT = {
       id: 'Wire1',
       typeID: 'Wire',
       nodes: [],
-      vSources: 1
+      numVoltSources: 1
     },
     Resistor1: {
       id: 'Resistor1',
@@ -75,7 +75,7 @@ export const BASIC_CIRCUIT = {
       id: 'Wire2',
       typeID: 'Wire',
       nodes: [],
-      vSources: 1
+      numVoltSources: 1
     }
   },
   views: {
@@ -190,12 +190,12 @@ export const VOLTAGE_SOURCE_LOOP = {
     Wire1: {
       typeID: 'Wire',
       nodes: [1, 2],
-      vSources: 1
+      numVoltSources: 1
     },
     Wire2: {
       typeID: 'Wire',
       nodes: [2, 1],
-      vSources: 1
+      numVoltSources: 1
     }
   }
 };
@@ -228,7 +228,7 @@ export const KCL_VIOLATION = {
     Wire1: {
       typeID: 'Wire',
       nodes: [1, 2],
-      vSources: 1
+      numVoltSources: 1
     },
     CurrentSource1: {
       nodes: [2, 3],

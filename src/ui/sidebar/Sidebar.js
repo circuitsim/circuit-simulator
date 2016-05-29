@@ -1,3 +1,4 @@
+import R from 'ramda';
 import React from 'react';
 import ComponentSelector from './component-selection/ComponentSelector.js';
 import ComponentInspector from './component-inspection/ComponentInspector.js';
@@ -19,6 +20,23 @@ const styles = {
 };
 
 export default class Sidebar extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const {
+      currentSpeed,
+      selectedComponent
+    } = this.props;
+
+    if (currentSpeed !== nextProps.currentSpeed) {
+      return true;
+    }
+
+    if (!R.equals(selectedComponent, nextProps.selectedComponent)) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     const {
       style,
@@ -57,7 +75,12 @@ Sidebar.propTypes = {
 
   currentSpeed: PropTypes.number.isRequired,
 
-  selectedComponent: PropTypes.object,
+  selectedComponent: PropTypes.shape({
+    typeID: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    options: PropTypes.object
+  }),
+
   onDeleteComponent: PropTypes.func.isRequired,
   onChangeComponentOption: PropTypes.func.isRequired,
   onChangeCurrentSpeed: PropTypes.func.isRequired

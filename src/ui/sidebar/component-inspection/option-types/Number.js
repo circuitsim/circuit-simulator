@@ -52,7 +52,7 @@ class NumericValueEditor extends React.Component {
     });
     const numericVal = unformatSI(value);
     if (isOkNumber(numericVal) && within(bounds)(numericVal)) {
-      this.props.onChangeValue(option, value);
+      this.props.onChangeValue(option, numericVal);
     }
   }
 

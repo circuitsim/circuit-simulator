@@ -9,7 +9,7 @@ const { stamp, stampDynamic } = Functions;
 
 export function getCircuitInfo({nodes, models}) {
   function addVSources(n, m) {
-    return n + (m.vSources || 0);
+    return n + (m.numVoltSources || 0);
   }
   return {
     numOfNodes: R.length(nodes),
@@ -55,12 +55,12 @@ export function stampStaticEquation(circuit) {
 }
 
 // Takes the static partial equation and stamps the time-varying parts of the circuit
-export function stampDynamicEquation(circuit, equation, timestep, previousCircuitState) {
+export function stampDynamicEquation(circuit, equation, timestep, simTime, previousCircuitState) {
   const currentCalculators = {};
   R.forEach(modelID => {
     const model = circuit.models[modelID];
     const previousModelState = previousCircuitState[modelID];
-    const calcCurrent = stampDynamic(model, equation, previousModelState, timestep);
+    const calcCurrent = stampDynamic(model, equation, previousModelState, timestep, simTime);
     currentCalculators[modelID] = calcCurrent;
   }, R.keys(circuit.models));
   return currentCalculators;

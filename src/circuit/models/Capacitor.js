@@ -4,14 +4,15 @@ const COMPANION_MODEL_TYPE = {
   // Current source in parallel with a resistor
   // Better for DC steady state analysis where Δt→∞
   NORTON: {
-    vSources: 0
+    numVoltSources: 0
   },
 
   // Voltage source in series with a resistor
   // Better for small time steps where Δt→0
-  // TODO should mabe use this when we support internal nodes?
+  // TODO should maybe use this when we support internal nodes?
   THEVENIN: {
-    vSources: 1,
+    numVoltSources: 1,
+    vSourceNums: [],
     internalNodes: 1 // NOTE we don't support internal nodes yet
   }
 };

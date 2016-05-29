@@ -3,21 +3,21 @@ import R from 'ramda';
 import { GROUND_NODE } from '../Constants';
 import { BaseData as Models } from './models';
 
-function toConnectors(view) {
-  // IN:
-  // [{
-  //   id
-  //   realConnectors: [Vector]
-  // }]
+// IN:
+// [{
+//   id
+//   realConnectors: [Vector]
+// }]
 
-  // OUT:
-  // [{
-  //   pos: Vector
-  //   id: {
-  //     viewID
-  //     index
-  //   }
-  // }]
+// OUT:
+// [{
+//   pos: Vector
+//   id: {
+//     viewID
+//     index
+//   }
+// }]
+function toConnectors(view) {
   const {realConnectors} = view;
   return R.addIndex(R.map)((vector, index) => ({
     pos: vector,
@@ -36,24 +36,23 @@ function merge(realConnectors) {
 
 function position(connector) { return connector.pos.toString(); }
 
+// IN:
+// views: {
+//   id: {
+//     typeID: string,
+//     id,
+//     realConnectors: [Vector]
+//   }
+// }
+
+// OUT:
+// nodes: [
+//   [{
+//     viewID
+//     index
+//   }]
+// ]
 export function toNodes(views) {
-  // IN:
-  // views: {
-  //   id: {
-  //     typeID: string,
-  //     id,
-  //     realConnectors: [Vector]
-  //   }
-  // }
-
-  // OUT:
-  // nodes: [
-  //   [{
-  //     viewID
-  //     index
-  //   }]
-  // ]
-
   const groundIDs = R.pipe(
     R.values,
     R.filter(v => v.typeID === Models.Ground.typeID),
@@ -92,6 +91,22 @@ export function setNodesInModels(models, nodes) {
   return ms;
 }
 
+export function setVoltSrcNums(models) {
+  let vNum = 0;
+  const assignVoltSrcNums = (model) => {
+    if (model.numVoltSources && model.numVoltSources > 0) {
+      let vSourceNums = [];
+      for (let i = 0; i < model.numVoltSources; i++) {
+        vSourceNums.push(vNum);
+        vNum++;
+      }
+      return R.assoc('vSourceNums', vSourceNums, model);
+    }
+    return model;
+  };
+  return R.map(assignVoltSrcNums, models);
+}
+
 // TODO document
 // FIXME test currentCalculators
 export function getCircuitState(circuitGraph, solution, currentCalculators = {}) {
@@ -112,14 +127,11 @@ export function getCircuitState(circuitGraph, solution, currentCalculators = {})
     state.voltages = vs;
 
     // set currents
-    const numOfVSources = model.vSources || 0;
+    const numOfVSources = model.numVoltSources || 0;
     const calculateCurrent = currentCalculators[model.id];
     if (numOfVSources > 0) {
-      // Equivalent:
-      // const cs = R.take(numOfVSources, currents);
-      // currents = R.drop(numOfVSources, currents);
-      const cs = currents.splice(0, numOfVSources);
-      state.currents = cs;
+      state.currents = [];
+      model.vSourceNums.forEach((vNum) => state.currents.push(currents[vNum]));
     } else if (calculateCurrent) {
       // FIXME support components with voltage sources which need
       // current calculating?

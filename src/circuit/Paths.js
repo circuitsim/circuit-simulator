@@ -6,7 +6,7 @@ import { stampResistor } from './equation';
 
 const VOLT_SOURCE_TYPES = R.pipe(
   R.values,
-  R.filter(m => m.vSources > 0),
+  R.filter(m => m.numVoltSources > 0),
   R.map(m => m.typeID)
 )(Models);
 const CURR_SOURCE_TYPES = [Models.CurrentSource.typeID];

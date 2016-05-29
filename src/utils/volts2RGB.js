@@ -1,8 +1,7 @@
 import Color from 'color';
 
-const TT = 0.99;
+const TT = 0.999;
 const decayMaxVoltage = (max, prevMax) => {
-  // console.log(prevMax, max);
   if (prevMax < max) {
     return max;
   }

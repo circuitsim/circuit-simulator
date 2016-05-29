@@ -12,6 +12,7 @@ import {
   MOVING_MOVED,
   DELETE_COMPONENT,
   CHANGE_COMPONENT_OPTION,
+  CHANGE_COMPONENT_FREQ,
   SET_HOVERED_COMPONENT,
   UPDATE_CURRENT_OFFSETS,
   RATIONALISE_CURRENT_OFFSETS
@@ -114,7 +115,7 @@ export default function viewsReducer(views = {}, action) {
       [id]: {
         typeID,
         id,
-        options: Component.defaultOptions,
+        options: Component.defaultOptions, // TODO rename to editables
         dragPoints,
         connectors,
         realConnectors,
@@ -144,6 +145,16 @@ export default function viewsReducer(views = {}, action) {
     return {
       ...views,
       [id]: R.assocPath(['options', option, 'value'], value, view)
+    };
+  }
+
+  case CHANGE_COMPONENT_FREQ: {
+    const {id, simTime} = action;
+    const view = views[id];
+
+    return {
+      ...views,
+      [id]: R.assocPath(['options', 'frequency', 'zeroTime'], simTime, view)
     };
   }
 

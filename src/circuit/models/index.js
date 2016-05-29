@@ -46,7 +46,7 @@ const commonFunctionNames = [
    * Returns a function which calculates the current, given
    * the solution voltages.
    *
-   * (data, equation, previousState, timestep) => ([volts] => [currents])
+   * (data, equation, previousState, timestep, simTime) => ([volts] => [currents])
    */
   'stampDynamic',
 

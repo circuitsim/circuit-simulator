@@ -4,12 +4,13 @@ import { stampVoltageSource } from '../equation';
 export default {
   data: {
     nodes: [],
-    vSources: 1
+    numVoltSources: 1,
+    vSourceNums: []
   },
   functions: {
     stamp: (data, equation) => {
-      const {nodes: [node]} = data;
-      stampVoltageSource(equation)(0, GROUND_NODE, node);
+      const {nodes: [node], vSourceNums: [vNum]} = data;
+      stampVoltageSource(equation)(0, GROUND_NODE, node, vNum);
     }
   }
 };

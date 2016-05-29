@@ -29,10 +29,24 @@ export default {
 
   width: BOUNDING_BOX_WIDTH,
   defaultOptions: {
+    type: {
+      value: 'DC',
+      type: 'option-select',
+      options: { // map from possible enum values to editable component options
+        DC: ['voltage'],
+        Sine: ['voltage', 'frequency']
+      }
+    },
     voltage: {
       value: DEFAULT_VOLTAGE,
       type: 'number',
       unit: 'V'
+    },
+    frequency: {
+      value: 500,
+      type: 'number',
+      unit: 'Hz',
+      zeroTime: 0
     }
   },
   labelOption: 'voltage',

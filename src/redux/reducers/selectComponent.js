@@ -10,13 +10,13 @@ export default function selectComponentReducer(selected = null, action) {
     const { views } = action;
     const hoveredComponent = R.find(c => c.hovered, R.values(views));
     if (hoveredComponent) {
-      return hoveredComponent;
+      return hoveredComponent.id;
     } else {
       return null;
     }
   }
   case UNSELECT_COMPONENT: {
-    if (action.selected.id === action.id) {
+    if (action.selected === action.id) {
       return null;
     }
     return selected;

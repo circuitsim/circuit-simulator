@@ -236,12 +236,23 @@ export function deleteComponent(id) {
 }
 
 export const CHANGE_COMPONENT_OPTION = 'CHANGE_COMPONENT_OPTION';
+export const CHANGE_COMPONENT_FREQ = 'CHANGE_COMPONENT_FREQ';
 export function changeComponentOption(id, option, value) {
-  return {
-    type: CHANGE_COMPONENT_OPTION,
-    id,
-    option,
-    value
+  return function(dispatch, getState) {
+    if (option === 'frequency') { // special casing this for now - hopefully there's a better way
+      const {circuit: {simTime}} = getState();
+      dispatch({
+        type: CHANGE_COMPONENT_FREQ,
+        id,
+        simTime
+      });
+    }
+    dispatch({
+      type: CHANGE_COMPONENT_OPTION,
+      id,
+      option,
+      value
+    });
   };
 }
 

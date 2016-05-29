@@ -35,7 +35,7 @@ const COLORS = {
 
   current: trans(ELECTRIC_BLUE, 0.3),
   positiveVoltage: '#45FF00',
-  negativeVoltage: '#0045FF',
+  negativeVoltage: '#2563FF',
 
   transparent: 'rgba(0,0,0,0)',
   transBlack: 'rgba(0,0,0,0.75)'

@@ -8,10 +8,16 @@ import {
   solveEquation,
   blankSolutionForCircuit
 } from '../../circuit/Solver';
+import {
+  getCircuitState,
+  setNodesInModels,
+  setVoltSrcNums,
+  toNodes,
+  toModels
+} from '../../circuit/CircuitUpdater';
 import { clone } from '../../circuit/equation';
 import { connectDisconnectedCircuits } from '../../circuit/Paths';
-import { getCircuitState, setNodesInModels, toNodes, toModels } from '../../circuit/CircuitUpdater';
-import { createVolts2RGB, decayMaxVoltage } from '../../utils/volts2RGB.js';
+import { createVolts2RGB } from '../../utils/volts2RGB.js';
 
 import {
   LOOP_BEGIN,
@@ -64,8 +70,8 @@ const INITIAL_STATE = {
   circuitChanged: false,
   error: false, // string | false
 
-  // TODO doc
   remainingDelta: 0,
+  simTime: 0,
 
   timestep: 5e-6,
   simTimePerSec: 1 / 1000 // Run the simulation 1000x slower than reality
@@ -112,7 +118,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     if (circuit.circuitChanged) {
       // create a graph of the circuit that we can use to analyse
       const nodes = toNodes(views);
-      const models = setNodesInModels(toModels(views), nodes);
+      const models = setVoltSrcNums(setNodesInModels(toModels(views), nodes));
       const circuitMeta = getCircuitInfo({models, nodes});
       const circuitGraph = {
         models,
@@ -151,6 +157,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       circuitGraph,
       components: previousCircuitState,
 
+      simTime,
       remainingDelta, // seconds
       timestep, // seconds
       simTimePerSec,
@@ -168,7 +175,8 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     let fullSolution = [],
         currentCalculators = {},
         circuitState = previousCircuitState,
-        timeToSimulate = (delta * simTimePerSec) + remainingDelta;
+        timeToSimulate = (delta * simTimePerSec) + remainingDelta,
+        timeLeft = timeToSimulate;
     /* eslint-enable indent */
 
     if (timeToSimulate < timestep) {
@@ -178,14 +186,15 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     try {
       for (
         ;
-        timeToSimulate >= timestep;
-        timeToSimulate -= timestep
+        timeLeft >= timestep;
+        timeLeft -= timestep
       ) {
         const fullEquation = clone(staticEquation);
         currentCalculators = stampDynamicEquation(
           circuitGraph,
           fullEquation, // this gets mutated!
           timestep,
+          simTime,
           circuitState
         );
 
@@ -214,7 +223,8 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       ...circuit,
       error: false,
       components: circuitState,
-      remainingDelta: timeToSimulate,
+      remainingDelta: timeLeft,
+      simTime: simTime + timeToSimulate - timeLeft,
 
       volts2RGB,
       voltageRange

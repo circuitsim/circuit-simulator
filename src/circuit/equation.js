@@ -59,11 +59,11 @@ export const stampResistor = equation => (resistance, node1, node2) => {
   stampConductance(equation)(conductance, node1, node2);
 };
 
-export const stampVoltageSource = equation => (voltage, fromNode, toNode) => {
+export const stampVoltageSource = equation => (voltage, fromNode, toNode, vNum) => {
   const {numOfVSources, numOfVSourcesStamped} = equation;
   assert(numOfVSourcesStamped < numOfVSources, `Already stamped declared number of voltage sources (${numOfVSources})`);
 
-  const vIndex = equation.numOfNodes + equation.numOfVSourcesStamped;
+  const vIndex = equation.numOfNodes + vNum;
   equation.numOfVSourcesStamped++;
   stampNodalAdmittanceMatrix(equation)(vIndex, fromNode, -1);
   stampNodalAdmittanceMatrix(equation)(vIndex, toNode, 1);

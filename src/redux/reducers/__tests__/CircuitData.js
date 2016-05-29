@@ -15,7 +15,7 @@ export const RC_CIRCUIT = {
   //   Ground: {
   //     typeID: 'Ground',
   //     nodes: [1, 0],
-  //     vSources: 1
+  //     numVoltSources: 1
   //   },
   //   VoltageSource: {
   //     typeID: 'VoltageSource',

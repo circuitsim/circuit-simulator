@@ -4,6 +4,8 @@ import Color from 'color';
 import R from 'ramda';
 
 import EditNumeric from './option-types/Number';
+import EditOptionSelect from './option-types/OptionSelect';
+
 import Button from '../../components/Button';
 
 import camelToSpace from '../../utils/camelToSpace';
@@ -80,14 +82,33 @@ class ComponentInspector extends React.Component {
         {(() => {
           if (selectedComponent) {
             const { typeID, options } = selectedComponent;
-            const optionKeys = R.keys(options);
+
+            // these control which editables are shown
+            const optionSelectors = R.pickBy((val) => val.type === 'option-select', options);
+            const optionKeys = R.isEmpty(optionSelectors)
+              ? R.keys(options)
+              : R.pipe(
+                  R.mapObjIndexed((selector, key) => {
+                    return [
+                      key,
+                      selector.options[selector.value]
+                    ];
+                  }),
+                  R.values,
+                  R.flatten
+                )(optionSelectors);
 
             const editComponents = optionKeys.map(key => {
               let EditComponent;
               switch (options[key].type) {
-              case 'number':
+              case 'number': {
                 EditComponent = EditNumeric;
                 break;
+              }
+              case 'option-select': {
+                EditComponent = EditOptionSelect;
+                break;
+              }
               default:
                 return null;
               }
@@ -99,8 +120,10 @@ class ComponentInspector extends React.Component {
                   value={options[key].value}
                   componentId={selectedComponent.id}
                   unit={options[key].unit}
-                  bounds={options[key].bounds}
                   onChangeValue={this.onOptionChange}
+
+                  bounds={options[key].bounds}
+                  options={R.keys(options[key].options)}
                 />
               );
             });
