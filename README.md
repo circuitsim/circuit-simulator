@@ -18,7 +18,8 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 - [x] Capacitors
 - [x] Inductors
 - [x] Time-varying sources (e.g. sine wave voltage source)
-- [ ] Default circuit on startup
+- [x] Default circuit on startup
+- [ ] Multiple component selection
 - [ ] Oscilloscopes
 - [ ] Non-linear analysis
 - [ ] Diodes, transistors & valves
