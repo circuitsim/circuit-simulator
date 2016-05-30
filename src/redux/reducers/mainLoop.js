@@ -65,7 +65,7 @@ const INITIAL_STATE = {
 
   staticEquation: null,
 
-  ...createVolts2RGB(5, 5),
+  ...createVolts2RGB(1, 1),
 
   circuitChanged: false,
   error: false, // string | false
