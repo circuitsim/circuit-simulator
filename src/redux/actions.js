@@ -287,3 +287,18 @@ export function rationaliseCurrentOffsets() {
     });
   };
 }
+
+export const LOAD_CIRCUIT = 'LOAD_CIRCUIT';
+export function loadCircuit(circuit) {
+  return {
+    type: LOAD_CIRCUIT,
+    circuit
+  };
+}
+
+export const PRINT_CIRCUIT = 'PRINT_CIRCUIT';
+export function printCircuit() {
+  return {
+    type: PRINT_CIRCUIT
+  };
+}

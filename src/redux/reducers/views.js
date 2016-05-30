@@ -8,6 +8,8 @@ import { hoverFor } from '../../ui/diagram/boundingBox';
 import { CURRENT } from '../../ui/diagram/Constants';
 
 import {
+  LOAD_CIRCUIT,
+  PRINT_CIRCUIT,
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
@@ -79,7 +81,7 @@ function moveWholeComponent(views, action) {
 }
 
 /*
- * views = {
+ * view = {
  *  typeID - type of view e.g. Resistor
  *  id - UID
  *  options - e.g. {voltage: {value: 5Ω}}
@@ -93,6 +95,14 @@ function moveWholeComponent(views, action) {
  */
 export default function viewsReducer(views = {}, action) {
   switch (action.type) {
+  case LOAD_CIRCUIT: {
+    const { circuit } = action;
+    return circuit;
+  }
+  case PRINT_CIRCUIT: {
+    console.log(JSON.stringify(views)); // eslint-disable-line no-console
+    return views;
+  }
   case ADDING_MOVED: {
     const {start, id, typeID} = action.addingComponent,
 

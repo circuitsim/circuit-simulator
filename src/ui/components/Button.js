@@ -48,7 +48,7 @@ function styles({COLORS}, danger = false) {
   };
 }
 
-class ComponentButton extends React.Component {
+class Button extends React.Component {
   render() {
     const { onClick, children, danger } = this.props;
     const { theme } = this.context;
@@ -64,7 +64,7 @@ class ComponentButton extends React.Component {
   }
 }
 
-ComponentButton.propTypes = {
+Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   children: PropTypes.node,
   danger: PropTypes.bool,
@@ -72,8 +72,8 @@ ComponentButton.propTypes = {
   style: PropTypes.object
 };
 
-ComponentButton.contextTypes = {
+Button.contextTypes = {
   theme: PropTypes.object
 };
 
-export default radium(ComponentButton);
+export default radium(Button);

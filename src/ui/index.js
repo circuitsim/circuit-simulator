@@ -11,7 +11,8 @@ import {
   selectMode,
   deleteComponent,
   changeComponentOption,
-  changeCurrentSpeed
+  changeCurrentSpeed,
+  printCircuit
 } from '../redux/actions.js';
 
 class App extends React.Component {
@@ -32,7 +33,8 @@ class App extends React.Component {
       selectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
       onChangeComponentOption: handleChangeComponentOption,
-      onChangeCurrentSpeed: handleChangeCurrentSpeed
+      onChangeCurrentSpeed: handleChangeCurrentSpeed,
+      onPrintCircuit: handlePrintCircuit
     } = this.props;
     return (
       <div style={{
@@ -50,6 +52,7 @@ class App extends React.Component {
           onDeleteComponent={handleDelete}
           onChangeComponentOption={handleChangeComponentOption}
           onChangeCurrentSpeed={handleChangeCurrentSpeed}
+          onPrintCircuit={handlePrintCircuit}
         />
         <CircuitDiagram
           getDimensions={ getCanvasSize }
@@ -88,7 +91,8 @@ App.propTypes = {
   selectMode: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired,
   onChangeComponentOption: PropTypes.func.isRequired,
-  onChangeCurrentSpeed: PropTypes.func.isRequired
+  onChangeCurrentSpeed: PropTypes.func.isRequired,
+  onPrintCircuit: PropTypes.func.isRequired
 };
 
 // Which props do we want to inject, given the global state?
@@ -109,7 +113,8 @@ const mapDispatchToProps = {
   selectMode,
   onDeleteComponent: deleteComponent,
   onChangeComponentOption: changeComponentOption,
-  onChangeCurrentSpeed: changeCurrentSpeed
+  onChangeCurrentSpeed: changeCurrentSpeed,
+  onPrintCircuit: printCircuit
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
