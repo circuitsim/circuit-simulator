@@ -59,7 +59,7 @@ class NumericValueEditor extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { value } = nextProps;
     this.state = {
-      value: value ? value : undefined
+      value: value ? formatSI(value) : undefined
     };
   }
 
