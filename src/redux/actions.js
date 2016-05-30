@@ -4,6 +4,8 @@ import uuid from 'node-uuid';
 
 import MODES from '../Modes.js';
 
+import { TIMESTEP } from '../ui/diagram/loop';
+
 // Action types
 export const CHANGE_MODE = 'CHANGE_MODE';
 
@@ -290,9 +292,13 @@ export function rationaliseCurrentOffsets() {
 
 export const LOAD_CIRCUIT = 'LOAD_CIRCUIT';
 export function loadCircuit(circuit) {
-  return {
-    type: LOAD_CIRCUIT,
-    circuit
+  return function(dispatch) {
+    dispatch({
+      type: LOAD_CIRCUIT,
+      circuit
+    });
+    dispatch(loopBegin());
+    dispatch(loopUpdate(TIMESTEP));
   };
 }
 

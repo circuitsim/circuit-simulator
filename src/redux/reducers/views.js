@@ -43,8 +43,8 @@ function moveSingleDragPoint(views, action) {
         newDragPoint = Component.dragPoint(action.mouseVector, {fixed: origDragPoints[fixedPointIndex]}),
         dragPoints = R.update(dragPointIndex, newDragPoint, origDragPoints),
 
-        tConnectors = Component.transform.getConnectors(dragPoints),
-        connectors = Component.transform.getRealConnectors(dragPoints);
+        tConnectors = Component.transform.getTransformedConnectors(dragPoints),
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -66,8 +66,8 @@ function moveWholeComponent(views, action) {
         diffVector = diff(from, action.mouseVector),
         dragPoints = R.map(v => snapToGrid(v.subtract(diffVector)), origDragPoints),
 
-        tConnectors = Component.transform.getConnectors(dragPoints),
-        connectors = Component.transform.getRealConnectors(dragPoints);
+        tConnectors = Component.transform.getTransformedConnectors(dragPoints),
+        connectors = Component.transform.getConnectors(dragPoints);
 
   return {
     ...views,
@@ -97,10 +97,43 @@ export default function viewsReducer(views = {}, action) {
   switch (action.type) {
   case LOAD_CIRCUIT: {
     const { circuit } = action;
-    return circuit;
+    const setInitialCurrentPositions = (view) => {
+      const ComponentType = Components[view.typeID];
+      return {
+        ...view,
+        currentOffsets: R.repeat(STANDING_OFFSET, ComponentType.numOfCurrentPaths),
+        extraOffsets: R.repeat(0, ComponentType.numOfCurrentPaths)
+      };
+    };
+    const vectoriseDragPoints = (view) => {
+      return {
+        ...view,
+        dragPoints: R.map(Vector.fromObject, view.dragPoints)
+      };
+    };
+    const setConnectorPositions = (view) => {
+      const ComponentType = Components[view.typeID];
+      return {
+        ...view,
+        tConnectors: ComponentType.transform.getTransformedConnectors(view.dragPoints),
+        connectors: ComponentType.transform.getConnectors(view.dragPoints)
+      };
+    };
+    const loadedViews = R.pipe(
+      R.map(setInitialCurrentPositions),
+      R.map(vectoriseDragPoints),
+      R.map(setConnectorPositions),
+      R.groupBy(R.prop('id')),
+      R.map(R.head)
+    )(circuit);
+    return loadedViews;
   }
   case PRINT_CIRCUIT: {
-    console.log(JSON.stringify(views)); // eslint-disable-line no-console
+    const output = R.pipe(
+      R.values,
+      R.map(R.pick(['typeID', 'id', 'options', 'dragPoints']))
+    )(views);
+    console.log(JSON.stringify(output)); // eslint-disable-line no-console
     return views;
   }
   case ADDING_MOVED: {
@@ -117,8 +150,8 @@ export default function viewsReducer(views = {}, action) {
           dragPoint = Component.dragPoint(mousePos, {fixed: startPoint}),
           dragPoints = [startPoint, dragPoint];
 
-    const tConnectors = Component.transform.getConnectors(dragPoints);
-    const connectors = Component.transform.getRealConnectors(dragPoints);
+    const tConnectors = Component.transform.getTransformedConnectors(dragPoints);
+    const connectors = Component.transform.getConnectors(dragPoints);
 
     return {
       ...views,

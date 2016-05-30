@@ -51,40 +51,42 @@ const centerFirstDP = (ctx, props, next) => {
 /*
  * Tranformers for canvas context, and vectors in the canvas coordinate space.
  *
- * translate() translates the canvas context using the position of the component's drag points.
+ * transformCanvas() transforms the canvas context using the position of the component's drag points.
  * This makes rendering easier.
  *
- * getConnectors() gets the connector positions in the transformed canvas coordinate space.
+ * getTransformedConnectors() gets the connector positions in the transformed canvas coordinate space,
+ * given the drag points.
  *
  * transformers[numOfConnectors] = {
- *  translate
+ *  transformCanvas
+ *  getTransformedConnectors
  *  getConnectors
  * }
  */
 export default {
   1: {
     transformCanvas: centerFirstDP,
-    getConnectors() {
+    getTransformedConnectors() {
       return [{x: 0, y: 0}];
     },
-    getRealConnectors(dragPoints) {
+    getConnectors(dragPoints) {
       return [dragPoints[0]];
     }
   },
   2: {
     transformCanvas: centerMid,
-    getConnectors(dragPoints) {
+    getTransformedConnectors(dragPoints) {
       let half = length(dragPoints) / 2;
       half = Math.round(half); // better to give the Canvas integer coords
       return [{x: -half, y: 0}, {x: half, y: 0}];
     },
-    getRealConnectors(dragPoints) {
+    getConnectors(dragPoints) {
       return dragPoints;
     }
   },
   identity: {
     transformCanvas: (ctx, props, render) => { render(props); },
-    getConnectors: R.identity,
-    getRealConnectors: R.identity
+    getTransformedConnectors: R.identity,
+    getConnectors: R.identity
   }
 };

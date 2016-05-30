@@ -1,0 +1,188 @@
+[
+  {
+    "typeID": "VoltageSource",
+    "id": "966bee68-dca2-491b-a613-3a51c58d5efc",
+    "options": {
+      "type": {
+        "value": "Sine"
+      },
+      "voltage": {
+        "value": 5
+      },
+      "frequency": {
+        "value": 500,
+        "zeroTime": 0.6538399999999811
+      }
+    },
+    "dragPoints": [
+      {
+        "x": 80,
+        "y": 340
+      },
+      {
+        "x": 80,
+        "y": 160
+      }
+    ]
+  },
+  {
+    "typeID": "Resistor",
+    "id": "edebc012-1dbe-4bd5-8d17-8a9e27936e29",
+    "options": {
+      "resistance": {
+        "value": 1000
+      }
+    },
+    "dragPoints": [
+      {
+        "x": 360,
+        "y": 160
+      },
+      {
+        "x": 360,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Inductor",
+    "id": "88deaef7-7674-41ce-8e56-3fda8fdab3e0",
+    "options": {
+      "inductance": {
+        "value": 1
+      }
+    },
+    "dragPoints": [
+      {
+        "x": 200,
+        "y": 160
+      },
+      {
+        "x": 200,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Capacitor",
+    "id": "3ccae736-3eea-4535-ba39-11fc0893d72b",
+    "options": {
+      "capacitance": {
+        "value": 0.000001
+      }
+    },
+    "dragPoints": [
+      {
+        "x": 280,
+        "y": 160
+      },
+      {
+        "x": 280,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Ground",
+    "id": "b7afcc99-0706-4011-8a32-9e0d2f97edd6",
+    "dragPoints": [
+      {
+        "x": 80,
+        "y": 340
+      },
+      {
+        "x": 80,
+        "y": 400
+      }
+    ]
+  },
+  {
+    "typeID": "Wire",
+    "id": "13cfc522-18cb-46f1-8b29-5c114509188b",
+    "dragPoints": [
+      {
+        "x": 280,
+        "y": 160
+      },
+      {
+        "x": 360,
+        "y": 160
+      }
+    ]
+  },
+  {
+    "typeID": "Wire",
+    "id": "23e76187-fbca-49f3-87d1-3d7636abdc19",
+    "dragPoints": [
+      {
+        "x": 80,
+        "y": 340
+      },
+      {
+        "x": 200,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Wire",
+    "id": "2bba541a-625d-44d5-b7c1-33afd861782d",
+    "dragPoints": [
+      {
+        "x": 280,
+        "y": 340
+      },
+      {
+        "x": 360,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Wire",
+    "id": "7b415ef7-3bfd-42c6-87e2-f264f1ad681e",
+    "dragPoints": [
+      {
+        "x": 200,
+        "y": 340
+      },
+      {
+        "x": 280,
+        "y": 340
+      }
+    ]
+  },
+  {
+    "typeID": "Wire",
+    "id": "531feabb-3739-4383-882e-66d478fc9648",
+    "dragPoints": [
+      {
+        "x": 200,
+        "y": 160
+      },
+      {
+        "x": 280,
+        "y": 160
+      }
+    ]
+  },
+  {
+    "typeID": "Resistor",
+    "id": "a593fcbc-e057-4706-8486-156105ddcbdb",
+    "options": {
+      "resistance": {
+        "value": 10
+      }
+    },
+    "dragPoints": [
+      {
+        "x": 80,
+        "y": 160
+      },
+      {
+        "x": 200,
+        "y": 160
+      }
+    ]
+  }
+]

@@ -8,6 +8,9 @@ import getWindowDimensions from '../src/ui/utils/getWindowDimensions.js';
 import { Provider } from 'react-redux';
 import configureStore from '../src/redux/configureStore';
 import reducer from '../src/redux/reducers';
+import {loadCircuit} from '../src/redux/actions';
+
+import defaultCircuit from './defaultCircuit';
 
 global.__DEV__ = process.env.NODE_ENV === 'development';
 
@@ -52,6 +55,7 @@ function getCanvasSize() {
 }
 
 const store = configureStore(reducer);
+store.dispatch(loadCircuit(defaultCircuit));
 
 ReactDOM.render(
   <Provider store={ store }>

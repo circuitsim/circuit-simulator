@@ -1,7 +1,7 @@
 import React from 'react';
 import radium from 'radium';
 import R from 'ramda';
-import {unformatSI} from 'format-si-prefix';
+import {unformatSI, formatSI} from 'format-si-prefix';
 
 const { PropTypes } = React;
 
@@ -38,7 +38,7 @@ class NumericValueEditor extends React.Component {
     super(props);
     const { value } = props;
     this.state = {
-      value: value ? value : undefined
+      value: value ? formatSI(value) : undefined
     };
     this.onValueChange = this.onValueChange.bind(this);
   }

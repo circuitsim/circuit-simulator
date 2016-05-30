@@ -23,7 +23,7 @@ class ArtWrapper extends React.Component {
 
     const {art: Art} = this.props;
     const dragPoints = [new Vector(0, 0), new Vector(W, H)];
-    const tConnectors = Art.transform.getConnectors(dragPoints);
+    const tConnectors = Art.transform.getTransformedConnectors(dragPoints);
     const props = {dragPoints, tConnectors, colors: this.props.colors};
     Art.transform.transformCanvas(ctx, props,
       () => Art.render(ctx, props));

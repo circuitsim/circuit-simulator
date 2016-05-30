@@ -25,7 +25,8 @@ import {
   CHANGE_COMPONENT_OPTION,
   DELETE_COMPONENT,
   ADDING_MOVED,
-  MOVING_MOVED
+  MOVING_MOVED,
+  LOAD_CIRCUIT
 } from '../actions.js';
 
 const INITIAL_STATE = {
@@ -64,8 +65,7 @@ const INITIAL_STATE = {
 
   staticEquation: null,
 
-  voltageRange: 5,
-  volts2RGB: createVolts2RGB(5),
+  ...createVolts2RGB(5, 5),
 
   circuitChanged: false,
   error: false, // string | false
@@ -205,6 +205,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
       }
     } catch (e) {
       console.warn(e); // eslint-disable-line no-console
+      console.warn(e.stack); // eslint-disable-line no-console
       return zeroed(circuit, e);
     }
 
@@ -235,6 +236,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
   case DELETE_COMPONENT:
   case ADDING_MOVED:
   case MOVING_MOVED:
+  case LOAD_CIRCUIT:
     return {
       ...circuit,
       circuitChanged: true
