@@ -10,6 +10,9 @@ import Button from '../../components/Button';
 
 import camelToSpace from '../../utils/camelToSpace';
 
+import CircuitComponents from '../../diagram/components';
+const lookupComponent = viewProps => CircuitComponents[viewProps.typeID];
+
 const { PropTypes } = React;
 
 const lighten = s => new Color(s).lighten(0.2).rgbString();
@@ -82,16 +85,17 @@ class ComponentInspector extends React.Component {
         {(() => {
           if (selectedComponent) {
             const { typeID, options } = selectedComponent;
+            const { optionsSchema } = lookupComponent(selectedComponent);
 
             // these control which editables are shown
-            const optionSelectors = R.pickBy((val) => val.type === 'option-select', options);
+            const optionSelectors = R.pickBy((schema) => schema.type === 'option-select', optionsSchema);
             const optionKeys = R.isEmpty(optionSelectors)
               ? R.keys(options)
               : R.pipe(
                   R.mapObjIndexed((selector, key) => {
                     return [
                       key,
-                      selector.options[selector.value]
+                      selector.options[options[key].value]
                     ];
                   }),
                   R.values,
@@ -100,7 +104,7 @@ class ComponentInspector extends React.Component {
 
             const editComponents = optionKeys.map(key => {
               let EditComponent;
-              switch (options[key].type) {
+              switch (optionsSchema[key].type) {
               case 'number': {
                 EditComponent = EditNumeric;
                 break;
@@ -119,11 +123,11 @@ class ComponentInspector extends React.Component {
                   option={key}
                   value={options[key].value}
                   componentId={selectedComponent.id}
-                  unit={options[key].unit}
+                  unit={optionsSchema[key].unit}
                   onChangeValue={this.onOptionChange}
 
-                  bounds={options[key].bounds}
-                  options={R.keys(options[key].options)}
+                  bounds={optionsSchema[key].bounds}
+                  options={R.keys(optionsSchema[key].options)}
                 />
               );
             });

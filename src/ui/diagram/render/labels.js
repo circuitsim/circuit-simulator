@@ -13,24 +13,30 @@ const FONT_SIZE = 10;
 const FONT = `${FONT_SIZE}px "Arial"`;
 
 const renderLabel = (ctx) => (component) => {
-  const CircuitComponent = lookupComponent(component);
+  const {
+    defaultOptions,
+    optionsSchema,
+    labelOption,
+    width
+  } = lookupComponent(component);
   const {
     dragPoints,
-    options = CircuitComponent.defaultOptions
+    options = defaultOptions
   } = component;
 
-  if (!CircuitComponent.labelOption) {
+  if (!labelOption) {
     return;
   }
 
-  const option = options[CircuitComponent.labelOption];
-  const label = formatSI(option.value) + (option.unit || '');
+  const {value} = options[labelOption];
+  const {unit} = optionsSchema[labelOption];
+  const label = formatSI(value) + (unit || '');
 
   const mid = midPoint(...dragPoints),
         dir = direction(...dragPoints),
         offsetDir = dir.perpendicular().invert(),
         offsetAngle = dir.angle(),
-        offsetLength = (CircuitComponent.width / 2) + LINE_WIDTH,
+        offsetLength = (width / 2) + LINE_WIDTH,
         edge = offsetDir.multiply(offsetLength),
 
         textWidth = ctx.measureText(label).width,

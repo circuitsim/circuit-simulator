@@ -28,9 +28,8 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH,
-  defaultOptions: {
+  optionsSchema: {
     type: {
-      value: 'DC',
       type: 'option-select',
       options: { // map from possible enum values to editable component options
         DC: ['voltage'],
@@ -38,14 +37,23 @@ export default {
       }
     },
     voltage: {
-      value: DEFAULT_VOLTAGE,
       type: 'number',
       unit: 'V'
     },
     frequency: {
-      value: 500,
       type: 'number',
-      unit: 'Hz',
+      unit: 'Hz'
+    }
+  },
+  defaultOptions: {
+    type: {
+      value: 'DC'
+    },
+    voltage: {
+      value: DEFAULT_VOLTAGE
+    },
+    frequency: {
+      value: 500,
       zeroTime: 0
     }
   },

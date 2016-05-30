@@ -24,11 +24,15 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultOptions: {
+  optionsSchema: {
     inductance: {
-      value: DEFAULT_INDUCTANCE,
       type: 'number',
       unit: 'H'
+    }
+  },
+  defaultOptions: {
+    inductance: {
+      value: DEFAULT_INDUCTANCE
     }
   },
   labelOption: 'inductance',

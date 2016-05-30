@@ -26,11 +26,15 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultOptions: {
+  optionsSchema: {
     capacitance: {
-      value: DEFAULT_CAPACITANCE,
       type: 'number',
       unit: 'F'
+    }
+  },
+  defaultOptions: {
+    capacitance: {
+      value: DEFAULT_CAPACITANCE
     }
   },
   labelOption: 'capacitance',

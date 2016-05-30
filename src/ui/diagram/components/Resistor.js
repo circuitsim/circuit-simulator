@@ -24,11 +24,15 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  defaultOptions: {
+  optionsSchema: {
     resistance: {
-      value: DEFAULT_RESISTANCE,
       type: 'number',
       unit: 'Ω'
+    }
+  },
+  defaultOptions: {
+    resistance: {
+      value: DEFAULT_RESISTANCE
     }
   },
   labelOption: 'resistance',

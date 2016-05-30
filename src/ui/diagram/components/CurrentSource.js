@@ -26,11 +26,15 @@ export default {
   numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
-  defaultOptions: {
+  optionsSchema: {
     current: {
-      value: DEFAULT_CURRENT,
       type: 'number',
       unit: 'A'
+    }
+  },
+  defaultOptions: {
+    current: {
+      value: DEFAULT_CURRENT
     }
   },
   labelOption: 'current',
