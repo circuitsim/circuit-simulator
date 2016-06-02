@@ -28,10 +28,10 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH,
-  optionsSchema: {
+  editablesSchema: {
     type: {
-      type: 'option-select',
-      options: { // map from possible enum values to editable component options
+      type: 'type-select',
+      options: { // map from possible enum values to list of editables for that type
         DC: ['voltage'],
         Sine: ['voltage', 'frequency']
       }
@@ -45,7 +45,7 @@ export default {
       unit: 'Hz'
     }
   },
-  defaultOptions: {
+  defaultEditables: {
     type: {
       value: 'DC'
     },
@@ -57,7 +57,7 @@ export default {
       zeroTime: 0
     }
   },
-  labelOption: 'voltage',
+  labelWith: 'voltage',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

@@ -26,7 +26,7 @@ export const BASIC_CIRCUIT = {
       id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [1, 2],
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     },
@@ -41,7 +41,7 @@ export const BASIC_CIRCUIT = {
       id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [3, 4],
-      options: {
+      editables: {
         resistance: {value: 10}
       }
     },
@@ -65,7 +65,7 @@ export const BASIC_CIRCUIT = {
       id: 'CurrentSource1',
       typeID: 'CurrentSource',
       nodes: [],
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     },
@@ -80,7 +80,7 @@ export const BASIC_CIRCUIT = {
       id: 'Resistor1',
       typeID: 'Resistor',
       nodes: [],
-      options: {
+      editables: {
         resistance: {value: 10}
       }
     },
@@ -103,7 +103,7 @@ export const BASIC_CIRCUIT = {
     CurrentSource1: {
       typeID: 'CurrentSource',
       id: 'CurrentSource1',
-      options: {
+      editables: {
         current: {value: 0.5}
       },
       connectors: [
@@ -122,7 +122,7 @@ export const BASIC_CIRCUIT = {
     Resistor1: {
       typeID: 'Resistor',
       id: 'Resistor1',
-      options: {
+      editables: {
         resistance: {value: 10}
       },
       connectors: [
@@ -229,7 +229,7 @@ export const ZERO_RESISTANCE = {
     'Resistor1': {
       nodes: [0, 1],
       typeID: 'Resistor',
-      options: {
+      editables: {
         resistance: {value: 0}
       }
     }
@@ -256,14 +256,14 @@ export const KCL_VIOLATION = {
     CurrentSource1: {
       nodes: [2, 3],
       typeID: 'CurrentSource',
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     },
     CurrentSource2: {
       nodes: [3, 1],
       typeID: 'CurrentSource',
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     }

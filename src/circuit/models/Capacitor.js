@@ -23,7 +23,7 @@ const INTEGRATION_METHOD = {
   TRAPEZOIDAL: {
     stampDynamic(data, equation, previousState = {}, timestep) {
       const {
-        options: {
+        editables: {
           capacitance: {
             value: capacitance
           }

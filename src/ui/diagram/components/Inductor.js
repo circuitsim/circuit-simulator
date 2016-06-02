@@ -24,18 +24,18 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  optionsSchema: {
+  editablesSchema: {
     inductance: {
       type: 'number',
       unit: 'H'
     }
   },
-  defaultOptions: {
+  defaultEditables: {
     inductance: {
       value: DEFAULT_INDUCTANCE
     }
   },
-  labelOption: 'inductance',
+  labelWith: 'inductance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

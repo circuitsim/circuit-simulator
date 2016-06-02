@@ -23,7 +23,7 @@ export function blankSolutionForCircuit(circuitInfo) {
 }
 
 const isResistor = model => model.typeID === Models.Resistor.typeID;
-const invalidResistance = model => model.options.resistance.value <= 0;
+const invalidResistance = model => model.editables.resistance.value <= 0;
 const anyZeroResistances = R.pipe(
   R.values,
   R.filter(isResistor),

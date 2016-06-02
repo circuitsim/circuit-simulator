@@ -9,7 +9,7 @@ export default {
   functions: {
     stamp: (data, equation) => {
       const {
-        options: {
+        editables: {
           type: {
             value: type
           },
@@ -31,7 +31,7 @@ export default {
 
     stampDynamic(data, equation, previousState = {}, timestep, simTime) {
       const {
-        options: {
+        editables: {
           type: {
             value: type
           },

@@ -34,14 +34,14 @@ describe('Modelling a circuit', () => {
     const c = {
       ...BaseData.CurrentSource,
       nodes: [0, 1],
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     };
     const r = {
       ...BaseData.Resistor,
       nodes: [1, 0],
-      options: {
+      editables: {
         resistance: {value: 10}
       }
     };
@@ -56,7 +56,7 @@ describe('Modelling a circuit', () => {
 
     const solution = solve(equation);
 
-    const v1 = c.options.current.value * r.options.resistance.value;
+    const v1 = c.editables.current.value * r.editables.resistance.value;
     expect(solution).to.eql([[v1]]);
   });
 
@@ -64,7 +64,7 @@ describe('Modelling a circuit', () => {
     const c = {
       ...BaseData.CurrentSource,
       nodes: [0, 1],
-      options: {
+      editables: {
         current: {value: 0.5}
       }
     };
@@ -77,7 +77,7 @@ describe('Modelling a circuit', () => {
     const r = {
       ...BaseData.Resistor,
       nodes: [2, 0],
-      options: {
+      editables: {
         resistance: {value: 10}
       }
     };
@@ -92,9 +92,9 @@ describe('Modelling a circuit', () => {
 
     const solution = solve(equation);
 
-    const v1 = c.options.current.value * r.options.resistance.value;
+    const v1 = c.editables.current.value * r.editables.resistance.value;
     const v2 = v1;
-    const iv = c.options.current.value; // current through voltage source
+    const iv = c.editables.current.value; // current through voltage source
 
     expect(solution).to.eql([[v1],
                              [v2],

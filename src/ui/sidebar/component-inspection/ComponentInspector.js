@@ -3,8 +3,8 @@ import radium from 'radium';
 import Color from 'color';
 import R from 'ramda';
 
-import EditNumeric from './option-types/Number';
-import EditOptionSelect from './option-types/OptionSelect';
+import EditNumeric from './editable-types/Number';
+import EditTypeSelect from './editable-types/TypeSelect';
 
 import Button from '../../components/Button';
 
@@ -60,13 +60,13 @@ class ComponentInspector extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onOptionChange = this.onOptionChange.bind(this);
+    this.onEditComponent = this.onEditComponent.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  onOptionChange(option, value) {
+  onEditComponent(editable, value) {
     const {id} = this.props.selectedComponent;
-    this.props.onChangeComponentOption(id, option, value);
+    this.props.oneditComponent(id, editable, value);
   }
 
   handleDelete() {
@@ -84,33 +84,33 @@ class ComponentInspector extends React.Component {
       <div style={R.merge(style, styles.container)}>
         {(() => {
           if (selectedComponent) {
-            const { typeID, options } = selectedComponent;
-            const { optionsSchema } = lookupComponent(selectedComponent);
+            const { typeID, editables } = selectedComponent;
+            const { editablesSchema } = lookupComponent(selectedComponent);
 
             // these control which editables are shown
-            const optionSelectors = R.pickBy((schema) => schema.type === 'option-select', optionsSchema);
-            const optionKeys = R.isEmpty(optionSelectors)
-              ? R.keys(options)
+            const typeSelectors = R.pickBy((schema) => schema.type === 'type-select', editablesSchema);
+            const editableNames = R.isEmpty(typeSelectors)
+              ? R.keys(editables)
               : R.pipe(
                   R.mapObjIndexed((selector, key) => {
                     return [
                       key,
-                      selector.options[options[key].value]
+                      selector.options[editables[key].value]
                     ];
                   }),
                   R.values,
                   R.flatten
-                )(optionSelectors);
+                )(typeSelectors);
 
-            const editComponents = optionKeys.map(key => {
+            const editComponents = editableNames.map(editableName => {
               let EditComponent;
-              switch (optionsSchema[key].type) {
+              switch (editablesSchema[editableName].type) {
               case 'number': {
                 EditComponent = EditNumeric;
                 break;
               }
-              case 'option-select': {
-                EditComponent = EditOptionSelect;
+              case 'type-select': {
+                EditComponent = EditTypeSelect;
                 break;
               }
               default:
@@ -119,15 +119,15 @@ class ComponentInspector extends React.Component {
 
               return (
                 <EditComponent
-                  key={key}
-                  option={key}
-                  value={options[key].value}
+                  key={editableName}
+                  editable={editableName}
+                  value={editables[editableName].value}
                   componentId={selectedComponent.id}
-                  unit={optionsSchema[key].unit}
-                  onChangeValue={this.onOptionChange}
+                  unit={editablesSchema[editableName].unit}
+                  onChangeValue={this.onEditComponent}
 
-                  bounds={optionsSchema[key].bounds}
-                  options={R.keys(optionsSchema[key].options)}
+                  bounds={editablesSchema[editableName].bounds}
+                  options={R.keys(editablesSchema[editableName].options)}
                 />
               );
             });
@@ -168,11 +168,11 @@ ComponentInspector.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    options: PropTypes.object
+    editables: PropTypes.object
   }),
 
   // action creators
-  onChangeComponentOption: PropTypes.func.isRequired,
+  oneditComponent: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired
 };
 

@@ -10,7 +10,7 @@ import Toaster from './components/Toaster.js';
 import {
   selectMode,
   deleteComponent,
-  changeComponentOption,
+  editComponent,
   changeCurrentSpeed,
   printCircuit
 } from '../redux/actions.js';
@@ -32,7 +32,7 @@ class App extends React.Component {
       currentSpeed,
       selectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
-      onChangeComponentOption: handleChangeComponentOption,
+      oneditComponent: handleeditComponent,
       onChangeCurrentSpeed: handleChangeCurrentSpeed,
       onPrintCircuit: handlePrintCircuit
     } = this.props;
@@ -50,7 +50,7 @@ class App extends React.Component {
           currentSpeed={currentSpeed}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
-          onChangeComponentOption={handleChangeComponentOption}
+          oneditComponent={handleeditComponent}
           onChangeCurrentSpeed={handleChangeCurrentSpeed}
           onPrintCircuit={handlePrintCircuit}
         />
@@ -82,7 +82,7 @@ App.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    options: PropTypes.object
+    editables: PropTypes.object
   }),
   showAddToaster: PropTypes.bool,
   currentSpeed: PropTypes.number,
@@ -90,7 +90,7 @@ App.propTypes = {
   // action creators
   selectMode: PropTypes.func.isRequired,
   onDeleteComponent: PropTypes.func.isRequired,
-  onChangeComponentOption: PropTypes.func.isRequired,
+  oneditComponent: PropTypes.func.isRequired,
   onChangeCurrentSpeed: PropTypes.func.isRequired,
   onPrintCircuit: PropTypes.func.isRequired
 };
@@ -100,7 +100,7 @@ App.propTypes = {
 function mapStateToProps({ showAddToaster, selected, currentSpeed, views }) {
   const fullSelectedComponent = views[selected];
   const selectedComponent = fullSelectedComponent
-    ? R.pick(['typeID', 'id', 'options'], fullSelectedComponent)
+    ? R.pick(['typeID', 'id', 'editables'], fullSelectedComponent)
     : null;
   return {
     showAddToaster,
@@ -112,7 +112,7 @@ function mapStateToProps({ showAddToaster, selected, currentSpeed, views }) {
 const mapDispatchToProps = {
   selectMode,
   onDeleteComponent: deleteComponent,
-  onChangeComponentOption: changeComponentOption,
+  oneditComponent: editComponent,
   onChangeCurrentSpeed: changeCurrentSpeed,
   onPrintCircuit: printCircuit
 };

@@ -237,11 +237,11 @@ export function deleteComponent(id) {
   };
 }
 
-export const CHANGE_COMPONENT_OPTION = 'CHANGE_COMPONENT_OPTION';
+export const EDIT_COMPONENT = 'EDIT_COMPONENT';
 export const CHANGE_COMPONENT_FREQ = 'CHANGE_COMPONENT_FREQ';
-export function changeComponentOption(id, option, value) {
+export function editComponent(id, editable, value) {
   return function(dispatch, getState) {
-    if (option === 'frequency') { // special casing this for now - hopefully there's a better way
+    if (editable === 'frequency') { // special casing this for now - hopefully there's a better way
       const {circuit: {simTime}} = getState();
       dispatch({
         type: CHANGE_COMPONENT_FREQ,
@@ -250,9 +250,9 @@ export function changeComponentOption(id, option, value) {
       });
     }
     dispatch({
-      type: CHANGE_COMPONENT_OPTION,
+      type: EDIT_COMPONENT,
       id,
-      option,
+      editable,
       value
     });
   };

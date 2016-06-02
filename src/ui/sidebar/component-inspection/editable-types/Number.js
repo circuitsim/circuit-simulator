@@ -44,7 +44,7 @@ class NumericValueEditor extends React.Component {
   }
 
   onValueChange(event) {
-    const { option, bounds = {} } = this.props;
+    const { editable, bounds = {} } = this.props;
 
     const value = event.target.value;
     this.setState({
@@ -52,7 +52,7 @@ class NumericValueEditor extends React.Component {
     });
     const numericVal = unformatSI(value);
     if (isOkNumber(numericVal) && within(bounds)(numericVal)) {
-      this.props.onChangeValue(option, numericVal);
+      this.props.onChangeValue(editable, numericVal);
     }
   }
 
@@ -84,7 +84,7 @@ class NumericValueEditor extends React.Component {
 }
 
 NumericValueEditor.propTypes = {
-  option: PropTypes.string.isRequired,
+  editable: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   unit: PropTypes.string,
   bounds: PropTypes.shape({

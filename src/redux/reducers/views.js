@@ -13,7 +13,7 @@ import {
   ADDING_MOVED,
   MOVING_MOVED,
   DELETE_COMPONENT,
-  CHANGE_COMPONENT_OPTION,
+  EDIT_COMPONENT,
   CHANGE_COMPONENT_FREQ,
   SET_HOVERED_COMPONENT,
   UPDATE_CURRENT_OFFSETS,
@@ -84,7 +84,7 @@ function moveWholeComponent(views, action) {
  * view = {
  *  typeID - type of view e.g. Resistor
  *  id - UID
- *  options - e.g. {voltage: {value: 5Ω}}
+ *  editables - e.g. {voltage: {value: 5Ω}}
  *  dragPoints - real coordinates of the two drag points
  *  tConnectors - coordinates of the connectors in the transformed canvas (used for rendering)
  *  connectors - coordinates of the connectors in the real canvas
@@ -131,7 +131,7 @@ export default function viewsReducer(views = {}, action) {
   case PRINT_CIRCUIT: {
     const output = R.pipe(
       R.values,
-      R.map(R.pick(['typeID', 'id', 'options', 'dragPoints']))
+      R.map(R.pick(['typeID', 'id', 'editables', 'dragPoints']))
     )(views);
     console.log(JSON.stringify(output)); // eslint-disable-line no-console
     return views;
@@ -158,7 +158,7 @@ export default function viewsReducer(views = {}, action) {
       [id]: {
         typeID,
         id,
-        options: Component.defaultOptions, // TODO rename to editables
+        editables: Component.defaultEditables,
         dragPoints,
         tConnectors,
         connectors,
@@ -182,12 +182,12 @@ export default function viewsReducer(views = {}, action) {
     return R.dissoc(action.id, views);
   }
 
-  case CHANGE_COMPONENT_OPTION: {
-    const {id, option, value} = action;
+  case EDIT_COMPONENT: {
+    const {id, editable, value} = action;
     const view = views[id];
     return {
       ...views,
-      [id]: R.assocPath(['options', option, 'value'], value, view)
+      [id]: R.assocPath(['editables', editable, 'value'], value, view)
     };
   }
 
@@ -197,7 +197,7 @@ export default function viewsReducer(views = {}, action) {
 
     return {
       ...views,
-      [id]: R.assocPath(['options', 'frequency', 'zeroTime'], simTime, view)
+      [id]: R.assocPath(['editables', 'frequency', 'zeroTime'], simTime, view)
     };
   }
 

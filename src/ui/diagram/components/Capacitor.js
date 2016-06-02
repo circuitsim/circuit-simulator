@@ -26,18 +26,18 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  optionsSchema: {
+  editablesSchema: {
     capacitance: {
       type: 'number',
       unit: 'F'
     }
   },
-  defaultOptions: {
+  defaultEditables: {
     capacitance: {
       value: DEFAULT_CAPACITANCE
     }
   },
-  labelOption: 'capacitance',
+  labelWith: 'capacitance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],

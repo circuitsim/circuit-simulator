@@ -22,7 +22,7 @@ import { createVolts2RGB } from '../../utils/volts2RGB.js';
 import {
   LOOP_BEGIN,
   LOOP_UPDATE,
-  CHANGE_COMPONENT_OPTION,
+  EDIT_COMPONENT,
   DELETE_COMPONENT,
   ADDING_MOVED,
   MOVING_MOVED,
@@ -232,7 +232,7 @@ export default function mainLoopReducer(circuit = INITIAL_STATE, action) {
     };
   }
 
-  case CHANGE_COMPONENT_OPTION:
+  case EDIT_COMPONENT:
   case DELETE_COMPONENT:
   case ADDING_MOVED:
   case MOVING_MOVED:

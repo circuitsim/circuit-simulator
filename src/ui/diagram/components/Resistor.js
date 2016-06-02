@@ -24,18 +24,18 @@ export default {
   numOfConnectors: NUM_OF_CONNECTORS,
 
   width: BOUNDING_BOX_WIDTH, // for label positioning
-  optionsSchema: {
+  editablesSchema: {
     resistance: {
       type: 'number',
       unit: 'Ω'
     }
   },
-  defaultOptions: {
+  defaultEditables: {
     resistance: {
       value: DEFAULT_RESISTANCE
     }
   },
-  labelOption: 'resistance',
+  labelWith: 'resistance',
 
   dragPoint: getDragFunctionFor(MIN_LENGTH),
   transform: transforms[NUM_OF_CONNECTORS],
@@ -71,7 +71,7 @@ export default {
 
   getCurrents: (props, state) => {
     const {
-      options: {
+      editables: {
         resistance: {
           value: resistance = DEFAULT_RESISTANCE
         }

@@ -26,18 +26,18 @@ export default {
   numOfCurrentPaths: 1,
   numOfConnectors: NUM_OF_CONNECTORS,
 
-  optionsSchema: {
+  editablesSchema: {
     current: {
       type: 'number',
       unit: 'A'
     }
   },
-  defaultOptions: {
+  defaultEditables: {
     current: {
       value: DEFAULT_CURRENT
     }
   },
-  labelOption: 'current',
+  labelWith: 'current',
 
   width: BOUNDING_BOX_WIDTH,
   dragPoint: getDragFunctionFor(MIN_LENGTH),

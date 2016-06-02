@@ -76,7 +76,7 @@ export function toModels(views) {
   const toModel = (view) => {
     return R.mergeAll([
       Models[view.typeID],
-      R.pick(['options'], view),
+      R.pick(['editables'], view),
       { id: view.id }
     ]);
   };

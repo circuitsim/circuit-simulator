@@ -14,22 +14,22 @@ const FONT = `${FONT_SIZE}px "Arial"`;
 
 const renderLabel = (ctx) => (component) => {
   const {
-    defaultOptions,
-    optionsSchema,
-    labelOption,
+    defaultEditables,
+    editablesSchema,
+    labelWith,
     width
   } = lookupComponent(component);
   const {
     dragPoints,
-    options = defaultOptions
+    editables = defaultEditables
   } = component;
 
-  if (!labelOption) {
+  if (!labelWith) {
     return;
   }
 
-  const {value} = options[labelOption];
-  const {unit} = optionsSchema[labelOption];
+  const {value} = editables[labelWith];
+  const {unit} = editablesSchema[labelWith];
   const label = formatSI(value) + (unit || '');
 
   const mid = midPoint(...dragPoints),

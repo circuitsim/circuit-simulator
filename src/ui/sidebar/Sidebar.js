@@ -45,7 +45,7 @@ export default class Sidebar extends React.Component {
       currentSpeed,
       onSelectMode: handleSelectMode,
       onDeleteComponent: handleDelete,
-      onChangeComponentOption: handleChangeComponentOption,
+      oneditComponent: handleeditComponent,
       onChangeCurrentSpeed: handleChangeCurrentSpeed,
       onPrintCircuit: handlePrintCircuit
     } = this.props;
@@ -59,7 +59,7 @@ export default class Sidebar extends React.Component {
         <ComponentInspector style={styles.inspector}
           selectedComponent={selectedComponent}
           onDeleteComponent={handleDelete}
-          onChangeComponentOption={handleChangeComponentOption}
+          oneditComponent={handleeditComponent}
         />
         <div style={styles.footer} >
           <span>
@@ -81,11 +81,11 @@ Sidebar.propTypes = {
   selectedComponent: PropTypes.shape({
     typeID: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    options: PropTypes.object
+    editables: PropTypes.object
   }),
 
   onDeleteComponent: PropTypes.func.isRequired,
-  onChangeComponentOption: PropTypes.func.isRequired,
+  oneditComponent: PropTypes.func.isRequired,
   onChangeCurrentSpeed: PropTypes.func.isRequired,
   onPrintCircuit: PropTypes.func.isRequired
 };

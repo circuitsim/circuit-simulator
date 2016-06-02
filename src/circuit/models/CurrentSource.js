@@ -7,7 +7,7 @@ export default {
   functions: {
     stamp: (data, equation) => {
       const {
-        options: {
+        editables: {
           current: {
             value: current
           }

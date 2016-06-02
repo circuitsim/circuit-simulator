@@ -44,7 +44,7 @@ export const RC_CIRCUIT = {
     VoltageSource: {
       typeID: 'VoltageSource',
       id: 'VoltageSource',
-      options: {
+      editables: {
         type: {value: 'DC'},
         voltage: {value: 5},
         frequency: {value: 500}
@@ -57,7 +57,7 @@ export const RC_CIRCUIT = {
     Resistor: {
       typeID: 'Resistor',
       id: 'Resistor',
-      options: {
+      editables: {
         resistance: {value: 100}
       },
       connectors: [
@@ -68,7 +68,7 @@ export const RC_CIRCUIT = {
     Capacitor: {
       typeID: 'Capacitor',
       id: 'Capacitor',
-      options: {
+      editables: {
         capacitance: {value: 5e-6}
       },
       connectors: [

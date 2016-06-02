@@ -20,7 +20,7 @@ const getStyles = ({COLORS}) => ({
   }
 });
 
-class OptionSelector extends React.Component {
+class TypeSelector extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,8 +28,8 @@ class OptionSelector extends React.Component {
   }
 
   onValueChange(value) {
-    const { option } = this.props;
-    this.props.onChangeValue(option, value);
+    const { editable } = this.props;
+    this.props.onChangeValue(editable, value);
   }
 
   render() {
@@ -37,17 +37,17 @@ class OptionSelector extends React.Component {
     const styles = getStyles(this.context.theme);
     return (
       <div style={styles.outer}>
-        {R.map((option) => {
-          const style = option === value
+        {R.map((editable) => {
+          const style = editable === value
             ? R.merge(styles.options, styles.selected)
             : styles.options;
           return (
             <div
-              key={option}
+              key={editable}
               style={style}
-              onClick={() => this.onValueChange(option)}
+              onClick={() => this.onValueChange(editable)}
             >
-              {option}
+              {editable}
             </div>
           );
         }, options)}
@@ -56,8 +56,8 @@ class OptionSelector extends React.Component {
   }
 }
 
-OptionSelector.propTypes = {
-  option: PropTypes.string.isRequired,
+TypeSelector.propTypes = {
+  editable: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 
   options: PropTypes.arrayOf(PropTypes.string),
@@ -65,8 +65,8 @@ OptionSelector.propTypes = {
   onChangeValue: PropTypes.func.isRequired
 };
 
-OptionSelector.contextTypes = {
+TypeSelector.contextTypes = {
   theme: PropTypes.object.isRequired
 };
 
-export default radium(OptionSelector);
+export default radium(TypeSelector);
