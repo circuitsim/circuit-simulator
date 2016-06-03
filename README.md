@@ -21,6 +21,7 @@ An electronic circuit simulator inspired by [Paul Falstad](http://falstad.com)'s
 - [x] Default circuit on startup
 - [ ] Multiple component selection
 - [ ] Oscilloscopes
+- [ ] Helpful error messaging (for voltage source loops etc.)
 - [ ] Non-linear analysis
 - [ ] Diodes, transistors & valves
 - [ ] Save, load and share circuits
