@@ -12,7 +12,7 @@ import {
   MOVING_MOVED,
   MOUSE_MOVED,
   SET_HOVERED_COMPONENT
-} from './actions.js';
+} from './actions';
 import createLogger from 'redux-logger';
 
 const logger = createLogger({

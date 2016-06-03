@@ -27,7 +27,7 @@ import {
   ADDING_MOVED,
   MOVING_MOVED,
   LOAD_CIRCUIT
-} from '../actions.js';
+} from '../actions';
 
 const INITIAL_STATE = {
   circuitGraph: {

@@ -2,7 +2,7 @@ import R from 'ramda';
 import {
   SELECT_HOVERED_COMPONENT,
   UNSELECT_COMPONENT
-} from '../actions.js';
+} from '../actions';
 
 export default function selectComponentReducer(selected = null, action) {
   switch (action.type) {

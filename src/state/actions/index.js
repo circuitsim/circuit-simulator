@@ -2,9 +2,9 @@ import R from 'ramda';
 import Vector from 'immutable-vector2d';
 import uuid from 'node-uuid';
 
-import MODES from '../Modes.js';
+import MODES from '../../Modes';
 
-import { TIMESTEP } from '../ui/diagram/loop';
+import { TIMESTEP } from '../../ui/diagram/loop';
 
 // Action types
 export const CHANGE_MODE = 'CHANGE_MODE';

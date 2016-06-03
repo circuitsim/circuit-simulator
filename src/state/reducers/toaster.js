@@ -1,7 +1,7 @@
 import {
   SHOW_ADD_TOASTER,
   HIDE_ADD_TOASTER
-} from '../actions.js';
+} from '../actions';
 
 export default function toasterReducer(showToaster = false, action) {
   switch (action.type) {

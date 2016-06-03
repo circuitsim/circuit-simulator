@@ -18,7 +18,7 @@ import {
   SET_HOVERED_COMPONENT,
   UPDATE_CURRENT_OFFSETS,
   RATIONALISE_CURRENT_OFFSETS
-} from '../actions.js';
+} from '../actions';
 
 const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
 

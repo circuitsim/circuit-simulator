@@ -12,9 +12,9 @@ import {
 
   updateCurrentOffsets,
   rationaliseCurrentOffsets
-} from '../../state/actions.js';
-import resize from '../Resize.js';
-import Utils from '../utils/DrawingUtils.js';
+} from '../../state/actions';
+import resize from '../Resize';
+import Utils from '../utils/DrawingUtils';
 import createLoop from './loop';
 import createRender from './render';
 

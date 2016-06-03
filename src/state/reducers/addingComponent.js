@@ -1,7 +1,7 @@
 import {
   ADDING_START,
   ADDING_FINISH
-} from '../actions.js';
+} from '../actions';
 
 // addingComponent: {
 //   id,

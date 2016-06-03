@@ -1,7 +1,7 @@
 import {
   MOVING_START,
   MOVING_FINISH
-} from '../actions.js';
+} from '../actions';
 
 export default function moveComponentReducer(movingComponent = {}, action) {
   switch (action.type) {

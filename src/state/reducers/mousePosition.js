@@ -2,7 +2,7 @@ import Vector from 'immutable-vector2d';
 
 import {
   MOUSE_MOVED
-} from '../actions.js';
+} from '../actions';
 
 const ZERO_VECTOR = new Vector(0, 0);
 

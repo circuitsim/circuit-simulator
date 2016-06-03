@@ -13,7 +13,7 @@ import {
   editComponent,
   changeCurrentSpeed,
   printCircuit
-} from '../state/actions.js';
+} from '../state/actions';
 
 class App extends React.Component {
 
