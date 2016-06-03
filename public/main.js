@@ -6,9 +6,9 @@ import Theme from '../src/ui/theme.js';
 import getWindowDimensions from '../src/ui/utils/getWindowDimensions.js';
 
 import { Provider } from 'react-redux';
-import configureStore from '../src/redux/configureStore';
-import reducer from '../src/redux/reducers';
-import {loadCircuit} from '../src/redux/actions';
+import configureStore from '../src/state/configureStore';
+import reducer from '../src/state/reducers';
+import {loadCircuit} from '../src/state/actions';
 
 import defaultCircuit from './defaultCircuit';
 

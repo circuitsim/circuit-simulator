@@ -13,7 +13,7 @@ import {
   editComponent,
   changeCurrentSpeed,
   printCircuit
-} from '../redux/actions.js';
+} from '../state/actions.js';
 
 class App extends React.Component {
 

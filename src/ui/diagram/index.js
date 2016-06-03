@@ -12,7 +12,7 @@ import {
 
   updateCurrentOffsets,
   rationaliseCurrentOffsets
-} from '../../redux/actions.js';
+} from '../../state/actions.js';
 import resize from '../Resize.js';
 import Utils from '../utils/DrawingUtils.js';
 import createLoop from './loop';
