@@ -2,7 +2,7 @@ import R from 'ramda';
 import Vector from 'immutable-vector2d';
 
 import Components from '../../ui/diagram/components';
-import DrawingUtils from '../../ui/utils/DrawingUtils.js';
+import { diff } from '../../ui/utils/DrawingUtils.js';
 import { snapToGrid } from '../../ui/diagram/Utils.js';
 import { hoverFor } from '../../ui/diagram/boundingBox';
 import { CURRENT } from '../../ui/diagram/Constants';
@@ -21,8 +21,6 @@ import {
 } from '../actions';
 
 const STANDING_OFFSET = CURRENT.DOT_DISTANCE / 2;
-
-const { diff } = DrawingUtils;
 
 const zip3 = (a, b, c) => R.zipWith(R.prepend, a, R.zip(b, c));
 const moreThanOne = R.pipe(

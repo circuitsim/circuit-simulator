@@ -14,7 +14,7 @@ import {
   rationaliseCurrentOffsets
 } from '../../state/actions';
 import resize from '../Resize';
-import Utils from '../utils/DrawingUtils';
+import {relMouseCoords} from '../utils/DrawingUtils';
 import createLoop from './loop';
 import createRender from './render';
 
@@ -59,7 +59,7 @@ class CircuitDiagram extends React.Component {
   onMouse(event) {
     event.preventDefault();
     const { store } = this.context;
-    const coords = Utils.relMouseCoords(event, this.canvas);
+    const coords = relMouseCoords(event, this.canvas);
     switch (event.type) {
     case 'mousedown':
     case 'touchstart':

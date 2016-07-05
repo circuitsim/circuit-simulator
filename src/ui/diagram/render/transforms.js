@@ -1,7 +1,5 @@
-import DrawingUtils from '../../utils/DrawingUtils.js';
+import { midPoint } from '../../utils/DrawingUtils.js';
 import R from 'ramda';
-
-const { midPoint } = DrawingUtils;
 
 const length = dps => {
   return dps[1].subtract(dps[0]).length();

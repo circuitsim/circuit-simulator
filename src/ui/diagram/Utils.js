@@ -1,8 +1,6 @@
 import Vector from 'immutable-vector2d';
-import Utils from '../utils/DrawingUtils.js';
+import { diff } from '../utils/DrawingUtils.js';
 import { GRID_SIZE } from './Constants.js';
-
-const { diff } = Utils;
 
 export function snapToGrid(v: Vector) {
   return v.snap(GRID_SIZE);

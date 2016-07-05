@@ -3,8 +3,7 @@ import {formatSI} from 'format-si-prefix';
 
 import { LINE_WIDTH } from '../Constants';
 
-import DrawingUtils from '../../utils/DrawingUtils.js';
-const { midPoint, direction } = DrawingUtils;
+import { midPoint, direction } from '../../utils/DrawingUtils.js';
 
 import CircuitComponents from '../components';
 const lookupComponent = viewProps => CircuitComponents[viewProps.typeID];

@@ -5,7 +5,3 @@ global.expect = chai.expect;
 chai.use(chaiStats);
 
 chai.config.includeStack = true;
-
-require('babel/register')({
-  optional: []
-});
