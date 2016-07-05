@@ -46,7 +46,7 @@
     "react-addons-create-fragment": "^15.0.1",
     "react-addons-css-transition-group": "^15.0.1",
     "react-dom": "^15.0.1",
-    "react-mainloop": "^0.5.0",
+    "react-mainloop": "^0.6.0",
     "react-redux": "^4.0.0",
     "redux": "^3.0.0",
     "redux-thunk": "^2.0.1"
